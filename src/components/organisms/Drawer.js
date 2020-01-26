@@ -14,19 +14,11 @@ const Container = styled(Box)`
 
 const MenuContainer = styled(Box)`
   && {
-    margin-top: 48px;
-    display: flex;
-    width: 100%;
-    flex-flow: column;
   }
 `
 
 const NavBarButton = styled(IconButton)`
   && {
-    position: fixed;
-    top: 0px;
-    left: 0px;
-    padding: 12px;
   }
 `
 
