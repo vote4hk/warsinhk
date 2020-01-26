@@ -7,12 +7,13 @@
 
 import React from "react"
 import PropTypes from "prop-types"
-
+import Drawer from "@components/organisms/Drawer"
 import NavBar from "@components/organisms/NavBar"
 
 const Layout = (props) => {
   const { children } = props
   return (<>
+    <Drawer />
     <main>
       <NavBar></NavBar>
       {children}
