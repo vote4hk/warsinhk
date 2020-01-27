@@ -28,8 +28,8 @@ const IndexPage = ({ data, pageContext }) => {
         <FabContainer>
           <BasicFab title="報料" icon="edit" />
         </FabContainer>
-        <Typography varient="h2">
-          {t("dodgy_shops.list_text")}（
+        <Typography variant="h4">{t("dodgy_shops.list_text")}</Typography>
+        <Typography variant="body2">
           <a
             target="_blank"
             rel="noopener noreferrer"
@@ -37,7 +37,6 @@ const IndexPage = ({ data, pageContext }) => {
           >
             {t("dodgy_shops.source_from")}
           </a>
-          ）
         </Typography>
         <BasicList items={data.allDodgyShop.edges} />
       </Layout>
