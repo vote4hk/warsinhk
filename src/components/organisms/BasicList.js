@@ -15,7 +15,7 @@ export function BasicList(props) {
   return (
     <List aria-label="">
       {items.map(({ node }, index) => (
-        <StyledItem alignItems="flex-start">
+        <StyledItem key={index} alignItems="flex-start">
           <ListItemText
             primary={
               <Typography component="span" variant="h6" color="textPrimary">
