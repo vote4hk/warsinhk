@@ -99,12 +99,12 @@ function ResponsiveDrawer(props) {
         <Divider />
         <List>
           {pages.map((page, index) => (
-            <ListItem button key={page.title}>
-              <UnstyledLink to={page.to}>
+            <UnstyledLink key={index} to={page.to}>
+              <ListItem button>
                 <ListItemIcon>{mapIcon(page.icon)}</ListItemIcon>
                 <ListItemText primary={page.title} />
-              </UnstyledLink>
-            </ListItem>
+              </ListItem>
+            </UnstyledLink>
           ))}
         </List>
         <Divider />
