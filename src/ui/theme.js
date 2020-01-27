@@ -20,8 +20,8 @@ export const typography = {
   fontFamily: FONT_FAMILY.join(","),
   h1: {
     fontFamily: headingFontFamily,
-    fontSize: 28,
-    fontWeight: 500,
+    fontSize: 24,
+    fontWeight: 600,
   },
   h2: {
     fontFamily: headingFontFamily,
