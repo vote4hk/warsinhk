@@ -26,7 +26,7 @@ const createNode = async (
 ) => {
   // All table has first row reserved
   const result = await fetch(
-    `https://docs.google.com/spreadsheets/d/${GOOGLE_SPREADSHEET_ID}/gviz/tq?tqx=out:csv&sheet=${sheetName}&range=A2:ZZ`
+    `https://docs.google.com/spreadsheets/d/${GOOGLE_SPREADSHEET_ID}/gviz/tq?tqx=out:csv&sheet=${sheetName}&range=A2:ZZ&headers=0`
   )
   const data = await result.text()
   const records = await csv2json().fromString(data)
