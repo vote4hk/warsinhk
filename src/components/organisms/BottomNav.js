@@ -37,19 +37,21 @@ export default function SimpleBottomNavigation(props) {
   const { tabs } = props
 
   const classes = useStyles();
-  const [value, setValue] = React.useState(0);
+  const path = window.location.pathname
+  const pageIndex = tabs.findIndex(o => o.to === path);
+  const [value, setValue] = React.useState(pageIndex);
 
   return (
     <Hidden smUp implementation="css">
       <BottomNavigation
         value={value}
         onChange={(event, newValue) => {
+          console.log("setValue")
           setValue(newValue);
         }}
         showLabels
         className={classes.stickToBottom}
       >
-        {/* FIXME: the icon is not updated after navigating to other page */}
         {/* 
           wingkwong: Cannot use <UnstyledLink> to wrap <BottomNavigationAction> because it has to be a direct child of BottomNavigation
         */}
