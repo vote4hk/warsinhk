@@ -1,3 +1,7 @@
+require("dotenv").config()
+
+const GOOGLE_TRACKING_ID = process.env.GOOGLE_TRACKING_ID || "UA-000000-0"
+
 module.exports = {
   siteMetadata: {
     title: `🇨🇳🤧🤮🌬️🇭🇰🤒😷`,
@@ -6,14 +10,34 @@ module.exports = {
   },
   plugins: [
     {
+      resolve: `gatsby-plugin-google-analytics`,
+      options: {
+        // The property ID; the tracking code won't be generated without it
+        trackingId: GOOGLE_TRACKING_ID,
+        // Defines where to place the tracking script - `true` in the head and `false` in the body
+        head: true,
+        // Setting this parameter is optional
+        anonymize: true,
+        // Setting this parameter is also optional
+        respectDNT: true,
+        // Avoids sending pageview hits from custom paths
+        exclude: ["/preview/**", "/do-not-track/me/too/"],
+        // Delays sending pageview hits on route update (in milliseconds)
+        pageTransitionDelay: 0,
+        sampleRate: 5,
+        siteSpeedSampleRate: 10,
+        // cookieDomain: "vote4.hk",
+      },
+    },
+    {
       resolve: `gatsby-plugin-alias-imports`,
       options: {
         alias: {
-          '@': 'src',
-          '@components': 'src/components'
+          "@": "src",
+          "@components": "src/components",
         },
-        extensions: []
-      }
+        extensions: [],
+      },
     },
     `gatsby-transformer-json`,
     {
