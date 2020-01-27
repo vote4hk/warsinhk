@@ -1,77 +1,47 @@
 import React from "react"
 import SEO from "@/components/templates/SEO"
-import App from "@components/App"
 import Layout from "@components/templates/Layout"
-import SimpleTabs from "@components/organisms/SimpleTabs"
+import Box from "@material-ui/core/Box"
+import styled from "styled-components"
+import { useTranslation } from "react-i18next"
+import Typography from "@material-ui/core/Typography"
+import { graphql } from "gatsby"
 
-import List from '@material-ui/core/List'
-import ListItem from '@material-ui/core/ListItem'
-import ListItemText from '@material-ui/core/ListItemText'
-import Typography from '@material-ui/core/Typography'
+import { BasicFab } from "@components/atoms/Fab"
+import { BasicList } from "@/components/organisms/BasicList"
+
+const FabContainer = styled(Box)`
+  && {
+    bottom: 84px;
+    right: 16px;
+    position: fixed;
+    z-index: 1200;
+  }
+`
 
 const IndexPage = ({ data, pageContext }) => {
+  const { t } = useTranslation()
   return (
-    <App locale={pageContext.locale}>
+    <>
       <SEO title="Home" />
       <Layout>
-        {/* <SimpleTabs
-          tabs={[
-            {
-              title: "港島",
-              content: "Buttons of subdistricts",
-            },
-            {
-              title: "九龍",
-              content: "Buttons of subdistricts",
-            },
-            {
-              title: "新界",
-              content: "Buttons of subdistricts",
-            },
-          ]}
-        /> */}
-        <Typography varient='h2'>黑店list</Typography>
-        <List aria-label="">
-          {data.allDodgyShops.edges.map(({ node }, index) => (
-            <ListItem alignItems="flex-start">
-              {/* <ListItemAvatar>
-              <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
-            </ListItemAvatar> */}
-              <ListItemText
-                primary={
-                  <Typography
-                    component="span"
-                    variant="h6"
-                    color="textPrimary"
-                  >
-                    {`${node.sub_district_zh} - ${node.name_zh}`}
-                  </Typography>
-                }
-                secondary={
-                  <>
-                    <Typography
-                      component="span"
-                      variant="body2"
-                      color="textPrimary"
-                    >
-                      {node.address_zh}
-                    </Typography>
-                    <br />
-                    <Typography
-                      component="span"
-                      variant="body2"
-                      color="textPrimary"
-                    >
-                      {node.details}
-                    </Typography>
-                  </>
-                }
-              />
-            </ListItem>
-          ))}
-        </List>
+        <FabContainer>
+          <BasicFab title="報料" icon="edit" />
+        </FabContainer>
+        <Typography varient="h2">
+          ${t("dodgy_shops.list_text")}（
+          <a
+            target="_blank"
+            rel="noopener noreferrer"
+            href="https://docs.google.com/spreadsheets/d/1x4gHNkS5cfKO8qi-MIp7EiNZP2m5zhK-yv9XSseZqmA/htmlview?fbclid=IwAR3o-FvljkFvrV2b6QGNjQ4_JK7oQletQVq3XTh-hr_o-IhpaTNoJw5_jYQ&sle=true#"
+          >
+            ${t("dodgy_shops.source_from")}
+          </a>
+          ）
+        </Typography>
+        <BasicList items={data.allDodgyShop.edges} />
       </Layout>
-    </App>
+    </>
   )
 }
 
@@ -79,7 +49,7 @@ export default IndexPage
 
 export const IndexQuery = graphql`
   query {
-    allDodgyShops {
+    allDodgyShop {
       edges {
         node {
           address_zh
