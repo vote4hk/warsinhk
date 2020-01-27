@@ -15,12 +15,12 @@ import styled from "styled-components"
 const pages = [
   {
     title: "黑店名單",
-    to: "/index",
+    to: "/",
     icon: "add_shopping_cart",
   },
   {
     title: "高危地區",
-    to: "/hish-risk",
+    to: "/high-risk",
     icon: "warning",
   },
   {
@@ -39,18 +39,20 @@ const Container = styled(Box)`
   background: ${props => props.theme.palette.background.default};
 `
 
-const Layout = (props) => {
+const Layout = props => {
   const { children } = props
-  return (<>
-    <ResponsiveDrawer 
-      pages={pages}
-      children={<Container>{children}</Container>}
-    />
-    {/* <main>{children}</main> */}
-    <footer>
-      <BottomNav tabs={pages} />
-    </footer>
-  </>)
+  return (
+    <>
+      <ResponsiveDrawer
+        pages={pages}
+        children={<Container>{children}</Container>}
+      />
+      {/* <main>{children}</main> */}
+      <footer>
+        <BottomNav tabs={pages} />
+      </footer>
+    </>
+  )
 }
 
 Layout.propTypes = {
