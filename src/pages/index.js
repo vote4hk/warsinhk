@@ -29,13 +29,13 @@ const IndexPage = ({ data, pageContext }) => {
           <BasicFab title="報料" icon="edit" />
         </FabContainer>
         <Typography varient="h2">
-          ${t("dodgy_shops.list_text")}（
+          {t("dodgy_shops.list_text")}（
           <a
             target="_blank"
             rel="noopener noreferrer"
             href="https://docs.google.com/spreadsheets/d/1x4gHNkS5cfKO8qi-MIp7EiNZP2m5zhK-yv9XSseZqmA/htmlview?fbclid=IwAR3o-FvljkFvrV2b6QGNjQ4_JK7oQletQVq3XTh-hr_o-IhpaTNoJw5_jYQ&sle=true#"
           >
-            ${t("dodgy_shops.source_from")}
+            {t("dodgy_shops.source_from")}
           </a>
           ）
         </Typography>

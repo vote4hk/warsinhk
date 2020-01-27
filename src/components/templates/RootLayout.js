@@ -5,7 +5,6 @@ import theme from "@/ui/theme"
 import { ResetStyle, GlobalStyle } from "@components/globalStyle"
 
 export default ({ children }) => {
-  console.log(theme)
   return (
     <>
       <ResetStyle />
