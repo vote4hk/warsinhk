@@ -19,7 +19,9 @@ const FabContainer = styled(Box)`
   }
 `
 
-const IndexPage = ({ data, pageContext }) => {
+const IndexPage = props => {
+  console.log(props)
+  const { data } = props
   const { t } = useTranslation()
   return (
     <>
