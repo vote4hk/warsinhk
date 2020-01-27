@@ -24,6 +24,7 @@ const FabContainer = styled(Box)`
 `
 
 const IndexPage = ({ data, pageContext }) => {
+  const { i18n } = useTranslation()
   return (
     <App locale={pageContext.locale}>
       <SEO title="Home" />
@@ -62,7 +63,7 @@ export default IndexPage
 
 export const IndexQuery = graphql`
   query {
-    allDodgyShops {
+    allDodgyShop {
       edges {
         node {
           address_zh

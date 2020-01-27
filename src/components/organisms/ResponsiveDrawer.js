@@ -21,24 +21,24 @@ const drawerWidth = 240;
 
 const useStyles = makeStyles(theme => ({
   root: {
-    display: 'flex',
+    display: "flex",
   },
   drawer: {
-    [theme.breakpoints.up('sm')]: {
+    [theme.breakpoints.up("sm")]: {
       width: drawerWidth,
       flexShrink: 0,
     },
   },
   appBar: {
-    [theme.breakpoints.up('sm')]: {
+    [theme.breakpoints.up("sm")]: {
       width: `calc(100% - ${drawerWidth}px)`,
       marginLeft: drawerWidth,
     },
   },
   menuButton: {
     marginRight: theme.spacing(2),
-    [theme.breakpoints.up('sm')]: {
-      display: 'none',
+    [theme.breakpoints.up("sm")]: {
+      display: "none",
     },
   },
   toolbar: theme.mixins.toolbar,
@@ -49,17 +49,17 @@ const useStyles = makeStyles(theme => ({
     flexGrow: 1,
     padding: theme.spacing(3),
   },
-}));
+}))
 
 function ResponsiveDrawer(props) {
-  const { container, pages, children } = props;
-  const classes = useStyles();
-  const theme = useTheme();
-  const [mobileOpen, setMobileOpen] = React.useState(false);
+  const { container, pages, children } = props
+  const classes = useStyles()
+  const theme = useTheme()
+  const [mobileOpen, setMobileOpen] = React.useState(false)
 
   const handleDrawerToggle = () => {
-    setMobileOpen(!mobileOpen);
-  };
+    setMobileOpen(!mobileOpen)
+  }
 
   const data = useStaticQuery(
     graphql`
@@ -74,7 +74,6 @@ function ResponsiveDrawer(props) {
   )
 
   const drawer = pages => {
-
     return (
       <div>
         <div className={classes.toolbar} />
@@ -117,7 +116,7 @@ function ResponsiveDrawer(props) {
           <Drawer
             container={container}
             variant="temporary"
-            anchor={theme.direction === 'rtl' ? 'right' : 'left'}
+            anchor={theme.direction === "rtl" ? "right" : "left"}
             open={mobileOpen}
             onClose={handleDrawerToggle}
             classes={{
@@ -144,10 +143,10 @@ function ResponsiveDrawer(props) {
       </nav>
       <main className={classes.content}>
         <div className={classes.toolbar} />
-        { children }
+        {children}
       </main>
     </div>
-  );
+  )
 }
 
 ResponsiveDrawer.propTypes = {
@@ -155,7 +154,9 @@ ResponsiveDrawer.propTypes = {
    * Injected by the documentation to work in an iframe.
    * You won't need it on your project.
    */
-  container: PropTypes.instanceOf(typeof Element === 'undefined' ? Object : Element),
-};
+  container: PropTypes.instanceOf(
+    typeof Element === "undefined" ? Object : Element
+  ),
+}
 
-export default ResponsiveDrawer;
+export default ResponsiveDrawer

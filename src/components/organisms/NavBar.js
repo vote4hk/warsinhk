@@ -2,21 +2,9 @@ import React from "react"
 import { AppBar, Toolbar, IconButton, Typography } from "@material-ui/core"
 import MenuIcon from "@material-ui/icons/Menu"
 import { UnstyledLink } from "@/components/atoms/UnstyledLink"
-import styled from "styled-components"
 import ContextStore from "@/contextStore"
 import { DRAWER_OPEN } from "@/reducers/drawer"
-import { useStaticQuery, Link, graphql } from "gatsby"
-
-const StyledAppBar = styled(AppBar)`
-  && {
-
-  }
-`
-
-const AppBarTitle = styled(UnstyledLink)`
-  && {
-  }
-`
+import { useStaticQuery, graphql } from "gatsby"
 
 function MobileAppBar(props) {
   const {
@@ -37,7 +25,7 @@ function MobileAppBar(props) {
 
   return (
     <>
-      <StyledAppBar position="sticky">
+      <AppBar position="sticky">
         <Toolbar disableGutters>
           <IconButton
             color="inherit"
@@ -45,33 +33,19 @@ function MobileAppBar(props) {
             aria-label="Search"
             onClick={() => {
               dispatch({ type: DRAWER_OPEN })
-              // fireEvent({
-              //   ca: 'general',
-              //   ac: 'click',
-              //   lb: 'menu_drawer',
-              // })
             }}
           >
             <MenuIcon />
           </IconButton>
-          <AppBarTitle to={"/"}>
+          <UnstyledLink to={"/"}>
             <Typography variant="h1" align="center">
               <span role="img" aria-label={data.site.siteMetadata.title}>
                 {data.site.siteMetadata.title}
               </span>
             </Typography>
-          </AppBarTitle>
-          {/* <LanguageSwitcher
-            onClick={() =>
-              fireEvent({
-                ca: 'general',
-                ac: 'click',
-                lb: 'lang_switcher_button', //TODO: do we need that?
-              })
-            }
-          /> */}
+          </UnstyledLink>
         </Toolbar>
-      </StyledAppBar>
+      </AppBar>
     </>
   )
 }
