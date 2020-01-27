@@ -20,7 +20,7 @@ const pages = [
   },
   {
     title: '高危地區',
-    to: '/hish-risk',
+    to: '/high-risk',
     icon: 'warning'
   },
   {
