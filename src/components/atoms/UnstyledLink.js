@@ -4,7 +4,8 @@ import { COLORS } from '@/ui/theme'
 
 export const UnstyledLink = styled(Link)`
   text-decoration: unset;
-  color: ${COLORS.main.text};
+  color: ${COLORS.mainText};
   font-style: unset;
   cursor: pointer;
+  display: flex;
 `
