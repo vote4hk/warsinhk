@@ -7,8 +7,10 @@
 
 import React from "react"
 import PropTypes from "prop-types"
+import Box from "@material-ui/core/Box"
 import ResponsiveDrawer from "@components/organisms/ResponsiveDrawer"
 import BottomNav from "@components/organisms/BottomNav"
+import styled from "styled-components"
 
 const pages = [
   {
@@ -27,21 +29,28 @@ const pages = [
     icon: "timelapse",
   },
   {
-    title: "抗炎資訊",
+    title: "自保貼士",
     to: "/hygiene-tips",
     icon: "info",
   },
 ]
-const Layout = props => {
+
+const Container = styled(Box)`
+  background: ${props => props.theme.palette.background.default};
+`
+
+const Layout = (props) => {
   const { children } = props
-  return (
-    <>
-      <ResponsiveDrawer pages={pages} children={children} />
-      <footer>
-        <BottomNav tabs={pages} />
-      </footer>
-    </>
-  )
+  return (<>
+    <ResponsiveDrawer 
+      pages={pages}
+      children={<Container>{children}</Container>}
+    />
+    {/* <main>{children}</main> */}
+    <footer>
+      <BottomNav tabs={pages} />
+    </footer>
+  </>)
 }
 
 Layout.propTypes = {
