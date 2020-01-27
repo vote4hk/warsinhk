@@ -1,10 +1,10 @@
-import React from "react"
-import BottomNavigation from "@material-ui/core/BottomNavigation"
-import BottomNavigationAction from "@material-ui/core/BottomNavigationAction"
-import { mapIcon } from "@components/icons"
-import Hidden from "@material-ui/core/Hidden"
+import React from 'react';
+import { makeStyles } from '@material-ui/core/styles';
+import BottomNavigation from '@material-ui/core/BottomNavigation';
+import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
+import { mapIcon } from'@components/icons';
+import Hidden from '@material-ui/core/Hidden';
 import styled from "styled-components"
-import { UnstyledLink } from "@components/atoms/UnstyledLink"
 
 const StyledBottomNavigation = styled(BottomNavigation)`
   width: 100%;
@@ -15,8 +15,7 @@ const StyledBottomNavigation = styled(BottomNavigation)`
     border-bottom: 3px ${props => props.theme.palette.secondary.main} solid;
   }
 
-  span,
-  .MuiBottomNavigationAction-label.Mui-selected {
+  span, .MuiBottomNavigationAction-label.Mui-selected {
     font-size: 12px;
   }
 `
@@ -24,32 +23,19 @@ const StyledBottomNavigation = styled(BottomNavigation)`
 export default function SimpleBottomNavigation(props) {
   const { tabs } = props
 
-  const path = window.location.pathname
-  const pageIndex = tabs.findIndex(o => o.to === path)
-  const [value, setValue] = React.useState(pageIndex)
+  const [value, setValue] = React.useState(0);
 
   return (
     <Hidden smUp implementation="css">
-      <StyledBottomNavigation
-        value={value}
-        onChange={(event, newValue) => {
-          setValue(newValue)
-        }}
-        showLabels
-      >
-        {/* FIXME: the icon is not updated after navigating to other page */}
-        {/* 
-            wingkwong: Cannot use <UnstyledLink> to wrap <BottomNavigationAction> because it has to be a direct child of BottomNavigation
-        */}
-        {tabs.map((tab, index) => (
-          <BottomNavigationAction
-            label={tab.title}
-            key={index}
-            component={UnstyledLink}
-            icon={mapIcon(tab.icon)}
-          />
-        ))}
-      </StyledBottomNavigation>
-    </Hidden>
-  )
+    <StyledBottomNavigation
+      value={value}
+      onChange={(event, newValue) => {
+        setValue(newValue);
+      }}
+      showLabels
+    >
+      {tabs.map(tab => <BottomNavigationAction label={tab.title} icon={mapIcon(tab.icon)} />)}
+    </StyledBottomNavigation>
+        </Hidden>
+  );
 }
