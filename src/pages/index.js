@@ -1,5 +1,5 @@
 import React from "react"
-import SEO from "@components/SEO"
+import SEO from "@/components/templates/SEO"
 import App from "@components/App"
 import Layout from "@components/templates/Layout"
 import SimpleTabs from "@components/organisms/SimpleTabs"
@@ -21,7 +21,7 @@ const IndexPage = ({ data, pageContext }) => {
               content: "Buttons of subdistricts",
             },
             {
-            title: "九龍",
+              title: "九龍",
               content: "Buttons of subdistricts",
             },
             {
@@ -30,46 +30,46 @@ const IndexPage = ({ data, pageContext }) => {
             },
           ]}
         />
-      <h1>黑店list</h1>
-      <List aria-label="">
-        {data.allDodgyShops.edges.map(({ node }, index) => (
-          <ListItem alignItems="flex-start">
-            {/* <ListItemAvatar>
+        <h1>黑店list</h1>
+        <List aria-label="">
+          {data.allDodgyShops.edges.map(({ node }, index) => (
+            <ListItem alignItems="flex-start">
+              {/* <ListItemAvatar>
               <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
             </ListItemAvatar> */}
-            <ListItemText
-              primary={
-                <Typography
-                  component="span"
-                  variant="body1"
-                  color="textPrimary"
-                >
-                  {node.name_zh}
-                </Typography>
-              }
-              secondary={
-                <>
+              <ListItemText
+                primary={
                   <Typography
                     component="span"
-                    variant="body2"
+                    variant="body1"
                     color="textPrimary"
                   >
-                    {node.address_zh}
+                    {node.name_zh}
                   </Typography>
-                  <br />
-                  <Typography
-                    component="span"
-                    variant="body2"
-                    color="textPrimary"
-                  >
-                    {node.details}
-                  </Typography>
-                </>
-              }
-            />
-          </ListItem>
-        ))}
-      </List>
+                }
+                secondary={
+                  <>
+                    <Typography
+                      component="span"
+                      variant="body2"
+                      color="textPrimary"
+                    >
+                      {node.address_zh}
+                    </Typography>
+                    <br />
+                    <Typography
+                      component="span"
+                      variant="body2"
+                      color="textPrimary"
+                    >
+                      {node.details}
+                    </Typography>
+                  </>
+                }
+              />
+            </ListItem>
+          ))}
+        </List>
       </Layout>
     </App>
   )
