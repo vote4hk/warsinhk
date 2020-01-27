@@ -8,10 +8,7 @@
 import React from "react"
 import "@/i18n"
 import I18nWrapper from "@/components/I18nWrapper"
-import { ContextStoreProvider } from "@/contextStore"
-import { ThemeProvider } from "@material-ui/core/styles/"
-import theme from "@/ui/theme"
-import { ResetStyle, GlobalStyle } from "@components/globalStyle"
+import RootLayout from "@/components/templates/RootLayout"
 
 export const wrapPageElement = ({ element, props }) => {
   return (
@@ -23,13 +20,5 @@ export const wrapPageElement = ({ element, props }) => {
 
 // Wrap the theme
 export const wrapRootElement = ({ element }) => {
-  return (
-    <>
-      <ContextStoreProvider>
-        <ResetStyle />
-        <GlobalStyle />
-        <ThemeProvider theme={theme}>{element}</ThemeProvider>
-      </ContextStoreProvider>
-    </>
-  )
+  return <RootLayout>{element}</RootLayout>
 }
