@@ -7,8 +7,8 @@ import { useTranslation } from "react-i18next"
 import Typography from "@material-ui/core/Typography"
 import { graphql } from "gatsby"
 
+import { BasicCard } from "@components/atoms/Card"
 import { BasicFab } from "@components/atoms/Fab"
-import { BasicList } from "@/components/organisms/BasicList"
 
 const FabContainer = styled(Box)`
   && {
@@ -18,6 +18,31 @@ const FabContainer = styled(Box)`
     z-index: 1200;
   }
 `
+function item(props) {
+  const { node } = props
+  return (
+    <>
+      <Box>
+        <Typography component="span" variant="body2" color="textPrimary">
+          {node.district_zh}
+        </Typography>
+      </Box>
+      <Box>
+        <Typography component="span" variant="h6" color="textPrimary">
+          {node.name_zh}
+        </Typography>
+      </Box>
+      <Box>
+        <Typography component="span" variant="body2" color="textPrimary">
+          {node.address_zh}
+        </Typography>
+      </Box>
+      <Typography component="span" variant="body2" color="textPrimary">
+        {node.details}
+      </Typography>
+    </>
+  )
+}
 
 const IndexPage = ({ data, pageContext }) => {
   const { t } = useTranslation()
@@ -38,7 +63,13 @@ const IndexPage = ({ data, pageContext }) => {
             {t("dodgy_shops.source_from")}
           </a>
         </Typography>
-        <BasicList items={data.allDodgyShop.edges} />
+        {data.allDodgyShop.edges.map((node, index) => (
+          <BasicCard
+            alignItems="flex-start"
+            key={index}
+            children={item(node)}
+          />
+        ))}
       </Layout>
     </>
   )
@@ -51,10 +82,11 @@ export const IndexQuery = graphql`
     allDodgyShop {
       edges {
         node {
-          address_zh
           area
+          address_zh
           details
           name_zh
+          district_zh
           sub_district_zh
         }
       }
