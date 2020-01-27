@@ -30,7 +30,8 @@ export default function SimpleBottomNavigation(props) {
     },
   } = React.useContext(ContextStore)
 
-  const pageIndex = tabs.findIndex(o => o.to === path.replace(/\/$/, ""))
+  const pageIndex = tabs.findIndex(o => o.to === path)
+
   const [value, setValue] = React.useState(pageIndex)
 
   return (

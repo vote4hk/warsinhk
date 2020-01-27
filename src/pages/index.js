@@ -7,9 +7,9 @@ import styled from "styled-components"
 import { useTranslation } from "react-i18next"
 import Typography from "@material-ui/core/Typography"
 import { graphql } from "gatsby"
-
 import { BasicCard } from "@components/atoms/Card"
 import { BasicFab } from "@components/atoms/Fab"
+import { withLanguage } from "../utils/i18n"
 
 const FabContainer = styled(Box)`
   && {
@@ -19,24 +19,23 @@ const FabContainer = styled(Box)`
     z-index: 1200;
   }
 `
-
-function item(props) {
+function item(props, i18n) {
   const { node } = props
   return (
     <>
       <Box>
         <Typography component="span" variant="body2" color="textPrimary">
-          {node.district_zh}
+          {withLanguage(i18n, node, "district")}
         </Typography>
       </Box>
       <Box>
         <Typography component="span" variant="h6" color="textPrimary">
-          {node.name_zh}
+          {withLanguage(i18n, node, "name")}
         </Typography>
       </Box>
       <Box>
         <Typography component="span" variant="body2" color="textPrimary">
-          {node.address_zh}
+          {withLanguage(i18n, node, "address")}
         </Typography>
       </Box>
       <Typography component="span" variant="body2" color="textPrimary">
@@ -47,9 +46,8 @@ function item(props) {
 }
 
 const IndexPage = props => {
-  console.log(props)
   const { data } = props
-  const { t } = useTranslation()
+  const { i18n, t } = useTranslation()
   return (
     <>
       <SEO title="Home" />
@@ -73,7 +71,7 @@ const IndexPage = props => {
           <BasicCard
             alignItems="flex-start"
             key={index}
-            children={item(node)}
+            children={item(node, i18n)}
           />
         ))}
       </Layout>

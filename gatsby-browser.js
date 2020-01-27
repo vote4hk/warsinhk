@@ -25,7 +25,7 @@ const Router = ({ path }) => {
 export const wrapPageElement = ({ element, props }) => {
   return (
     <>
-      <Router path={props.path}></Router>
+      <Router path={props.uri}></Router>
       <I18nWrapper locale={props.pageContext.locale}>{element}</I18nWrapper>
     </>
   )
