@@ -62,9 +62,9 @@ export const typography = {
 export const COLORS = {
   main: {
     text: '#fff',
-    primary: '#1a237e',
+    primary: '#1a237e', // mediumslateblue
     secondary: '#ef5350', // 2019-10-19 Hackathon - secondary color to voter bar chart
-    background: '#f5f5f6',
+    background: '#fff',
   },
   mainText: 'black',
   dark: {
@@ -104,22 +104,12 @@ export default createMuiTheme({
   typography,
   palette: {
     primary: {
-      main: '#1a237e',
-      light: '$534bae',
-      dark: '#000051',
-      text: '#ffffff',
-      contrastText: '#ffffff',
+      main: COLORS.main.primary,
+      contrastText: COLORS.main.text,
     },
     secondary: {
-      main: '#ef5350',
-      light: '$ff867c',
-      dark: '#b61827',
-      text: '#000000',
-      contrastText: '#000000',
+      main: '#3e474f',
+      contrastText: '#fff',
     },
-    background: {
-      default: '#f5f5f6',
-      paper: '#fff'
-    }
   },
 })

@@ -5,6 +5,7 @@ import Tabs from "@material-ui/core/Tabs"
 import Tab from "@material-ui/core/Tab"
 import Typography from "@material-ui/core/Typography"
 import Box from "@material-ui/core/Box"
+import { TableSortLabel } from "@material-ui/core"
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props
@@ -53,12 +54,12 @@ export default function SimpleTabs(props) {
           aria-label="simple tabs example"
         >
           {tabs.map((tab, i) => (
-            <Tab key={i} label={tab.title}{...a11yProps(0)} />
+            <Tab label={tab.title} {...a11yProps(0)} />
           ))}
         </Tabs>
       </AppBar>
       {tabs.map((tab, i) => (
-        <TabPanel key={i} value={value} index={i}>
+        <TabPanel value={value} index={i}>
           {tab.content}
         </TabPanel>
       ))}

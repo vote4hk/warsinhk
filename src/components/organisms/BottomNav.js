@@ -1,53 +1,61 @@
-import React from "react"
-import BottomNavigation from "@material-ui/core/BottomNavigation"
-import BottomNavigationAction from "@material-ui/core/BottomNavigationAction"
-import { mapIcon } from "@components/icons"
-import Hidden from "@material-ui/core/Hidden"
-import styled from "styled-components"
-import { UnstyledLink } from "@components/atoms/UnstyledLink"
+import React from 'react';
+import { makeStyles } from '@material-ui/core/styles';
+import BottomNavigation from '@material-ui/core/BottomNavigation';
+import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
+import AddShopingCartIcon from '@material-ui/icons/AddShoppingCart';
+import WarningRoundedIcon from '@material-ui/icons/WarningRounded';
+import TimelapseIcon from '@material-ui/icons/Timelapse';
+import InfoRoundedIcon from '@material-ui/icons/InfoRounded';
+import Hidden from '@material-ui/core/Hidden';
+import { UnstyledLink } from '@components/atoms/UnstyledLink';
 
-const StyledBottomNavigation = styled(BottomNavigation)`
-  width: 100%;
-  position: fixed;
-  bottom: 0;
-
-  .MuiBottomNavigationAction-root.Mui-selected {
-    border-bottom: 3px ${props => props.theme.palette.secondary.main} solid;
+const mapIcon = name => {
+  switch (name) {
+    case "add_shopping_cart":
+      return <AddShopingCartIcon />
+    case "warning":
+      return <WarningRoundedIcon />
+    case "timelapse":
+      return <TimelapseIcon />
+    case "info":
+      return <InfoRoundedIcon />
   }
+}
 
-  span,
-  .MuiBottomNavigationAction-label.Mui-selected {
-    font-size: 12px;
+const useStyles = makeStyles({
+  root: {
+    width: 500,
+  },
+  stickToBottom: {
+    width: '100%',
+    position: 'fixed',
+    bottom: 0,
   }
-`
+});
 
 export default function SimpleBottomNavigation(props) {
   const { tabs } = props
 
-  const [value, setValue] = React.useState(0)
+  const classes = useStyles();
+  const path = window.location.pathname
+  const pageIndex = tabs.findIndex(o => o.to === path);
+  const [value, setValue] = React.useState(pageIndex);
 
   return (
     <Hidden smUp implementation="css">
-      <StyledBottomNavigation
+      <BottomNavigation
         value={value}
         onChange={(event, newValue) => {
-          setValue(newValue)
+          setValue(newValue);
         }}
         showLabels
+        className={classes.stickToBottom}
       >
-        {/* FIXME: the icon is not updated after navigating to other page */}
         {/* 
-            wingkwong: Cannot use <UnstyledLink> to wrap <BottomNavigationAction> because it has to be a direct child of BottomNavigation
+          wingkwong: Cannot use <UnstyledLink> to wrap <BottomNavigationAction> because it has to be a direct child of BottomNavigation
         */}
-        {tabs.map((tab, index) => (
-          <BottomNavigationAction
-            label={tab.title}
-            key={index}
-            component={UnstyledLink}
-            icon={mapIcon(tab.icon)}
-          />
-        ))}
-      </StyledBottomNavigation>
+        {tabs.map(tab => <BottomNavigationAction component={UnstyledLink} label={tab.title} icon={mapIcon(tab.icon)} to={tab.to}/>)}
+      </BottomNavigation>
     </Hidden>
-  )
+  );
 }
