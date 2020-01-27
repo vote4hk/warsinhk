@@ -47,6 +47,7 @@ export default function SimpleBottomNavigation(props) {
             key={index}
             component={UnstyledLink}
             icon={mapIcon(tab.icon)}
+            to={tab.to}
           />
         ))}
       </StyledBottomNavigation>
