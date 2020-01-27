@@ -53,12 +53,12 @@ export default function SimpleTabs(props) {
           aria-label="simple tabs example"
         >
           {tabs.map((tab, i) => (
-            <Tab label={tab.title} {...a11yProps(0)} />
+            <Tab key={i} label={tab.title}{...a11yProps(0)} />
           ))}
         </Tabs>
       </AppBar>
       {tabs.map((tab, i) => (
-        <TabPanel value={value} index={i}>
+        <TabPanel key={i} value={value} index={i}>
           {tab.content}
         </TabPanel>
       ))}

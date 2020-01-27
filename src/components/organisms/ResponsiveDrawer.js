@@ -80,7 +80,7 @@ function ResponsiveDrawer(props) {
         <Divider />
         <List>
           {pages.map((page, index) => (
-            <ListItem button key={page.title}>
+            <ListItem button key={index}>
               <ListItemIcon>{mapIcon(page.icon)}</ListItemIcon>
               <ListItemText primary={page.title} />
             </ListItem>

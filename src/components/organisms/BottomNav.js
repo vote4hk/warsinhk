@@ -34,7 +34,7 @@ export default function SimpleBottomNavigation(props) {
       }}
       showLabels
     >
-      {tabs.map(tab => <BottomNavigationAction label={tab.title} icon={mapIcon(tab.icon)} />)}
+      {tabs.map((tab, index) => <BottomNavigationAction label={tab.title} key={index} icon={mapIcon(tab.icon)} />)}
     </StyledBottomNavigation>
         </Hidden>
   );
