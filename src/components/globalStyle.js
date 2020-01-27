@@ -74,13 +74,12 @@ button {
 `
 
 export const GlobalStyle = createGlobalStyle`
-@import url('https://fonts.googleapis.com/css?family=Bebas+Neue&display=swap');
 html {
     box-sizing: border-box;
   }
   
 
 h1 {
-  font-family: 'Bebas Neue, Noto Sans TC, 微軟正黑體, 新細明體, sans-serif'
+  font-family: 'Noto Sans TC, 微軟正黑體, 新細明體, sans-serif'
 }
 `
