@@ -24,7 +24,9 @@ const StyledBottomNavigation = styled(BottomNavigation)`
 export default function SimpleBottomNavigation(props) {
   const { tabs } = props
 
-  const [value, setValue] = React.useState(0)
+  const path = window.location.pathname
+  const pageIndex = tabs.findIndex(o => o.to === path)
+  const [value, setValue] = React.useState(pageIndex)
 
   return (
     <Hidden smUp implementation="css">
