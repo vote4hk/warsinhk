@@ -1,6 +1,6 @@
 require("dotenv").config()
 
-const GOOGLE_TRACKING_ID = process.env.GOOGLE_TRACKING_ID || "UA-000000-0"
+const GOOGLE_TRACKING_ID = process.env.GOOGLE_TRACKING_ID || "UA-111111111-1"
 
 module.exports = {
   siteMetadata: {
@@ -16,17 +16,6 @@ module.exports = {
         trackingId: GOOGLE_TRACKING_ID,
         // Defines where to place the tracking script - `true` in the head and `false` in the body
         head: true,
-        // Setting this parameter is optional
-        anonymize: true,
-        // Setting this parameter is also optional
-        respectDNT: true,
-        // Avoids sending pageview hits from custom paths
-        exclude: ["/preview/**", "/do-not-track/me/too/"],
-        // Delays sending pageview hits on route update (in milliseconds)
-        pageTransitionDelay: 0,
-        sampleRate: 5,
-        siteSpeedSampleRate: 10,
-        // cookieDomain: "vote4.hk",
       },
     },
     {

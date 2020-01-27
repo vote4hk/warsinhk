@@ -5,6 +5,7 @@ import { mapIcon } from "@components/icons"
 import Hidden from "@material-ui/core/Hidden"
 import styled from "styled-components"
 import { UnstyledLink } from "@components/atoms/UnstyledLink"
+import ContextStore from "@/contextStore"
 
 const StyledBottomNavigation = styled(BottomNavigation)`
   width: 100%;
@@ -23,9 +24,13 @@ const StyledBottomNavigation = styled(BottomNavigation)`
 
 export default function SimpleBottomNavigation(props) {
   const { tabs } = props
+  const {
+    route: {
+      state: { path },
+    },
+  } = React.useContext(ContextStore)
 
-  const path = window.location.pathname
-  const pageIndex = tabs.findIndex(o => o.to === path)
+  const pageIndex = tabs.findIndex(o => o.to === path.replace(/\/$/, ""))
   const [value, setValue] = React.useState(pageIndex)
 
   return (
