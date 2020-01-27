@@ -14,7 +14,7 @@ const IndexPage = ({ data, pageContext }) => {
     <App locale={pageContext.locale}>
       <SEO title="Home" />
       <Layout>
-        <SimpleTabs
+        {/* <SimpleTabs
           tabs={[
             {
               title: "港島",
@@ -29,8 +29,8 @@ const IndexPage = ({ data, pageContext }) => {
               content: "Buttons of subdistricts",
             },
           ]}
-        />
-        <h1>黑店list</h1>
+        /> */}
+        <Typography varient='h2'>黑店list</Typography>
         <List aria-label="">
           {data.allDodgyShops.edges.map(({ node }, index) => (
             <ListItem alignItems="flex-start">
