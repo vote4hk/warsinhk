@@ -3,5 +3,10 @@
  *
  * See: https://www.gatsbyjs.org/docs/ssr-apis/
  */
+import React from "react"
+import RootLayout from "@/components/templates/RootLayout"
 
-// You can delete this file if you're not using it
+// Wrap the theme
+export const wrapRootElement = ({ element }) => {
+  return <RootLayout>{element}</RootLayout>
+}
