@@ -7,17 +7,17 @@ const fetch = require("node-fetch")
 const csv2json = require("csvtojson")
 
 const GOOGLE_SPREADSHEET_ID = "14kreo2vRo1XCUXqFLcMApVtYmvkEzWBDm6b8fzJNKEc"
-const SHEET_PHARMACY = "pharmacies"
 const SHEET_DODGY_SHOPS = "dodgy_shops"
 const SHEET_HIGH_RISK_MASTER = "highrisk_master"
 const SHEET_HYGIENE_TIPS_MASTER = "hygiene_tips"
+const SHEET_SHOP_MASTER = "shop_master"
 
 exports.sourceNodes = async props => {
   await Promise.all([
     createNode(props, SHEET_DODGY_SHOPS, "DodgyShop"),
-    createNode(props, SHEET_PHARMACY, "Pharmacy"),
     createNode(props, SHEET_HIGH_RISK_MASTER, "HighRisk"),
     createNode(props, SHEET_HYGIENE_TIPS_MASTER, "HygieneTips"),
+    createNode(props, SHEET_SHOP_MASTER, "Shop"),
   ])
 }
 
