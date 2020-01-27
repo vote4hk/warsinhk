@@ -2,49 +2,32 @@ import React from "react"
 import SEO from "@/components/templates/SEO"
 import App from "@components/App"
 import Layout from "@components/templates/Layout"
-import SimpleTabs from "@components/organisms/SimpleTabs"
-
-import List from '@material-ui/core/List'
-import ListItem from '@material-ui/core/ListItem'
-import ListItemText from '@material-ui/core/ListItemText'
-import Typography from '@material-ui/core/Typography'
+import List from "@material-ui/core/List"
+import ListItem from "@material-ui/core/ListItem"
+import ListItemText from "@material-ui/core/ListItemText"
+import Typography from "@material-ui/core/Typography"
+import { useTranslation } from "react-i18next"
+import { withLanguage } from "@/utils/i18n"
+import { graphql } from "gatsby"
 
 const IndexPage = ({ data, pageContext }) => {
+  const { i18n } = useTranslation()
   return (
     <App locale={pageContext.locale}>
       <SEO title="Home" />
       <Layout>
-        {/* <SimpleTabs
-          tabs={[
-            {
-              title: "港島",
-              content: "Buttons of subdistricts",
-            },
-            {
-              title: "九龍",
-              content: "Buttons of subdistricts",
-            },
-            {
-              title: "新界",
-              content: "Buttons of subdistricts",
-            },
-          ]}
-        /> */}
-        <Typography varient='h2'>黑店list</Typography>
+        <Typography varient="h2">黑店list</Typography>
         <List aria-label="">
           {data.allDodgyShops.edges.map(({ node }, index) => (
             <ListItem alignItems="flex-start">
-              {/* <ListItemAvatar>
-              <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
-            </ListItemAvatar> */}
               <ListItemText
                 primary={
-                  <Typography
-                    component="span"
-                    variant="h6"
-                    color="textPrimary"
-                  >
-                    {`${node.sub_district_zh} - ${node.name_zh}`}
+                  <Typography component="span" variant="h6" color="textPrimary">
+                    {`${withLanguage(
+                      i18n,
+                      node,
+                      "sub_district"
+                    )} - ${withLanguage(i18n, node, "name")}`}
                   </Typography>
                 }
                 secondary={
@@ -54,7 +37,7 @@ const IndexPage = ({ data, pageContext }) => {
                       variant="body2"
                       color="textPrimary"
                     >
-                      {node.address_zh}
+                      {withLanguage(i18n, node, "address")}
                     </Typography>
                     <br />
                     <Typography

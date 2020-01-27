@@ -8,54 +8,44 @@
 import React from "react"
 import PropTypes from "prop-types"
 import ResponsiveDrawer from "@components/organisms/ResponsiveDrawer"
-import NavBar from "@components/organisms/NavBar"
 import BottomNav from "@components/organisms/BottomNav"
-
 
 const pages = [
   {
-    title: '黑店名單',
-    to: '/index',
-    icon: 'add_shopping_cart'
+    title: "黑店名單",
+    to: "/index",
+    icon: "add_shopping_cart",
   },
   {
-    title: '高危地區',
-    to: '/hish-risk',
-    icon: 'warning'
+    title: "高危地區",
+    to: "/hish-risk",
+    icon: "warning",
   },
   {
-    title: '急症等候',
-    to: '/ae-waiting-time',
-    icon: 'timelapse'
+    title: "急症等候",
+    to: "/ae-waiting-time",
+    icon: "timelapse",
   },
   {
-    title: '抗炎資訊',
-    to: '/hygiene-tips',
-    icon: 'info'
-  }
-  
+    title: "抗炎資訊",
+    to: "/hygiene-tips",
+    icon: "info",
+  },
 ]
-const Layout = (props) => {
+const Layout = props => {
   const { children } = props
-  return (<>
-    <ResponsiveDrawer 
-      pages={pages}
-      children={children}
-    />
-    <main>
-      {/* <NavBar /> */}
-      {/* {children} */}
-    </main>
-
-    {/* <main>{children}</main> */}
-    <footer>
-      <BottomNav tabs={pages} />
-    </footer>
-  </>)
+  return (
+    <>
+      <ResponsiveDrawer pages={pages} children={children} />
+      <footer>
+        <BottomNav tabs={pages} />
+      </footer>
+    </>
+  )
 }
 
 Layout.propTypes = {
-  children: PropTypes.node.isRequired
+  children: PropTypes.node.isRequired,
 }
 
 export default Layout
