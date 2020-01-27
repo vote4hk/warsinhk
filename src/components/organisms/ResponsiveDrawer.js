@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { useStaticQuery, Link, graphql } from "gatsby";
 import AppBar from '@material-ui/core/AppBar';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Divider from '@material-ui/core/Divider';
@@ -18,7 +19,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
-import { useStaticQuery, Link, graphql } from "gatsby"
+import { UnstyledLink } from '@components/atoms/UnstyledLink';
 
 const mapIcon = name => {
   switch (name) {
@@ -99,8 +100,10 @@ function ResponsiveDrawer(props) {
         <List>
           {pages.map((page, index) => (
             <ListItem button key={page.title}>
-              <ListItemIcon>{mapIcon(page.icon)}</ListItemIcon>
-              <ListItemText primary={page.title} />
+              <UnstyledLink to={page.to}>
+                <ListItemIcon>{mapIcon(page.icon)}</ListItemIcon>
+                <ListItemText primary={page.title} />
+              </UnstyledLink>
             </ListItem>
           ))}
         </List>
