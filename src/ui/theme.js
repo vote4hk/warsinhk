@@ -45,17 +45,17 @@ export const typography = {
   },
   h6: {
     fontFamily: headingFontFamily,
-    fontSize: 14,
-    fontWeight: 500,
+    fontSize: 16,
+    fontWeight: 600,
   },
   body1: {
     fontFamily: bodyFontFamily,
-    fontSize: 14,
+    fontSize: 16,
     lineHeight: 1.4,
   },
   body2: {
     fontFamily: bodyFontFamily,
-    fontSize: 12,
+    fontSize: 14,
   },
 }
 

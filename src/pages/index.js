@@ -41,10 +41,10 @@ const IndexPage = ({ data, pageContext }) => {
                 primary={
                   <Typography
                     component="span"
-                    variant="body1"
+                    variant="h6"
                     color="textPrimary"
                   >
-                    {node.name_zh}
+                    {`${node.sub_district_zh} - ${node.name_zh}`}
                   </Typography>
                 }
                 secondary={
