@@ -1,23 +1,23 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import AppBar from '@material-ui/core/AppBar';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import Divider from '@material-ui/core/Divider';
-import Drawer from '@material-ui/core/Drawer';
-import Hidden from '@material-ui/core/Hidden';
-import IconButton from '@material-ui/core/IconButton';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import { mapIcon } from'@components/icons';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
-import { makeStyles, useTheme } from '@material-ui/core/styles';
-import { useStaticQuery, Link, graphql } from "gatsby"
+import React from "react"
+import PropTypes from "prop-types"
+import AppBar from "@material-ui/core/AppBar"
+import CssBaseline from "@material-ui/core/CssBaseline"
+import Divider from "@material-ui/core/Divider"
+import Drawer from "@material-ui/core/Drawer"
+import Hidden from "@material-ui/core/Hidden"
+import IconButton from "@material-ui/core/IconButton"
+import List from "@material-ui/core/List"
+import ListItem from "@material-ui/core/ListItem"
+import ListItemIcon from "@material-ui/core/ListItemIcon"
+import ListItemText from "@material-ui/core/ListItemText"
+import { mapIcon } from "@components/icons"
+import Toolbar from "@material-ui/core/Toolbar"
+import Typography from "@material-ui/core/Typography"
+import { makeStyles, useTheme } from "@material-ui/core/styles"
+import { useStaticQuery, graphql } from "gatsby"
+import { UnstyledLink } from "@components/atoms/UnstyledLink"
 
-const drawerWidth = 240;
-
+const drawerWidth = 240
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -80,10 +80,12 @@ function ResponsiveDrawer(props) {
         <Divider />
         <List>
           {pages.map((page, index) => (
-            <ListItem button key={index}>
-              <ListItemIcon>{mapIcon(page.icon)}</ListItemIcon>
-              <ListItemText primary={page.title} />
-            </ListItem>
+            <UnstyledLink to={page.to} key={index}>
+              <ListItem>
+                <ListItemIcon>{mapIcon(page.icon)}</ListItemIcon>
+                <ListItemText primary={page.title} />
+              </ListItem>
+            </UnstyledLink>
           ))}
         </List>
         <Divider />
@@ -103,7 +105,7 @@ function ResponsiveDrawer(props) {
             onClick={handleDrawerToggle}
             className={classes.menuButton}
           >
-            {mapIcon('menu')}
+            {mapIcon("menu")}
           </IconButton>
           <Typography variant="h1" noWrap>
             {data.site.siteMetadata.title}

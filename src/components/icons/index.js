@@ -6,7 +6,7 @@ import InfoRoundedIcon from "@material-ui/icons/InfoRounded"
 import MenuIcon from "@material-ui/icons/Menu"
 import EditRoundedIcon from "@material-ui/icons/EditRounded"
 
-export const mapIcon = name => {
+export function mapIcon(name) {
   switch (name) {
     case "add_shopping_cart":
       return <AddShopingCartIcon />
@@ -16,11 +16,11 @@ export const mapIcon = name => {
       return <TimelapseIcon />
     case "info":
       return <InfoRoundedIcon />
-    case "info":
-      return <InfoRoundedIcon />
     case "menu":
       return <MenuIcon />
     case "edit":
       return <EditRoundedIcon />
+    default:
+      return null
   }
 }
