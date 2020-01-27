@@ -1,5 +1,5 @@
 import React from "react"
-import SEO from "@/components/templates/seo"
+import SEO from "@/components/templates/SEO"
 import App from "@components/App"
 import Layout from "@components/templates/Layout"
 import SimpleTabs from "@components/organisms/SimpleTabs"
