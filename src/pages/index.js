@@ -1,6 +1,5 @@
 import React from "react"
 import SEO from "@/components/templates/SEO"
-import App from "@components/App"
 import Layout from "@components/templates/Layout"
 import Box from "@material-ui/core/Box"
 import styled from "styled-components"
@@ -21,38 +20,28 @@ const FabContainer = styled(Box)`
 `
 
 const IndexPage = ({ data, pageContext }) => {
-  const { i18n } = useTranslation()
+  const { t } = useTranslation()
   return (
-    <App locale={pageContext.locale}>
+    <>
       <SEO title="Home" />
       <Layout>
-      <FabContainer>
-          <BasicFab 
-          title='報料'
-          icon='edit' />
-          </FabContainer>
-        {/* <SimpleTabs
-          tabs={[
-            {
-              title: "港島",
-              content: "Buttons of subdistricts",
-            },
-            {
-              title: "九龍",
-              content: "Buttons of subdistricts",
-            },
-            {
-              title: "新界",
-              content: "Buttons of subdistricts",
-            },
-          ]}
-        /> */}
-        <Typography varient='h2'>炒賣口罩藥房名單（<a target='_blank' href='https://docs.google.com/spreadsheets/d/1x4gHNkS5cfKO8qi-MIp7EiNZP2m5zhK-yv9XSseZqmA/htmlview?fbclid=IwAR3o-FvljkFvrV2b6QGNjQ4_JK7oQletQVq3XTh-hr_o-IhpaTNoJw5_jYQ&sle=true#'>以此資料來源為準</a>）</Typography>
-        <BasicList 
-          items={data.allDodgyShops.edges}
-        />
-        </Layout>
-    </App>
+        <FabContainer>
+          <BasicFab title="報料" icon="edit" />
+        </FabContainer>
+        <Typography varient="h2">
+          {t("dodgy_shops.list_text")}（
+          <a
+            target="_blank"
+            rel="noopener noreferrer"
+            href="https://docs.google.com/spreadsheets/d/1x4gHNkS5cfKO8qi-MIp7EiNZP2m5zhK-yv9XSseZqmA/htmlview?fbclid=IwAR3o-FvljkFvrV2b6QGNjQ4_JK7oQletQVq3XTh-hr_o-IhpaTNoJw5_jYQ&sle=true#"
+          >
+            {t("dodgy_shops.source_from")}
+          </a>
+          ）
+        </Typography>
+        <BasicList items={data.allDodgyShops.edges} />
+      </Layout>
+    </>
   )
 }
 

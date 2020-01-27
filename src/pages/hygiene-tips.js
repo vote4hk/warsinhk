@@ -1,10 +1,10 @@
 import React from "react"
 import SEO from "@/components/templates/SEO"
-import App from "@components/App"
 import Layout from "@components/templates/Layout"
 
+
 const HygieneTipsPage = (props) => (
-  <App locale={props.pageContext.locale}>
+  // <App locale={props.pageContext.locale}>
     <Layout>
       <SEO title="HygieneTipsPage" />
       <h1>HygieneTipsPage</h1>
@@ -12,7 +12,7 @@ const HygieneTipsPage = (props) => (
           TODO
       </p>
     </Layout>
-  </App>
+  // </App>
 )
 
 export default HygieneTipsPage
