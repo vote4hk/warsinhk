@@ -39,18 +39,20 @@ const Container = styled(Box)`
   background: ${props => props.theme.palette.background.default};
 `
 
-const Layout = (props) => {
+const Layout = props => {
   const { children } = props
-  return (<>
-    <ResponsiveDrawer 
-      pages={pages}
-      children={<Container>{children}</Container>}
-    />
-    {/* <main>{children}</main> */}
-    <footer>
-      <BottomNav tabs={pages} />
-    </footer>
-  </>)
+  return (
+    <>
+      <ResponsiveDrawer
+        pages={pages}
+        children={<Container>{children}</Container>}
+      />
+      {/* <main>{children}</main> */}
+      <footer>
+        <BottomNav tabs={pages} />
+      </footer>
+    </>
+  )
 }
 
 Layout.propTypes = {
