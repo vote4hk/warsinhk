@@ -20,8 +20,6 @@ const FabContainer = styled(Box)`
   }
 `
 
-const 
-
 function item(props) {
   const { node } = props
   return (
