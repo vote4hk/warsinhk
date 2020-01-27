@@ -2,6 +2,7 @@ import React from "react"
 import SEO from "@/components/templates/SEO"
 import Layout from "@components/templates/Layout"
 import Box from "@material-ui/core/Box"
+import Link from "@material-ui/core/Link"
 import styled from "styled-components"
 import { useTranslation } from "react-i18next"
 import Typography from "@material-ui/core/Typography"
@@ -18,6 +19,7 @@ const FabContainer = styled(Box)`
     z-index: 1200;
   }
 `
+
 function item(props) {
   const { node } = props
   return (
@@ -53,7 +55,9 @@ const IndexPage = props => {
       <SEO title="Home" />
       <Layout>
         <FabContainer>
-          <BasicFab title="報料" icon="edit" />
+          <Link href="https://forms.gle/gK477bmq8cG57ELv8" target="_blank">
+            <BasicFab title="報料" icon="edit" />
+          </Link>
         </FabContainer>
         <Typography variant="h4">{t("dodgy_shops.list_text")}</Typography>
         <Typography variant="body2">
