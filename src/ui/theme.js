@@ -20,7 +20,7 @@ export const typography = {
   fontFamily: FONT_FAMILY.join(','),
   h1: {
     fontFamily: headingFontFamily,
-    fontSize: 20,
+    fontSize: 28,
     fontWeight: 500,
   },
   h2: {
@@ -61,9 +61,9 @@ export const typography = {
 
 export const COLORS = {
   main: {
-    text: '#000',
-    primary: '#7B68EE', // mediumslateblue
-    secondary: '#CCC4F8', // 2019-10-19 Hackathon - secondary color to voter bar chart
+    text: '#fff',
+    primary: '#1a237e', // mediumslateblue
+    secondary: '#ef5350', // 2019-10-19 Hackathon - secondary color to voter bar chart
     background: '#fff',
   },
   mainText: 'black',

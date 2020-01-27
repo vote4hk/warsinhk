@@ -5,6 +5,7 @@ import { ThemeProvider } from '@material-ui/core/styles/'
 import theme from '@/ui/theme'
 import '@/i18n'
 import { useTranslation } from 'react-i18next'
+import {ResetStyle, GlobalStyle} from './globalStyle'
 
 const App = (props) => {
   const { children, locale } = props
@@ -15,6 +16,8 @@ const App = (props) => {
 
   return (<>
     <ContextStoreProvider>
+      <ResetStyle />
+      <GlobalStyle />
       <ThemeProvider theme={theme}>
         {children}
       </ThemeProvider>
