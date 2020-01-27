@@ -19,31 +19,6 @@ const FabContainer = styled(Box)`
     z-index: 1200;
   }
 `
-function item(props) {
-  const { node } = props
-  return (
-    <>
-      <Box>
-        <Typography component="span" variant="body2" color="textPrimary">
-          {node.district_zh}
-        </Typography>
-      </Box>
-      <Box>
-        <Typography component="span" variant="h6" color="textPrimary">
-          {node.name_zh}
-        </Typography>
-      </Box>
-      <Box>
-        <Typography component="span" variant="body2" color="textPrimary">
-          {node.address_zh}
-        </Typography>
-      </Box>
-      <Typography component="span" variant="body2" color="textPrimary">
-        {node.details}
-      </Typography>
-    </>
-  )
-}
 
 function item(props) {
   const { node } = props
