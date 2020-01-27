@@ -18,7 +18,7 @@ const IndexPage = ({ data, pageContext }) => {
       <Layout>
         <Typography varient="h2">黑店list</Typography>
         <List aria-label="">
-          {data.allDodgyShops.edges.map(({ node }, index) => (
+          {data.allDodgyShop.edges.map(({ node }, index) => (
             <ListItem alignItems="flex-start">
               <ListItemText
                 primary={
@@ -62,7 +62,7 @@ export default IndexPage
 
 export const IndexQuery = graphql`
   query {
-    allDodgyShops {
+    allDodgyShop {
       edges {
         node {
           address_zh

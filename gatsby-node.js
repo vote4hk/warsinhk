@@ -3,31 +3,42 @@
  *
  * See: https://www.gatsbyjs.org/docs/node-apis/
  */
-const fetch = require('node-fetch')
-const csv2json = require('csvtojson');
+const fetch = require("node-fetch")
+const csv2json = require("csvtojson")
 
-exports.sourceNodes = async ({
-  actions: { createNode },
-  createNodeId,
-  createContentDigest,
-}) => {
-  // TODO: extract this to seperate function
-  // get data from GitHub API at build time
-  const result = await fetch(`https://docs.google.com/spreadsheets/d/e/2PACX-1vQ34PdImq5-aULcYEp5ptzqgCTkEdMwqpAElDO7WQPDjbmgFGAp7J6-KffHZXd7dGagF5NeBiY3ywTJ/pub?gid=1228399663&single=true&output=csv`)
+const GOOGLE_SPREADSHEET_ID = "14kreo2vRo1XCUXqFLcMApVtYmvkEzWBDm6b8fzJNKEc"
+const SHEET_PHARMACY = "pharmacies"
+const SHEET_DODGY_SHOPS = "dodgy_shops"
+const SHEET_HIGH_RISK_MASTER = "highrisk_master"
 
+exports.sourceNodes = async props => {
+  await Promise.all([
+    createNode(props, SHEET_DODGY_SHOPS, "DodgyShop"),
+    createNode(props, SHEET_PHARMACY, "Pharmacy"),
+    createNode(props, SHEET_HIGH_RISK_MASTER, "HighRisk"),
+  ])
+}
+
+const createNode = async (
+  { actions: { createNode }, createNodeId, createContentDigest },
+  sheetName,
+  type
+) => {
+  // All table has first row reserved
+  const result = await fetch(
+    `https://docs.google.com/spreadsheets/d/${GOOGLE_SPREADSHEET_ID}/gviz/tq?tqx=out:csv&sheet=${sheetName}&range=A2:ZZ`
+  )
   const data = await result.text()
-  // remove the first line
-  const dodgy_shops = await csv2json().fromString(data.replace(/.*\r\n/, ''));
-
-  dodgy_shops.forEach((p, i) => {
+  const records = await csv2json().fromString(data)
+  records.forEach((p, i) => {
     // create node for build time data example in the docs
     const meta = {
       // required fields
-      id: createNodeId(`dodgy_shops-${i}`),
+      id: createNodeId(`${type.toLowerCase()}-${i}`),
       parent: null,
       children: [],
       internal: {
-        type: `dodgy_shops`,
+        type,
         contentDigest: createContentDigest(p),
       },
     }
@@ -37,29 +48,29 @@ exports.sourceNodes = async ({
 }
 
 exports.onCreatePage = async ({ page, actions }) => {
-  const { createPage, deletePage } = actions;
+  const { createPage, deletePage } = actions
 
-  return new Promise((resolve) => {
-    deletePage(page);
+  return new Promise(resolve => {
+    deletePage(page)
 
     createPage({
       ...page,
       path: page.path,
       context: {
         ...page.context,
-        locale: 'zh',
+        locale: "zh",
       },
-    });
+    })
 
     createPage({
       ...page,
-      path: '/en' + page.path,
+      path: "/en" + page.path,
       context: {
         ...page.context,
-        locale: 'en',
+        locale: "en",
       },
-    });
+    })
 
-    resolve();
-  });
-};
+    resolve()
+  })
+}
