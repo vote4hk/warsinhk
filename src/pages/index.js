@@ -1,11 +1,7 @@
 import React from "react"
 import SEO from "@/components/templates/SEO"
 import Layout from "@components/templates/Layout"
-import Box from "@material-ui/core/Box"
-import styled from "styled-components"
-// import { useTranslation } from 'react-i18next';
-import Typography from "@material-ui/core/Typography"
-import { graphql } from "gatsby"
+import SimpleTabs from "@components/organisms/SimpleTabs"
 
 import { BasicFab } from '@components/atoms/Fab'
 import { BasicList } from '@/components/organisms/BasicList'
@@ -25,9 +21,6 @@ const IndexPage = ({ data, pageContext }) => {
     <>
       <SEO title="Home" />
       <Layout>
-        <FabContainer>
-          <BasicFab title="報料" icon="edit" />
-        </FabContainer>
         {/* <SimpleTabs
           tabs={[
             {
