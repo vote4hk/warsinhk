@@ -7,9 +7,11 @@
 
 import React from "react"
 import PropTypes from "prop-types"
+import Box from "@material-ui/core/Box"
 import ResponsiveDrawer from "@components/organisms/ResponsiveDrawer"
 import NavBar from "@components/organisms/NavBar"
 import BottomNav from "@components/organisms/BottomNav"
+import styled from "styled-components"
 
 
 const pages = [
@@ -35,18 +37,18 @@ const pages = [
   }
   
 ]
+
+const Container = styled(Box)`
+  background: ${props => props.theme.palette.background.default};
+`
+
 const Layout = (props) => {
   const { children } = props
   return (<>
     <ResponsiveDrawer 
       pages={pages}
-      children={children}
+      children={<Container>{children}</Container>}
     />
-    <main>
-      {/* <NavBar /> */}
-      {/* {children} */}
-    </main>
-
     {/* <main>{children}</main> */}
     <footer>
       <BottomNav tabs={pages} />

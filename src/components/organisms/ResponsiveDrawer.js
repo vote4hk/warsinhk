@@ -10,28 +10,11 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import AddShopingCartIcon from '@material-ui/icons/AddShoppingCart';
-import WarningRoundedIcon from '@material-ui/icons/WarningRounded';
-import TimelapseIcon from '@material-ui/icons/Timelapse';
-import InfoRoundedIcon from '@material-ui/icons/InfoRounded';
-import MenuIcon from '@material-ui/icons/Menu';
+import { mapIcon } from'@components/icons';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import { useStaticQuery, Link, graphql } from "gatsby"
-
-const mapIcon = name => {
-  switch (name) {
-    case "add_shopping_cart":
-      return <AddShopingCartIcon />
-    case "warning":
-      return <WarningRoundedIcon />
-    case "timelapse":
-      return <TimelapseIcon />
-    case "info":
-      return <InfoRoundedIcon />
-  }
-}
 
 const drawerWidth = 240;
 
@@ -121,7 +104,7 @@ function ResponsiveDrawer(props) {
             onClick={handleDrawerToggle}
             className={classes.menuButton}
           >
-            <MenuIcon />
+            {mapIcon('menu')}
           </IconButton>
           <Typography variant="h1" noWrap>
             {data.site.siteMetadata.title}
