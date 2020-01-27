@@ -40,7 +40,7 @@ export default function SimpleBottomNavigation(props) {
         {/* 
           wingkwong: Cannot use <UnstyledLink> to wrap <BottomNavigationAction> because it has to be a direct child of BottomNavigation
         */}
-        {tabs.map(tab => <BottomNavigationAction component={UnstyledLink} label={tab.title} icon={mapIcon(tab.icon)} to={tab.to}/>)}
+        {tabs.map((tab, index) => <BottomNavigationAction key={index} component={UnstyledLink} label={tab.title} icon={mapIcon(tab.icon)} to={tab.to}/>)}
         </StyledBottomNavigation>
     </Hidden>
   );
