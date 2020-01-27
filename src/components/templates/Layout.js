@@ -29,7 +29,7 @@ const pages = [
     icon: "timelapse",
   },
   {
-    title: "抗炎資訊",
+    title: "自保貼士",
     to: "/hygiene-tips",
     icon: "info",
   },
