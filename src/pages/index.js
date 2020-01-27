@@ -3,6 +3,7 @@ import SEO from "@/components/templates/SEO"
 import Layout from "@components/templates/Layout"
 import Box from "@material-ui/core/Box"
 import styled from "styled-components"
+import { useTranslation } from 'react-i18next';
 import SimpleTabs from "@components/organisms/SimpleTabs"
 
 import { BasicFab } from "@components/atoms/Fab"
@@ -69,7 +70,7 @@ export default IndexPage
 
 export const IndexQuery = graphql`
   query {
-    allDodgyShop {
+    allDodgyShops {
       edges {
         node {
           address_zh
