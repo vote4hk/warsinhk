@@ -15,7 +15,7 @@ import BottomNav from "@components/organisms/BottomNav"
 const pages = [
   {
     title: '黑店名單',
-    to: '/index',
+    to: '/',
     icon: 'add_shopping_cart'
   },
   {
