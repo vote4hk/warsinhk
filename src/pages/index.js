@@ -53,7 +53,7 @@ const IndexPage = ({ data, pageContext }) => {
         /> */}
         <Typography varient='h2'>炒賣口罩藥房名單（<a target='_blank' href='https://docs.google.com/spreadsheets/d/1x4gHNkS5cfKO8qi-MIp7EiNZP2m5zhK-yv9XSseZqmA/htmlview?fbclid=IwAR3o-FvljkFvrV2b6QGNjQ4_JK7oQletQVq3XTh-hr_o-IhpaTNoJw5_jYQ&sle=true#'>以此資料來源為準</a>）</Typography>
         <BasicList 
-          items={data.allDodgyShops.edges}
+          items={data.allDodgyShop.edges}
         />
         </Layout>
     </App>
@@ -64,7 +64,7 @@ export default IndexPage
 
 export const IndexQuery = graphql`
   query {
-    allDodgyShops {
+    allDodgyShop {
       edges {
         node {
           address_zh
