@@ -8,6 +8,11 @@ import List from '@material-ui/core/List'
 import ListItem from '@material-ui/core/ListItem'
 import ListItemText from '@material-ui/core/ListItemText'
 import Typography from '@material-ui/core/Typography'
+import Link from '@material-ui/core/Link'
+import Fab from '@material-ui/core/Fab'
+import AddIcon from '@material-ui/icons/Add';
+
+import './index.css'
 
 const IndexPage = ({ data, pageContext }) => {
   return (
@@ -70,6 +75,11 @@ const IndexPage = ({ data, pageContext }) => {
             </ListItem>
           ))}
         </List>
+        <Link href="https://forms.gle/gK477bmq8cG57ELv8" id="fab">
+          <Fab color="primary" aria-label="add">
+            <AddIcon />
+          </Fab>
+        </Link>
       </Layout>
     </App>
   )
