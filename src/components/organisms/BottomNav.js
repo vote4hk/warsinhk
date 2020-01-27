@@ -46,7 +46,6 @@ export default function SimpleBottomNavigation(props) {
       <BottomNavigation
         value={value}
         onChange={(event, newValue) => {
-          console.log("setValue")
           setValue(newValue);
         }}
         showLabels
