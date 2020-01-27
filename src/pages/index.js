@@ -47,7 +47,6 @@ function item(props) {
 }
 
 const IndexPage = props => {
-  console.log(props)
   const { data } = props
   const { t } = useTranslation()
   return (
