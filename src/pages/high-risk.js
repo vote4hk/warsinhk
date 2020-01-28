@@ -6,6 +6,7 @@ import Box from "@material-ui/core/Box"
 import Typography from "@material-ui/core/Typography"
 import { graphql } from "gatsby"
 import styled from "styled-components"
+import Link from "@material-ui/core/Link"
 
 import { BasicCard } from "@components/atoms/Card"
 
@@ -60,13 +61,14 @@ const HighRiskPage = ({ data, pageContext }) => {
     <Layout>
       <SEO title="HighRiskPage" />
       <Typography variant="h4">{t("high_risk.title")}</Typography>
-      <a
-        target="_blank"
-        rel="noopener noreferrer"
-        href="https://www.chp.gov.hk/files/pdf/building_list_chi.pdf"
-      >
-        {t("high_risk.source")}
-      </a>
+      <Typography variant="body2">
+        <Link
+          href="https://www.chp.gov.hk/files/pdf/building_list_chi.pdf"
+          target="_blank"
+        >
+          {t("high_risk.source")}
+        </Link>
+      </Typography>
       {sortedHighRisk.map((node, index) => (
         <BasicCard alignItems="flex-start" key={index} children={item(node)} />
       ))}
