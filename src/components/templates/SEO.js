@@ -23,6 +23,9 @@ const SEO = ({ meta }) => {
     graphql`
       query {
         configJson {
+          siteMetaData {
+            url
+          }
           languages
           pages {
             title
@@ -35,6 +38,7 @@ const SEO = ({ meta }) => {
   )
 
   const currentPage = configJson.pages.find(p => p.to === path) || {}
+  const image = `${configJson.siteMetaData.url}/images/og_share.png`
   const metaDescription = t("site.description")
 
   return (
@@ -48,6 +52,10 @@ const SEO = ({ meta }) => {
         {
           name: `description`,
           content: metaDescription,
+        },
+        {
+          name: "image",
+          content: image,
         },
         {
           property: `og:title`,
