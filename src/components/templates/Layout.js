@@ -16,7 +16,7 @@ import { bps } from "@/ui/theme"
 const pages = [
   {
     title: "黑店名單",
-    to: "/",
+    to: "/shops",
     icon: "add_shopping_cart",
   },
   {
