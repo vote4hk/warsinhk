@@ -5,6 +5,7 @@ import TimelapseIcon from "@material-ui/icons/Timelapse"
 import InfoRoundedIcon from "@material-ui/icons/InfoRounded"
 import MenuIcon from "@material-ui/icons/Menu"
 import EditRoundedIcon from "@material-ui/icons/EditRounded"
+import HomeRoundedIcon from "@material-ui/icons/HomeRounded"
 
 export function mapIcon(name) {
   switch (name) {
@@ -20,6 +21,8 @@ export function mapIcon(name) {
       return <MenuIcon />
     case "edit":
       return <EditRoundedIcon />
+    case "home":
+      return <HomeRoundedIcon />
     default:
       return null
   }
