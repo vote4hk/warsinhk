@@ -7,3 +7,7 @@ export const withLanguage = (i18n, object, path) => {
     ""
   )
 }
+
+export const getLocalizedPath = (i18n, path) => {
+  return i18n.language === "en" ? `/en${path}` : path
+}

@@ -6,6 +6,8 @@ import Hidden from "@material-ui/core/Hidden"
 import styled from "styled-components"
 import { UnstyledLink } from "@components/atoms/UnstyledLink"
 import ContextStore from "@/contextStore"
+import { getLocalizedPath } from "@/utils/i18n"
+import { useTranslation } from "react-i18next"
 
 const StyledBottomNavigation = styled(BottomNavigation)`
   width: 100%;
@@ -31,6 +33,7 @@ export default function SimpleBottomNavigation(props) {
   } = React.useContext(ContextStore)
 
   const pageIndex = tabs.findIndex(o => o.to === path)
+  const { t, i18n } = useTranslation()
 
   return (
     <Hidden smUp implementation="css">
@@ -41,11 +44,11 @@ export default function SimpleBottomNavigation(props) {
         */}
         {tabs.map((tab, index) => (
           <BottomNavigationAction
-            label={tab.title}
+            label={t(tab.title)}
             key={index}
             component={UnstyledLink}
             icon={mapIcon(tab.icon)}
-            to={tab.to}
+            to={getLocalizedPath(i18n, tab.to)}
             replace
           />
         ))}

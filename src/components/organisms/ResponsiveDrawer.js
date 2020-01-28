@@ -19,6 +19,7 @@ import ShareButton from "@/components/organisms/ShareButton"
 import styled from "styled-components"
 import Link from "@material-ui/core/Link"
 import { UnstyledLink } from "@components/atoms/UnstyledLink"
+import { getLocalizedPath } from "@/utils/i18n"
 
 const drawerWidth = 240
 
@@ -70,7 +71,7 @@ function ResponsiveDrawer(props) {
   const classes = useStyles()
   const theme = useTheme()
   const [mobileOpen, setMobileOpen] = React.useState(false)
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen)
@@ -80,19 +81,19 @@ function ResponsiveDrawer(props) {
     return (
       <div>
         <div className={classes.toolbar} />
-        <UnstyledLink to={"/"}>
+        <UnstyledLink to={getLocalizedPath(i18n, "/")}>
           <ListItem>
             <ListItemIcon>{mapIcon("home")}</ListItemIcon>
-            <ListItemText primary={"首頁"} />
+            <ListItemText primary={t("text.homepage")} />
           </ListItem>
         </UnstyledLink>
         <Divider />
         <List>
           {pages.map((page, index) => (
-            <UnstyledLink to={page.to} key={index}>
+            <UnstyledLink to={getLocalizedPath(i18n, page.to)} key={index}>
               <ListItem>
                 <ListItemIcon>{mapIcon(page.icon)}</ListItemIcon>
-                <ListItemText primary={page.title} />
+                <ListItemText primary={t(page.title)} />
               </ListItem>
             </UnstyledLink>
           ))}
@@ -101,7 +102,7 @@ function ResponsiveDrawer(props) {
         <Link target="_blank" href="https://forms.gle/1M96G6xHH2tku4mJ8">
           <ListItem>
             <ListItemIcon>{mapIcon("contact_support")}</ListItemIcon>
-            <ListItemText primary={"俾意見／幫手"} />
+            <ListItemText primary={t("text.help_us")} />
           </ListItem>
         </Link>
         <SupportUsButton
@@ -110,7 +111,7 @@ function ResponsiveDrawer(props) {
         >
           <ListItem>
             <ListItemIcon>{mapIcon("thumb_up")}</ListItemIcon>
-            <ListItemText primary={"支持我們"} />
+            <ListItemText primary={t("text.support_us")} />
           </ListItem>
         </SupportUsButton>
       </div>

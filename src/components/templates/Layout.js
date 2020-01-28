@@ -11,30 +11,8 @@ import Box from "@material-ui/core/Box"
 import ResponsiveDrawer from "@components/organisms/ResponsiveDrawer"
 import BottomNav from "@components/organisms/BottomNav"
 import styled from "styled-components"
+import { useStaticQuery, graphql } from "gatsby"
 import { bps } from "@/ui/theme"
-
-const pages = [
-  {
-    title: "黑店名單",
-    to: "/shops",
-    icon: "add_shopping_cart",
-  },
-  {
-    title: "高危地區",
-    to: "/high-risk",
-    icon: "warning",
-  },
-  {
-    title: "急症等候",
-    to: "/ae-waiting-time",
-    icon: "timelapse",
-  },
-  {
-    title: "自保貼士",
-    to: "/hygiene-tips",
-    icon: "info",
-  },
-]
 
 const Container = styled(Box)`
   background: ${props => props.theme.palette.background.default};
@@ -51,14 +29,28 @@ const StyledResponsiveDrawer = styled(ResponsiveDrawer)`
 
 const Layout = props => {
   const { children } = props
+  const { configJson } = useStaticQuery(
+    graphql`
+      query {
+        configJson {
+          pages {
+            title
+            to
+            icon
+            sideMenu
+          }
+        }
+      }
+    `
+  )
   return (
     <>
       <StyledResponsiveDrawer
-        pages={pages}
+        pages={configJson.pages.filter(p => p.sideMenu)}
         children={<Container>{children}</Container>}
       />
       <footer>
-        <BottomNav tabs={pages} />
+        <BottomNav tabs={configJson.pages.filter(p => p.sideMenu)} />
       </footer>
     </>
   )

@@ -9,5 +9,10 @@
   "high_risk.source": "資料來源：衞生防護中心",
   "hygiene_tips.title": "自保貼士",
   "waiting_time.title": "急症等候",
-  "waiting_time.source_datagovhk": "資料來源：醫管局"
+  "waiting_time.source_datagovhk": "資料來源：醫管局",
+  "index.title": "疫情追蹤",
+  "dodgy_shops.title": "黑店名單",
+  "text.homepage": "首頁",
+  "text.help_us": "俾意見／幫手",
+  "text.support_us": "支持我們"
 }

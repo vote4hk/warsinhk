@@ -2,30 +2,34 @@
   "languages": ["zh", "en"],
   "pages": [
     {
-      "title": "疫情追蹤",
+      "title": "index.title",
       "to": "/",
       "icon": "",
-      "index": true
+      "sideMenu": false
     },
     {
-      "title": "黑店名單",
+      "title": "dodgy_shops.title",
       "to": "/shops",
-      "icon": "add_shopping_cart"
+      "icon": "add_shopping_cart",
+      "sideMenu": true
     },
     {
-      "title": "高危地區",
+      "title": "high_risk.title",
       "to": "/high-risk",
-      "icon": "warning"
+      "icon": "warning",
+      "sideMenu": true
     },
     {
-      "title": "急症等候",
+      "title": "waiting_time.title",
       "to": "/ae-waiting-time",
-      "icon": "timelapse"
+      "icon": "timelapse",
+      "sideMenu": true
     },
     {
-      "title": "自保貼士",
+      "title": "hygiene_tips.title",
       "to": "/hygiene-tips",
-      "icon": "info"
+      "icon": "info",
+      "sideMenu": true
     }
   ]
 }
