@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useState } from "react"
 import SEO from "@/components/templates/SEO"
 import Layout from "@components/templates/Layout"
 import Box from "@material-ui/core/Box"
@@ -9,6 +9,9 @@ import Typography from "@material-ui/core/Typography"
 import { graphql } from "gatsby"
 import { BasicCard } from "@components/atoms/Card"
 import { BasicFab } from "@components/atoms/Fab"
+import { TextField, InputAdornment } from "@material-ui/core/"
+import SearchIcon from "@material-ui/icons/Search"
+
 import { withLanguage } from "../utils/i18n"
 import { bps } from "../ui/theme"
 const FabContainer = styled(Box)`
@@ -23,6 +26,17 @@ const FabContainer = styled(Box)`
     }
   }
 `
+
+const SearchBox = styled(TextField)`
+  && {
+    ${bps.down("md")} {
+      margin-top: 8px;
+      margin-bottom: 8px;
+      width: 100%;
+    }
+  }
+`
+
 function item(props, i18n) {
   const { node } = props
   return (
@@ -49,9 +63,18 @@ function item(props, i18n) {
   )
 }
 
+function containsText(i18n, node, text) {
+  return (
+    withLanguage(i18n, node, "district").indexOf(text) >= 0 ||
+    withLanguage(i18n, node, "name").indexOf(text) >= 0 ||
+    withLanguage(i18n, node, "address").indexOf(text) >= 0
+  )
+}
+
 const ShopsPage = props => {
   const { data } = props
   const { i18n, t } = useTranslation()
+  const [filter, setFilter] = useState("")
   return (
     <>
       <SEO title="Home" />
@@ -71,13 +94,31 @@ const ShopsPage = props => {
             {t("dodgy_shops.source_from")}
           </a>
         </Typography>
-        {data.allDodgyShop.edges.map((node, index) => (
-          <BasicCard
-            alignItems="flex-start"
-            key={index}
-            children={item(node, i18n)}
+        <>
+          <SearchBox
+            id="input-with-icon-textfield"
+            placeholder={t("dodgy_shops.filter_text")}
+            onChange={e => {
+              setFilter(e.target.value)
+            }}
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <SearchIcon />
+                </InputAdornment>
+              ),
+            }}
           />
-        ))}
+        </>
+        {data.allDodgyShop.edges
+          .filter(e => filter === "" || containsText(i18n, e.node, filter))
+          .map((node, index) => (
+            <BasicCard
+              alignItems="flex-start"
+              key={index}
+              children={item(node, i18n)}
+            />
+          ))}
       </Layout>
     </>
   )
