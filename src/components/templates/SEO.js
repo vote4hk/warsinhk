@@ -24,7 +24,7 @@ const SEO = ({ meta }) => {
       query {
         configJson {
           siteMetaData {
-            title
+            url
           }
           languages
           pages {
@@ -38,6 +38,7 @@ const SEO = ({ meta }) => {
   )
 
   const currentPage = configJson.pages.find(p => p.to === path) || {}
+  const image = `${configJson.siteMetaData.url}/images/og_share.png`
   const metaDescription = t("site.description")
 
   return (
@@ -51,6 +52,10 @@ const SEO = ({ meta }) => {
         {
           name: `description`,
           content: metaDescription,
+        },
+        {
+          name: "image",
+          content: image,
         },
         {
           property: `og:title`,

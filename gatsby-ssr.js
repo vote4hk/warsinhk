@@ -21,8 +21,8 @@ const Router = ({ path }) => {
   actualPath = actualPath.replace(`/en/`, "/")
 
   useEffect(() => {
-    dispatch({ type: ROUTE_CHANGE, path: actualPath })
-  }, [actualPath, dispatch])
+    dispatch({ type: ROUTE_CHANGE, path: actualPath, fullPath: path })
+  }, [actualPath, path, dispatch])
   return null
 }
 
