@@ -11,6 +11,7 @@ import { BasicCard } from "@components/atoms/Card"
 import { BasicFab } from "@components/atoms/Fab"
 import { TextField, InputAdornment } from "@material-ui/core/"
 import SearchIcon from "@material-ui/icons/Search"
+import { trackCustomEvent } from "gatsby-plugin-google-analytics"
 
 import { withLanguage } from "../utils/i18n"
 import { bps } from "../ui/theme"
@@ -98,6 +99,11 @@ const ShopsPage = props => {
             id="input-with-icon-textfield"
             placeholder={t("dodgy_shops.filter_text")}
             onChange={e => {
+              trackCustomEvent({
+                category: "dodgy_shop",
+                action: "filter_input",
+                label: e.target.value,
+              })
               setFilter(e.target.value)
             }}
             InputProps={{

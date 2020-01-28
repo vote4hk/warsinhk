@@ -8,6 +8,7 @@ import Button from "@material-ui/core/Button"
 import Typography from "@material-ui/core/Typography"
 import Link from "@material-ui/core/Link"
 import styled from "styled-components"
+import { trackCustomEvent } from "gatsby-plugin-google-analytics"
 
 const StyledMediaCard = styled(Card)`
   width: 100%;
@@ -23,7 +24,17 @@ export function MediaCard(props) {
   return (
     <StyledMediaCard>
       <CardActionArea>
-        <Link href={sourceUrl} target="_blank">
+        <Link
+          href={sourceUrl}
+          onClick={() => {
+            trackCustomEvent({
+              category: "hygiene_tips",
+              action: "click",
+              label: sourceUrl,
+            })
+          }}
+          target="_blank"
+        >
           <StyledCardMedia image={imageUrl} title="Contemplative Reptile" />
         </Link>
         <CardContent>
@@ -38,7 +49,18 @@ export function MediaCard(props) {
         </CardContent>
       </CardActionArea>
       <CardActions>
-        <Button size="small" color="primary" href={sourceUrl}>
+        <Button
+          size="small"
+          color="primary"
+          href={sourceUrl}
+          onClick={() => {
+            trackCustomEvent({
+              category: "hygiene_tips",
+              action: "click_source",
+              label: sourceUrl,
+            })
+          }}
+        >
           {`資料來源：${sourceDescription}`}
         </Button>
       </CardActions>
