@@ -10,7 +10,7 @@ import { graphql } from "gatsby"
 import { BasicCard } from "@components/atoms/Card"
 import { BasicFab } from "@components/atoms/Fab"
 import { withLanguage } from "../utils/i18n"
-
+import { bps } from "../ui/theme"
 const FabContainer = styled(Box)`
   && {
     bottom: 84px;
@@ -18,7 +18,7 @@ const FabContainer = styled(Box)`
     position: fixed;
     z-index: 1200;
 
-    @media screen and (min-width: 600px) {
+    ${bps.up("md")} {
       bottom: 16px;
     }
   }
