@@ -4,24 +4,13 @@ import MenuIcon from "@material-ui/icons/Menu"
 import { UnstyledLink } from "@/components/atoms/UnstyledLink"
 import ContextStore from "@/contextStore"
 import { DRAWER_OPEN } from "@/reducers/drawer"
-import { useStaticQuery, graphql } from "gatsby"
+import { useTranslation } from "react-i18next"
 
 function MobileAppBar(props) {
   const {
     drawer: { dispatch },
   } = React.useContext(ContextStore)
-
-  const data = useStaticQuery(
-    graphql`
-      query {
-        site {
-          siteMetadata {
-            title
-          }
-        }
-      }
-    `
-  )
+  const { t } = useTranslation()
 
   return (
     <>
@@ -39,8 +28,8 @@ function MobileAppBar(props) {
           </IconButton>
           <UnstyledLink to={"/"}>
             <Typography variant="h1" align="center">
-              <span role="img" aria-label={data.site.siteMetadata.title}>
-                {data.site.siteMetadata.title}
+              <span role="img" aria-label={t("site.title")}>
+                {t("site.title")}
               </span>
             </Typography>
           </UnstyledLink>

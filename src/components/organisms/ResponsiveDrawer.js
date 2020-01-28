@@ -14,8 +14,8 @@ import { mapIcon } from "@components/icons"
 import Toolbar from "@material-ui/core/Toolbar"
 import Typography from "@material-ui/core/Typography"
 import { makeStyles, useTheme } from "@material-ui/core/styles"
-import { useStaticQuery, graphql } from "gatsby"
 import { UnstyledLink } from "@components/atoms/UnstyledLink"
+import { useTranslation } from "react-i18next"
 
 const drawerWidth = 240
 
@@ -56,22 +56,11 @@ function ResponsiveDrawer(props) {
   const classes = useStyles()
   const theme = useTheme()
   const [mobileOpen, setMobileOpen] = React.useState(false)
+  const { t } = useTranslation()
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen)
   }
-
-  const data = useStaticQuery(
-    graphql`
-      query {
-        site {
-          siteMetadata {
-            title
-          }
-        }
-      }
-    `
-  )
 
   const drawer = pages => {
     return (
@@ -108,7 +97,7 @@ function ResponsiveDrawer(props) {
             {mapIcon("menu")}
           </IconButton>
           <Typography variant="h1" noWrap>
-            {data.site.siteMetadata.title}
+            {t("site.title")}
           </Typography>
         </Toolbar>
       </AppBar>

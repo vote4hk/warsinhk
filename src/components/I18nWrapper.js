@@ -10,19 +10,6 @@ const App = props => {
     i18n.changeLanguage(locale)
   }, [i18n, locale])
 
-  console.log(`
-  --------------------------------------
-  Fight for freedom, Stand from MO HONG!
-  --------------------------------------
-
-  We are waiting for your commit :)
-  
-  GitHub Repo:
-  https://github.com/nandiheath/warsinhk
-
-  Telegram:
-  https://t.me/joinchat/BwXunhP9xMWBmopAFrvD8A
-  `)
   return <>{children}</>
 }
 

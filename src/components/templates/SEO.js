@@ -6,34 +6,47 @@
  */
 
 import React from "react"
-import PropTypes from "prop-types"
 import Helmet from "react-helmet"
 import { useStaticQuery, graphql } from "gatsby"
+import ContextStore from "@/contextStore"
+import { useTranslation } from "react-i18next"
 
-function SEO({ description, lang, meta, title }) {
-  const { site } = useStaticQuery(
+const SEO = ({ meta }) => {
+  const { t, i18n } = useTranslation()
+
+  const {
+    route: {
+      state: { path },
+    },
+  } = React.useContext(ContextStore)
+  const { configJson } = useStaticQuery(
     graphql`
       query {
-        site {
-          siteMetadata {
+        configJson {
+          siteMetaData {
             title
-            description
-            author
+          }
+          languages
+          pages {
+            title
+            to
+            icon
           }
         }
       }
     `
   )
 
-  const metaDescription = description || site.siteMetadata.description
+  const currentPage = configJson.pages.find(p => p.to === path) || {}
+  const metaDescription = t("site.description")
 
   return (
     <Helmet
       htmlAttributes={{
-        lang,
+        lang: i18n.language,
       }}
-      title={title}
-      titleTemplate={`%s | ${site.siteMetadata.title}`}
+      title={t(currentPage.title)}
+      titleTemplate={`%s | ${t("site.description")}`}
       meta={[
         {
           name: `description`,
@@ -41,7 +54,7 @@ function SEO({ description, lang, meta, title }) {
         },
         {
           property: `og:title`,
-          content: title,
+          content: t("site.description"),
         },
         {
           property: `og:description`,
@@ -56,33 +69,16 @@ function SEO({ description, lang, meta, title }) {
           content: `summary`,
         },
         {
-          name: `twitter:creator`,
-          content: site.siteMetadata.author,
-        },
-        {
           name: `twitter:title`,
-          content: title,
+          content: t("site.description"),
         },
         {
           name: `twitter:description`,
           content: metaDescription,
         },
-      ].concat(meta)}
+      ].concat(meta || [])}
     />
   )
-}
-
-SEO.defaultProps = {
-  lang: `en`,
-  meta: [],
-  description: ``,
-}
-
-SEO.propTypes = {
-  description: PropTypes.string,
-  lang: PropTypes.string,
-  meta: PropTypes.arrayOf(PropTypes.object),
-  title: PropTypes.string.isRequired,
 }
 
 export default SEO

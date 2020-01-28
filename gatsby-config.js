@@ -3,11 +3,6 @@ require("dotenv").config()
 const GOOGLE_TRACKING_ID = process.env.GOOGLE_TRACKING_ID || "UA-111111111-1"
 
 module.exports = {
-  siteMetadata: {
-    title: `🤒武漢肺炎民間資訊😷`,
-    description: `Fight for freedom, stand from MO HONG`,
-    author: `@gatsbyjs`,
-  },
   plugins: [
     {
       resolve: `gatsby-plugin-google-analytics`,

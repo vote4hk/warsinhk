@@ -1,0 +1,30 @@
+{
+  "siteMetaData": {
+    "name": "template",
+    "title": "🇨🇳🤧🤮🌬️🇭🇰🤒😷",
+    "description": "Fight for freedom, stand from MO HONG"
+  },
+  "languages": ["zh", "en"],
+  "pages": [
+    {
+      "title": "黑店名單",
+      "to": "/",
+      "icon": "add_shopping_cart"
+    },
+    {
+      "title": "高危地區",
+      "to": "/high-risk",
+      "icon": "warning"
+    },
+    {
+      "title": "急症等候",
+      "to": "/ae-waiting-time",
+      "icon": "timelapse"
+    },
+    {
+      "title": "自保貼士",
+      "to": "/hygiene-tips",
+      "icon": "info"
+    }
+  ]
+}
