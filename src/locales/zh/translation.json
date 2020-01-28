@@ -2,8 +2,9 @@
   "site.title": "🤒武漢肺炎民間資訊😷",
   "site.description": "🤒武漢肺炎民間資訊😷",
   "dodgy_shops.list_text": "炒賣口罩藥房名單",
-  "dodgy_shops.source_from": "以此資料來源為準",
+  "dodgy_shops.source_from": "資料來源：炒賣口罩藥房名單",
   "high_risk.title": "高危地區",
+  "high_risk.source": "資料來源：衞生防護中心",
   "hygiene_tips.title": "自保貼士",
   "waiting_time.title": "急症等候",
   "waiting_time.source_datagovhk": "來源:資料一線通"
