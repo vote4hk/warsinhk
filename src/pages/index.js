@@ -17,6 +17,10 @@ const FabContainer = styled(Box)`
     right: 16px;
     position: fixed;
     z-index: 1200;
+
+    @media screen and (min-width: 600px) {
+      bottom: 16px;
+    }
   }
 `
 function item(props, i18n) {
