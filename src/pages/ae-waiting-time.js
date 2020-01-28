@@ -6,27 +6,30 @@ import Typography from "@material-ui/core/Typography"
 import { graphql } from "gatsby"
 import Box from "@material-ui/core/Box"
 import { BasicCard } from "@components/atoms/Card"
+import styled from "styled-components"
+
+const AECard = styled(Box)`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`
 
 function item(props) {
   const { node } = props
   return (
-    <>
+    <AECard>
       <Box>
-        <Typography component="span" variant="body2" color="textPrimary">
-          {node.districtZH}
+        <Typography variant="body2" color="textPrimary">
+          {node.district_zh}
         </Typography>
-      </Box>
-      <Box>
-        <Typography component="span" variant="h6" color="textPrimary">
+        <Typography variant="body2" color="textPrimary">
           {node.hospName}
         </Typography>
       </Box>
-      <Box>
-        <Typography component="span" variant="body2" color="textPrimary">
-          {node.topWait}
-        </Typography>
-      </Box>
-    </>
+      <Typography variant="h6" color="textPrimary">
+        {node.topWait}
+      </Typography>
+    </AECard>
   )
 }
 
@@ -56,7 +59,7 @@ export const AEWaitingTimeQuery = graphql`
         node {
           hospName
           topWait
-          districtZH
+          district_zh
         }
       }
     }
