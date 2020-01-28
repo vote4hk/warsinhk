@@ -18,6 +18,7 @@ import { useTranslation } from "react-i18next"
 import ShareButton from "@/components/organisms/ShareButton"
 import styled from "styled-components"
 import Link from "@material-ui/core/Link"
+import { UnstyledLink } from "@components/atoms/UnstyledLink"
 
 const drawerWidth = 240
 
@@ -79,21 +80,21 @@ function ResponsiveDrawer(props) {
     return (
       <div>
         <div className={classes.toolbar} />
-        <Link to={"/"}>
+        <UnstyledLink to={"/"}>
           <ListItem>
             <ListItemIcon>{mapIcon("home")}</ListItemIcon>
             <ListItemText primary={"首頁"} />
           </ListItem>
-        </Link>
+        </UnstyledLink>
         <Divider />
         <List>
           {pages.map((page, index) => (
-            <Link to={page.to} key={index}>
+            <UnstyledLink to={page.to} key={index}>
               <ListItem>
                 <ListItemIcon>{mapIcon(page.icon)}</ListItemIcon>
                 <ListItemText primary={page.title} />
               </ListItem>
-            </Link>
+            </UnstyledLink>
           ))}
         </List>
         <Divider />
