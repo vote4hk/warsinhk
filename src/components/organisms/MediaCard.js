@@ -6,6 +6,7 @@ import CardContent from "@material-ui/core/CardContent"
 import CardMedia from "@material-ui/core/CardMedia"
 import Button from "@material-ui/core/Button"
 import Typography from "@material-ui/core/Typography"
+import Link from "@material-ui/core/Link"
 import styled from "styled-components"
 
 const StyledMediaCard = styled(Card)`
@@ -22,7 +23,9 @@ export function MediaCard(props) {
   return (
     <StyledMediaCard>
       <CardActionArea>
-        <StyledCardMedia image={imageUrl} title="Contemplative Reptile" />
+        <Link href={sourceUrl} target="_blank">
+          <StyledCardMedia image={imageUrl} title="Contemplative Reptile" />
+        </Link>
         <CardContent>
           <Typography gutterBottom variant="h5" component="h2">
             {title}
