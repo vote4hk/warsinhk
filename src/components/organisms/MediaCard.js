@@ -39,7 +39,7 @@ export function MediaCard(props) {
       </CardActionArea>
       <CardActions>
         <Button size="small" color="primary" href={sourceUrl}>
-          {`資料來源: ${sourceDescription}`}
+          {`資料來源：${sourceDescription}`}
         </Button>
       </CardActions>
     </StyledMediaCard>
