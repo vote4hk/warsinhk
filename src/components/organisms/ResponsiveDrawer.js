@@ -66,6 +66,12 @@ function ResponsiveDrawer(props) {
     return (
       <div>
         <div className={classes.toolbar} />
+        <UnstyledLink to={"/"}>
+          <ListItem>
+            <ListItemIcon>{mapIcon("home")}</ListItemIcon>
+            <ListItemText primary={"首頁"} />
+          </ListItem>
+        </UnstyledLink>
         <Divider />
         <List>
           {pages.map((page, index) => (
