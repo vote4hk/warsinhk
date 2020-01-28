@@ -64,7 +64,7 @@ const SEO = ({ meta }) => {
         },
         {
           property: `og:title`,
-          content: t("site.description"),
+          content: `${t(currentPage.title)} | ${t("site.title")}`,
         },
         {
           property: `og:description`,
@@ -88,7 +88,7 @@ const SEO = ({ meta }) => {
         },
         {
           name: `twitter:title`,
-          content: t("site.description"),
+          content: `${t(currentPage.title)} | ${t("site.title")}`,
         },
         {
           name: `twitter:description`,
