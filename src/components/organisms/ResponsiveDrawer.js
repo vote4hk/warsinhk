@@ -16,6 +16,7 @@ import Typography from "@material-ui/core/Typography"
 import { makeStyles, useTheme } from "@material-ui/core/styles"
 import { UnstyledLink } from "@components/atoms/UnstyledLink"
 import { useTranslation } from "react-i18next"
+import ShareButton from "@/components/organisms/ShareButton"
 import styled from "styled-components"
 
 const drawerWidth = 240
@@ -52,6 +53,11 @@ const useStyles = makeStyles(theme => ({
   },
 }))
 
+const AppTitle = styled(Typography)`
+  && {
+    flex-grow: 1;
+    text-align: center;
+  }
 const SupportUsButton = styled.a`
   position: absolute;
   bottom: 0;
@@ -108,7 +114,7 @@ function ResponsiveDrawer(props) {
     <div className={`${classes.root} ${className}`}>
       <CssBaseline />
       <AppBar position="fixed" className={classes.appBar}>
-        <Toolbar>
+        <Toolbar className={classes.appToolBar}>
           <IconButton
             color="inherit"
             aria-label="open drawer"
@@ -118,9 +124,10 @@ function ResponsiveDrawer(props) {
           >
             {mapIcon("menu")}
           </IconButton>
-          <Typography variant="h1" noWrap>
+          <AppTitle variant="h3" noWrap>
             {t("site.title")}
-          </Typography>
+          </AppTitle>
+          <ShareButton />
         </Toolbar>
       </AppBar>
       <nav className={classes.drawer} aria-label="mailbox folders">

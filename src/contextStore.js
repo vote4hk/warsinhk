@@ -8,6 +8,7 @@ export const drawerInitialState = {
 
 export const routeInitialState = {
   path: "/",
+  fullPath: "/",
 }
 
 const ContextStore = React.createContext({

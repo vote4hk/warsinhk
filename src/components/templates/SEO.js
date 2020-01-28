@@ -23,9 +23,6 @@ const SEO = ({ meta }) => {
     graphql`
       query {
         configJson {
-          siteMetaData {
-            title
-          }
           languages
           pages {
             title
