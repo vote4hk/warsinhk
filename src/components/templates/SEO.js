@@ -19,13 +19,15 @@ const SEO = ({ meta }) => {
       state: { path },
     },
   } = React.useContext(ContextStore)
-  const { configJson } = useStaticQuery(
+  const { site, configJson } = useStaticQuery(
     graphql`
       query {
-        configJson {
-          siteMetaData {
-            url
+        site {
+          siteMetadata {
+            siteUrl
           }
+        }
+        configJson {
           languages
           pages {
             title
@@ -38,8 +40,7 @@ const SEO = ({ meta }) => {
   )
 
   const currentPage = configJson.pages.find(p => p.to === path) || {}
-  const image = `${configJson.siteMetaData.url}/images/og_share.png`
-  const metaDescription = t("site.description")
+  const image = `${site.siteMetadata.siteUrl}/images/og_share.png`
 
   return (
     <Helmet
@@ -47,11 +48,15 @@ const SEO = ({ meta }) => {
         lang: i18n.language,
       }}
       title={t(currentPage.title)}
-      titleTemplate={`%s | ${t("site.description")}`}
+      titleTemplate={`%s | ${t("site.title")}`}
       meta={[
         {
           name: `description`,
-          content: metaDescription,
+          content: t("site.description"),
+        },
+        {
+          name: `keywords`,
+          content: t("site.keywords"),
         },
         {
           name: "image",
@@ -63,11 +68,19 @@ const SEO = ({ meta }) => {
         },
         {
           property: `og:description`,
-          content: metaDescription,
+          content: t("site.description"),
         },
         {
           property: `og:type`,
           content: `website`,
+        },
+        {
+          property: `og:url`,
+          content: site.siteMetadata.siteUrl,
+        },
+        {
+          property: `og:image`,
+          content: image,
         },
         {
           name: `twitter:card`,
@@ -79,7 +92,7 @@ const SEO = ({ meta }) => {
         },
         {
           name: `twitter:description`,
-          content: metaDescription,
+          content: t("site.description"),
         },
       ].concat(meta || [])}
     />

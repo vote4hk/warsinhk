@@ -62,12 +62,12 @@ function updateUrlParameter(uri, key, value) {
 
 function ShareButton(props) {
   const [anchorEl, setAnchorEl] = React.useState(null)
-  const { configJson } = useStaticQuery(
+  const { site } = useStaticQuery(
     graphql`
       query {
-        configJson {
-          siteMetaData {
-            url
+        site {
+          siteMetadata {
+            siteUrl
           }
         }
       }
@@ -92,8 +92,8 @@ function ShareButton(props) {
       state: { fullPath },
     },
   } = React.useContext(ContextStore)
-  const url = `${configJson.siteMetaData.url}${fullPath}`
 
+  const url = `${site.siteMetadata.siteUrl}${fullPath}`
   return (
     <>
       <IconButton

@@ -3,6 +3,10 @@ require("dotenv").config()
 const GOOGLE_TRACKING_ID = process.env.GOOGLE_TRACKING_ID || "UA-111111111-1"
 
 module.exports = {
+  // must be here for sitemap plugin lol
+  siteMetadata: {
+    siteUrl: `https://wars.vote4.hk`,
+  },
   plugins: [
     {
       resolve: `gatsby-plugin-google-analytics`,
@@ -13,6 +17,8 @@ module.exports = {
         head: true,
       },
     },
+    `gatsby-plugin-sitemap`,
+    `gatsby-plugin-robots-txt`,
     {
       resolve: `gatsby-plugin-material-ui`,
       options: {
