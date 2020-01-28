@@ -14,11 +14,16 @@ function item(props) {
     <>
       <Box>
         <Typography component="span" variant="body2" color="textPrimary">
-          {node.hospName}
+          {node.districtZH}
         </Typography>
       </Box>
       <Box>
         <Typography component="span" variant="h6" color="textPrimary">
+          {node.hospName}
+        </Typography>
+      </Box>
+      <Box>
+        <Typography component="span" variant="body" color="textPrimary">
           {node.topWait}
         </Typography>
       </Box>
@@ -52,6 +57,7 @@ export const AEWaitingTimeQuery = graphql`
         node {
           hospName
           topWait
+          districtZH
         }
       }
     }

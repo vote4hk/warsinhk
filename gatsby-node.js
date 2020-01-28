@@ -5,7 +5,7 @@
  */
 const fetch = require("node-fetch")
 const csv2json = require("csvtojson")
-
+const ae = require('./ae')
 const GOOGLE_SPREADSHEET_ID = "14kreo2vRo1XCUXqFLcMApVtYmvkEzWBDm6b8fzJNKEc"
 const SHEET_DODGY_SHOPS = "dodgy_shops"
 const SHEET_HIGH_RISK_MASTER = "highrisk_master"
@@ -26,9 +26,7 @@ const createAENode = async (
   { actions: { createNode }, createNodeId, createContentDigest },
 ) => {
   const type = "AEWaitingTime"
-  const aerequest = await fetch("http://www.ha.org.hk/opendata/aed/aedwtdata-tc.json")
-  const response = await aerequest.json();
-  const records = response.waitTime;
+  const records = await ae.fetchAEWaitingTime();
   records.forEach((p, i) => {
     const meta = {
       id: createNodeId(`${type.toLowerCase()}-${i}`),
