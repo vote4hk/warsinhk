@@ -48,14 +48,11 @@ const useStyles = makeStyles(theme => ({
   content: {
     flexGrow: 1,
     padding: theme.spacing(3),
-    [theme.breakpoints.down("xs")]: {
-      paddingBottom: theme.spacing(10),
-    },
   },
 }))
 
 function ResponsiveDrawer(props) {
-  const { container, pages, children } = props
+  const { container, pages, children, className } = props
   const classes = useStyles()
   const theme = useTheme()
   const [mobileOpen, setMobileOpen] = React.useState(false)
@@ -86,7 +83,7 @@ function ResponsiveDrawer(props) {
   }
 
   return (
-    <div className={classes.root}>
+    <div className={`${classes.root} ${className}`}>
       <CssBaseline />
       <AppBar position="fixed" className={classes.appBar}>
         <Toolbar>

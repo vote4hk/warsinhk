@@ -32,17 +32,9 @@ export default function SimpleBottomNavigation(props) {
 
   const pageIndex = tabs.findIndex(o => o.to === path)
 
-  const [value, setValue] = React.useState(pageIndex)
-
   return (
     <Hidden smUp implementation="css">
-      <StyledBottomNavigation
-        value={value}
-        onChange={(event, newValue) => {
-          setValue(newValue)
-        }}
-        showLabels
-      >
+      <StyledBottomNavigation value={pageIndex} showLabels>
         {/* FIXME: the icon is not updated after navigating to other page */}
         {/* 
             wingkwong: Cannot use <UnstyledLink> to wrap <BottomNavigationAction> because it has to be a direct child of BottomNavigation
@@ -54,6 +46,7 @@ export default function SimpleBottomNavigation(props) {
             component={UnstyledLink}
             icon={mapIcon(tab.icon)}
             to={tab.to}
+            replace
           />
         ))}
       </StyledBottomNavigation>

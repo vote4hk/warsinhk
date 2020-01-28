@@ -11,6 +11,7 @@ import Box from "@material-ui/core/Box"
 import ResponsiveDrawer from "@components/organisms/ResponsiveDrawer"
 import BottomNav from "@components/organisms/BottomNav"
 import styled from "styled-components"
+import { bps } from "@/ui/theme"
 
 const pages = [
   {
@@ -39,15 +40,23 @@ const Container = styled(Box)`
   background: ${props => props.theme.palette.background.default};
 `
 
+const StyledResponsiveDrawer = styled(ResponsiveDrawer)`
+  && {
+    /* bottom nav bar height */
+    ${bps.down("md")} {
+      padding-bottom: 56px;
+    }
+  }
+`
+
 const Layout = props => {
   const { children } = props
   return (
     <>
-      <ResponsiveDrawer
+      <StyledResponsiveDrawer
         pages={pages}
         children={<Container>{children}</Container>}
       />
-      {/* <main>{children}</main> */}
       <footer>
         <BottomNav tabs={pages} />
       </footer>

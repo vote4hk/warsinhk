@@ -7,7 +7,6 @@ import { graphql } from "gatsby"
 import Box from "@material-ui/core/Box"
 import { BasicCard } from "@components/atoms/Card"
 
-
 function item(props) {
   const { node } = props
   return (
@@ -23,7 +22,7 @@ function item(props) {
         </Typography>
       </Box>
       <Box>
-        <Typography component="span" variant="body" color="textPrimary">
+        <Typography component="span" variant="body2" color="textPrimary">
           {node.topWait}
         </Typography>
       </Box>
@@ -32,8 +31,8 @@ function item(props) {
 }
 
 const AEWaitingTimePage = props => {
-  const { data } = props;
-  const { t } = useTranslation();
+  const { data } = props
+  const { t } = useTranslation()
   return (
     <Layout>
       <SEO title="AEWaitingTimePage" />
@@ -46,7 +45,7 @@ const AEWaitingTimePage = props => {
       ))}
     </Layout>
   )
-};
+}
 
 export default AEWaitingTimePage
 
