@@ -5,6 +5,7 @@ import Layout from "@components/templates/Layout"
 import Typography from "@material-ui/core/Typography"
 import { graphql } from "gatsby"
 import Box from "@material-ui/core/Box"
+import Link from "@material-ui/core/Link"
 import { BasicCard } from "@components/atoms/Card"
 import styled from "styled-components"
 
@@ -40,9 +41,14 @@ const AEWaitingTimePage = props => {
     <Layout>
       <SEO title="AEWaitingTimePage" />
       <Typography variant="h4">{t("waiting_time.title")}</Typography>
-      <a href="https://data.gov.hk/tc-data/dataset/hospital-hadata-ae-waiting-time/resource/77e069db-4bfe-41cc-95f8-8be973477b09">
-        {t("waiting_time.source_datagovhk")}
-      </a>
+      <Typography variant="body2">
+        <Link
+          href="https://www.ha.org.hk/visitor/ha_visitor_index.asp?Content_ID=235504&Lang=CHIB5"
+          target="_blank"
+        >
+          {t("waiting_time.source_datagovhk")}
+        </Link>
+      </Typography>
       {data.allAeWaitingTime.edges.map((node, index) => (
         <BasicCard alignItems="flex-start" key={index} children={item(node)} />
       ))}

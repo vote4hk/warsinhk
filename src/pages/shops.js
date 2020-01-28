@@ -86,13 +86,12 @@ const ShopsPage = props => {
         </FabContainer>
         <Typography variant="h4">{t("dodgy_shops.list_text")}</Typography>
         <Typography variant="body2">
-          <a
-            target="_blank"
-            rel="noopener noreferrer"
+          <Link
             href="https://docs.google.com/spreadsheets/d/1x4gHNkS5cfKO8qi-MIp7EiNZP2m5zhK-yv9XSseZqmA/htmlview?fbclid=IwAR3o-FvljkFvrV2b6QGNjQ4_JK7oQletQVq3XTh-hr_o-IhpaTNoJw5_jYQ&sle=true#"
+            target="_blank"
           >
             {t("dodgy_shops.source_from")}
-          </a>
+          </Link>
         </Typography>
         <>
           <SearchBox
