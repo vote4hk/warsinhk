@@ -58,6 +58,8 @@ const AppTitle = styled(Typography)`
     flex-grow: 1;
     text-align: center;
   }
+`
+
 const SupportUsButton = styled.a`
   position: absolute;
   bottom: 0;
