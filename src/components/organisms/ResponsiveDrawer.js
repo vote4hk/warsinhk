@@ -14,10 +14,10 @@ import { mapIcon } from "@components/icons"
 import Toolbar from "@material-ui/core/Toolbar"
 import Typography from "@material-ui/core/Typography"
 import { makeStyles, useTheme } from "@material-ui/core/styles"
-import { UnstyledLink } from "@components/atoms/UnstyledLink"
 import { useTranslation } from "react-i18next"
 import ShareButton from "@/components/organisms/ShareButton"
 import styled from "styled-components"
+import Link from "@material-ui/core/Link"
 
 const drawerWidth = 240
 
@@ -59,7 +59,7 @@ const AppTitle = styled(Typography)`
   }
 `
 
-const SupportUsButton = styled.a`
+const SupportUsButton = styled(Link)`
   position: absolute;
   bottom: 0;
 `
@@ -79,27 +79,32 @@ function ResponsiveDrawer(props) {
     return (
       <div>
         <div className={classes.toolbar} />
-        <UnstyledLink to={"/"}>
+        <Link to={"/"}>
           <ListItem>
             <ListItemIcon>{mapIcon("home")}</ListItemIcon>
             <ListItemText primary={"首頁"} />
           </ListItem>
-        </UnstyledLink>
+        </Link>
         <Divider />
         <List>
           {pages.map((page, index) => (
-            <UnstyledLink to={page.to} key={index}>
+            <Link to={page.to} key={index}>
               <ListItem>
                 <ListItemIcon>{mapIcon(page.icon)}</ListItemIcon>
                 <ListItemText primary={page.title} />
               </ListItem>
-            </UnstyledLink>
+            </Link>
           ))}
         </List>
         <Divider />
+        <Link target="_blank" href="https://forms.gle/1M96G6xHH2tku4mJ8">
+          <ListItem>
+            <ListItemIcon>{mapIcon("contact_support")}</ListItemIcon>
+            <ListItemText primary={"俾意見／幫手"} />
+          </ListItem>
+        </Link>
         <SupportUsButton
           target="_blank"
-          rel="noopener noreferrer"
           href="https://www.collaction.hk/s/g0vhk/fund"
         >
           <ListItem>
