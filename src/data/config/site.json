@@ -2,8 +2,14 @@
   "languages": ["zh", "en"],
   "pages": [
     {
-      "title": "黑店名單",
+      "title": "疫情追蹤",
       "to": "/",
+      "icon": "",
+      "index": true
+    },
+    {
+      "title": "黑店名單",
+      "to": "/shops",
       "icon": "add_shopping_cart"
     },
     {
