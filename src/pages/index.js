@@ -38,7 +38,10 @@ const WarsCaseContainer = styled(Box)`
 
 const WarsCaseHeader = styled(Box)`
   font-size: 14px;
-  margin-bottom: 6px;
+  font-weight: 600;
+  margin-bottom: 4px;
+  display: flex;
+  justify-content: space-between;
 `
 
 const WarsCaseContent = styled(Box)`
@@ -206,9 +209,8 @@ const confirmedCases = item => {
   return (
     <WarsCaseContainer>
       <WarsCaseHeader>
-        {`#${item.case_no} ${item.age}歲  ${
-          item.gender_en === "F" ? "女" : "男"
-        }`}
+        <Box>{`${item.age}歲  ${item.gender_en === "F" ? "女" : "男"}`}</Box>
+        <Box>{`#${item.case_no}`}</Box>
       </WarsCaseHeader>
       <Box>
         <WarsCaseContent>
