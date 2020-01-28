@@ -16,6 +16,7 @@ import Typography from "@material-ui/core/Typography"
 import { makeStyles, useTheme } from "@material-ui/core/styles"
 import { UnstyledLink } from "@components/atoms/UnstyledLink"
 import { useTranslation } from "react-i18next"
+import styled from "styled-components"
 
 const drawerWidth = 240
 
@@ -51,6 +52,11 @@ const useStyles = makeStyles(theme => ({
   },
 }))
 
+const SupportUsButton = styled.a`
+  position: absolute;
+  bottom: 0;
+`
+
 function ResponsiveDrawer(props) {
   const { container, pages, children, className } = props
   const classes = useStyles()
@@ -84,6 +90,16 @@ function ResponsiveDrawer(props) {
           ))}
         </List>
         <Divider />
+        <SupportUsButton
+          target="_blank"
+          rel="noopener noreferrer"
+          href="https://www.collaction.hk/s/g0vhk/fund"
+        >
+          <ListItem>
+            <ListItemIcon>{mapIcon("thumb_up")}</ListItemIcon>
+            <ListItemText primary={"支持我們"} />
+          </ListItem>
+        </SupportUsButton>
       </div>
     )
   }
