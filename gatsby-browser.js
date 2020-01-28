@@ -11,35 +11,17 @@ import I18nWrapper from "@/components/I18nWrapper"
 import RootLayout from "@/components/templates/RootLayout"
 import ContextStore from "@/contextStore"
 import { ROUTE_CHANGE } from "@/reducers/route"
-import { useStaticQuery, graphql } from "gatsby"
 
 // update the route
 const Router = ({ path }) => {
-  const { configJson } = useStaticQuery(
-    graphql`
-      query {
-        configJson {
-          siteMetaData {
-            title
-          }
-          languages
-          pages {
-            title
-            to
-            icon
-          }
-        }
-      }
-    `
-  )
+  // some shit when useStaticQuery here..
   const {
     route: { dispatch },
   } = React.useContext(ContextStore)
   let actualPath = path
-  // configJson.languages
-  configJson.languages.forEach(lang => {
-    actualPath = actualPath.replace(`/${lang}/`, "/")
-  })
+  // TODO: dynamic langauges from somewhere?
+  actualPath = actualPath.replace(`/en/`, "/")
+
   useEffect(() => {
     dispatch({ type: ROUTE_CHANGE, path: actualPath })
   }, [actualPath, dispatch])
