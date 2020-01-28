@@ -2,5 +2,7 @@
   "dodgy_shops.list_text": "炒賣口罩藥房名單",
   "dodgy_shops.source_from": "以此資料來源為準",
   "high_risk.title": "高危地區",
-  "hygiene_tips.title": "自保貼士"
+  "hygiene_tips.title": "自保貼士",
+  "waiting_time.title": "急症等候",
+  "waiting_time.source_datagovhk": "來源:資料一線通"
 }

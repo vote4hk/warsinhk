@@ -18,7 +18,30 @@ exports.sourceNodes = async props => {
     createNode(props, SHEET_HIGH_RISK_MASTER, "HighRisk"),
     createNode(props, SHEET_HYGIENE_TIPS_MASTER, "HygieneTips"),
     createNode(props, SHEET_SHOP_MASTER, "Shop"),
+    createAENode(props),
   ])
+}
+
+const createAENode = async (
+  { actions: { createNode }, createNodeId, createContentDigest },
+) => {
+  const type = "AEWaitingTime"
+  const aerequest = await fetch("http://www.ha.org.hk/opendata/aed/aedwtdata-tc.json")
+  const response = await aerequest.json();
+  const records = response.waitTime;
+  records.forEach((p, i) => {
+    const meta = {
+      id: createNodeId(`${type.toLowerCase()}-${i}`),
+      parent: null,
+      children: [],
+      internal: {
+        type,
+        contentDigest: createContentDigest(p),
+      },
+    }
+    const node = Object.assign({}, p, meta)
+    createNode(node)
+  })
 }
 
 const createNode = async (
