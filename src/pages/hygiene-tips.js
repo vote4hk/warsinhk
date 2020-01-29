@@ -14,7 +14,7 @@ const CardsContainer = styled(Box)`
   flex-wrap: wrap;
 `
 const CardContainer = styled(Box)`
-  flex: 0 1 calc(25% - 1em);
+  flex: 0 1 calc(33.3333% - 1em);
   margin-bottom: 8px;
   margin-right: 8px;
 

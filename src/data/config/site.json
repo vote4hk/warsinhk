@@ -5,31 +5,43 @@
       "title": "index.title",
       "to": "/",
       "icon": "",
-      "sideMenu": false
+      "sideMenu": false,
+      "bottomMenu": false
     },
     {
       "title": "dodgy_shops.title",
       "to": "/shops",
       "icon": "add_shopping_cart",
-      "sideMenu": true
+      "sideMenu": true,
+      "bottomMenu": true
     },
     {
       "title": "high_risk.title",
       "to": "/high-risk",
       "icon": "warning",
-      "sideMenu": true
+      "sideMenu": true,
+      "bottomMenu": true
     },
     {
       "title": "waiting_time.title",
       "to": "/ae-waiting-time",
       "icon": "timelapse",
-      "sideMenu": true
+      "sideMenu": true,
+      "bottomMenu": true
     },
     {
       "title": "hygiene_tips.title",
       "to": "/hygiene-tips",
       "icon": "info",
-      "sideMenu": true
+      "sideMenu": true,
+      "bottomMenu": true
+    },
+    {
+      "title": "latest_media_news.title",
+      "to": "/latest-media-news",
+      "icon": "event_note",
+      "sideMenu": true,
+      "bottomMenu": false
     }
   ]
 }
