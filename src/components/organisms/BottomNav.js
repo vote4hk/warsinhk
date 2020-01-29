@@ -13,8 +13,11 @@ const StyledBottomNavigation = styled(BottomNavigation)`
   width: 100%;
   position: fixed;
   bottom: 0;
+  text-align: center;
 
   .MuiBottomNavigationAction-root.Mui-selected {
+    color: ${props => props.theme.palette.primary.text};
+    background: ${props => props.theme.palette.primary.main};
     border-bottom: 3px ${props => props.theme.palette.secondary.main} solid;
   }
 

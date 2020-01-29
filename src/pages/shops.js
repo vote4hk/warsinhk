@@ -60,6 +60,14 @@ function item(props, i18n) {
       <Typography component="span" variant="body2" color="textPrimary">
         {node.details}
       </Typography>
+      <Typography variant="body2">
+        <Link
+          href={`https://maps.google.com/?q=${node.address_zh}`}
+          target="_blank"
+        >
+          地圖
+        </Link>
+      </Typography>
     </>
   )
 }

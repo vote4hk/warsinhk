@@ -35,7 +35,7 @@ function item(props) {
           </Box>
           <Box>
             <Typography component="span" variant="body2" color="textPrimary">
-              {node.source}
+              {node.source_zh}
             </Typography>
           </Box>
         </Box>
@@ -46,7 +46,15 @@ function item(props) {
         </Box>
       </HighRiskCardContent>
       <Typography component="span" variant="body2" color="textPrimary">
-        {node.details}
+        {node.details_zh}
+      </Typography>
+      <Typography variant="body2">
+        <Link
+          href={`https://maps.google.com/?q=${node.name_zh}`}
+          target="_blank"
+        >
+          地圖
+        </Link>
       </Typography>
     </HighRiskCard>
   )
@@ -86,8 +94,8 @@ export const HighRiskQuery = graphql`
           district_zh
           name_zh
           sub_district_zh
-          source
-          details
+          source_zh
+          details_zh
           last_seen
         }
       }
