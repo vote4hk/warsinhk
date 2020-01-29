@@ -38,6 +38,7 @@ const Layout = props => {
             to
             icon
             sideMenu
+            bottomNav
           }
         }
       }

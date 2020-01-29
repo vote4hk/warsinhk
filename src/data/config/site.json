@@ -6,42 +6,42 @@
       "to": "/",
       "icon": "",
       "sideMenu": false,
-      "bottomMenu": false
+      "bottomNav": false
     },
     {
       "title": "dodgy_shops.title",
       "to": "/shops",
       "icon": "add_shopping_cart",
       "sideMenu": true,
-      "bottomMenu": true
+      "bottomNav": true
     },
     {
       "title": "high_risk.title",
       "to": "/high-risk",
       "icon": "warning",
       "sideMenu": true,
-      "bottomMenu": true
+      "bottomNav": true
     },
     {
       "title": "waiting_time.title",
       "to": "/ae-waiting-time",
       "icon": "timelapse",
       "sideMenu": true,
-      "bottomMenu": true
+      "bottomNav": true
     },
     {
       "title": "hygiene_tips.title",
       "to": "/hygiene-tips",
       "icon": "info",
       "sideMenu": true,
-      "bottomMenu": true
+      "bottomNav": true
     },
     {
       "title": "latest_media_news.title",
       "to": "/news",
       "icon": "event_note",
       "sideMenu": true,
-      "bottomMenu": false
+      "bottomNav": false
     }
   ]
 }
