@@ -40,8 +40,9 @@
       "title": "latest_media_news.title",
       "to": "/news",
       "icon": "event_note",
-      "sideMenu": true,
-      "bottomNav": false
+      "sideMenu": false,
+      "bottomNav": false,
+      "_remark": "the plugin is expired"
     }
   ]
 }
