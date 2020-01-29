@@ -17,6 +17,7 @@ const AECard = styled(Box)`
 
 function item(props) {
   const { node } = props
+  const { t } = useTranslation()
   return (
     <AECard>
       <Box>
@@ -24,11 +25,11 @@ function item(props) {
           {node.district_zh}
         </Typography>
         <Typography variant="body2" color="textPrimary">
-          {node.hospName}
+          {node.hospNameB5}
         </Typography>
       </Box>
       <Typography variant="h6" color="textPrimary">
-        {node.topWait}
+        {node.topWait} {t("waiting_time.hour")}
       </Typography>
     </AECard>
   )
@@ -49,6 +50,7 @@ const AEWaitingTimePage = props => {
           {t("waiting_time.source_datagovhk")}
         </Link>
       </Typography>
+      <Typography variant="body2">{t("waiting_time.last_updated")}{data.allAeWaitingTime.edges[0].node.hospTimeEn}</Typography>
       {data.allAeWaitingTime.edges.map((node, index) => (
         <BasicCard alignItems="flex-start" key={index} children={item(node)} />
       ))}
@@ -63,7 +65,10 @@ export const AEWaitingTimeQuery = graphql`
     allAeWaitingTime {
       edges {
         node {
-          hospName
+          hospNameB5
+          hospNameEn
+          hospCode
+          hospTimeEn
           topWait
           district_zh
         }
@@ -71,3 +76,4 @@ export const AEWaitingTimeQuery = graphql`
     }
   }
 `
+

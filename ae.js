@@ -6,10 +6,10 @@ const fetch = require("node-fetch")
 
 exports.fetchAEWaitingTime = async () => {
   const aerequest = await fetch(
-    "http://www.ha.org.hk/opendata/aed/aedwtdata-tc.json"
+    "https://www.ha.org.hk/aedwt/data/aedWtData.json"
   )
   const response = await aerequest.json()
-  const records = response.waitTime
+  const records = response.result.hospData
   const districtMapping = {
     雅麗氏何妙齡那打素醫院: "大埔",
     明愛醫院: "深水埗",
@@ -31,7 +31,7 @@ exports.fetchAEWaitingTime = async () => {
     仁濟醫院: "荃灣",
   }
   const recordsWithDistrict = records.map(r =>
-    Object.assign({ district_zh: districtMapping[r.hospName] }, r)
+    Object.assign({ district_zh: districtMapping[r.hospNameB5] }, r)
   )
-  return recordsWithDistrict
+  return {records: recordsWithDistrict}
 }
