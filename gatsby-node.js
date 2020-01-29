@@ -26,7 +26,8 @@ const createAENode = async (
   { actions: { createNode }, createNodeId, createContentDigest },
 ) => {
   const type = "AEWaitingTime"
-  const records = await ae.fetchAEWaitingTime();
+  const output = await ae.fetchAEWaitingTime();
+  const { records } = output;
   records.forEach((p, i) => {
     const meta = {
       id: createNodeId(`${type.toLowerCase()}-${i}`),
