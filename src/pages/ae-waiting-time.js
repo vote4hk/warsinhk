@@ -20,7 +20,6 @@ const HourLabel = styled(Typography)`
 `
 
 function WaitingTime(props) {
-  const { t } = useTranslation()
   const [sign, timeInt] = props.time.split(" ")
 
   let color
@@ -38,8 +37,7 @@ function WaitingTime(props) {
 
   return (
     <HourLabel variant="h6" color={color}>
-      {props.time}
-      {t("waiting_time.hour")}
+      {`${props.time} ${props.timeText}`}
     </HourLabel>
   )
 }
@@ -59,7 +57,7 @@ const AEWaitingTimePage = props => {
             {node.hospNameB5}
           </Typography>
         </Box>
-        <WaitingTime time={node.topWait} />
+        <WaitingTime time={node.topWait} timeText={t("waiting_time.hour")} />
       </AECard>
     )
   }
