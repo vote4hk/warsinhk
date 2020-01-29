@@ -44,23 +44,6 @@ function WaitingTime(props) {
   )
 }
 
-function item(props) {
-  const { node } = props
-  return (
-    <AECard>
-      <Box>
-        <Typography variant="body2" color="textPrimary">
-          {node.district_zh}
-        </Typography>
-        <Typography variant="body2" color="textPrimary">
-          {node.hospNameB5}
-        </Typography>
-      </Box>
-      <WaitingTime time={node.topWait} />
-    </AECard>
-  )
-}
-
 const AEWaitingTimePage = props => {
   const { data } = props
   const { t } = useTranslation()
@@ -76,9 +59,7 @@ const AEWaitingTimePage = props => {
             {node.hospNameB5}
           </Typography>
         </Box>
-        <Typography variant="h6" color="textPrimary">
-          {node.topWait} {t("waiting_time.hour")}
-        </Typography>
+        <WaitingTime time={node.topWait} />
       </AECard>
     )
   }
