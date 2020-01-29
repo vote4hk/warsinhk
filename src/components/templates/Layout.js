@@ -50,7 +50,7 @@ const Layout = props => {
         children={<Container>{children}</Container>}
       />
       <footer>
-        <BottomNav tabs={configJson.pages.filter(p => p.sideMenu)} />
+        <BottomNav tabs={configJson.pages.filter(p => p.bottomNav)} />
       </footer>
     </>
   )

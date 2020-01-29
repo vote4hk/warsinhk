@@ -8,6 +8,7 @@ import EditRoundedIcon from "@material-ui/icons/EditRounded"
 import HomeRoundedIcon from "@material-ui/icons/HomeRounded"
 import ThumbUpOutlinedIcon from "@material-ui/icons/ThumbUpOutlined"
 import ContactSupportOutlinedIcon from "@material-ui/icons/ContactSupportOutlined"
+import EventNoteIcon from "@material-ui/icons/EventNote"
 
 export function mapIcon(name) {
   switch (name) {
@@ -29,6 +30,8 @@ export function mapIcon(name) {
       return <ThumbUpOutlinedIcon />
     case "contact_support":
       return <ContactSupportOutlinedIcon />
+    case "event_note":
+      return <EventNoteIcon />
     default:
       return null
   }

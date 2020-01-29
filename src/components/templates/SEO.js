@@ -95,7 +95,9 @@ const SEO = ({ meta }) => {
           content: t("site.description"),
         },
       ].concat(meta || [])}
-    />
+    >
+      <script src="https://widget.rss.app/v1/list.js" type="text/javascript"></script>
+    </Helmet>
   )
 }
 
