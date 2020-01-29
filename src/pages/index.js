@@ -6,6 +6,7 @@ import Box from "@material-ui/core/Box"
 import Typography from "@material-ui/core/Typography"
 import Link from "@material-ui/core/Link"
 import { BasicCard } from "@components/atoms/Card"
+import { useTranslation } from "react-i18next"
 
 const DailyStatsContainer = styled(Box)`
   display: flex;
@@ -158,28 +159,28 @@ const wars_DailyStats = [
   },
 ]
 
-function dailyStats(props, i18n) {
+function dailyStats(t, props) {
   const today = props[0]
   const ytd = props[1]
 
   const dataArray = [
     {
-      label: "死亡個案",
+      label: t("dashboard.death_case"),
       today_stat: today.death_case || 0,
       diff: today.death_case - ytd.death_case,
     },
     {
-      label: "確診個案",
+      label: t("dashboard.confirmed_case"),
       today_stat: today.confirmed_case,
       diff: today.confirmed_case - ytd.confirmed_case,
     },
     {
-      label: "住院個案",
+      label: t("dashboard.investigation_case"),
       today_stat: today.still_investigated,
       diff: today.still_investigated - ytd.still_investigated,
     },
     {
-      label: "累積懷疑個案",
+      label: t("dashboard.fulfilling"),
       today_stat: today.fulfilling,
       diff: today.fulfilling - ytd.fulfilling,
     },
@@ -205,26 +206,30 @@ function dailyStats(props, i18n) {
   )
 }
 
-const confirmedCases = item => {
+const confirmedCases = (t, item) => {
   return (
-    <WarsCaseContainer>
+    <WarsCaseContainer key={`case-${item.case_no}`}>
       <WarsCaseHeader>
-        <Box>{`${item.age}歲  ${item.gender_en === "F" ? "女" : "男"}`}</Box>
+        <Box>{`${t("dashboard.patient_age_format", item.age)}  ${
+          item.gender_en === "F"
+            ? t("dashboard.gender_female")
+            : t("dashboard.gender_female")
+        }`}</Box>
         <Box>{`#${item.case_no}`}</Box>
       </WarsCaseHeader>
       <Box>
         <WarsCaseContent>
           <Box>
-            <Label>確診日期</Label>
+            <Label>{t("dashboard.patient_confirm_date")}</Label>
             {item.confirmation_date}
           </Box>
           <Box>
-            <Label>入住醫院</Label>
+            <Label>{t("dashboard.patient_hospital")}</Label>
 
             {item.hospital_zh}
           </Box>
           <Box>
-            <Label>患者狀況</Label>
+            <Label>{t("dashboard.patient_status")}</Label>
             {item.status_zh}
           </Box>
         </WarsCaseContent>
@@ -233,26 +238,27 @@ const confirmedCases = item => {
   )
 }
 
-const IndexPage = props => {
+const IndexPage = () => {
+  const { t } = useTranslation()
   return (
     <>
       <SEO title="Home" />
       <Layout>
-        <Typography variant="h4">疫情追蹤</Typography>
+        <Typography variant="h4">{t("index.title")}</Typography>
         <Typography variant="body2">
           <Link
             href="https://www.chp.gov.hk/tc/features/102465.html"
             target="_blank"
           >
-            資料來源：衛生防護中心
+            {t("dashboard.source_chpgovhk")}
           </Link>
         </Typography>
         <Typography variant="body2" color="textPrimary">
-          {`最後更新：${wars_DailyStats[0].last_updated}`}
+          {`${t("dashboard.last_updated")}${wars_DailyStats[0].last_updated}`}
         </Typography>
-        <BasicCard children={dailyStats(wars_DailyStats)} />
-        <Typography variant="h4">確診個案</Typography>
-        {wars_Case.map(item => confirmedCases(item))}
+        <BasicCard children={dailyStats(t, wars_DailyStats)} />
+        <Typography variant="h4">{t("dashboard.confirmed_case")}</Typography>
+        {wars_Case.map(item => confirmedCases(t, item))}
       </Layout>
     </>
   )
