@@ -38,7 +38,7 @@
     },
     {
       "title": "latest_media_news.title",
-      "to": "/latest-media-news",
+      "to": "/news",
       "icon": "event_note",
       "sideMenu": true,
       "bottomMenu": false

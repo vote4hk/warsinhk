@@ -8,13 +8,19 @@ import { graphql } from "gatsby"
 import { MediaCard } from "@components/organisms/MediaCard"
 import Box from "@material-ui/core/Box"
 
+const Container = styled(Box)`
+  margin-top: 16px;
+`
+
 const LatestMediaNewsPage = ({ data, pageContext }) => {
   const { t } = useTranslation()
   return (
     <Layout>
       <SEO title="LatestMediaNewsPage" />
       <Typography variant="h4">{t("latest_media_news.title")}</Typography>
-      <rssapp-list id="4rfSeuaLAKEOtTc7"></rssapp-list>
+      <Container>
+      	<rssapp-list id="4rfSeuaLAKEOtTc7"></rssapp-list>
+      </Container>
     </Layout>
   )
 }
