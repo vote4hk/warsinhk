@@ -23,6 +23,7 @@
     "gatsby-plugin-sitemap": "^2.2.26",
     "gatsby-plugin-styled-components": "^3.1.18",
     "gatsby-source-filesystem": "^2.1.40",
+    "gatsby-source-graphql": "^2.1.32",
     "gatsby-transformer-json": "^2.2.25",
     "gatsby-transformer-sharp": "^2.3.7",
     "i18next": "^19.0.3",

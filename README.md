@@ -6,6 +6,11 @@
 
 ### Start developing
 
+```bash
+# create the .env first
+cp .env.sample .env
+```
+
 Navigate into your new site’s directory and start it up.
 
 ```bash

@@ -20,6 +20,17 @@ module.exports = {
     `gatsby-plugin-sitemap`,
     `gatsby-plugin-robots-txt`,
     {
+      resolve: "gatsby-source-graphql",
+      options: {
+        // This type will contain remote schema Query type
+        typeName: "g0v",
+        // This is the field under which it's accessible
+        fieldName: "g0v",
+        // URL to query from
+        url: process.env.REMOTE_GRAPHQL_URL,
+      },
+    },
+    {
       resolve: `gatsby-plugin-material-ui`,
       options: {
         stylesProvider: {

@@ -6,6 +6,7 @@ import Box from "@material-ui/core/Box"
 import Typography from "@material-ui/core/Typography"
 import Link from "@material-ui/core/Link"
 import { BasicCard } from "@components/atoms/Card"
+import { graphql } from "gatsby"
 import { useTranslation } from "react-i18next"
 
 const DailyStatsContainer = styled(Box)`
@@ -57,107 +58,29 @@ const Label = styled(Typography)`
   color: ${props => props.theme.palette.primary.dark};
 `
 
-// Rmb to sort the query by DESC order of confirmation_date
-const wars_Case = [
-  {
-    hospital_zh: "瑪嘉烈醫院",
-    hospital_en: "Princess Margaret Hospital",
-    status_en: "Hospitalised",
-    status_zh: "住院",
-    case_no: 8,
-    age: 64,
-    confirmation_date: "2020-01-26",
-    gender_en: "M",
-  },
-  {
-    hospital_zh: "瑪嘉烈醫院",
-    hospital_en: "Princess Margaret Hospital",
-    status_en: "Hospitalised",
-    status_zh: "住院",
-    case_no: 7,
-    age: 68,
-    confirmation_date: "2020-01-26",
-    gender_en: "F",
-  },
-  {
-    hospital_zh: "瑪嘉烈醫院",
-    hospital_en: "Princess Margaret Hospital",
-    status_en: "Hospitalised",
-    status_zh: "住院",
-    case_no: 6,
-    age: 47,
-    confirmation_date: "2020-01-26",
-    gender_en: "M",
-  },
-  {
-    hospital_zh: "瑪嘉烈醫院",
-    hospital_en: "Princess Margaret Hospital",
-    status_en: "Hospitalised",
-    status_zh: "住院",
-    case_no: 5,
-    age: 63,
-    confirmation_date: "2020-01-24",
-    gender_en: "M",
-  },
-  {
-    hospital_zh: "瑪嘉烈醫院",
-    hospital_en: "Princess Margaret Hospital",
-    status_en: "Hospitalised",
-    status_zh: "住院",
-    case_no: 3,
-    age: 62,
-    confirmation_date: "2020-01-24",
-    gender_en: "F",
-  },
-  {
-    hospital_zh: "瑪嘉烈醫院",
-    hospital_en: "Princess Margaret Hospital",
-    status_en: "Hospitalised",
-    status_zh: "住院",
-    case_no: 4,
-    age: 62,
-    confirmation_date: "2020-01-24",
-    gender_en: "F",
-  },
-  {
-    hospital_zh: "瑪嘉烈醫院",
-    hospital_en: "Princess Margaret Hospital",
-    status_en: "Hospitalised",
-    status_zh: "住院",
-    case_no: 1,
-    age: 39,
-    confirmation_date: "2020-01-23",
-    gender_en: "M",
-  },
-  {
-    hospital_zh: "瑪嘉烈醫院",
-    hospital_en: "Princess Margaret Hospital",
-    status_en: "Hospitalised",
-    status_zh: "住院",
-    case_no: 2,
-    age: 56,
-    confirmation_date: "2020-01-23",
-    gender_en: "M",
-  },
-]
-
-// Rmb to sort the query by DESC order of last_updated
-const wars_DailyStats = [
-  {
-    confirmed_case: 8,
-    fulfilling: 529,
-    last_updated: "2020-01-28",
-    ruled_out: 332,
-    still_investigated: 189,
-  },
-  {
-    confirmed_case: 8,
-    fulfilling: 451,
-    last_updated: "2020-01-27",
-    ruled_out: 276,
-    still_investigated: 167,
-  },
-]
+export const query = graphql`
+  query FetchWarsData {
+    g0v {
+      wars_DailyStats(order_by: { last_updated: desc }) {
+        confirmed_case
+        still_investigated
+        last_updated
+        ruled_out
+        fulfilling
+      }
+      wars_Case(order_by: { case_no: desc }) {
+        hospital_zh
+        hospital_en
+        status_zh
+        status_en
+        case_no
+        age
+        confirmation_date
+        gender_en
+      }
+    }
+  }
+`
 
 function dailyStats(t, props) {
   const today = props[0]
@@ -238,7 +161,10 @@ const confirmedCases = (t, item) => {
   )
 }
 
-const IndexPage = () => {
+const IndexPage = ({ data }) => {
+  const {
+    g0v: { wars_Case, wars_DailyStats },
+  } = data
   const { t } = useTranslation()
   return (
     <>
