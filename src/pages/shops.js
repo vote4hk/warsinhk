@@ -38,13 +38,13 @@ const SearchBox = styled(TextField)`
   }
 `
 
-function item(props, i18n) {
+function item(props, i18n, t) {
   const { node } = props
   return (
     <>
       <Box>
         <Typography component="span" variant="body2" color="textPrimary">
-          {withLanguage(i18n, node, "district")}
+          {withLanguage(i18n, node, "sub_district")}
         </Typography>
       </Box>
       <Box>
@@ -58,14 +58,14 @@ function item(props, i18n) {
         </Typography>
       </Box>
       <Typography component="span" variant="body2" color="textPrimary">
-        {node.details}
+        {withLanguage(i18n, node, "details")}
       </Typography>
       <Typography variant="body2">
         <Link
-          href={`https://maps.google.com/?q=${node.address_zh}`}
+          href={`https://maps.google.com/?q=${node.address_zh}`} // Chinese Address easier to be lookuped in Hong Kong
           target="_blank"
         >
-          地圖
+          {t("text.map")}
         </Link>
       </Typography>
     </>
@@ -75,6 +75,7 @@ function item(props, i18n) {
 function containsText(i18n, node, text) {
   return (
     withLanguage(i18n, node, "district").indexOf(text) >= 0 ||
+    withLanguage(i18n, node, "sub_district").indexOf(text) >= 0 ||
     withLanguage(i18n, node, "name").indexOf(text) >= 0 ||
     withLanguage(i18n, node, "address").indexOf(text) >= 0
   )
@@ -90,7 +91,7 @@ const ShopsPage = props => {
       <Layout>
         <FabContainer>
           <Link href="https://forms.gle/gK477bmq8cG57ELv8" target="_blank">
-            <BasicFab title="報料" icon="edit" />
+            <BasicFab title={t("dodgy_shops.report_incident")} icon="edit" />
           </Link>
         </FabContainer>
         <Typography variant="h4">{t("dodgy_shops.list_text")}</Typography>
@@ -129,7 +130,7 @@ const ShopsPage = props => {
             <BasicCard
               alignItems="flex-start"
               key={index}
-              children={item(node, i18n)}
+              children={item(node, i18n, t)}
             />
           ))}
       </Layout>
@@ -145,11 +146,19 @@ export const ShopsQuery = graphql`
       edges {
         node {
           area
+          area_zh
+          area_en
           address_zh
+          address_en
           details
+          details_zh
+          details_en
           name_zh
+          name_en
           district_zh
+          district_en
           sub_district_zh
+          sub_district_en
         }
       }
     }

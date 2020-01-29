@@ -7,6 +7,7 @@ import Typography from "@material-ui/core/Typography"
 import Link from "@material-ui/core/Link"
 import { BasicCard } from "@components/atoms/Card"
 import { useTranslation } from "react-i18next"
+import { withLanguage } from "../utils/i18n"
 
 const DailyStatsContainer = styled(Box)`
   display: flex;
@@ -233,7 +234,7 @@ function dailyStats(t, props) {
   )
 }
 
-const confirmedCases = (t, item) => {
+const confirmedCases = (i18n, item, t) => {
   return (
     <WarsCaseContainer key={`case-${item.case_no}`}>
       <WarsCaseHeader>
@@ -252,12 +253,11 @@ const confirmedCases = (t, item) => {
           </Box>
           <Box>
             <Label>{t("dashboard.patient_hospital")}</Label>
-
-            {item.hospital_zh}
+            {withLanguage(i18n, item, "hospital")}
           </Box>
           <Box>
             <Label>{t("dashboard.patient_status")}</Label>
-            {item.status_zh}
+            {withLanguage(i18n, item, "status")}
           </Box>
         </WarsCaseContent>
       </Box>
@@ -266,7 +266,7 @@ const confirmedCases = (t, item) => {
 }
 
 const IndexPage = () => {
-  const { t } = useTranslation()
+  const { i18n, t } = useTranslation()
   return (
     <>
       <SEO title="Home" />
@@ -285,7 +285,9 @@ const IndexPage = () => {
         </Typography>
         <BasicCard children={dailyStats(t, wars_DailyStats)} />
         <Typography variant="h4">{t("dashboard.confirmed_case")}</Typography>
-        {wars_Case.map(item => confirmedCases(t, item))}
+        {wars_Case
+          .sort((a, b) => b.case_no - a.case_no)
+          .map(item => confirmedCases(i18n, item, t))}
       </Layout>
     </>
   )
