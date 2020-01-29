@@ -1,6 +1,8 @@
 import React from "react"
 import styled from "styled-components"
 import { useTranslation } from "react-i18next"
+import { navigate } from "gatsby"
+import ContextStore from "@/contextStore"
 import ListItemText from "@material-ui/core/ListItemText"
 
 const LocaleButton = styled(ListItemText)`
@@ -9,16 +11,20 @@ const LocaleButton = styled(ListItemText)`
   }
 `
 
-function LanguageSwitcher(props) {
-  const changeLanguage = lng => {
-    var path = window.location.pathname
+function LanguageSwitcher(props, context) {
+  var {
+    route: {
+      state: { fullPath },
+    },
+  } = React.useContext(ContextStore)
 
-    if (lng === "en" && !path.includes("/en")) {
-      path = path.replace("/", "/en/")
-      window.location.pathname = path
-    } else if (lng === "zh" && path.includes("/en")) {
-      path = path.replace("/en", "")
-      window.location.pathname = path
+  const changeLanguage = lng => {
+    if (lng === "en" && !fullPath.includes("/en")) {
+      fullPath = fullPath.replace("/", "/en/")
+      navigate(fullPath, { replace: true })
+    } else if (lng === "zh" && fullPath.includes("/en")) {
+      fullPath = fullPath.replace("/en", "")
+      navigate(fullPath, { replace: true })
     }
   }
 
