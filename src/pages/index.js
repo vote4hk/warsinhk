@@ -60,7 +60,7 @@ const Label = styled(Typography)`
 // Rmb to sort the query by DESC order of confirmation_date
 const wars_Case = [
   {
-    hospital_zh: "瑪嘉烈醫院",
+    hospital_zh: "瑪麗醫院",
     hospital_en: "Princess Margaret Hospital",
     status_en: "Hospitalised",
     status_zh: "住院",
@@ -70,7 +70,7 @@ const wars_Case = [
     gender_en: "M",
   },
   {
-    hospital_zh: "瑪嘉烈醫院",
+    hospital_zh: "瑪麗醫院",
     hospital_en: "Princess Margaret Hospital",
     status_en: "Hospitalised",
     status_zh: "住院",
@@ -167,8 +167,8 @@ const wars_DailyStats = [
     confirmed_case: 10,
     fulfilling: 585,
     last_updated: "2020-01-29",
-    ruled_out: 332,
-    still_investigated: 189,
+    ruled_out: 416,
+    still_investigated: 159,
   },
   {
     confirmed_case: 8,
