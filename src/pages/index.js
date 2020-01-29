@@ -210,7 +210,7 @@ const confirmedCases = (t, item) => {
   return (
     <WarsCaseContainer key={`case-${item.case_no}`}>
       <WarsCaseHeader>
-        <Box>{`${t("dashboard.patient_age_format", item.age)}  ${
+        <Box>{`${t("dashboard.patient_age_format", { age: item.age })}  ${
           item.gender_en === "F"
             ? t("dashboard.gender_female")
             : t("dashboard.gender_female")

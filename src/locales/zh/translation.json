@@ -24,7 +24,7 @@
   "dashboard.fulfilling": "累積懷疑個案",
   "dashboard.source_chpgovhk": "資料來源：衛生防護中心",
   "dashboard.last_updated": "最後更新：",
-  "dashboard.patient_age_format": "{{age}}歲",
+  "dashboard.patient_age_format": "{{age}} 歲",
   "dashboard.gender_male": "男",
   "dashboard.gender_female": "女",
   "dashboard.patient_confirm_date": "確診日期",
