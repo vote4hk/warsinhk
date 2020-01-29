@@ -20,6 +20,8 @@ import styled from "styled-components"
 import Link from "@material-ui/core/Link"
 import { UnstyledLink } from "@components/atoms/UnstyledLink"
 import { getLocalizedPath } from "@/utils/i18n"
+// 20200129 wingkwong: disable this feature temporarily
+// import LanguageSwitcher from "@/components/organisms/LanguageSwitcher"
 
 const drawerWidth = 240
 
@@ -99,6 +101,14 @@ function ResponsiveDrawer(props) {
           ))}
         </List>
         <Divider />
+        {/* 20200129 wingkwong: disable this feature temporarily */}
+        {/* 
+        <ListItem>
+          <ListItemIcon>{mapIcon("translate")}</ListItemIcon>
+          <LanguageSwitcher/>
+        </ListItem>
+        <Divider /> 
+        */}
         <Link target="_blank" href="https://forms.gle/1M96G6xHH2tku4mJ8">
           <ListItem>
             <ListItemIcon>{mapIcon("contact_support")}</ListItemIcon>
