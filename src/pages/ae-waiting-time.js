@@ -8,11 +8,16 @@ import Box from "@material-ui/core/Box"
 import Link from "@material-ui/core/Link"
 import { BasicCard } from "@components/atoms/Card"
 import styled from "styled-components"
+import { withLanguage } from "../utils/i18n"
 
 const AECard = styled(Box)`
   display: flex;
   justify-content: space-between;
   align-items: center;
+`
+
+const HospiName = styled(Typography)`
+  font-weight: 600;
 `
 
 const HourLabel = styled(Typography)`
@@ -44,18 +49,18 @@ function WaitingTime(props) {
 
 const AEWaitingTimePage = props => {
   const { data } = props
-  const { t } = useTranslation()
+  const { i18n, t } = useTranslation()
 
   const item = ({ node }) => {
     return (
       <AECard>
         <Box>
           <Typography variant="body2" color="textPrimary">
-            {node.district_zh}
+            {withLanguage(i18n, node, "sub_district")}
           </Typography>
-          <Typography variant="body2" color="textPrimary">
-            {node.hospNameB5}
-          </Typography>
+          <HospiName variant="body2" color="textPrimary">
+            {withLanguage(i18n, node, "name")}
+          </HospiName>
         </Box>
         <WaitingTime time={node.topWait} timeText={t("waiting_time.hour")} />
       </AECard>
@@ -92,12 +97,15 @@ export const AEWaitingTimeQuery = graphql`
     allAeWaitingTime(sort: { order: ASC, fields: topWait }) {
       edges {
         node {
-          hospNameB5
-          hospNameEn
+          name_zh
+          name_en
           hospCode
           hospTimeEn
           topWait
           district_zh
+          district_en
+          sub_district_zh
+          sub_district_en
         }
       }
     }
