@@ -213,7 +213,7 @@ const confirmedCases = (t, item) => {
         <Box>{`${t("dashboard.patient_age_format", { age: item.age })}  ${
           item.gender_en === "F"
             ? t("dashboard.gender_female")
-            : t("dashboard.gender_female")
+            : t("dashboard.gender_male")
         }`}</Box>
         <Box>{`#${item.case_no}`}</Box>
       </WarsCaseHeader>
