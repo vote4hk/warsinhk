@@ -285,7 +285,9 @@ const IndexPage = () => {
         </Typography>
         <BasicCard children={dailyStats(t, wars_DailyStats)} />
         <Typography variant="h4">{t("dashboard.confirmed_case")}</Typography>
-        {wars_Case.map(item => confirmedCases(i18n, item, t))}
+        {wars_Case
+          .sort((a, b) => b.case_no - a.case_no)
+          .map(item => confirmedCases(i18n, item, t))}
       </Layout>
     </>
   )
