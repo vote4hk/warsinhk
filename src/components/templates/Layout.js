@@ -10,6 +10,7 @@ import PropTypes from "prop-types"
 import Box from "@material-ui/core/Box"
 import ResponsiveDrawer from "@components/organisms/ResponsiveDrawer"
 import BottomNav from "@components/organisms/BottomNav"
+import AlertMessage from "@components/organisms/AlertMessage"
 import styled from "styled-components"
 import { useStaticQuery, graphql } from "gatsby"
 import { bps } from "@/ui/theme"
@@ -48,7 +49,12 @@ const Layout = props => {
     <>
       <StyledResponsiveDrawer
         pages={configJson.pages.filter(p => p.sideMenu)}
-        children={<Container>{children}</Container>}
+        children={
+          <Container>
+            <AlertMessage />
+            {children}
+          </Container>
+        }
       />
       <footer>
         <BottomNav tabs={configJson.pages.filter(p => p.bottomNav)} />
