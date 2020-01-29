@@ -36,6 +36,7 @@
     "react-i18next": "^11.3.0",
     "react-select": "^3.0.8",
     "react-share": "^4.0.1",
+    "rss-parser": "^3.7.4",
     "styled-components": "^4.4.1"
   },
   "devDependencies": {

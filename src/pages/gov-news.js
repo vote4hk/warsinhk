@@ -22,7 +22,7 @@ const NewsPage = props => {
     return (
       <NewsCard>
         <Typography variant="body2" color="textPrimary">
-          {node.source} {node.date} {node.time}
+          {node.date}
         </Typography>
         <Typography variant="h6" color="textPrimary">
           {node.title}
@@ -34,20 +34,20 @@ const NewsPage = props => {
   return (
     <Layout>
       <SEO title="NewsPage" />
-      <Typography variant="h4">{t("news.title")}</Typography>
+      <Typography variant="h4">{t("gov_news.title")}</Typography>
       <Typography variant="body2">
         <Link
-          href="https://news.google.com/topics/CAAqJQgKIh9DQkFTRVFvSUwyMHZNR1J4T1hBU0JYcG9MVWhMS0FBUAE?hl=zh"
+          href="https://www.news.gov.hk/chi/index.html"
           target="_blank"
         >
-          {t("news.source_google")}
+          {t("gov_news.source")}
         </Link>
       </Typography>
       <Typography variant="body2">
         {t("waiting_time.last_updated")}
-        {data.allGoogleNews.edges[0].node.date} {data.allGoogleNews.edges[0].node.time}
+        {data.allGovNews.edges[0].node.date}
       </Typography>
-      {data.allGoogleNews.edges.map((node, index) => (
+      {data.allGovNews.edges.map((node, index) => (
         <a href="{node.link}" target="_blank" key={index} children={item(node)} />
       ))}
     </Layout>
@@ -56,17 +56,14 @@ const NewsPage = props => {
 
 export default NewsPage
 
-export const GoogleNewsQuery = graphql`
+export const GovNewsQuery = graphql`
   query {
-    allGoogleNews(sort: { order: DESC, fields: isoDate }) {
+    allGovNews(sort: { order: DESC, fields: date }) {
       edges {
         node {
           title
           link
-          source
-          isoDate
           date
-          time
         }
       }
     }
