@@ -48,6 +48,14 @@ function item(props) {
       <Typography component="span" variant="body2" color="textPrimary">
         {node.details_zh}
       </Typography>
+      <Typography variant="body2">
+        <Link
+          href={`https://maps.google.com/?q=${node.name_zh}`}
+          target="_blank"
+        >
+          地圖
+        </Link>
+      </Typography>
     </HighRiskCard>
   )
 }
