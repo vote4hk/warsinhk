@@ -1,7 +1,7 @@
 {
-  "site.title": "🤒Coronavirus Information😷",
+  "site.title": "🤒2019-nCoV 'Severe Respiratory Disease associated with a Novel Infectious Agent' Information😷",
   "site.description": "New type of coronavirus outbreaks in Hong Kong. We provide hygiene tips, high risk area, A&E waiting time and lists of blacklisted pharmacies etc.",
-  "site.keywords": "coronavirus,wuhan,Accident & Emergency,a&e,A&E,Mask,Pharmacy,2019-nCoV,ncov",
+  "site.keywords": "2019-nCoV,nCoV,ncov,coronavirus,pneumonia,wuhan,Accident & Emergency,a&e,A&E,Mask,Pharmacy,2019-nCoV,ncov",
   "dodgy_shops.list_text": "Blacklisted Pharmacies",
   "dodgy_shops.source_from": "The information is according to various sources",
   "dodgy_shops.filter_text": "Pharmacy Search",
