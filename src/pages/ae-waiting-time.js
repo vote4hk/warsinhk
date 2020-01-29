@@ -15,6 +15,52 @@ const AECard = styled(Box)`
   align-items: center;
 `
 
+const HourLabel = styled(Typography)`
+  color: ${props => props.theme.palette.trafficLight[props.color]};
+`
+
+function WaitingTime(props) {
+  const { t } = useTranslation()
+  const [sign, timeInt] = props.time.split(" ")
+
+  let color
+  if (parseInt(timeInt) === 1 || (sign === "<" && parseInt(timeInt) <= 2)) {
+    color = "green"
+  } else if (
+    (sign === ">" && parseInt(timeInt) === 2) ||
+    parseInt(timeInt) === 3 ||
+    (sign === "<" && parseInt(timeInt) <= 4)
+  ) {
+    color = "orange"
+  } else {
+    color = "red"
+  }
+
+  return (
+    <HourLabel variant="h6" color={color}>
+      {props.time}
+      {t("waiting_time.hour")}
+    </HourLabel>
+  )
+}
+
+function item(props) {
+  const { node } = props
+  return (
+    <AECard>
+      <Box>
+        <Typography variant="body2" color="textPrimary">
+          {node.district_zh}
+        </Typography>
+        <Typography variant="body2" color="textPrimary">
+          {node.hospNameB5}
+        </Typography>
+      </Box>
+      <WaitingTime time={node.topWait} />
+    </AECard>
+  )
+}
+
 const AEWaitingTimePage = props => {
   const { data } = props
   const { t } = useTranslation()
@@ -64,7 +110,7 @@ export default AEWaitingTimePage
 
 export const AEWaitingTimeQuery = graphql`
   query {
-    allAeWaitingTime {
+    allAeWaitingTime(sort: { order: ASC, fields: topWait }) {
       edges {
         node {
           hospNameB5
