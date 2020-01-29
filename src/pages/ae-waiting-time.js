@@ -15,29 +15,28 @@ const AECard = styled(Box)`
   align-items: center;
 `
 
-function item(props) {
-  const { node } = props
-  const { t } = useTranslation()
-  return (
-    <AECard>
-      <Box>
-        <Typography variant="body2" color="textPrimary">
-          {node.district_zh}
-        </Typography>
-        <Typography variant="body2" color="textPrimary">
-          {node.hospNameB5}
-        </Typography>
-      </Box>
-      <Typography variant="h6" color="textPrimary">
-        {node.topWait} {t("waiting_time.hour")}
-      </Typography>
-    </AECard>
-  )
-}
-
 const AEWaitingTimePage = props => {
   const { data } = props
   const { t } = useTranslation()
+
+  const item = ({ node }) => {
+    return (
+      <AECard>
+        <Box>
+          <Typography variant="body2" color="textPrimary">
+            {node.district_zh}
+          </Typography>
+          <Typography variant="body2" color="textPrimary">
+            {node.hospNameB5}
+          </Typography>
+        </Box>
+        <Typography variant="h6" color="textPrimary">
+          {node.topWait} {t("waiting_time.hour")}
+        </Typography>
+      </AECard>
+    )
+  }
+
   return (
     <Layout>
       <SEO title="AEWaitingTimePage" />
@@ -50,7 +49,10 @@ const AEWaitingTimePage = props => {
           {t("waiting_time.source_datagovhk")}
         </Link>
       </Typography>
-      <Typography variant="body2">{t("waiting_time.last_updated")}{data.allAeWaitingTime.edges[0].node.hospTimeEn}</Typography>
+      <Typography variant="body2">
+        {t("waiting_time.last_updated")}
+        {data.allAeWaitingTime.edges[0].node.hospTimeEn}
+      </Typography>
       {data.allAeWaitingTime.edges.map((node, index) => (
         <BasicCard alignItems="flex-start" key={index} children={item(node)} />
       ))}
@@ -76,4 +78,3 @@ export const AEWaitingTimeQuery = graphql`
     }
   }
 `
-
