@@ -5,8 +5,9 @@
  */
 const fetch = require("node-fetch")
 const csv2json = require("csvtojson")
-const ae = require('./ae')
-const gn = require('./gn')
+const ae = require("./ae")
+const gn = require("./gn")
+const poster = require("./poster-gallery")
 const GOOGLE_SPREADSHEET_ID = "14kreo2vRo1XCUXqFLcMApVtYmvkEzWBDm6b8fzJNKEc"
 const SHEET_DODGY_SHOPS = "dodgy_shops"
 const SHEET_HIGH_RISK_MASTER = "highrisk_master"
@@ -23,7 +24,8 @@ exports.sourceNodes = async props => {
     createNode(props, SHEET_CONFIG_MASTER, "Config"),
     createAENode(props),
     createGNNode(props),
-    createGovNewsNode(props)
+    createGovNewsNode(props),
+    createPosterNode(props),
   ])
 }
 
@@ -78,6 +80,27 @@ const createGovNewsNode = async (
   const output = await gn.fetchGovNews();
   const { records } = output;
   records.forEach((p, i) => {
+    const meta = {
+      id: createNodeId(`${type.toLowerCase()}-${i}`),
+      parent: null,
+      children: [],
+      internal: {
+        type,
+        contentDigest: createContentDigest(p),
+      },
+    }
+    const node = Object.assign({}, p, meta)
+    createNode(node)
+  })
+}
+
+const createPosterNode = async (
+  { actions: { createNode }, createNodeId, createContentDigest },
+) => {
+  const type = "PosterGallery"
+  const output = await poster.fetchCollactionPosterGallery();
+  const { galleries } = output;
+  galleries.forEach((p, i) => {
     const meta = {
       id: createNodeId(`${type.toLowerCase()}-${i}`),
       parent: null,
