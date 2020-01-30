@@ -39,7 +39,7 @@
     {
       "title": "news.title",
       "to": "/news",
-      "icon": "event_note",
+      "icon": "web",
       "sideMenu": true,
       "bottomNav": false
     },

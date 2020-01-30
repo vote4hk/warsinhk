@@ -10,6 +10,7 @@ import ThumbUpOutlinedIcon from "@material-ui/icons/ThumbUpOutlined"
 import ContactSupportOutlinedIcon from "@material-ui/icons/ContactSupportOutlined"
 import EventNoteIcon from "@material-ui/icons/EventNote"
 import TranslateIcon from "@material-ui/icons/Translate"
+import WebIcon from "@material-ui/icons/Web"
 
 export function mapIcon(name) {
   switch (name) {
@@ -35,6 +36,8 @@ export function mapIcon(name) {
       return <EventNoteIcon />
     case "translate":
       return <TranslateIcon />
+    case "web":
+      return <WebIcon />
     default:
       return null
   }

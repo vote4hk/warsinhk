@@ -8,6 +8,8 @@ import Box from "@material-ui/core/Box"
 import Link from "@material-ui/core/Link"
 import { BasicCard } from "@components/atoms/Card"
 import styled from "styled-components"
+import { withLanguage } from "../utils/i18n"
+import _ from "lodash"
 
 const NewsCard = styled(BasicCard)`
   margin-top: 8px;
@@ -16,17 +18,19 @@ const NewsCard = styled(BasicCard)`
 
 const NewsPage = props => {
   const { data } = props
-  const { t } = useTranslation()
+  const { i18n, t } = useTranslation()
 
   const item = ({ node }) => {
     return (
       <NewsCard>
-        <Typography variant="body2" color="textPrimary">
-          {node.date}
-        </Typography>
-        <Typography variant="h6" color="textPrimary">
-          {node.title}
-        </Typography>
+        <a href={withLanguage(i18n, node, "link")}>
+          <Typography variant="body2" color="textPrimary">
+            {node.date}
+          </Typography>
+          <Typography variant="h6" color="textPrimary">
+            {withLanguage(i18n, node, "title")}
+          </Typography>
+        </a>
       </NewsCard>
     )
   }
@@ -37,7 +41,7 @@ const NewsPage = props => {
       <Typography variant="h4">{t("gov_news.title")}</Typography>
       <Typography variant="body2">
         <Link
-          href="https://www.news.gov.hk/chi/index.html"
+          href={t("gov_news.url")}
           target="_blank"
         >
           {t("gov_news.source")}
@@ -45,10 +49,10 @@ const NewsPage = props => {
       </Typography>
       <Typography variant="body2">
         {t("waiting_time.last_updated")}
-        {data.allGovNews.edges[0].node.date}
+        {_.get(data.allGovNews, "edges[0].node.date", "")}
       </Typography>
       {data.allGovNews.edges.map((node, index) => (
-        <a href="{node.link}" target="_blank" key={index} children={item(node)} />
+        <div key={index} children={item(node)} />
       ))}
     </Layout>
   )
@@ -61,8 +65,10 @@ export const GovNewsQuery = graphql`
     allGovNews(sort: { order: DESC, fields: date }) {
       edges {
         node {
-          title
-          link
+          title_en
+          title_zh
+          link_en
+          link_zh
           date
         }
       }
