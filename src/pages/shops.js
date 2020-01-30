@@ -121,7 +121,7 @@ const ShopsPage = props => {
                   <SearchIcon />
                 </InputAdornment>
               ),
-            }}
+                }}
           />
         </>
         {data.allDodgyShop.edges
@@ -131,6 +131,7 @@ const ShopsPage = props => {
               alignItems="flex-start"
               key={index}
               children={item(node, i18n, t)}
+
             />
           ))}
       </Layout>
