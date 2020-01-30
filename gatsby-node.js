@@ -5,12 +5,13 @@
  */
 const fetch = require("node-fetch")
 const csv2json = require("csvtojson")
-const ae = require('./ae')
+const ae = require("./ae")
 const GOOGLE_SPREADSHEET_ID = "14kreo2vRo1XCUXqFLcMApVtYmvkEzWBDm6b8fzJNKEc"
 const SHEET_DODGY_SHOPS = "dodgy_shops"
 const SHEET_HIGH_RISK_MASTER = "highrisk_master"
 const SHEET_HYGIENE_TIPS_MASTER = "hygiene_tips"
 const SHEET_SHOP_MASTER = "shop_master"
+const SHEET_CONFIG_MASTER = "config"
 
 exports.sourceNodes = async props => {
   await Promise.all([
@@ -18,16 +19,19 @@ exports.sourceNodes = async props => {
     createNode(props, SHEET_HIGH_RISK_MASTER, "HighRisk"),
     createNode(props, SHEET_HYGIENE_TIPS_MASTER, "HygieneTips"),
     createNode(props, SHEET_SHOP_MASTER, "Shop"),
+    createNode(props, SHEET_CONFIG_MASTER, "Config"),
     createAENode(props),
   ])
 }
 
-const createAENode = async (
-  { actions: { createNode }, createNodeId, createContentDigest },
-) => {
+const createAENode = async ({
+  actions: { createNode },
+  createNodeId,
+  createContentDigest,
+}) => {
   const type = "AEWaitingTime"
-  const output = await ae.fetchAEWaitingTime();
-  const { records } = output;
+  const output = await ae.fetchAEWaitingTime()
+  const { records } = output
   records.forEach((p, i) => {
     const meta = {
       id: createNodeId(`${type.toLowerCase()}-${i}`),
