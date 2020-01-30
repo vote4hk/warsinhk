@@ -106,12 +106,19 @@ function ResponsiveDrawer(props) {
         </ListItem>
         <Divider />
 
+        <Link target="_blank" href="https://forms.gle/gK477bmq8cG57ELv8">
+          <ListItem>
+            <ListItemIcon>{mapIcon("edit")}</ListItemIcon>
+            <ListItemText primary={t("dodgy_shops.report_incident")} />
+          </ListItem>
+        </Link>
         <Link target="_blank" href="https://forms.gle/1M96G6xHH2tku4mJ8">
           <ListItem>
             <ListItemIcon>{mapIcon("contact_support")}</ListItemIcon>
             <ListItemText primary={t("text.help_us")} />
           </ListItem>
         </Link>
+
         <SupportUsButton
           target="_blank"
           href="https://www.collaction.hk/s/g0vhk/fund"

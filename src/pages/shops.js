@@ -8,25 +8,25 @@ import { useTranslation } from "react-i18next"
 import Typography from "@material-ui/core/Typography"
 import { graphql } from "gatsby"
 import { BasicCard } from "@components/atoms/Card"
-import { BasicFab } from "@components/atoms/Fab"
 import { TextField, InputAdornment } from "@material-ui/core/"
 import SearchIcon from "@material-ui/icons/Search"
 import { trackCustomEvent } from "gatsby-plugin-google-analytics"
 
 import { withLanguage } from "../utils/i18n"
 import { bps } from "../ui/theme"
-const FabContainer = styled(Box)`
-  && {
-    bottom: 84px;
-    right: 16px;
-    position: fixed;
-    z-index: 1200;
+// import { BasicFab } from "@components/atoms/Fab"
+// const FabContainer = styled(Box)`
+//   && {
+//     bottom: 84px;
+//     right: 16px;
+//     position: fixed;
+//     z-index: 1200;
 
-    ${bps.up("md")} {
-      bottom: 16px;
-    }
-  }
-`
+//     ${bps.up("md")} {
+//       bottom: 16px;
+//     }
+//   }
+// `
 
 const SearchBox = styled(TextField)`
   && {
@@ -89,11 +89,11 @@ const ShopsPage = props => {
     <>
       <SEO title="Home" />
       <Layout>
-        <FabContainer>
+        {/* <FabContainer>
           <Link href="https://forms.gle/gK477bmq8cG57ELv8" target="_blank">
             <BasicFab title={t("dodgy_shops.report_incident")} icon="edit" />
           </Link>
-        </FabContainer>
+        </FabContainer> */}
         <Typography variant="h4">{t("dodgy_shops.list_text")}</Typography>
         <Typography variant="body2">
           <Link
