@@ -8,6 +8,7 @@ import Link from "@material-ui/core/Link"
 import { BasicCard } from "@components/atoms/Card"
 import { useTranslation } from "react-i18next"
 import { withLanguage } from "../utils/i18n"
+import { graphql } from "gatsby"
 
 const DailyStatsContainer = styled(Box)`
   display: flex;
@@ -38,10 +39,9 @@ const WarsCaseContainer = styled(Box)`
     0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 1px 3px 0px rgba(0, 0, 0, 0.12);
 `
 
-const WarsCaseHeader = styled(Box)`
+const WarsCaseRow = styled(Box)`
   font-size: 14px;
-  font-weight: 600;
-  margin-bottom: 4px;
+  margin: 4px 0 4px;
   display: flex;
   justify-content: space-between;
 `
@@ -51,116 +51,21 @@ const WarsCaseContent = styled(Box)`
   justify-content: space-between;
   font-size: 14px;
 `
+const WarsCaseDetail = styled(Typography)`
+  margin-top: 8px;
+  font-size: 14px;
+  line-height: 1.33rem;
+`
+
+const WarsSource = styled(Link)`
+  margin-top: 8px;
+`
 
 const Label = styled(Typography)`
   margin-bottom: 3px;
   font-size: 12px;
   color: ${props => props.theme.palette.primary.dark};
 `
-
-// Rmb to sort the query by DESC order of confirmation_date
-const wars_Case = [
-  {
-    hospital_zh: "瑪麗醫院",
-    hospital_en: "Queen Mary Hospital",
-    status_en: "Hospitalised",
-    status_zh: "住院",
-    case_no: 10,
-    age: 72,
-    confirmation_date: "2020-01-29",
-    gender_en: "M",
-  },
-  {
-    hospital_zh: "瑪麗醫院",
-    hospital_en: "Queen Mary Hospital",
-    status_en: "Hospitalised",
-    status_zh: "住院",
-    case_no: 9,
-    age: 73,
-    confirmation_date: "2020-01-29",
-    gender_en: "F",
-  },
-  {
-    hospital_zh: "瑪嘉烈醫院",
-    hospital_en: "Princess Margaret Hospital",
-    status_en: "Hospitalised",
-    status_zh: "住院",
-    case_no: 8,
-    age: 64,
-    confirmation_date: "2020-01-26",
-    gender_en: "M",
-  },
-  {
-    hospital_zh: "瑪嘉烈醫院",
-    hospital_en: "Princess Margaret Hospital",
-    status_en: "Hospitalised",
-    status_zh: "住院",
-    case_no: 7,
-    age: 68,
-    confirmation_date: "2020-01-26",
-    gender_en: "F",
-  },
-  {
-    hospital_zh: "瑪嘉烈醫院",
-    hospital_en: "Princess Margaret Hospital",
-    status_en: "Hospitalised",
-    status_zh: "住院",
-    case_no: 6,
-    age: 47,
-    confirmation_date: "2020-01-26",
-    gender_en: "M",
-  },
-  {
-    hospital_zh: "瑪嘉烈醫院",
-    hospital_en: "Princess Margaret Hospital",
-    status_en: "Hospitalised",
-    status_zh: "住院",
-    case_no: 5,
-    age: 63,
-    confirmation_date: "2020-01-24",
-    gender_en: "M",
-  },
-  {
-    hospital_zh: "瑪嘉烈醫院",
-    hospital_en: "Princess Margaret Hospital",
-    status_en: "Hospitalised",
-    status_zh: "住院",
-    case_no: 4,
-    age: 62,
-    confirmation_date: "2020-01-24",
-    gender_en: "F",
-  },
-  {
-    hospital_zh: "瑪嘉烈醫院",
-    hospital_en: "Princess Margaret Hospital",
-    status_en: "Hospitalised",
-    status_zh: "住院",
-    case_no: 3,
-    age: 62,
-    confirmation_date: "2020-01-24",
-    gender_en: "F",
-  },
-  {
-    hospital_zh: "瑪嘉烈醫院",
-    hospital_en: "Princess Margaret Hospital",
-    status_en: "Hospitalised",
-    status_zh: "住院",
-    case_no: 2,
-    age: 56,
-    confirmation_date: "2020-01-23",
-    gender_en: "M",
-  },
-  {
-    hospital_zh: "瑪嘉烈醫院",
-    hospital_en: "Princess Margaret Hospital",
-    status_en: "Hospitalised",
-    status_zh: "住院",
-    case_no: 1,
-    age: 39,
-    confirmation_date: "2020-01-23",
-    gender_en: "M",
-  },
-]
 
 // Rmb to sort the query by DESC order of last_updated
 const wars_DailyStats = [
@@ -242,38 +147,57 @@ function dailyStats(t, props) {
 }
 
 const confirmedCases = (i18n, item, t) => {
+  const { node } = item
   return (
-    <WarsCaseContainer key={`case-${item.case_no}`}>
-      <WarsCaseHeader>
-        <Box>{`${t("dashboard.patient_age_format", { age: item.age })}  ${
-          item.gender_en === "F"
+    <WarsCaseContainer key={`case-${node.case_no}`}>
+      <WarsCaseRow>
+        <Box>
+          {`#${node.case_no}`} ({withLanguage(i18n, node, "type")})
+        </Box>
+        <Box>{withLanguage(i18n, node, "status")}</Box>
+      </WarsCaseRow>
+      <WarsCaseRow>
+        <Box>{`${t("dashboard.patient_age_format", { age: node.age })}  ${
+          node.gender_en === "F"
             ? t("dashboard.gender_female")
             : t("dashboard.gender_male")
         }`}</Box>
-        <Box>{`#${item.case_no}`}</Box>
-      </WarsCaseHeader>
+      </WarsCaseRow>
       <Box>
         <WarsCaseContent>
           <Box>
             <Label>{t("dashboard.patient_confirm_date")}</Label>
-            {item.confirmation_date}
+            {node.confirmation_date}
+          </Box>
+          <Box>
+            <Label>{t("dashboard.patient_citizenship")}</Label>
+            {withLanguage(i18n, node, "citizenship") || "-"}
           </Box>
           <Box>
             <Label>{t("dashboard.patient_hospital")}</Label>
-            {withLanguage(i18n, item, "hospital")}
-          </Box>
-          <Box>
-            <Label>{t("dashboard.patient_status")}</Label>
-            {withLanguage(i18n, item, "status")}
+            {withLanguage(i18n, node, "hospital") || "-"}
           </Box>
         </WarsCaseContent>
       </Box>
+      <WarsCaseRow>
+        <WarsCaseDetail>{withLanguage(i18n, node, "detail")}</WarsCaseDetail>
+      </WarsCaseRow>
+      <WarsCaseRow>
+        <WarsSource href={node.source_url} target="_blank">
+          {t("dashboard.source")}
+        </WarsSource>
+      </WarsCaseRow>
     </WarsCaseContainer>
   )
 }
 
-const IndexPage = () => {
+const IndexPage = ({ data }) => {
   const { i18n, t } = useTranslation()
+
+  data.allWarsCases.edges.sort(
+    (a, b) => parseInt(b.node.case_no) - parseInt(a.node.case_no)
+  )
+
   return (
     <>
       <SEO title="Home" />
@@ -292,12 +216,36 @@ const IndexPage = () => {
         </Typography>
         <BasicCard children={dailyStats(t, wars_DailyStats)} />
         <Typography variant="h4">{t("dashboard.confirmed_case")}</Typography>
-        {wars_Case
-          .sort((a, b) => b.case_no - a.case_no)
-          .map(item => confirmedCases(i18n, item, t))}
+        {data.allWarsCases.edges.map(node => confirmedCases(i18n, node, t))}
       </Layout>
     </>
   )
 }
 
 export default IndexPage
+
+export const WarsCasesQuery = graphql`
+  query {
+    allWarsCases(sort: { order: DESC, fields: case_no }) {
+      edges {
+        node {
+          case_no
+          confirmation_date
+          gender
+          age
+          hospital_zh
+          hospital_en
+          status_zh
+          status_en
+          type_zh
+          type_en
+          citizenship_zh
+          citizenship_en
+          detail_zh
+          detail_en
+          source_url
+        }
+      }
+    }
+  }
+`
