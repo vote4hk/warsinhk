@@ -41,6 +41,8 @@
   "dashboard.gender_male": "Male",
   "dashboard.gender_female": "Female",
   "dashboard.patient_confirm_date": "Confirmed date",
+  "dashboard.patient_citizenship": "Citizenship",
   "dashboard.patient_hospital": "Hospital admitted",
-  "dashboard.patient_status": "Status"
+  "dashboard.patient_status": "Status",
+  "dashboard.source": "Source"
 }
