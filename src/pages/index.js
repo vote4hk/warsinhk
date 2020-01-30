@@ -62,7 +62,7 @@ const Label = styled(Typography)`
 const wars_Case = [
   {
     hospital_zh: "瑪麗醫院",
-    hospital_en: "Princess Margaret Hospital",
+    hospital_en: "Queen Mary Hospital",
     status_en: "Hospitalised",
     status_zh: "住院",
     case_no: 10,
@@ -72,7 +72,7 @@ const wars_Case = [
   },
   {
     hospital_zh: "瑪麗醫院",
-    hospital_en: "Princess Margaret Hospital",
+    hospital_en: "Queen Mary Hospital",
     status_en: "Hospitalised",
     status_zh: "住院",
     case_no: 9,
