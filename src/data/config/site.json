@@ -47,9 +47,8 @@
       "title": "gov_news.title",
       "to": "/gov-news",
       "icon": "event_note",
-      "sideMenu": false,
-      "bottomNav": false,
-      "_remark": "the plugin is expired"
+      "sideMenu": true,
+      "bottomNav": false
     },
     {
       "title": "poster_gallery.title",

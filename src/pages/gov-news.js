@@ -22,14 +22,19 @@ const NewsPage = props => {
   const item = ({ node }) => {
     return (
       <NewsCard>
-        <Link href={withLanguage(i18n, node, "link")} target="_blank">
+        {/* TODO: Using Link will render a wrong URL (en/zh)  */}
+        <a
+          href={withLanguage(i18n, node, "link")}
+          rel="noopener noreferrer"
+          target="_blank"
+        >
           <Typography variant="body2" color="textPrimary">
             {node.date}
           </Typography>
           <Typography variant="h6" color="textPrimary">
             {withLanguage(i18n, node, "title")}
           </Typography>
-        </Link>
+        </a>
       </NewsCard>
     )
   }
