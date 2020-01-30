@@ -10,6 +10,9 @@ import { useTranslation } from "react-i18next"
 import { withLanguage } from "../utils/i18n"
 import { graphql } from "gatsby"
 
+const SessiontWrapper = styled(Box)`
+  margin-bottom: 16px;
+`
 const DailyStatsContainer = styled(Box)`
   display: flex;
   justify-content: space-between;
@@ -67,41 +70,9 @@ const Label = styled(Typography)`
   color: ${props => props.theme.palette.primary.dark};
 `
 
-// Rmb to sort the query by DESC order of last_updated
-const wars_DailyStats = [
-  {
-    confirmed_case: 10,
-    fulfilling: 585,
-    last_updated: "2020-01-30",
-    ruled_out: 436,
-    still_investigated: 139,
-  },
-  {
-    confirmed_case: 10,
-    fulfilling: 585,
-    last_updated: "2020-01-29",
-    ruled_out: 416,
-    still_investigated: 159,
-  },
-  {
-    confirmed_case: 8,
-    fulfilling: 529,
-    last_updated: "2020-01-28",
-    ruled_out: 332,
-    still_investigated: 189,
-  },
-  {
-    confirmed_case: 8,
-    fulfilling: 451,
-    last_updated: "2020-01-27",
-    ruled_out: 276,
-    still_investigated: 167,
-  },
-]
-
 function dailyStats(t, props) {
-  const today = props[0]
-  const ytd = props[1]
+  const today = props[0].node
+  const ytd = props[1].node
 
   const dataArray = [
     {
@@ -158,7 +129,7 @@ const confirmedCases = (i18n, item, t) => {
       </WarsCaseRow>
       <WarsCaseRow>
         <Box>{`${t("dashboard.patient_age_format", { age: node.age })}  ${
-          node.gender_en === "F"
+          node.gender === "F"
             ? t("dashboard.gender_female")
             : t("dashboard.gender_male")
         }`}</Box>
@@ -198,25 +169,37 @@ const IndexPage = ({ data }) => {
     (a, b) => parseInt(b.node.case_no) - parseInt(a.node.case_no)
   )
 
+  const latestStat = data.allDailyStats.edges[0].node
+  const remarksText = withLanguage(i18n, latestStat, "remarks")
+
   return (
     <>
       <SEO title="Home" />
       <Layout>
-        <Typography variant="h4">{t("index.title")}</Typography>
-        <Typography variant="body2">
-          <Link
-            href="https://www.chp.gov.hk/tc/features/102465.html"
-            target="_blank"
-          >
-            {t("dashboard.source_chpgovhk")}
-          </Link>
-        </Typography>
-        <Typography variant="body2" color="textPrimary">
-          {`${t("dashboard.last_updated")}${wars_DailyStats[0].last_updated}`}
-        </Typography>
-        <BasicCard children={dailyStats(t, wars_DailyStats)} />
-        <Typography variant="h4">{t("dashboard.confirmed_case")}</Typography>
-        {data.allWarsCases.edges.map(node => confirmedCases(i18n, node, t))}
+        <SessiontWrapper>
+          <Typography variant="h4">{t("index.title")}</Typography>
+          <Typography variant="body2">
+            <Link
+              href="https://www.chp.gov.hk/tc/features/102465.html"
+              target="_blank"
+            >
+              {t("dashboard.source_chpgovhk")}
+            </Link>
+          </Typography>
+          <Typography variant="body2" color="textPrimary">
+            {`${t("dashboard.last_updated")}${latestStat.last_updated}`}
+          </Typography>
+          <BasicCard children={dailyStats(t, data.allDailyStats.edges)} />
+          {remarksText && (
+            <Typography variant="body2" color="textPrimary">
+              {remarksText}
+            </Typography>
+          )}
+        </SessiontWrapper>
+        <SessiontWrapper>
+          <Typography variant="h4">{t("dashboard.confirmed_case")}</Typography>
+          {data.allWarsCases.edges.map(node => confirmedCases(i18n, node, t))}
+        </SessiontWrapper>
       </Layout>
     </>
   )
@@ -244,6 +227,20 @@ export const WarsCasesQuery = graphql`
           detail_zh
           detail_en
           source_url
+        }
+      }
+    }
+    allDailyStats(sort: { order: DESC, fields: last_updated }) {
+      edges {
+        node {
+          last_updated
+          death
+          confirmed_case
+          ruled_out
+          still_investigated
+          fulfilling
+          remarks_zh
+          remarks_en
         }
       }
     }
