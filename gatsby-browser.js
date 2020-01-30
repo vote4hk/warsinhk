@@ -40,7 +40,7 @@ export const wrapPageElement = ({ element, props }) => {
 export const wrapRootElement = ({ element }) => {
   console.log(`
   --------------------------------------
-  Fight for freedom, Stand from MO HONG!
+  Fight for Freedom, Stand from Wuhan!
   --------------------------------------
 
   We are waiting for your commit :)
