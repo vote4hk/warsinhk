@@ -3,7 +3,8 @@ import styled from "styled-components"
 import { useStaticQuery, graphql } from "gatsby"
 import Alert from "@material-ui/lab/Alert"
 import AlertTitle from "@material-ui/lab/AlertTitle"
-import ContextStore from "@/contextStore"
+import { withLanguage } from "@/utils/i18n"
+import { useTranslation } from "react-i18next"
 
 const AlertMessageContainer = styled.div`
   && {
@@ -35,27 +36,16 @@ const AlertMessage = props => {
     allConfig: { edges },
   } = config
 
-  const {
-    route: {
-      state: { fullPath },
-    },
-  } = React.useContext(ContextStore)
+  const { i18n } = useTranslation()
 
   return (
     <>
       {edges.map((edge, index) => {
         var {
-          node: {
-            title_en,
-            title_zh,
-            message_en,
-            message_zh,
-            severity,
-            variant,
-          },
+          node: { title, message, severity, variant },
         } = edge
-        var title = fullPath.includes("/en") ? title_en : title_zh
-        var message = fullPath.includes("/en") ? message_en : message_zh
+        title = withLanguage(i18n, edge.node, "title")
+        message = withLanguage(i18n, edge.node, "message")
 
         severity = severity ? severity : "info"
         variant = variant ? variant : "standard"
