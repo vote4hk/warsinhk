@@ -15,6 +15,7 @@ const SHEET_HYGIENE_TIPS_MASTER = "hygiene_tips"
 const SHEET_SHOP_MASTER = "shop_master"
 const SHEET_CONFIG_MASTER = "config"
 const SHEET_WARS_CASES_MASTER = "wars_cases"
+const SHEET_DAILY_STATS_MASTER = "daily_stats"
 
 exports.sourceNodes = async props => {
   await Promise.all([
@@ -24,6 +25,7 @@ exports.sourceNodes = async props => {
     createNode(props, SHEET_SHOP_MASTER, "Shop"),
     createNode(props, SHEET_CONFIG_MASTER, "Config"),
     createNode(props, SHEET_WARS_CASES_MASTER, "WarsCases"),
+    createNode(props, SHEET_DAILY_STATS_MASTER, "DailyStats"),
     createAENode(props),
     createGNNode(props),
     createGovNewsNode(props),
