@@ -11,6 +11,8 @@ import { BasicCard } from "@components/atoms/Card"
 import { TextField, InputAdornment } from "@material-ui/core/"
 import SearchIcon from "@material-ui/icons/Search"
 import { trackCustomEvent } from "gatsby-plugin-google-analytics"
+import Select from "react-select"
+import makeAnimated from "react-select/animated"
 
 import { withLanguage } from "../utils/i18n"
 import { bps } from "../ui/theme"
@@ -27,6 +29,8 @@ import { bps } from "../ui/theme"
 //     }
 //   }
 // `
+
+const animatedComponents = makeAnimated()
 
 const SearchBox = styled(TextField)`
   && {
@@ -81,10 +85,44 @@ function containsText(i18n, node, text) {
   )
 }
 
+function isInSubDistrict(i18n, node, textList) {
+  if (typeof textList === "string") return
+  return (
+    textList &&
+    textList.some(
+      optionObj =>
+        withLanguage(i18n, node, "sub_district").indexOf(optionObj.value) >= 0
+    )
+  )
+}
+
+function createSubDistrictOptionList(allData, i18n) {
+  let subDistrictArray = allData.map(({ node }) =>
+    withLanguage(i18n, node, "sub_district")
+  )
+  let optionList = []
+
+  subDistrictArray
+    .filter((a, b) => subDistrictArray.indexOf(a) === b)
+    .forEach(value => {
+      optionList.push({
+        value: value,
+        label: value,
+      })
+    })
+
+  return optionList
+}
+
 const ShopsPage = props => {
   const { data } = props
   const { i18n, t } = useTranslation()
   const [filter, setFilter] = useState("")
+  const subDistrictOptionList = createSubDistrictOptionList(
+    data.allDodgyShop.edges,
+    i18n
+  )
+
   return (
     <>
       <SEO title="Home" />
@@ -104,6 +142,16 @@ const ShopsPage = props => {
           </Link>
         </Typography>
         <>
+          <Select
+            closeMenuOnSelect={false}
+            components={animatedComponents}
+            isMulti
+            placeholder={t("dodgy_shops.filter_text")}
+            options={subDistrictOptionList}
+            onChange={selectedArray => {
+              setFilter(selectedArray || "")
+            }}
+          />
           <SearchBox
             id="input-with-icon-textfield"
             placeholder={t("dodgy_shops.filter_text")}
@@ -125,7 +173,12 @@ const ShopsPage = props => {
           />
         </>
         {data.allDodgyShop.edges
-          .filter(e => filter === "" || containsText(i18n, e.node, filter))
+          .filter(
+            e =>
+              filter === "" ||
+              containsText(i18n, e.node, filter) ||
+              isInSubDistrict(i18n, e.node, filter)
+          )
           .map((node, index) => (
             <BasicCard
               alignItems="flex-start"
