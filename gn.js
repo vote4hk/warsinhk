@@ -19,23 +19,29 @@ exports.fetchGoogleNews = async () => {
 
   const records_zh = feed_zh.items
   const records_en = feed_en.items
-  const recordsProcessed = records_zh.map((r, ridx) => {
-    const datetime = r.isoDate.split("T")
-    return Object.assign(
-      {
-        title_zh: r.title,
-        title_en: records_en[ridx] ? records_en[ridx].title : "",
-        source_zh: r.source,
-        source_en: records_en[ridx] ? records_en[ridx].source : "",
-        link_zh: r.link,
-        link_en: records_en[ridx] ? records_en[ridx].link : "",
-        date: datetime[0],
-        time: datetime[1].slice(0, 8),
-      },
-      r
-    )
-  })
-  return { records: recordsProcessed }
+  const recordsProcessed = {
+    gn_en: records_en.map((r, ridx) => {
+      const datetime = r.isoDate.split("T")
+      return Object.assign(
+        {
+          date: datetime[0],
+          time: datetime[1].slice(0, 8),
+        },
+        r
+      )
+    }).sort((a, b) => b.isoDate - a.isoDate),
+    gn_zh: records_zh.map((r, ridx) => {
+      const datetime = r.isoDate.split("T")
+      return Object.assign(
+        {
+          date: datetime[0],
+          time: datetime[1].slice(0, 8),
+        },
+        r
+      )
+    }).sort((a, b) => b.isoDate - a.isoDate),
+  }
+  return { records: [recordsProcessed] }
 }
 
 exports.fetchGovNews = async () => {
