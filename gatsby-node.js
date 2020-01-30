@@ -5,7 +5,8 @@
  */
 const fetch = require("node-fetch")
 const csv2json = require("csvtojson")
-const ae = require("./ae")
+const ae = require('./ae')
+const gn = require('./gn')
 const GOOGLE_SPREADSHEET_ID = "14kreo2vRo1XCUXqFLcMApVtYmvkEzWBDm6b8fzJNKEc"
 const SHEET_DODGY_SHOPS = "dodgy_shops"
 const SHEET_HIGH_RISK_MASTER = "highrisk_master"
@@ -21,6 +22,8 @@ exports.sourceNodes = async props => {
     createNode(props, SHEET_SHOP_MASTER, "Shop"),
     createNode(props, SHEET_CONFIG_MASTER, "Config"),
     createAENode(props),
+    createGNNode(props),
+    createGovNewsNode(props)
   ])
 }
 
@@ -32,6 +35,48 @@ const createAENode = async ({
   const type = "AEWaitingTime"
   const output = await ae.fetchAEWaitingTime()
   const { records } = output
+  records.forEach((p, i) => {
+    const meta = {
+      id: createNodeId(`${type.toLowerCase()}-${i}`),
+      parent: null,
+      children: [],
+      internal: {
+        type,
+        contentDigest: createContentDigest(p),
+      },
+    }
+    const node = Object.assign({}, p, meta)
+    createNode(node)
+  })
+}
+
+const createGNNode = async (
+  { actions: { createNode }, createNodeId, createContentDigest },
+) => {
+  const type = "GoogleNews"
+  const output = await gn.fetchGoogleNews();
+  const { records } = output;
+  records.forEach((p, i) => {
+    const meta = {
+      id: createNodeId(`${type.toLowerCase()}-${i}`),
+      parent: null,
+      children: [],
+      internal: {
+        type,
+        contentDigest: createContentDigest(p),
+      },
+    }
+    const node = Object.assign({}, p, meta)
+    createNode(node)
+  })
+}
+
+const createGovNewsNode = async (
+  { actions: { createNode }, createNodeId, createContentDigest },
+) => {
+  const type = "GovNews"
+  const output = await gn.fetchGovNews();
+  const { records } = output;
   records.forEach((p, i) => {
     const meta = {
       id: createNodeId(`${type.toLowerCase()}-${i}`),
