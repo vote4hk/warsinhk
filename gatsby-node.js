@@ -14,6 +14,7 @@ const SHEET_HIGH_RISK_MASTER = "highrisk_master"
 const SHEET_HYGIENE_TIPS_MASTER = "hygiene_tips"
 const SHEET_SHOP_MASTER = "shop_master"
 const SHEET_CONFIG_MASTER = "config"
+const SHEET_WARS_CASES_MASTER = "wars_cases"
 
 exports.sourceNodes = async props => {
   await Promise.all([
@@ -22,6 +23,7 @@ exports.sourceNodes = async props => {
     createNode(props, SHEET_HYGIENE_TIPS_MASTER, "HygieneTips"),
     createNode(props, SHEET_SHOP_MASTER, "Shop"),
     createNode(props, SHEET_CONFIG_MASTER, "Config"),
+    createNode(props, SHEET_WARS_CASES_MASTER, "WarsCases"),
     createAENode(props),
     createGNNode(props),
     createGovNewsNode(props),
@@ -52,12 +54,14 @@ const createAENode = async ({
   })
 }
 
-const createGNNode = async (
-  { actions: { createNode }, createNodeId, createContentDigest },
-) => {
+const createGNNode = async ({
+  actions: { createNode },
+  createNodeId,
+  createContentDigest,
+}) => {
   const type = "GoogleNews"
-  const output = await gn.fetchGoogleNews();
-  const { records } = output;
+  const output = await gn.fetchGoogleNews()
+  const { records } = output
   records.forEach((p, i) => {
     const meta = {
       id: createNodeId(`${type.toLowerCase()}-${i}`),
@@ -73,12 +77,14 @@ const createGNNode = async (
   })
 }
 
-const createGovNewsNode = async (
-  { actions: { createNode }, createNodeId, createContentDigest },
-) => {
+const createGovNewsNode = async ({
+  actions: { createNode },
+  createNodeId,
+  createContentDigest,
+}) => {
   const type = "GovNews"
-  const output = await gn.fetchGovNews();
-  const { records } = output;
+  const output = await gn.fetchGovNews()
+  const { records } = output
   records.forEach((p, i) => {
     const meta = {
       id: createNodeId(`${type.toLowerCase()}-${i}`),
@@ -94,12 +100,14 @@ const createGovNewsNode = async (
   })
 }
 
-const createPosterNode = async (
-  { actions: { createNode }, createNodeId, createContentDigest },
-) => {
+const createPosterNode = async ({
+  actions: { createNode },
+  createNodeId,
+  createContentDigest,
+}) => {
   const type = "PosterGallery"
-  const output = await poster.fetchCollactionPosterGallery();
-  const { galleries } = output;
+  const output = await poster.fetchCollactionPosterGallery()
+  const { galleries } = output
   galleries.forEach((p, i) => {
     const meta = {
       id: createNodeId(`${type.toLowerCase()}-${i}`),
