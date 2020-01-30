@@ -65,6 +65,26 @@ const wars_Case = [
     hospital_en: "Queen Mary Hospital",
     status_en: "Hospitalised",
     status_zh: "住院",
+    case_no: 12,
+    age: 75,
+    confirmation_date: "2020-01-30",
+    gender_en: "M",
+  },
+  {
+    hospital_zh: "伊利沙伯醫院",
+    hospital_en: "Queen Elizabeth Hospital",
+    status_en: "Hospitalised",
+    status_zh: "住院",
+    case_no: 11,
+    age: 37,
+    confirmation_date: "2020-01-30",
+    gender_en: "F",
+  },
+  {
+    hospital_zh: "瑪麗醫院",
+    hospital_en: "Queen Mary Hospital",
+    status_en: "Hospitalised",
+    status_zh: "住院",
     case_no: 10,
     age: 72,
     confirmation_date: "2020-01-29",
@@ -165,11 +185,11 @@ const wars_Case = [
 // Rmb to sort the query by DESC order of last_updated
 const wars_DailyStats = [
   {
-    confirmed_case: 10,
-    fulfilling: 585,
+    confirmed_case: 12,
+    fulfilling: 680,
     last_updated: "2020-01-30",
-    ruled_out: 436,
-    still_investigated: 139,
+    ruled_out: 478,
+    still_investigated: 190,
   },
   {
     confirmed_case: 10,
