@@ -167,6 +167,13 @@ const wars_DailyStats = [
   {
     confirmed_case: 10,
     fulfilling: 585,
+    last_updated: "2020-01-30",
+    ruled_out: 436,
+    still_investigated: 139,
+  },
+  {
+    confirmed_case: 10,
+    fulfilling: 585,
     last_updated: "2020-01-29",
     ruled_out: 416,
     still_investigated: 159,
