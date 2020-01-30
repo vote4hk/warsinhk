@@ -4,7 +4,6 @@ import SEO from "@/components/templates/SEO"
 import Layout from "@components/templates/Layout"
 import Typography from "@material-ui/core/Typography"
 import { graphql } from "gatsby"
-import Box from "@material-ui/core/Box"
 import Link from "@material-ui/core/Link"
 import { BasicCard } from "@components/atoms/Card"
 import styled from "styled-components"
@@ -23,7 +22,7 @@ const NewsPage = props => {
   const item = ({ node }) => {
     return (
       <NewsCard>
-        <a href={withLanguage(i18n, node, "link")}>
+        <Link href={withLanguage(i18n, node, "link")} target="_blank">
           <Typography variant="body2" color="textPrimary">
             {`${node.date} ${node.time}`}
           </Typography>
@@ -33,7 +32,7 @@ const NewsPage = props => {
           <Typography variant="h6" color="textPrimary">
             {withLanguage(i18n, node, "title")}
           </Typography>
-        </a>
+        </Link>
       </NewsCard>
     )
   }
@@ -43,16 +42,14 @@ const NewsPage = props => {
       <SEO title="NewsPage" />
       <Typography variant="h4">{t("news.title")}</Typography>
       <Typography variant="body2">
-        <Link
-          href={t("news.url")}
-          target="_blank"
-        >
+        <Link href={t("news.url")} target="_blank">
           {t("news.source_google")}
         </Link>
       </Typography>
       <Typography variant="body2">
         {t("waiting_time.last_updated")}
-        {_.get(data.allGoogleNews, "edges[0].node.date", "")} {_.get(data.allGoogleNews, "edges[0].node.time", "")}
+        {_.get(data.allGoogleNews, "edges[0].node.date", "")}{" "}
+        {_.get(data.allGoogleNews, "edges[0].node.time", "")}
       </Typography>
       {data.allGoogleNews.edges.map((node, index) => (
         <div key={index} children={item(node)} />

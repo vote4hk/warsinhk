@@ -4,7 +4,6 @@ import SEO from "@/components/templates/SEO"
 import Layout from "@components/templates/Layout"
 import Typography from "@material-ui/core/Typography"
 import { graphql } from "gatsby"
-import Box from "@material-ui/core/Box"
 import Link from "@material-ui/core/Link"
 import { BasicCard } from "@components/atoms/Card"
 import styled from "styled-components"
@@ -23,14 +22,14 @@ const NewsPage = props => {
   const item = ({ node }) => {
     return (
       <NewsCard>
-        <a href={withLanguage(i18n, node, "link")}>
+        <Link href={withLanguage(i18n, node, "link")} target="_blank">
           <Typography variant="body2" color="textPrimary">
             {node.date}
           </Typography>
           <Typography variant="h6" color="textPrimary">
             {withLanguage(i18n, node, "title")}
           </Typography>
-        </a>
+        </Link>
       </NewsCard>
     )
   }
@@ -40,10 +39,7 @@ const NewsPage = props => {
       <SEO title="NewsPage" />
       <Typography variant="h4">{t("gov_news.title")}</Typography>
       <Typography variant="body2">
-        <Link
-          href={t("gov_news.url")}
-          target="_blank"
-        >
+        <Link href={t("gov_news.url")} target="_blank">
           {t("gov_news.source")}
         </Link>
       </Typography>

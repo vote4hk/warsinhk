@@ -10,11 +10,10 @@ const StyledPosterCard = styled(Card)`
   width: 100%;
 `
 
-const StyledCardMedia = styled(CardMedia)`
-`
+const StyledCardMedia = styled(CardMedia)``
 
 export function PosterCard(props) {
-  const { text, imageUrl, sourceUrl } = props
+  const { imageUrl, sourceUrl } = props
 
   return (
     <StyledPosterCard>
@@ -30,9 +29,7 @@ export function PosterCard(props) {
           }}
           target="_blank"
         >
-          <StyledCardMedia
-            component="img"
-            src={imageUrl} />
+          <StyledCardMedia component="img" src={imageUrl} />
         </Link>
       </CardActionArea>
     </StyledPosterCard>
