@@ -26,9 +26,9 @@ const CardContainer = styled(Box)`
 `
 
 const Container = styled.div`
- text-align: center;
- margin-top: 24px;
-`;
+  text-align: center;
+  margin-top: 24px;
+`
 
 const PosterGalleryPage = ({ data, pageContext }) => {
   const { t } = useTranslation()
@@ -64,9 +64,13 @@ const PosterGalleryPage = ({ data, pageContext }) => {
 
       <Container>
         <div>
-          <Button style={{ justifyContent: 'center' }}
-            variant="contained" color="primary" target="_blank"
-            href="https://www.collaction.hk/lab/extradition_gallery?tag=武漢肺炎">
+          <Button
+            style={{ justifyContent: "center" }}
+            variant="contained"
+            color="primary"
+            target="_blank"
+            href="https://www.collaction.hk/lab/extradition_gallery?tag=武漢肺炎"
+          >
             {t("poster_gallery.more")}
           </Button>
         </div>
