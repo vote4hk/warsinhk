@@ -9,7 +9,7 @@ import Alert from "@material-ui/lab/Alert"
 import AlertTitle from "@material-ui/lab/AlertTitle"
 import { withLanguage } from "@/utils/i18n"
 
-const AlertMessageContainer = styled.div`
+const StyledAlert = styled(Alert)`
   && {
     margin-bottom: 20px;
   }
@@ -33,29 +33,27 @@ const AlertChild = props => {
     variant = variant ? variant : "standard"
 
     return (
-      <AlertMessageContainer>
-        <Collapse in={open}>
-          <Alert
-            severity={severity}
-            variant={variant}
-            action={
-              <IconButton
-                aria-label="close"
-                color="inherit"
-                size="small"
-                onClick={() => {
-                  setOpen(false)
-                }}
-              >
-                {mapIcon("close")}
-              </IconButton>
-            }
-          >
-            {title && <AlertTitle>{title}</AlertTitle>}
-            {message}
-          </Alert>
-        </Collapse>
-      </AlertMessageContainer>
+      <Collapse in={open}>
+        <StyledAlert
+          severity={severity}
+          variant={variant}
+          action={
+            <IconButton
+              aria-label="close"
+              color="inherit"
+              size="small"
+              onClick={() => {
+                setOpen(false)
+              }}
+            >
+              {mapIcon("close")}
+            </IconButton>
+          }
+        >
+          {title && <AlertTitle>{title}</AlertTitle>}
+          {message}
+        </StyledAlert>
+      </Collapse>
     )
   }
 
