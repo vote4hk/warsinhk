@@ -19,12 +19,15 @@ const NewsPage = props => {
   const { data } = props
   const { i18n, t } = useTranslation()
 
+  const newsNode = _.get(data, "allGoogleNews.edges[0].node", {})
+  const news = withLanguage(i18n, newsNode, "gn")
+
   const item = ({ node }) => {
     return (
       <NewsCard>
         {/* TODO: Using Link will render a wrong URL (en/zh)  */}
         <a
-          href={withLanguage(i18n, node, "link")}
+          href={node.link}
           rel="noopener noreferrer"
           target="_blank"
         >
@@ -32,10 +35,10 @@ const NewsPage = props => {
             {`${node.date} ${node.time}`}
           </Typography>
           <Typography variant="body2" color="textPrimary">
-            {withLanguage(i18n, node, "source")}
+            {node.source}
           </Typography>
           <Typography variant="h6" color="textPrimary">
-            {withLanguage(i18n, node, "title")}
+            {node.title}
           </Typography>
         </a>
       </NewsCard>
@@ -53,11 +56,11 @@ const NewsPage = props => {
       </Typography>
       <Typography variant="body2">
         {t("waiting_time.last_updated")}
-        {_.get(data.allGoogleNews, "edges[0].node.date", "")}{" "}
-        {_.get(data.allGoogleNews, "edges[0].node.time", "")}
+        {_.get(news, "[0].date", '')}{" "}
+        {_.get(news, "[0].time", '')}
       </Typography>
-      {data.allGoogleNews.edges.map((node, index) => (
-        <div key={index} children={item(node)} />
+      {news.map((node, index) => (
+        <div key={index} children={item({node})} />
       ))}
     </Layout>
   )
@@ -67,18 +70,25 @@ export default NewsPage
 
 export const GoogleNewsQuery = graphql`
   query {
-    allGoogleNews(sort: { order: DESC, fields: isoDate }) {
+    allGoogleNews {
       edges {
         node {
-          title_en
-          title_zh
-          link_en
-          link_zh
-          source_en
-          source_zh
-          isoDate
-          date
-          time
+          gn_en {
+            title
+            link
+            source
+            isoDate
+            date
+            time
+          }
+          gn_zh {
+            title
+            link
+            source
+            isoDate
+            date
+            time
+          }
         }
       }
     }

@@ -19,23 +19,35 @@ exports.fetchGoogleNews = async () => {
 
   const records_zh = feed_zh.items
   const records_en = feed_en.items
-  const recordsProcessed = records_zh.map((r, ridx) => {
-    const datetime = r.isoDate.split("T")
-    return Object.assign(
-      {
-        title_zh: r.title,
-        title_en: records_en[ridx] ? records_en[ridx].title : "",
-        source_zh: r.source,
-        source_en: records_en[ridx] ? records_en[ridx].source : "",
-        link_zh: r.link,
-        link_en: records_en[ridx] ? records_en[ridx].link : "",
-        date: datetime[0],
-        time: datetime[1].slice(0, 8),
-      },
-      r
-    )
-  })
-  return { records: recordsProcessed }
+  const recordsProcessed = {
+    gn_en: records_en.map((r, ridx) => {
+      const datetime = r.isoDate.split("T")
+      return Object.assign(
+        {
+          date: datetime[0],
+          time: datetime[1].slice(0, 8),
+        },
+        r
+      )
+    })
+    .sort((a, b) => {
+      return (a.isoDate < b.isoDate) ? 1 : ((a.isoDate > b.isoDate) ? -1 : 0);
+    }),
+    gn_zh: records_zh.map((r, ridx) => {
+      const datetime = r.isoDate.split("T")
+      return Object.assign(
+        {
+          date: datetime[0],
+          time: datetime[1].slice(0, 8),
+        },
+        r
+      )
+    })
+    .sort((a, b) => {
+      return (a.isoDate < b.isoDate) ? 1 : ((a.isoDate > b.isoDate) ? -1 : 0);
+    }),
+  }
+  return { records: [recordsProcessed] }
 }
 
 exports.fetchGovNews = async () => {
@@ -53,15 +65,20 @@ exports.fetchGovNews = async () => {
 
   const records_zh = feed_zh.items
   const records_en = feed_en.items
+  function getMonth(monthStr) {
+    return new Date(monthStr+'-1-01').getMonth()+1
+  }
   const recordsProcessed = records_zh.map((r, ridx) => {
-    const date = new Date(r.pubDate)
+    const d = r.pubDate.split(' ')
+    const month = getMonth(d[2])
+    const date = [d[3],month < 10? '0'+month : month,d[1]].join('-')
     return Object.assign(
       {
         title_zh: r.title,
         title_en: records_en[ridx] ? records_en[ridx].title : "",
         link_zh: r.link,
         link_en: records_en[ridx] ? records_en[ridx].link : "",
-        date: date.toISOString().split("T")[0],
+        date: date,
       },
       r
     )
