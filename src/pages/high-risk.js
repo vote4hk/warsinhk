@@ -45,15 +45,17 @@ function item(props, i18n, t) {
       <Typography component="span" variant="body2" color="textPrimary">
         {withLanguage(i18n, node, "details")}
       </Typography>
-      <Box>
-        <Link href={node.source_url} target="_blank">
-          <Typography component="span" variant="body2" color="textPrimary">
-            {t("high_risk.source", {
-              source: withLanguage(i18n, node, "source"),
-            })}
-          </Typography>
-        </Link>
-      </Box>
+      {node.source_url && (
+        <Box>
+          <Link href={node.source_url} target="_blank">
+            <Typography component="span" variant="body2" color="textPrimary">
+              {t("high_risk.source", {
+                source: withLanguage(i18n, node, "source"),
+              })}
+            </Typography>
+          </Link>
+        </Box>
+      )}
       <Typography variant="body2">
         <Link
           href={`https://maps.google.com/?q=${withLanguage(
