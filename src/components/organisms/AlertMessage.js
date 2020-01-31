@@ -13,10 +13,10 @@ const AlertMessageContainer = styled.div`
 `
 
 const AlertMessage = props => {
-  const config = useStaticQuery(
+  const alert = useStaticQuery(
     graphql`
       query {
-        allConfig {
+        allAlert {
           edges {
             node {
               title_en
@@ -25,6 +25,7 @@ const AlertMessage = props => {
               message_zh
               severity
               variant
+              enabled
             }
           }
         }
@@ -33,8 +34,8 @@ const AlertMessage = props => {
   )
 
   const {
-    allConfig: { edges },
-  } = config
+    allAlert: { edges },
+  } = alert
 
   const { i18n } = useTranslation()
 
@@ -42,22 +43,27 @@ const AlertMessage = props => {
     <>
       {edges.map((edge, index) => {
         var {
-          node: { title, message, severity, variant },
+          node: { title, message, severity, variant, enabled },
         } = edge
-        title = withLanguage(i18n, edge.node, "title")
-        message = withLanguage(i18n, edge.node, "message")
 
-        severity = severity ? severity : "info"
-        variant = variant ? variant : "standard"
+        if (enabled === "Y") {
+          title = withLanguage(i18n, edge.node, "title")
+          message = withLanguage(i18n, edge.node, "message")
 
-        return (
-          <AlertMessageContainer key={index}>
-            <Alert severity={severity} variant={variant}>
-              {title && <AlertTitle>{title}</AlertTitle>}
-              {message}
-            </Alert>
-          </AlertMessageContainer>
-        )
+          severity = severity ? severity : "info"
+          variant = variant ? variant : "standard"
+
+          return (
+            <AlertMessageContainer key={index}>
+              <Alert severity={severity} variant={variant}>
+                {title && <AlertTitle>{title}</AlertTitle>}
+                {message}
+              </Alert>
+            </AlertMessageContainer>
+          )
+        }
+
+        return null
       })}
     </>
   )
