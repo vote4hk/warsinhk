@@ -20,8 +20,7 @@ import styled from "styled-components"
 import Link from "@material-ui/core/Link"
 import { UnstyledLink } from "@components/atoms/UnstyledLink"
 import { getLocalizedPath } from "@/utils/i18n"
-// 20200129 wingkwong: disable this feature temporarily
-// import LanguageSwitcher from "@/components/organisms/LanguageSwitcher"
+import LanguageSwitcher from "@/components/organisms/LanguageSwitcher"
 
 const drawerWidth = 240
 
@@ -101,23 +100,33 @@ function ResponsiveDrawer(props) {
           ))}
         </List>
         <Divider />
-        {/* 20200129 wingkwong: disable this feature temporarily */}
-        {/* 
         <ListItem>
           <ListItemIcon>{mapIcon("translate")}</ListItemIcon>
-          <LanguageSwitcher/>
+          <LanguageSwitcher />
         </ListItem>
-        <Divider /> 
-        */}
-        <Link target="_blank" href="https://forms.gle/1M96G6xHH2tku4mJ8">
-          <ListItem>
-            <ListItemIcon>{mapIcon("contact_support")}</ListItemIcon>
-            <ListItemText primary={t("text.help_us")} />
-          </ListItem>
-        </Link>
+        <Divider />
+        {/* Only show the forms in chinese as we do not have english form.. */}
+        {i18n.language === "zh" && (
+          <Link target="_blank" href="https://forms.gle/gK477bmq8cG57ELv8">
+            <ListItem>
+              <ListItemIcon>{mapIcon("edit")}</ListItemIcon>
+              <ListItemText primary={t("dodgy_shops.report_incident")} />
+            </ListItem>
+          </Link>
+        )}
+
+        {i18n.language === "zh" && (
+          <Link target="_blank" href="https://forms.gle/1M96G6xHH2tku4mJ8">
+            <ListItem>
+              <ListItemIcon>{mapIcon("contact_support")}</ListItemIcon>
+              <ListItemText primary={t("text.help_us")} />
+            </ListItem>
+          </Link>
+        )}
+
         <SupportUsButton
           target="_blank"
-          href="https://www.collaction.hk/s/g0vhk/fund"
+          href={`https://www.collaction.hk/s/g0vhk/fund?lang=${i18n.language}`}
         >
           <ListItem>
             <ListItemIcon>{mapIcon("thumb_up")}</ListItemIcon>

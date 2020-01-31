@@ -1,11 +1,11 @@
 require("dotenv").config()
 
 const GOOGLE_TRACKING_ID = process.env.GOOGLE_TRACKING_ID || "UA-111111111-1"
-
+const SITE_URL = process.env.SITE_URL || "https://wars.vote4.hk"
 module.exports = {
   // must be here for sitemap plugin lol
   siteMetadata: {
-    siteUrl: `https://wars.vote4.hk`,
+    siteUrl: SITE_URL,
   },
   plugins: [
     {
@@ -45,7 +45,6 @@ module.exports = {
         path: `${__dirname}/src/data`,
       },
     },
-    `gatsby-plugin-react-helmet`,
     {
       resolve: `gatsby-source-filesystem`,
       options: {
@@ -53,6 +52,7 @@ module.exports = {
         path: `${__dirname}/src/images`,
       },
     },
+    `gatsby-plugin-react-helmet`,
     `gatsby-transformer-sharp`,
     `gatsby-plugin-sharp`,
     {

@@ -8,25 +8,29 @@ import { useTranslation } from "react-i18next"
 import Typography from "@material-ui/core/Typography"
 import { graphql } from "gatsby"
 import { BasicCard } from "@components/atoms/Card"
-import { BasicFab } from "@components/atoms/Fab"
 import { TextField, InputAdornment } from "@material-ui/core/"
 import SearchIcon from "@material-ui/icons/Search"
 import { trackCustomEvent } from "gatsby-plugin-google-analytics"
+import Select from "react-select"
+import makeAnimated from "react-select/animated"
 
 import { withLanguage } from "../utils/i18n"
 import { bps } from "../ui/theme"
-const FabContainer = styled(Box)`
-  && {
-    bottom: 84px;
-    right: 16px;
-    position: fixed;
-    z-index: 1200;
+// import { BasicFab } from "@components/atoms/Fab"
+// const FabContainer = styled(Box)`
+//   && {
+//     bottom: 84px;
+//     right: 16px;
+//     position: fixed;
+//     z-index: 1200;
 
-    ${bps.up("md")} {
-      bottom: 16px;
-    }
-  }
-`
+//     ${bps.up("md")} {
+//       bottom: 16px;
+//     }
+//   }
+// `
+
+const animatedComponents = makeAnimated()
 
 const SearchBox = styled(TextField)`
   && {
@@ -38,13 +42,13 @@ const SearchBox = styled(TextField)`
   }
 `
 
-function item(props, i18n) {
+function item(props, i18n, t) {
   const { node } = props
   return (
     <>
       <Box>
         <Typography component="span" variant="body2" color="textPrimary">
-          {withLanguage(i18n, node, "district")}
+          {withLanguage(i18n, node, "sub_district")}
         </Typography>
       </Box>
       <Box>
@@ -58,14 +62,14 @@ function item(props, i18n) {
         </Typography>
       </Box>
       <Typography component="span" variant="body2" color="textPrimary">
-        {node.details}
+        {withLanguage(i18n, node, "details")}
       </Typography>
       <Typography variant="body2">
         <Link
-          href={`https://maps.google.com/?q=${node.address_zh}`}
+          href={`https://maps.google.com/?q=${node.address_zh}`} // Chinese Address easier to be lookuped in Hong Kong
           target="_blank"
         >
-          地圖
+          {t("text.map")}
         </Link>
       </Typography>
     </>
@@ -75,24 +79,59 @@ function item(props, i18n) {
 function containsText(i18n, node, text) {
   return (
     withLanguage(i18n, node, "district").indexOf(text) >= 0 ||
+    withLanguage(i18n, node, "sub_district").indexOf(text) >= 0 ||
     withLanguage(i18n, node, "name").indexOf(text) >= 0 ||
     withLanguage(i18n, node, "address").indexOf(text) >= 0
   )
+}
+
+function isInSubDistrict(i18n, node, textList) {
+  if (typeof textList === "string") return
+  return (
+    textList &&
+    textList.some(
+      optionObj =>
+        withLanguage(i18n, node, "sub_district").indexOf(optionObj.value) >= 0
+    )
+  )
+}
+
+function createSubDistrictOptionList(allData, i18n) {
+  let subDistrictArray = allData.map(({ node }) =>
+    withLanguage(i18n, node, "sub_district")
+  )
+  let optionList = []
+
+  subDistrictArray
+    .filter((a, b) => subDistrictArray.indexOf(a) === b)
+    .forEach(value => {
+      optionList.push({
+        value: value,
+        label: value,
+      })
+    })
+
+  return optionList
 }
 
 const ShopsPage = props => {
   const { data } = props
   const { i18n, t } = useTranslation()
   const [filter, setFilter] = useState("")
+  const subDistrictOptionList = createSubDistrictOptionList(
+    data.allDodgyShop.edges,
+    i18n
+  )
+
   return (
     <>
       <SEO title="Home" />
       <Layout>
-        <FabContainer>
+        {/* <FabContainer>
           <Link href="https://forms.gle/gK477bmq8cG57ELv8" target="_blank">
-            <BasicFab title="報料" icon="edit" />
+            <BasicFab title={t("dodgy_shops.report_incident")} icon="edit" />
           </Link>
-        </FabContainer>
+        </FabContainer> */}
         <Typography variant="h4">{t("dodgy_shops.list_text")}</Typography>
         <Typography variant="body2">
           <Link
@@ -103,6 +142,16 @@ const ShopsPage = props => {
           </Link>
         </Typography>
         <>
+          <Select
+            closeMenuOnSelect={false}
+            components={animatedComponents}
+            isMulti
+            placeholder={t("dodgy_shops.filter_text")}
+            options={subDistrictOptionList}
+            onChange={selectedArray => {
+              setFilter(selectedArray || "")
+            }}
+          />
           <SearchBox
             id="input-with-icon-textfield"
             placeholder={t("dodgy_shops.filter_text")}
@@ -124,12 +173,17 @@ const ShopsPage = props => {
           />
         </>
         {data.allDodgyShop.edges
-          .filter(e => filter === "" || containsText(i18n, e.node, filter))
+          .filter(
+            e =>
+              filter === "" ||
+              containsText(i18n, e.node, filter) ||
+              isInSubDistrict(i18n, e.node, filter)
+          )
           .map((node, index) => (
             <BasicCard
               alignItems="flex-start"
               key={index}
-              children={item(node, i18n)}
+              children={item(node, i18n, t)}
             />
           ))}
       </Layout>
@@ -145,11 +199,19 @@ export const ShopsQuery = graphql`
       edges {
         node {
           area
+          area_zh
+          area_en
           address_zh
+          address_en
           details
+          details_zh
+          details_en
           name_zh
+          name_en
           district_zh
+          district_en
           sub_district_zh
+          sub_district_en
         }
       }
     }

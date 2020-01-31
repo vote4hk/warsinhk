@@ -1,6 +1,7 @@
 import React from "react"
 import drawerReducer from "@/reducers/drawer"
 import routeReducer from "@/reducers/route"
+import pageOptionsReducer from "@/reducers/pageOptions"
 
 export const drawerInitialState = {
   open: false,
@@ -11,9 +12,14 @@ export const routeInitialState = {
   fullPath: "/",
 }
 
+export const pageOptionsInitialState = {
+  closedAlerts: [],
+}
+
 const ContextStore = React.createContext({
   drawer: drawerInitialState,
   route: routeInitialState,
+  pageOptions: pageOptionsInitialState,
 })
 
 export const ContextStoreProvider = props => {
@@ -27,6 +33,11 @@ export const ContextStoreProvider = props => {
     routeInitialState
   )
 
+  const [pageOptionsState, pageOptionsDispatch] = React.useReducer(
+    pageOptionsReducer,
+    pageOptionsInitialState
+  )
+
   return (
     <ContextStore.Provider
       value={{
@@ -37,6 +48,10 @@ export const ContextStoreProvider = props => {
         route: {
           state: routeState,
           dispatch: routeDispatch,
+        },
+        pageOptions: {
+          state: pageOptionsState,
+          dispatch: pageOptionsDispatch,
         },
       }}
       {...props}

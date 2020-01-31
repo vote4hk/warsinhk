@@ -10,6 +10,9 @@ import ThumbUpOutlinedIcon from "@material-ui/icons/ThumbUpOutlined"
 import ContactSupportOutlinedIcon from "@material-ui/icons/ContactSupportOutlined"
 import EventNoteIcon from "@material-ui/icons/EventNote"
 import TranslateIcon from "@material-ui/icons/Translate"
+import WebIcon from "@material-ui/icons/Web"
+import CollectionsIcon from "@material-ui/icons/Collections"
+import CloseIcon from "@material-ui/icons/Close"
 
 export function mapIcon(name) {
   switch (name) {
@@ -33,8 +36,14 @@ export function mapIcon(name) {
       return <ContactSupportOutlinedIcon />
     case "event_note":
       return <EventNoteIcon />
+    case "collections":
+      return <CollectionsIcon />
     case "translate":
       return <TranslateIcon />
+    case "web":
+      return <WebIcon />
+    case "close":
+      return <CloseIcon fontSize="inherit" />
     default:
       return null
   }

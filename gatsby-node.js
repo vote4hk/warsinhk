@@ -5,12 +5,17 @@
  */
 const fetch = require("node-fetch")
 const csv2json = require("csvtojson")
-const ae = require('./ae')
+const ae = require("./ae")
+const gn = require("./gn")
+const poster = require("./poster-gallery")
 const GOOGLE_SPREADSHEET_ID = "14kreo2vRo1XCUXqFLcMApVtYmvkEzWBDm6b8fzJNKEc"
 const SHEET_DODGY_SHOPS = "dodgy_shops"
 const SHEET_HIGH_RISK_MASTER = "highrisk_master"
 const SHEET_HYGIENE_TIPS_MASTER = "hygiene_tips"
 const SHEET_SHOP_MASTER = "shop_master"
+const SHEET_ALERT_MASTER = "alert"
+const SHEET_WARS_CASES_MASTER = "wars_cases"
+const SHEET_DAILY_STATS_MASTER = "daily_stats"
 
 exports.sourceNodes = async props => {
   await Promise.all([
@@ -18,17 +23,94 @@ exports.sourceNodes = async props => {
     createNode(props, SHEET_HIGH_RISK_MASTER, "HighRisk"),
     createNode(props, SHEET_HYGIENE_TIPS_MASTER, "HygieneTips"),
     createNode(props, SHEET_SHOP_MASTER, "Shop"),
+    createNode(props, SHEET_ALERT_MASTER, "Alert"),
+    createNode(props, SHEET_WARS_CASES_MASTER, "WarsCases"),
+    createNode(props, SHEET_DAILY_STATS_MASTER, "DailyStats"),
     createAENode(props),
+    createGNNode(props),
+    createGovNewsNode(props),
+    createPosterNode(props),
   ])
 }
 
-const createAENode = async (
-  { actions: { createNode }, createNodeId, createContentDigest },
-) => {
+const createAENode = async ({
+  actions: { createNode },
+  createNodeId,
+  createContentDigest,
+}) => {
   const type = "AEWaitingTime"
-  const output = await ae.fetchAEWaitingTime();
-  const { records } = output;
+  const output = await ae.fetchAEWaitingTime()
+  const { records } = output
   records.forEach((p, i) => {
+    const meta = {
+      id: createNodeId(`${type.toLowerCase()}-${i}`),
+      parent: null,
+      children: [],
+      internal: {
+        type,
+        contentDigest: createContentDigest(p),
+      },
+    }
+    const node = Object.assign({}, p, meta)
+    createNode(node)
+  })
+}
+
+const createGNNode = async ({
+  actions: { createNode },
+  createNodeId,
+  createContentDigest,
+}) => {
+  const type = "GoogleNews"
+  const output = await gn.fetchGoogleNews()
+  const { records } = output
+  records.forEach((p, i) => {
+    const meta = {
+      id: createNodeId(`${type.toLowerCase()}-${i}`),
+      parent: null,
+      children: [],
+      internal: {
+        type,
+        contentDigest: createContentDigest(p),
+      },
+    }
+    const node = Object.assign({}, p, meta)
+    createNode(node)
+  })
+}
+
+const createGovNewsNode = async ({
+  actions: { createNode },
+  createNodeId,
+  createContentDigest,
+}) => {
+  const type = "GovNews"
+  const output = await gn.fetchGovNews()
+  const { records } = output
+  records.forEach((p, i) => {
+    const meta = {
+      id: createNodeId(`${type.toLowerCase()}-${i}`),
+      parent: null,
+      children: [],
+      internal: {
+        type,
+        contentDigest: createContentDigest(p),
+      },
+    }
+    const node = Object.assign({}, p, meta)
+    createNode(node)
+  })
+}
+
+const createPosterNode = async ({
+  actions: { createNode },
+  createNodeId,
+  createContentDigest,
+}) => {
+  const type = "PosterGallery"
+  const output = await poster.fetchCollactionPosterGallery()
+  const { galleries } = output
+  galleries.forEach((p, i) => {
     const meta = {
       id: createNodeId(`${type.toLowerCase()}-${i}`),
       parent: null,

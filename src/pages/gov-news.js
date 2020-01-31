@@ -19,26 +19,20 @@ const NewsPage = props => {
   const { data } = props
   const { i18n, t } = useTranslation()
 
-  const newsNode = _.get(data, "allGoogleNews.edges[0].node", {})
-  const news = withLanguage(i18n, newsNode, "gn")
-
   const item = ({ node }) => {
     return (
       <NewsCard>
         {/* TODO: Using Link will render a wrong URL (en/zh)  */}
         <a
-          href={node.link}
+          href={withLanguage(i18n, node, "link")}
           rel="noopener noreferrer"
           target="_blank"
         >
           <Typography variant="body2" color="textPrimary">
-            {`${node.date} ${node.time}`}
-          </Typography>
-          <Typography variant="body2" color="textPrimary">
-            {node.source}
+            {node.date}
           </Typography>
           <Typography variant="h6" color="textPrimary">
-            {node.title}
+            {withLanguage(i18n, node, "title")}
           </Typography>
         </a>
       </NewsCard>
@@ -48,19 +42,18 @@ const NewsPage = props => {
   return (
     <Layout>
       <SEO title="NewsPage" />
-      <Typography variant="h4">{t("news.title")}</Typography>
+      <Typography variant="h4">{t("gov_news.title")}</Typography>
       <Typography variant="body2">
-        <Link href={t("news.url")} target="_blank">
-          {t("news.source_google")}
+        <Link href={t("gov_news.url")} target="_blank">
+          {t("gov_news.source")}
         </Link>
       </Typography>
       <Typography variant="body2">
         {t("waiting_time.last_updated")}
-        {_.get(news, "[0].date", '')}{" "}
-        {_.get(news, "[0].time", '')}
+        {_.get(data.allGovNews, "edges[0].node.date", "")}
       </Typography>
-      {news.map((node, index) => (
-        <div key={index} children={item({node})} />
+      {data.allGovNews.edges.map((node, index) => (
+        <div key={index} children={item(node)} />
       ))}
     </Layout>
   )
@@ -68,27 +61,16 @@ const NewsPage = props => {
 
 export default NewsPage
 
-export const GoogleNewsQuery = graphql`
+export const GovNewsQuery = graphql`
   query {
-    allGoogleNews {
+    allGovNews(sort: { order: DESC, fields: date }) {
       edges {
         node {
-          gn_en {
-            title
-            link
-            source
-            isoDate
-            date
-            time
-          }
-          gn_zh {
-            title
-            link
-            source
-            isoDate
-            date
-            time
-          }
+          title_en
+          title_zh
+          link_en
+          link_zh
+          date
         }
       }
     }
