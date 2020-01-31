@@ -10,7 +10,7 @@ import AlertTitle from "@material-ui/lab/AlertTitle"
 import { withLanguage } from "@/utils/i18n"
 
 const AlertMessageContainer = styled.div`
-  && {
+  .MuiAlert-root {
     margin-bottom: 20px;
   }
 `
