@@ -22,7 +22,7 @@ const NewsPage = props => {
   const newsNode = _.get(data, "allGoogleNews.edges[0].node", {})
   const news = withLanguage(i18n, newsNode, "gn")
 
-  const item = ( node ) => {
+  const item = ({ node }) => {
     return (
       <NewsCard>
         {/* TODO: Using Link will render a wrong URL (en/zh)  */}
@@ -60,7 +60,7 @@ const NewsPage = props => {
         {_.get(news, "[0].time", '')}
       </Typography>
       {news.map((node, index) => (
-        <div key={index} children={item(node)} />
+        <div key={index} children={item({node})} />
       ))}
     </Layout>
   )
