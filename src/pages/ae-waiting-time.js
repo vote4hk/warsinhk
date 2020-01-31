@@ -8,6 +8,7 @@ import Box from "@material-ui/core/Box"
 import Link from "@material-ui/core/Link"
 import { BasicCard } from "@components/atoms/Card"
 import styled from "styled-components"
+import { withLanguage } from "../utils/i18n"
 
 const AECard = styled(Box)`
   display: flex;
@@ -15,24 +16,53 @@ const AECard = styled(Box)`
   align-items: center;
 `
 
+const HospiName = styled(Typography)`
+  font-weight: 600;
+`
+
+const HourLabel = styled(Typography)`
+  color: ${props => props.theme.palette.trafficLight[props.color]};
+`
+
+function WaitingTime(props) {
+  const [sign, timeInt] = props.time.split(" ")
+
+  let color
+  if (parseInt(timeInt) === 1 || (sign === "<" && parseInt(timeInt) <= 2)) {
+    color = "green"
+  } else if (
+    (sign === ">" && parseInt(timeInt) === 2) ||
+    parseInt(timeInt) === 3 ||
+    (sign === "<" && parseInt(timeInt) <= 4)
+  ) {
+    color = "orange"
+  } else {
+    color = "red"
+  }
+
+  return (
+    <HourLabel variant="h6" color={color}>
+      {`${props.time} ${props.timeText}`}
+    </HourLabel>
+  )
+}
+
 const AEWaitingTimePage = props => {
   const { data } = props
-  const { t } = useTranslation()
+  const { i18n, t } = useTranslation()
 
   const item = ({ node }) => {
     return (
       <AECard>
         <Box>
           <Typography variant="body2" color="textPrimary">
-            {node.district_zh}
+            {withLanguage(i18n, node, "sub_district")}
           </Typography>
-          <Typography variant="body2" color="textPrimary">
-            {node.hospNameB5}
-          </Typography>
+          <HospiName variant="body2" color="textPrimary">
+            {withLanguage(i18n, node, "name")}
+          </HospiName>
         </Box>
-        <Typography variant="h6" color="textPrimary">
-          {node.topWait} {t("waiting_time.hour")}
-        </Typography>
+        <WaitingTime time={node.topWait} timeText={t("waiting_time.hour")} />
       </AECard>
     )
   }
@@ -64,15 +94,18 @@ export default AEWaitingTimePage
 
 export const AEWaitingTimeQuery = graphql`
   query {
-    allAeWaitingTime {
+    allAeWaitingTime(sort: { order: ASC, fields: topWait }) {
       edges {
         node {
-          hospNameB5
-          hospNameEn
+          name_zh
+          name_en
           hospCode
           hospTimeEn
           topWait
           district_zh
+          district_en
+          sub_district_zh
+          sub_district_en
         }
       }
     }

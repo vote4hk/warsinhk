@@ -1,0 +1,20 @@
+language: node_js
+node_js: 10
+cache:
+  yarn: true
+  npm: true
+
+branches:
+  only:
+    - dev
+    - master
+
+script:
+  # Immediate exit when error
+  - set -e
+
+  # Check code
+  - yarn lint
+
+  # Test by build
+  - yarn build

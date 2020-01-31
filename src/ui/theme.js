@@ -109,14 +109,14 @@ export default createMuiTheme({
   palette: {
     primary: {
       main: "#1a237e",
-      light: "$534bae",
+      light: "#534bae",
       dark: "#000051",
       text: "#ffffff",
       contrastText: "#ffffff",
     },
     secondary: {
       main: "#ef5350",
-      light: "$ff867c",
+      light: "#ff867c",
       dark: "#b61827",
       text: "#000000",
       contrastText: "#000000",
@@ -124,6 +124,11 @@ export default createMuiTheme({
     background: {
       default: "#f5f5f6",
       paper: "#fff",
+    },
+    trafficLight: {
+      red: "#c0392b",
+      orange: "#e67e22",
+      green: "#27ae60",
     },
   },
 })

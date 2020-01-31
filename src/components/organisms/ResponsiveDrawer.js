@@ -20,6 +20,7 @@ import styled from "styled-components"
 import Link from "@material-ui/core/Link"
 import { UnstyledLink } from "@components/atoms/UnstyledLink"
 import { getLocalizedPath } from "@/utils/i18n"
+import LanguageSwitcher from "@/components/organisms/LanguageSwitcher"
 
 const drawerWidth = 240
 
@@ -99,12 +100,25 @@ function ResponsiveDrawer(props) {
           ))}
         </List>
         <Divider />
+        <ListItem>
+          <ListItemIcon>{mapIcon("translate")}</ListItemIcon>
+          <LanguageSwitcher />
+        </ListItem>
+        <Divider />
+
+        <Link target="_blank" href="https://forms.gle/gK477bmq8cG57ELv8">
+          <ListItem>
+            <ListItemIcon>{mapIcon("edit")}</ListItemIcon>
+            <ListItemText primary={t("dodgy_shops.report_incident")} />
+          </ListItem>
+        </Link>
         <Link target="_blank" href="https://forms.gle/1M96G6xHH2tku4mJ8">
           <ListItem>
             <ListItemIcon>{mapIcon("contact_support")}</ListItemIcon>
             <ListItemText primary={t("text.help_us")} />
           </ListItem>
         </Link>
+
         <SupportUsButton
           target="_blank"
           href="https://www.collaction.hk/s/g0vhk/fund"

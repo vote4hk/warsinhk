@@ -9,6 +9,7 @@ import styled from "styled-components"
 import Link from "@material-ui/core/Link"
 
 import { BasicCard } from "@components/atoms/Card"
+import { withLanguage } from "../utils/i18n"
 
 const HighRiskCard = styled(Box)``
 
@@ -17,25 +18,26 @@ const HighRiskCardContent = styled(Box)`
   justify-content: space-between;
 `
 
-function item(props) {
+function item(props, i18n, t) {
   const { node } = props
+
   return (
     <HighRiskCard>
       <HighRiskCardContent>
         <Box>
           <Box>
             <Typography component="span" variant="body2" color="textPrimary">
-              {node.district_zh}
+              {withLanguage(i18n, node, "sub_district")}
             </Typography>
           </Box>
           <Box>
             <Typography component="span" variant="h6" color="textPrimary">
-              {node.name_zh}
+              {withLanguage(i18n, node, "name")}
             </Typography>
           </Box>
           <Box>
             <Typography component="span" variant="body2" color="textPrimary">
-              {node.source_zh}
+              {withLanguage(i18n, node, "source")}
             </Typography>
           </Box>
         </Box>
@@ -46,14 +48,18 @@ function item(props) {
         </Box>
       </HighRiskCardContent>
       <Typography component="span" variant="body2" color="textPrimary">
-        {node.details_zh}
+        {withLanguage(i18n, node, "details")}
       </Typography>
       <Typography variant="body2">
         <Link
-          href={`https://maps.google.com/?q=${node.name_zh}`}
+          href={`https://maps.google.com/?q=${withLanguage(
+            i18n,
+            node,
+            "name"
+          )}`}
           target="_blank"
         >
-          地圖
+          {t("text.map")}
         </Link>
       </Typography>
     </HighRiskCard>
@@ -64,7 +70,7 @@ const HighRiskPage = ({ data, pageContext }) => {
   const sortedHighRisk = data.allHighRisk.edges.sort(
     (a, b) => Date.parse(b.node.last_seen) - Date.parse(a.node.last_seen)
   )
-  const { t } = useTranslation()
+  const { i18n, t } = useTranslation()
   return (
     <Layout>
       <SEO title="HighRiskPage" />
@@ -78,7 +84,11 @@ const HighRiskPage = ({ data, pageContext }) => {
         </Link>
       </Typography>
       {sortedHighRisk.map((node, index) => (
-        <BasicCard alignItems="flex-start" key={index} children={item(node)} />
+        <BasicCard
+          alignItems="flex-start"
+          key={index}
+          children={item(node, i18n, t)}
+        />
       ))}
     </Layout>
   )
@@ -92,10 +102,15 @@ export const HighRiskQuery = graphql`
       edges {
         node {
           district_zh
-          name_zh
+          district_en
           sub_district_zh
+          sub_district_en
+          name_zh
+          name_en
           source_zh
+          source_en
           details_zh
+          details_en
           last_seen
         }
       }
