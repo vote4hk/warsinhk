@@ -19,9 +19,10 @@ const NewsPage = props => {
   const { data } = props
   const { i18n, t } = useTranslation()
 
-  const news = withLanguage(i18n, data.allGoogleNews.edges[0].node, "gn")
+  const newsNode = _.get(data, "allGoogleNews.edges[0].node", {})
+  const news = withLanguage(i18n, newsNode, "gn")
 
-  const item = ({ node }) => {
+  const item = ( node ) => {
     return (
       <NewsCard>
         {/* TODO: Using Link will render a wrong URL (en/zh)  */}
@@ -55,11 +56,11 @@ const NewsPage = props => {
       </Typography>
       <Typography variant="body2">
         {t("waiting_time.last_updated")}
-        {withLanguage(i18n, data.allGoogleNews.edges[0].node, "gn")[0].date}{" "}
-        {withLanguage(i18n, data.allGoogleNews.edges[0].node, "gn")[0].time}
+        {_.get(news, "[0].date", '')}{" "}
+        {_.get(news, "[0].time", '')}
       </Typography>
       {news.map((node, index) => (
-        <div key={index} children={item({node: node})} />
+        <div key={index} children={item(node)} />
       ))}
     </Layout>
   )
