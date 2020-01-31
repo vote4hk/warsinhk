@@ -3,6 +3,7 @@ import SEO from "@/components/templates/SEO"
 import Layout from "@components/templates/Layout"
 import Box from "@material-ui/core/Box"
 import Link from "@material-ui/core/Link"
+import { UnstyledCardLink } from "@components/atoms/UnstyledLink"
 import styled from "styled-components"
 import { useTranslation } from "react-i18next"
 import Typography from "@material-ui/core/Typography"
@@ -13,6 +14,8 @@ import SearchIcon from "@material-ui/icons/Search"
 import { trackCustomEvent } from "gatsby-plugin-google-analytics"
 import Select from "react-select"
 import makeAnimated from "react-select/animated"
+import { Row, FlexStartRow } from "@components/atoms/Row"
+import { Label } from "@components/atoms/Text"
 
 import { withLanguage } from "../utils/i18n"
 import { bps } from "../ui/theme"
@@ -30,6 +33,19 @@ import { bps } from "../ui/theme"
 //   }
 // `
 
+const ShopDetail = styled(Typography)`
+  margin-top: 8px;
+  font-size: 14px;
+  color: ${props => props.theme.palette.secondary.main};
+  line-height: 1.33rem;
+`
+
+const DubiousShopLabel = styled(Box)`
+  background: black;
+  color: white;
+  padding: 4px 6px 4px;
+`
+
 const animatedComponents = makeAnimated()
 
 const SearchBox = styled(TextField)`
@@ -44,35 +60,55 @@ const SearchBox = styled(TextField)`
 
 function item(props, i18n, t) {
   const { node } = props
+
+  const sourceUrl = node.source_url
+
   return (
-    <>
-      <Box>
-        <Typography component="span" variant="body2" color="textPrimary">
-          {withLanguage(i18n, node, "sub_district")}
-        </Typography>
-      </Box>
-      <Box>
-        <Typography component="span" variant="h6" color="textPrimary">
-          {withLanguage(i18n, node, "name")}
-        </Typography>
-      </Box>
-      <Box>
-        <Typography component="span" variant="body2" color="textPrimary">
-          {withLanguage(i18n, node, "address")}
-        </Typography>
-      </Box>
-      <Typography component="span" variant="body2" color="textPrimary">
-        {withLanguage(i18n, node, "details")}
-      </Typography>
-      <Typography variant="body2">
-        <Link
-          href={`https://maps.google.com/?q=${node.address_zh}`} // Chinese Address easier to be lookuped in Hong Kong
-          target="_blank"
-        >
-          {t("text.map")}
-        </Link>
-      </Typography>
-    </>
+    <UnstyledCardLink
+      href={`https://maps.google.com/?q=${withLanguage(i18n, node, "address")}`}
+      target="_blank"
+    >
+      <Row>
+        <Box>{withLanguage(i18n, node, "type")}</Box>
+        <DubiousShopLabel>
+          {t(`dodgy_shops.category_${node.category}`)}
+        </DubiousShopLabel>
+      </Row>
+      <Row>
+        <Box>{withLanguage(i18n, node, "address")}</Box>
+      </Row>
+      <Row>
+        <Typography variant="h6">{withLanguage(i18n, node, "name")}</Typography>
+      </Row>
+      <FlexStartRow>
+        <Box>
+          <Label>{t("dodgy_shops.price")}</Label>
+          {node.mask_price_per_box || "-"}
+        </Box>
+        <Box>
+          <Label>{t("dodgy_shops.level")}</Label>
+          {withLanguage(i18n, node, "mask_level") || "-"}
+        </Box>
+      </FlexStartRow>
+
+      <Row>
+        <ShopDetail component="p">
+          {withLanguage(i18n, node, "details")}
+        </ShopDetail>
+      </Row>
+      <FlexStartRow>
+        {sourceUrl && (
+          <Typography component="div" variant="body2">
+            <Link component={Link} href={sourceUrl} target="_blank">
+              {t("dodgy_shops.source")}
+            </Link>
+          </Typography>
+        )}
+      </FlexStartRow>
+      <Row>
+        <Box>{t("dodgy_shops.last_updated", { date: node.last_update })}</Box>
+      </Row>
+    </UnstyledCardLink>
   )
 }
 
@@ -97,9 +133,10 @@ function isInSubDistrict(i18n, node, textList) {
 }
 
 function createSubDistrictOptionList(allData, i18n) {
-  let subDistrictArray = allData.map(({ node }) =>
-    withLanguage(i18n, node, "sub_district")
-  )
+  let subDistrictArray = allData
+    .map(({ node }) => withLanguage(i18n, node, "sub_district"))
+    .filter(district => district !== "-")
+
   let optionList = []
 
   subDistrictArray
@@ -118,6 +155,7 @@ const ShopsPage = props => {
   const { data } = props
   const { i18n, t } = useTranslation()
   const [filter, setFilter] = useState("")
+
   const subDistrictOptionList = createSubDistrictOptionList(
     data.allDodgyShop.edges,
     i18n
@@ -133,20 +171,12 @@ const ShopsPage = props => {
           </Link>
         </FabContainer> */}
         <Typography variant="h4">{t("dodgy_shops.list_text")}</Typography>
-        <Typography variant="body2">
-          <Link
-            href="https://docs.google.com/spreadsheets/d/1x4gHNkS5cfKO8qi-MIp7EiNZP2m5zhK-yv9XSseZqmA/htmlview?fbclid=IwAR3o-FvljkFvrV2b6QGNjQ4_JK7oQletQVq3XTh-hr_o-IhpaTNoJw5_jYQ&sle=true#"
-            target="_blank"
-          >
-            {t("dodgy_shops.source_from")}
-          </Link>
-        </Typography>
         <>
           <Select
             closeMenuOnSelect={false}
             components={animatedComponents}
             isMulti
-            placeholder={t("dodgy_shops.filter_text")}
+            placeholder={t("dodgy_shops.filter_by_district_text")}
             options={subDistrictOptionList}
             onChange={selectedArray => {
               setFilter(selectedArray || "")
@@ -195,21 +225,36 @@ export default ShopsPage
 
 export const ShopsQuery = graphql`
   query {
-    allDodgyShop {
+    allDodgyShop(
+      filter: { enabled: { eq: "Y" } }
+      sort: { order: DESC, fields: last_update }
+    ) {
       edges {
         node {
-          area_zh
-          area_en
-          address_zh
-          address_en
-          details_zh
-          details_en
+          category
           name_zh
           name_en
-          district_zh
-          district_en
+          address_zh
+          address_en
           sub_district_zh
           sub_district_en
+          district_zh
+          district_en
+          area_zh
+          area_en
+          mask_price_per_box
+          mask_level_zh
+          mask_level_en
+          details_zh
+          details_en
+          last_update
+          type_zh
+          type_en
+          source_zh
+          source_en
+          source_url
+          lat
+          lng
         }
       }
     }
