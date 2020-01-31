@@ -198,12 +198,10 @@ export const ShopsQuery = graphql`
     allDodgyShop {
       edges {
         node {
-          area
           area_zh
           area_en
           address_zh
           address_en
-          details
           details_zh
           details_en
           name_zh
