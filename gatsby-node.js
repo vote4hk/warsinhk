@@ -13,7 +13,7 @@ const SHEET_DODGY_SHOPS = "dodgy_shops"
 const SHEET_HIGH_RISK_MASTER = "highrisk_master"
 const SHEET_HYGIENE_TIPS_MASTER = "hygiene_tips"
 const SHEET_SHOP_MASTER = "shop_master"
-const SHEET_CONFIG_MASTER = "config"
+const SHEET_ALERT_MASTER = "alert"
 const SHEET_WARS_CASES_MASTER = "wars_cases"
 const SHEET_DAILY_STATS_MASTER = "daily_stats"
 
@@ -23,7 +23,7 @@ exports.sourceNodes = async props => {
     createNode(props, SHEET_HIGH_RISK_MASTER, "HighRisk"),
     createNode(props, SHEET_HYGIENE_TIPS_MASTER, "HygieneTips"),
     createNode(props, SHEET_SHOP_MASTER, "Shop"),
-    createNode(props, SHEET_CONFIG_MASTER, "Config"),
+    createNode(props, SHEET_ALERT_MASTER, "Alert"),
     createNode(props, SHEET_WARS_CASES_MASTER, "WarsCases"),
     createNode(props, SHEET_DAILY_STATS_MASTER, "DailyStats"),
     createAENode(props),
