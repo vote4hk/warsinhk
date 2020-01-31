@@ -4,6 +4,7 @@
   "site.keywords": "coronavirus,wuhan,Accident & Emergency,a&e,A&E,Mask,Pharmacy,2019-nCoV,ncov",
   "dodgy_shops.list_text": "Dubious Pharmacies",
   "dodgy_shops.source_from": "The information is according to various sources",
+  "dodgy_shops.filter_by_district_text": "Search by district",
   "dodgy_shops.filter_text": "Pharmacy Search",
   "dodgy_shops.report_incident": "Report incident",
   "high_risk.title": "High Risk Areas",

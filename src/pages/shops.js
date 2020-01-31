@@ -97,9 +97,10 @@ function isInSubDistrict(i18n, node, textList) {
 }
 
 function createSubDistrictOptionList(allData, i18n) {
-  let subDistrictArray = allData.map(({ node }) =>
-    withLanguage(i18n, node, "sub_district")
-  )
+  let subDistrictArray = allData
+    .map(({ node }) => withLanguage(i18n, node, "sub_district"))
+    .filter(district => district !== "-")
+
   let optionList = []
 
   subDistrictArray
@@ -146,7 +147,7 @@ const ShopsPage = props => {
             closeMenuOnSelect={false}
             components={animatedComponents}
             isMulti
-            placeholder={t("dodgy_shops.filter_text")}
+            placeholder={t("dodgy_shops.filter_by_district_text")}
             options={subDistrictOptionList}
             onChange={selectedArray => {
               setFilter(selectedArray || "")
