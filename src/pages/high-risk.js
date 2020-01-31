@@ -98,7 +98,7 @@ export default HighRiskPage
 
 export const HighRiskQuery = graphql`
   query {
-    allHighRisk {
+    allHighRisk(filter: { enabled: { eq: "Y" } }) {
       edges {
         node {
           district_zh

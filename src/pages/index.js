@@ -197,7 +197,10 @@ export default IndexPage
 
 export const WarsCasesQuery = graphql`
   query {
-    allWarsCases(sort: { order: DESC, fields: case_no }) {
+    allWarsCases(
+      sort: { order: DESC, fields: case_no }
+      filter: { enabled: { eq: "Y" } }
+    ) {
       edges {
         node {
           case_no
