@@ -30,6 +30,7 @@ const StyledResponsiveDrawer = styled(ResponsiveDrawer)`
 
 const Layout = props => {
   const { children } = props
+
   const { configJson } = useStaticQuery(
     graphql`
       query {

@@ -8,6 +8,8 @@ import Collapse from "@material-ui/core/Collapse"
 import Alert from "@material-ui/lab/Alert"
 import AlertTitle from "@material-ui/lab/AlertTitle"
 import { withLanguage } from "@/utils/i18n"
+import ContextStore from "@/contextStore"
+import { ALERT_CLOSE } from "@/reducers/pageOptions"
 
 const StyledAlert = styled(Alert)`
   && {
@@ -16,11 +18,11 @@ const StyledAlert = styled(Alert)`
 `
 
 const AlertChild = props => {
-  const { edge } = props
+  const { edge, dispatch } = props
   const { i18n } = useTranslation()
 
   var {
-    node: { title, message, severity, variant, enabled },
+    node: { title, message, severity, variant, enabled, id },
   } = edge
 
   const [open, setOpen] = React.useState(true)
@@ -44,6 +46,7 @@ const AlertChild = props => {
               size="small"
               onClick={() => {
                 setOpen(false)
+                dispatch({ type: ALERT_CLOSE, alert_id: id })
               }}
             >
               {mapIcon("close")}
@@ -67,6 +70,7 @@ const AlertMessage = props => {
         allAlert {
           edges {
             node {
+              id
               title_en
               title_zh
               message_en
@@ -85,10 +89,26 @@ const AlertMessage = props => {
     allAlert: { edges },
   } = alert
 
+  const {
+    pageOptions: { dispatch, state },
+  } = React.useContext(ContextStore)
+
+  const [alerts, setAlerts] = React.useState([])
+
+  // Run on mount
+  React.useEffect(() => {
+    setAlerts(
+      edges.filter(e => {
+        return state.closedAlerts.indexOf(e.node.id) === -1
+      })
+    )
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
   return (
     <>
-      {edges.map((edge, index) => {
-        return <AlertChild edge={edge} index={index} />
+      {alerts.map((edge, index) => {
+        return <AlertChild edge={edge} key={index} dispatch={dispatch} />
       })}
     </>
   )
