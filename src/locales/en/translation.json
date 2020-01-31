@@ -13,7 +13,7 @@
   "dodgy_shops.last_updated": "Last update: {{date}}",
   "dodgy_shops.category_dubious": "Dubious",
   "high_risk.title": "High Risk Areas",
-  "high_risk.source": "Source: Centre for Health Protection",
+  "high_risk.source": "Source: {{source}}",
   "hygiene_tips.title": "Hygiene Tips",
   "poster_gallery.title": "Poster Gallery",
   "poster_gallery.source": "Source: Collaction",

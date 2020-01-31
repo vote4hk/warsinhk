@@ -35,11 +35,6 @@ function item(props, i18n, t) {
               {withLanguage(i18n, node, "name")}
             </Typography>
           </Box>
-          <Box>
-            <Typography component="span" variant="body2" color="textPrimary">
-              {withLanguage(i18n, node, "source")}
-            </Typography>
-          </Box>
         </Box>
         <Box>
           <Typography component="span" variant="body2" color="textPrimary">
@@ -50,6 +45,15 @@ function item(props, i18n, t) {
       <Typography component="span" variant="body2" color="textPrimary">
         {withLanguage(i18n, node, "details")}
       </Typography>
+      <Box>
+        <Link href={node.source_url} target="_blank">
+          <Typography component="span" variant="body2" color="textPrimary">
+            {t("high_risk.source", {
+              source: withLanguage(i18n, node, "source"),
+            })}
+          </Typography>
+        </Link>
+      </Box>
       <Typography variant="body2">
         <Link
           href={`https://maps.google.com/?q=${withLanguage(
@@ -75,14 +79,6 @@ const HighRiskPage = ({ data, pageContext }) => {
     <Layout>
       <SEO title="HighRiskPage" />
       <Typography variant="h4">{t("high_risk.title")}</Typography>
-      <Typography variant="body2">
-        <Link
-          href="https://www.chp.gov.hk/files/pdf/building_list_chi.pdf"
-          target="_blank"
-        >
-          {t("high_risk.source")}
-        </Link>
-      </Typography>
       {sortedHighRisk.map((node, index) => (
         <BasicCard
           alignItems="flex-start"
@@ -109,6 +105,7 @@ export const HighRiskQuery = graphql`
           name_en
           source_zh
           source_en
+          source_url
           details_zh
           details_en
           last_seen
