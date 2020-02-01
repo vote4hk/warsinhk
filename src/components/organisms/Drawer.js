@@ -1,65 +1,220 @@
-import React from 'react'
-import styled from 'styled-components'
-import { Box, IconButton, Drawer } from '@material-ui/core'
-import { makeStyles } from '@material-ui/core/styles'
-import CloseIcon from '@material-ui/icons/Close'
-import ContextStore from '@/contextStore'
-import { DRAWER_CLOSE } from '@/reducers/drawer'
+import React from "react"
+import PropTypes from "prop-types"
+import AppBar from "@material-ui/core/AppBar"
+import CssBaseline from "@material-ui/core/CssBaseline"
+import Divider from "@material-ui/core/Divider"
+import Drawer from "@material-ui/core/Drawer"
+import Hidden from "@material-ui/core/Hidden"
+import IconButton from "@material-ui/core/IconButton"
+import List from "@material-ui/core/List"
+import ListItem from "@material-ui/core/ListItem"
+import ListItemIcon from "@material-ui/core/ListItemIcon"
+import ListItemText from "@material-ui/core/ListItemText"
+import { mapIcon } from "@components/icons"
+import Toolbar from "@material-ui/core/Toolbar"
+import Typography from "@material-ui/core/Typography"
+import { makeStyles, useTheme } from "@material-ui/core/styles"
+import { useTranslation } from "react-i18next"
+import ShareButton from "@/components/organisms/ShareButton"
+import styled from "styled-components"
+import Link from "@material-ui/core/Link"
+import { UnstyledLink } from "@components/atoms/UnstyledLink"
+import { getLocalizedPath } from "@/utils/i18n"
+import LanguageSwitcher from "@/components/organisms/LanguageSwitcher"
 
-const Container = styled(Box)`
-  && {
-    width: 100%;
-  }
-`
-
-const MenuContainer = styled(Box)`
-  && {
-  }
-`
-
-const NavBarButton = styled(IconButton)`
-  && {
-  }
-`
+const drawerWidth = 240
 
 const useStyles = makeStyles(theme => ({
+  root: {
+    display: "flex",
+  },
+  drawer: {
+    [theme.breakpoints.up("sm")]: {
+      width: drawerWidth,
+      flexShrink: 0,
+    },
+  },
+  appBar: {
+    [theme.breakpoints.up("sm")]: {
+      width: `calc(100% - ${drawerWidth}px)`,
+      marginLeft: drawerWidth,
+    },
+  },
+  appTitleLink: {
+    color: "inherit",
+    textDecoration: "inherit",
+    "&:hover": {
+      textDecoration: "none",
+    },
+  },
+  menuButton: {
+    [theme.breakpoints.up("sm")]: {
+      display: "none",
+    },
+  },
+  toolbar: theme.mixins.toolbar,
   drawerPaper: {
-    width: '500px',
-    maxWidth: '100%',
+    width: drawerWidth,
+  },
+  content: {
+    flexGrow: 1,
+    padding: theme.spacing(3),
   },
 }))
 
-function AppDrawer(props) {
-  const {
-    drawer: { dispatch, state },
-  } = React.useContext(ContextStore)
+const AppTitle = styled(Typography)`
+  && {
+    flex-grow: 1;
+    text-align: center;
+  }
+`
+
+const SupportUsButton = styled(Link)`
+  bottom: 0;
+`
+
+function ResponsiveDrawer(props) {
+  const { container, pages, children, className } = props
   const classes = useStyles()
+  const theme = useTheme()
+  const [mobileOpen, setMobileOpen] = React.useState(false)
+  const { t, i18n } = useTranslation()
+
+  const handleDrawerToggle = () => {
+    setMobileOpen(!mobileOpen)
+  }
+
+  const drawer = pages => {
+    return (
+      <div>
+        <div className={classes.toolbar} />
+        <UnstyledLink to={getLocalizedPath(i18n, "/")}>
+          <ListItem>
+            <ListItemIcon>{mapIcon("home")}</ListItemIcon>
+            <ListItemText primary={t("text.homepage")} />
+          </ListItem>
+        </UnstyledLink>
+        <Divider />
+        <List>
+          {pages.map((page, index) => (
+            <UnstyledLink to={getLocalizedPath(i18n, page.to)} key={index}>
+              <ListItem>
+                <ListItemIcon>{mapIcon(page.icon)}</ListItemIcon>
+                <ListItemText primary={t(page.title)} />
+              </ListItem>
+            </UnstyledLink>
+          ))}
+        </List>
+        <Divider />
+        <ListItem>
+          <ListItemIcon>{mapIcon("translate")}</ListItemIcon>
+          <LanguageSwitcher />
+        </ListItem>
+        <Divider />
+        {/* Only show the forms in chinese as we do not have english form.. */}
+        {i18n.language === "zh" && (
+          <Link target="_blank" href="https://forms.gle/gK477bmq8cG57ELv8">
+            <ListItem>
+              <ListItemIcon>{mapIcon("edit")}</ListItemIcon>
+              <ListItemText primary={t("dodgy_shops.report_incident")} />
+            </ListItem>
+          </Link>
+        )}
+
+        {i18n.language === "zh" && (
+          <Link target="_blank" href="https://forms.gle/1M96G6xHH2tku4mJ8">
+            <ListItem>
+              <ListItemIcon>{mapIcon("contact_support")}</ListItemIcon>
+              <ListItemText primary={t("text.help_us")} />
+            </ListItem>
+          </Link>
+        )}
+        <Divider />
+        <SupportUsButton
+          target="_blank"
+          href={`https://www.collaction.hk/s/g0vhk/fund?lang=${i18n.language}`}
+        >
+          <ListItem>
+            <ListItemIcon>{mapIcon("thumb_up")}</ListItemIcon>
+            <ListItemText primary={t("text.support_us")} />
+          </ListItem>
+        </SupportUsButton>
+      </div>
+    )
+  }
 
   return (
-    <Drawer
-      classes={{
-        paper: classes.drawerPaper,
-      }}
-      anchor="left"
-      open={state.open}
-      variant="persistent"
-    >
-      <Container>
-        <NavBarButton
-          color="inherit"
-          component="span"
-          aria-label="Menu"
-          onClick={() => {
-            dispatch({ type: DRAWER_CLOSE })
-          }}
-        >
-          <CloseIcon fontSize="small" />
-        </NavBarButton>
-        <MenuContainer>
-        </MenuContainer>
-      </Container>
-    </Drawer>
+    <div className={`${classes.root} ${className}`}>
+      <CssBaseline />
+      <AppBar position="fixed" className={classes.appBar}>
+        <Toolbar className={classes.appToolBar}>
+          <IconButton
+            color="inherit"
+            aria-label="open drawer"
+            edge="start"
+            onClick={handleDrawerToggle}
+            className={classes.menuButton}
+          >
+            {mapIcon("menu")}
+          </IconButton>
+          <AppTitle variant="h3" noWrap>
+            <Link
+              className={classes.appTitleLink}
+              href="/"
+            >
+              {t("site.title")}
+            </Link>
+          </AppTitle>
+          <ShareButton />
+        </Toolbar>
+      </AppBar>
+      <nav className={classes.drawer} aria-label="mailbox folders">
+        {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
+        <Hidden smUp implementation="css">
+          <Drawer
+            container={container}
+            variant="temporary"
+            anchor={theme.direction === "rtl" ? "right" : "left"}
+            open={mobileOpen}
+            onClose={handleDrawerToggle}
+            classes={{
+              paper: classes.drawerPaper,
+            }}
+            ModalProps={{
+              keepMounted: true, // Better open performance on mobile.
+            }}
+          >
+            {drawer(pages)}
+          </Drawer>
+        </Hidden>
+        <Hidden xsDown implementation="css">
+          <Drawer
+            classes={{
+              paper: classes.drawerPaper,
+            }}
+            variant="permanent"
+            open
+          >
+            {drawer(pages)}
+          </Drawer>
+        </Hidden>
+      </nav>
+      <main className={classes.content}>
+        <div className={classes.toolbar} />
+        {children}
+      </main>
+    </div>
   )
 }
 
-export default AppDrawer
+ResponsiveDrawer.propTypes = {
+  /**
+   * Injected by the documentation to work in an iframe.
+   * You won't need it on your project.
+   */
+  container: PropTypes.instanceOf(
+    typeof Element === "undefined" ? Object : Element
+  ),
+}
+
+export default ResponsiveDrawer
