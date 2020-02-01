@@ -40,6 +40,13 @@ const useStyles = makeStyles(theme => ({
       marginLeft: drawerWidth,
     },
   },
+  appTitleLink: {
+    color: "inherit",
+    textDecoration: "inherit",
+    "&:hover": {
+      textDecoration: "none",
+    },
+  },
   menuButton: {
     [theme.breakpoints.up("sm")]: {
       display: "none",
@@ -152,7 +159,12 @@ function ResponsiveDrawer(props) {
             {mapIcon("menu")}
           </IconButton>
           <AppTitle variant="h3" noWrap>
-            {t("site.title")}
+            <Link
+              className={classes.appTitleLink}
+              href="/"
+            >
+              {t("site.title")}
+            </Link>
           </AppTitle>
           <ShareButton />
         </Toolbar>
