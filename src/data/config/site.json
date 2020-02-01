@@ -23,6 +23,13 @@
       "bottomNav": true
     },
     {
+      "title": "disruption.title",
+      "to": "/disruption",
+      "icon": "not_interested",
+      "sideMenu": true,
+      "bottomNav": true
+    },
+    {
       "title": "high_risk.title",
       "to": "/high-risk",
       "icon": "warning",
@@ -61,13 +68,6 @@
       "title": "poster_gallery.title",
       "to": "/poster-gallery",
       "icon": "collections",
-      "sideMenu": true,
-      "bottomNav": false
-    },
-    {
-      "title": "disruption.title",
-      "to": "/disruption",
-      "icon": "not_interested",
       "sideMenu": true,
       "bottomNav": false
     }
