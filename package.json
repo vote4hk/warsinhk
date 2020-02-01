@@ -36,6 +36,7 @@
     "react-helmet": "^5.2.1",
     "react-i18next": "^11.3.0",
     "react-plotly.js": "^2.4.0",
+    "react-responsive": "^8.0.3",
     "react-select": "3.0.8",
     "react-share": "^4.0.1",
     "rss-parser": "^3.7.4",

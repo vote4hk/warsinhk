@@ -12,8 +12,9 @@ import styled from "styled-components"
 import { trackCustomEvent } from "gatsby-plugin-google-analytics"
 import Plot from "react-plotly.js"
 import Grid from '@material-ui/core/Grid'
-import Box from '@material-ui/core/Box';
-import { makeStyles } from '@material-ui/core/styles';
+import Box from '@material-ui/core/Box'
+import { makeStyles } from '@material-ui/core/styles'
+import { useMediaQuery } from 'react-responsive'
 
 const useStyles = makeStyles({
   age: {
@@ -68,6 +69,8 @@ export default function ConfirmedCaseVisual(props) {
   const otherPercentage = parseInt(otherTotal / (maleTotal + femaleTotal + otherTotal) * 100.0)
   const maleAgeAverage = parseInt(maleAgeTotal / maleTotal)
   const femaleAgeAverage = parseInt(femaleAgeTotal / femaleTotal)
+  const isMobile = useMediaQuery({ maxWidth: 1200 })
+  const graphFontSize = isMobile ? 18 : 24
   const genderPlot = (
     <Card>
       <CardContent>
@@ -76,29 +79,14 @@ export default function ConfirmedCaseVisual(props) {
         </Typography>
         <Plot
           data={[
-            {type: "bar", 
-             x: [maleTotal], 
-             orientation:"h",
-             name: t("dashboard.gender_male"),
-             textposition: "inside",
-             text:maleTotal + " / " + malePercentage + "% "},
-            {type: "bar",
-             x: [femaleTotal],
-             orientation:"h",
-             name: t("dashboard.gender_female"),
-             textposition: "inside",
-             text:femaleTotal + " / " + femalePercentage + "% "},
-            {type: "bar",
-             x: [otherTotal],
-             orientation:"h",
-             name: t("confirmed_case_visual.others"),
-             textposition: "inside",
-             text:otherTotal + " / " + otherPercentage + "% "},
- 
+            {type: "pie", 
+             values: [maleTotal, femaleTotal, otherTotal], 
+             labels: [ t("dashboard.gender_male"), t("dashboard.gender_female"), t("confirmed_case_visual.others")]
+            }
           ]}
           layout={ {title: null,
-                    font: {size: 24},
-                    marign: {t: 0, l: 0, r: 0, b: 0},
+                    font: {size: graphFontSize},
+                    marign: {t: 0, l: 0, r: 0, b: 0, pad:0},
                     barmode: 'stack',
                     hovermode: false,
                     xaxis: {showline:false,showgrid:false, zeroline:false, showticklabels:false}, 
@@ -125,7 +113,7 @@ export default function ConfirmedCaseVisual(props) {
                      t("confirmed_case_visual.others")]},
           ]}
           layout={ {title: null,
-                    font: {size: 28},
+                    font: {size: graphFontSize},
                     barmode: 'stack',
                     hovermode: false,
                     xaxis: {showline:false,showgrid:false, zeroline:false, showticklabels:false}, 
@@ -137,43 +125,58 @@ export default function ConfirmedCaseVisual(props) {
       </CardContent>
     </Card>
   )
+  const agePlot = (
+    <Card style={{height: "100%"}}>
+      <CardContent>
+        <Typography variant="h1" align="center">
+          {t("confirmed_case_visual.average_age")}
+        </Typography>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+         <Grid container>
+          <Grid item xs={6} className={classes.ageGrid}>
+            <Typography variant="h2" align="center">
+              {t("dashboard.gender_male")}
+            </Typography>
+            <br/>
+            <span className={classes.age}>{maleAgeAverage}</span>
+            <span className={classes.ageUnit}>{t("confirmed_case_visual.age_unit")}</span>
+          </Grid>
+          <Grid item xs={6} className={classes.ageGrid}>
+            <Typography variant="h2" align="center">
+              {t("dashboard.gender_female")}
+            </Typography>
+            <br/>
+            <span className={classes.age}>{femaleAgeAverage}</span>
+            <span className={classes.ageUnit}>{t("confirmed_case_visual.age_unit")}</span>
+          </Grid>
+        </Grid>
+      </CardContent>
+    </Card>)
+  if (isMobile) {
+    return (
+      <div>
+      {genderPlot}
+      <br/>
+      {agePlot}
+      <br/>
+      {citizenPlot}
+      <br/>
+      </div>        
+    )
+  }
+  
   return (
     <div container>
       <Grid container spacing={2}>
          <Grid item xs={4}> 
-          {genderPlot}
+           {genderPlot}
          </Grid>
          <Grid item xs={4}>
-           <Card style={{height: "100%"}}>
-            <CardContent>
-              <Typography variant="h1" align="center">
-                {t("confirmed_case_visual.average_age")}
-              </Typography>
-              <br/>
-              <br/>
-              <br/>
-              <br/>
-              <br/>
-               <Grid container>
-                <Grid item xs={6} className={classes.ageGrid}>
-                  <Typography variant="h2" align="center">
-                    {t("dashboard.gender_male")}
-                  </Typography>
-                  <br/>
-                  <span className={classes.age}>{maleAgeAverage}</span>
-                  <span className={classes.ageUnit}>{t("confirmed_case_visual.age_unit")}</span>
-                </Grid>
-                <Grid item xs={6} className={classes.ageGrid}>
-                  <Typography variant="h2" align="center">
-                    {t("dashboard.gender_female")}
-                  </Typography>
-                  <br/>
-                  <span className={classes.age}>{femaleAgeAverage}</span>
-                  <span className={classes.ageUnit}>{t("confirmed_case_visual.age_unit")}</span>
-                </Grid>
-              </Grid>
-            </CardContent>
-          </Card>
+         {agePlot}
          </Grid>
          <Grid item xs={4}>
            {citizenPlot}
