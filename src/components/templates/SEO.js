@@ -40,7 +40,7 @@ const SEO = ({ meta, uri }) => {
     `
   )
   const currentPage = configJson.pages.find(p => p.to === path) || {}
-  if (_.isEmpty(currentPage)) {
+  if (_.isEmpty(currentPage) && !uri) {
     console.error(
       `cannot look up page title. check the settings for path: ${path}`
     )

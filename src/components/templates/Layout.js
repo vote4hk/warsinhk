@@ -29,7 +29,7 @@ const StyledResponsiveDrawer = styled(ResponsiveDrawer)`
 `
 
 const Layout = props => {
-  const { children } = props
+  const { children, hideAlerts } = props
 
   const { configJson } = useStaticQuery(
     graphql`
@@ -52,7 +52,7 @@ const Layout = props => {
         pages={configJson.pages.filter(p => p.sideMenu)}
         children={
           <Container>
-            <AlertMessage />
+            {!hideAlerts && <AlertMessage />}
             {children}
           </Container>
         }
