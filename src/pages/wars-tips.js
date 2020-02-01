@@ -50,6 +50,10 @@ const WarTipsPage = ({ data, pageContext }) => {
     )
   }
 
+  const shorten = str => {
+    return str ? `${str.substring(0, 50)}...` : ""
+  }
+
   return (
     <Layout>
       <SEO title="WarsTipsPage" />
@@ -81,7 +85,7 @@ const WarTipsPage = ({ data, pageContext }) => {
               <MediaCard
                 imageUrl={node.image_url}
                 title={node.title}
-                text={node.text}
+                text={shorten(node.text)}
                 tags={node.tags ? node.tags.split(",") : []}
                 sourceDescription={node.source_description}
                 sourceUrl={node.source_url}

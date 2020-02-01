@@ -67,15 +67,17 @@ export function MediaCard(props) {
                 {`#${tag}`}
               </Button>
             ))}
-          <Typography gutterBottom variant="h5" component="h2">
-            {title}
-          </Typography>
-
-          {text && (
-            <Typography variant="body2" color="textSecondary" component="p">
-              {text}
+          <Link to={uri}>
+            <Typography gutterBottom variant="h5" component="h2">
+              {title}
             </Typography>
-          )}
+
+            {text && (
+              <Typography variant="body2" color="textSecondary" component="p">
+                {text}
+              </Typography>
+            )}
+          </Link>
         </StyledCardContent>
       </>
 
