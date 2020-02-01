@@ -27,6 +27,7 @@
   "waiting_time.last_updated": "Last update: ",
   "waiting_time.hour": "hr",
   "index.title": "Latest Update",
+  "index.confirmed_case_summary": "Summary on confirmed",
   "dodgy_shops.title": "Dubious Pharmacies",
   "news.title": "Latest News",
   "news.source_google": "Source: Google News",
@@ -53,5 +54,13 @@
   "dashboard.patient_citizenship": "Citizenship",
   "dashboard.patient_hospital": "Hospital admitted",
   "dashboard.patient_status": "Status",
-  "dashboard.source": "Source"
+  "dashboard.source": "Source",
+  "confirmed_case.title": "Confirmed",
+  "confirmed_case_visual.gender": "Gender",
+  "confirmed_case_visual.citizen": "Citizen",
+  "confirmed_case_visual.citizen_wuhan": "Wuhan",
+  "confirmed_case_visual.citizen_hongkong": "Hong Kong",
+  "confirmed_case_visual.others": "Others",
+  "confirmed_case_visual.average_age": "Average Age",
+  "confirmed_case_visual.age_unit": "yo"
 }

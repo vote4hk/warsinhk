@@ -1,6 +1,7 @@
 import React from "react"
 import AddShopingCartIcon from "@material-ui/icons/AddShoppingCart"
 import WarningRoundedIcon from "@material-ui/icons/WarningRounded"
+import ErrorIcon from "@material-ui/icons/ErrorOutlineSharp"
 import TimelapseIcon from "@material-ui/icons/Timelapse"
 import InfoRoundedIcon from "@material-ui/icons/InfoRounded"
 import MenuIcon from "@material-ui/icons/Menu"
@@ -20,6 +21,8 @@ export function mapIcon(name) {
       return <AddShopingCartIcon />
     case "warning":
       return <WarningRoundedIcon />
+    case "error":
+      return <ErrorIcon />
     case "timelapse":
       return <TimelapseIcon />
     case "info":

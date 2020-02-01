@@ -1,5 +1,6 @@
 import React from "react"
 import SEO from "@/components/templates/SEO"
+import ConfirmedCaseVisual from "@/components/organisms/ConfirmedCaseVisual"
 import Layout from "@components/templates/Layout"
 import styled from "styled-components"
 import Box from "@material-ui/core/Box"
@@ -9,8 +10,7 @@ import { BasicCard } from "@components/atoms/Card"
 import { useTranslation } from "react-i18next"
 import { withLanguage } from "../utils/i18n"
 import { graphql } from "gatsby"
-import { Row } from "@components/atoms/Row"
-import { Label } from "@components/atoms/Text"
+
 
 const SessiontWrapper = styled(Box)`
   margin-bottom: 16px;
@@ -35,27 +35,6 @@ const DailyChange = styled(Typography)`
   font-size: 14px;
   font-weight: 700;
   color: ${props => props.theme.palette.secondary.dark};
-`
-const WarsCaseContainer = styled(Box)`
-  background: ${props => props.theme.palette.background.paper};
-  padding: 8px 16px;
-  margin: 16px 0;
-  box-shadow: 0px 2px 1px -1px rgba(0, 0, 0, 0.2),
-    0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 1px 3px 0px rgba(0, 0, 0, 0.12);
-`
-const WarsCaseContent = styled(Box)`
-  display: flex;
-  justify-content: space-between;
-  font-size: 14px;
-`
-const WarsCaseDetail = styled(Typography)`
-  margin-top: 8px;
-  font-size: 14px;
-  line-height: 1.33rem;
-`
-
-const WarsSource = styled(Link)`
-  margin-top: 8px;
 `
 
 function dailyStats(t, props) {
@@ -105,57 +84,8 @@ function dailyStats(t, props) {
   )
 }
 
-const confirmedCases = (i18n, item, t) => {
-  const { node } = item
-  return (
-    <WarsCaseContainer key={`case-${node.case_no}`}>
-      <Row>
-        <Box>
-          {`#${node.case_no}`} ({withLanguage(i18n, node, "type")})
-        </Box>
-        <Box>{withLanguage(i18n, node, "status")}</Box>
-      </Row>
-      <Row>
-        <Box>{`${t("dashboard.patient_age_format", { age: node.age })}  ${
-          node.gender === "F"
-            ? t("dashboard.gender_female")
-            : t("dashboard.gender_male")
-        }`}</Box>
-      </Row>
-      <Box>
-        <WarsCaseContent>
-          <Box>
-            <Label>{t("dashboard.patient_confirm_date")}</Label>
-            {node.confirmation_date}
-          </Box>
-          <Box>
-            <Label>{t("dashboard.patient_citizenship")}</Label>
-            {withLanguage(i18n, node, "citizenship") || "-"}
-          </Box>
-          <Box>
-            <Label>{t("dashboard.patient_hospital")}</Label>
-            {withLanguage(i18n, node, "hospital") || "-"}
-          </Box>
-        </WarsCaseContent>
-      </Box>
-      <Row>
-        <WarsCaseDetail>{withLanguage(i18n, node, "detail")}</WarsCaseDetail>
-      </Row>
-      <Row>
-        <WarsSource href={node.source_url} target="_blank">
-          {t("dashboard.source")}
-        </WarsSource>
-      </Row>
-    </WarsCaseContainer>
-  )
-}
-
 const IndexPage = ({ data }) => {
   const { i18n, t } = useTranslation()
-
-  data.allWarsCase.edges.sort(
-    (a, b) => parseInt(b.node.case_no) - parseInt(a.node.case_no)
-  )
 
   const latestStat = data.allDailyStats.edges[0].node
   const remarksText = withLanguage(i18n, latestStat, "remarks")
@@ -183,10 +113,9 @@ const IndexPage = ({ data }) => {
               {remarksText}
             </Typography>
           )}
-        </SessiontWrapper>
-        <SessiontWrapper>
-          <Typography variant="h4">{t("dashboard.confirmed_case")}</Typography>
-          {data.allWarsCase.edges.map(node => confirmedCases(i18n, node, t))}
+          <Typography variant="h4">{t("index.confirmed_case_summary")}</Typography>
+          <br/>
+          <ConfirmedCaseVisual data={data.allWarsCase.edges} />
         </SessiontWrapper>
       </Layout>
     </>
@@ -197,6 +126,20 @@ export default IndexPage
 
 export const WarsCaseQuery = graphql`
   query {
+    allDailyStats(sort: { order: DESC, fields: last_updated }) {
+      edges {
+        node {
+          last_updated
+          death
+          confirmed_case
+          ruled_out
+          still_investigated
+          fulfilling
+          remarks_zh
+          remarks_en
+        }
+      }
+    }
     allWarsCase(
       sort: { order: DESC, fields: case_no }
       filter: { enabled: { eq: "Y" } }
@@ -221,19 +164,6 @@ export const WarsCaseQuery = graphql`
         }
       }
     }
-    allDailyStats(sort: { order: DESC, fields: last_updated }) {
-      edges {
-        node {
-          last_updated
-          death
-          confirmed_case
-          ruled_out
-          still_investigated
-          fulfilling
-          remarks_zh
-          remarks_en
-        }
-      }
-    }
+
   }
 `
