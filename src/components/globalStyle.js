@@ -6,7 +6,6 @@ html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockq
   padding: 0;
   border: 0;
   font-size: 100%;
-  font: inherit;
   vertical-align: baseline;
   box-sizing: border-box;
 }
@@ -76,10 +75,6 @@ button {
 export const GlobalStyle = createGlobalStyle`
 html {
     box-sizing: border-box;
-  }
-  
-
-h1 {
-  font-family: 'Noto Sans TC, 微軟正黑體, 新細明體, sans-serif'
+    font-family: 'Noto Sans TC, 微軟正黑體, 新細明體, sans-serif'
 }
 `

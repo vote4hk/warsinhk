@@ -9,6 +9,8 @@ import { BasicCard } from "@components/atoms/Card"
 import { useTranslation } from "react-i18next"
 import { withLanguage } from "../utils/i18n"
 import { graphql } from "gatsby"
+import { Row } from "@components/atoms/Row"
+import { Label } from "@components/atoms/Text"
 
 const SessiontWrapper = styled(Box)`
   margin-bottom: 16px;
@@ -41,14 +43,6 @@ const WarsCaseContainer = styled(Box)`
   box-shadow: 0px 2px 1px -1px rgba(0, 0, 0, 0.2),
     0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 1px 3px 0px rgba(0, 0, 0, 0.12);
 `
-
-const WarsCaseRow = styled(Box)`
-  font-size: 14px;
-  margin: 4px 0 4px;
-  display: flex;
-  justify-content: space-between;
-`
-
 const WarsCaseContent = styled(Box)`
   display: flex;
   justify-content: space-between;
@@ -62,12 +56,6 @@ const WarsCaseDetail = styled(Typography)`
 
 const WarsSource = styled(Link)`
   margin-top: 8px;
-`
-
-const Label = styled(Typography)`
-  margin-bottom: 3px;
-  font-size: 12px;
-  color: ${props => props.theme.palette.primary.dark};
 `
 
 function dailyStats(t, props) {
@@ -121,19 +109,19 @@ const confirmedCases = (i18n, item, t) => {
   const { node } = item
   return (
     <WarsCaseContainer key={`case-${node.case_no}`}>
-      <WarsCaseRow>
+      <Row>
         <Box>
           {`#${node.case_no}`} ({withLanguage(i18n, node, "type")})
         </Box>
         <Box>{withLanguage(i18n, node, "status")}</Box>
-      </WarsCaseRow>
-      <WarsCaseRow>
+      </Row>
+      <Row>
         <Box>{`${t("dashboard.patient_age_format", { age: node.age })}  ${
           node.gender === "F"
             ? t("dashboard.gender_female")
             : t("dashboard.gender_male")
         }`}</Box>
-      </WarsCaseRow>
+      </Row>
       <Box>
         <WarsCaseContent>
           <Box>
@@ -150,14 +138,14 @@ const confirmedCases = (i18n, item, t) => {
           </Box>
         </WarsCaseContent>
       </Box>
-      <WarsCaseRow>
+      <Row>
         <WarsCaseDetail>{withLanguage(i18n, node, "detail")}</WarsCaseDetail>
-      </WarsCaseRow>
-      <WarsCaseRow>
+      </Row>
+      <Row>
         <WarsSource href={node.source_url} target="_blank">
           {t("dashboard.source")}
         </WarsSource>
-      </WarsCaseRow>
+      </Row>
     </WarsCaseContainer>
   )
 }
@@ -165,7 +153,7 @@ const confirmedCases = (i18n, item, t) => {
 const IndexPage = ({ data }) => {
   const { i18n, t } = useTranslation()
 
-  data.allWarsCases.edges.sort(
+  data.allWarsCase.edges.sort(
     (a, b) => parseInt(b.node.case_no) - parseInt(a.node.case_no)
   )
 
@@ -198,7 +186,7 @@ const IndexPage = ({ data }) => {
         </SessiontWrapper>
         <SessiontWrapper>
           <Typography variant="h4">{t("dashboard.confirmed_case")}</Typography>
-          {data.allWarsCases.edges.map(node => confirmedCases(i18n, node, t))}
+          {data.allWarsCase.edges.map(node => confirmedCases(i18n, node, t))}
         </SessiontWrapper>
       </Layout>
     </>
@@ -207,9 +195,12 @@ const IndexPage = ({ data }) => {
 
 export default IndexPage
 
-export const WarsCasesQuery = graphql`
+export const WarsCaseQuery = graphql`
   query {
-    allWarsCases(sort: { order: DESC, fields: case_no }) {
+    allWarsCase(
+      sort: { order: DESC, fields: case_no }
+      filter: { enabled: { eq: "Y" } }
+    ) {
       edges {
         node {
           case_no
