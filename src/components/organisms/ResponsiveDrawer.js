@@ -70,7 +70,6 @@ const AppTitle = styled(Typography)`
 `
 
 const SupportUsButton = styled(Link)`
-  bottom: 0;
 `
 
 function ResponsiveDrawer(props) {
