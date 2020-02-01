@@ -30,50 +30,6 @@ const PUBLISHED_SPREADSHEET_DISRUPTION_URL =
 const PUBLISHED_SPREADSHEET_DISRUPTION_DESCRIPTION_URL =
   "https://docs.google.com/spreadsheets/d/e/2PACX-1vS0gZ-QBC6JGMS28kYUMz90ZNXFb40CtoLtOIC-QzzlqhPKCIrAojuuN2GX6AXaECONvxJd84tpqzFd/pub?gid=268131605"
 
-exports.sourceNodes = async props => {
-  await Promise.all([
-    createPublishedGoogleSpreadsheetNode(
-      props,
-      PUBLISHED_SPREADSHEET_HIGH_RISK_URL,
-      "HighRisk",
-      { skipFirstLine: true }
-    ),
-    createPublishedGoogleSpreadsheetNode(
-      props,
-      PUBLISHED_SPREADSHEET_WARS_CASES_URL,
-      "WarsCases",
-      { skipFirstLine: true }
-    ),
-    createPublishedGoogleSpreadsheetNode(
-      props,
-      PUBLISHED_SPREADSHEET_DODGY_SHOPS_URL,
-      "DodgyShop",
-      { skipFirstLine: true }
-    ),
-    createPublishedGoogleSpreadsheetNode(
-      props,
-      PUBLISHED_SPREADSHEET_DISRUPTION_URL,
-      "Disruption",
-      { skipFirstLine: true }
-    ),
-    createPublishedGoogleSpreadsheetNode(
-      props,
-      PUBLISHED_SPREADSHEET_DISRUPTION_DESCRIPTION_URL,
-      "DisruptionDescription",
-      { skipFirstLine: true }
-    ),
-
-    createNode(props, SHEET_HYGIENE_TIPS_MASTER, "HygieneTips"),
-    createNode(props, SHEET_SHOP_MASTER, "Shop"),
-    createNode(props, SHEET_ALERT_MASTER, "Alert"),
-    createNode(props, SHEET_DAILY_STATS_MASTER, "DailyStats"),
-    createAENode(props),
-    createGNNode(props),
-    createGovNewsNode(props),
-    createPosterNode(props),
-  ])
-}
-
 const createAENode = async ({
   actions: { createNode },
   createNodeId,
@@ -273,6 +229,18 @@ exports.sourceNodes = async props => {
       props,
       PUBLISHED_SPREADSHEET_WARS_TIPS_URL,
       "WarsTip",
+      { skipFirstLine: true }
+    ),
+    createPublishedGoogleSpreadsheetNode(
+      props,
+      PUBLISHED_SPREADSHEET_DISRUPTION_URL,
+      "Disruption",
+      { skipFirstLine: true }
+    ),
+    createPublishedGoogleSpreadsheetNode(
+      props,
+      PUBLISHED_SPREADSHEET_DISRUPTION_DESCRIPTION_URL,
+      "DisruptionDescription",
       { skipFirstLine: true }
     ),
     createNode(props, SHEET_SHOP_MASTER, "Shop"),
