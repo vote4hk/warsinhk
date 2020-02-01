@@ -70,7 +70,6 @@ const AppTitle = styled(Typography)`
 `
 
 const SupportUsButton = styled(Link)`
-  position: absolute;
   bottom: 0;
 `
 
@@ -130,7 +129,7 @@ function ResponsiveDrawer(props) {
             </ListItem>
           </Link>
         )}
-
+        <Divider />
         <SupportUsButton
           target="_blank"
           href={`https://www.collaction.hk/s/g0vhk/fund?lang=${i18n.language}`}
