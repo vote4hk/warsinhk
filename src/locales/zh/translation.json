@@ -53,5 +53,6 @@
   "dashboard.patient_citizenship": "居住地",
   "dashboard.patient_hospital": "入住醫院",
   "dashboard.patient_status": "患者狀況",
-  "dashboard.source": "資料來源"
+  "dashboard.source": "資料來源",
+  "confirmed_case.title": "確診個案"
 }
