@@ -40,8 +40,11 @@ const SEO = ({ meta, uri }) => {
   )
 
   const currentPage = configJson.pages.find(p => p.to === path) || {}
-  const image = `${site.siteMetadata.siteUrl}/images/og_share.png`
-  const localePath = i18n.language === "zh" ? "" : `${i18n.language}/`
+  const image = `${site.siteMetadata.siteUrl}/images/og_share${
+    i18n.language === "zh" ? "" : `_${i18n.language}`
+  }.png`
+
+  const localePath = i18n.language === "zh" ? "" : `${i18n.language} /`
 
   const siteURL = uri
     ? `${site.siteMetadata.siteUrl}/${localePath}${uri}`
@@ -85,6 +88,18 @@ const SEO = ({ meta, uri }) => {
         {
           property: `og:image`,
           content: image,
+        },
+        {
+          property: "og:image:type",
+          content: "image/png",
+        },
+        {
+          property: "og:image:width",
+          content: "1200",
+        },
+        {
+          property: "og:image:width",
+          content: "630",
         },
         {
           name: `twitter:card`,
