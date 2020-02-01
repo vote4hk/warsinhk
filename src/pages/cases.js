@@ -46,11 +46,9 @@ const confirmedCases = (i18n, item, t) => {
         <Box>{withLanguage(i18n, node, "status")}</Box>
       </Row>
       <Row>
-        <Box>{`${t("dashboard.patient_age_format", { age: node.age })}  ${
-          node.gender === "F"
-            ? t("dashboard.gender_female")
-            : t("dashboard.gender_male")
-        }`}</Box>
+        <Box>{`${t("dashboard.patient_age_format", { age: node.age })}  ${t(
+          `dashboard.gender_${node.gender}`
+        )}`}</Box>
       </Row>
       <Box>
         <WarsCaseContent>

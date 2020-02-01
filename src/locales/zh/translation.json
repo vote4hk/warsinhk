@@ -56,13 +56,13 @@
   "dashboard.patient_status": "患者狀況",
   "dashboard.source": "資料來源",
   "cases.title": "個案",
-  "confirmed_case_visual.gender": "性別",
-  "confirmed_case_visual.citizen": "居住地",
-  "confirmed_case_visual.age": "年齡",
-  "confirmed_case_visual.average_age": "{{gender}}性平均",
-  "confirmed_case_visual.average_age_mobile": "{{gender}}性平均：",
-  "confirmed_case_visual.age_unit": "歲",
-  "confirmed_case_visual.age_range": "{{min}} - {{max}}",
-  "confirmed_case_visual.age_range_mobile": "範圍：{{min}} - {{max}}",
-  "confirmed_case_visual.age_range_title": "範圍"
+  "cases_visual.gender": "性別",
+  "cases_visual.citizen": "居住地",
+  "cases_visual.age": "年齡",
+  "cases_visual.average_age": "{{gender}}性平均",
+  "cases_visual.average_age_mobile": "{{gender}}性平均：",
+  "cases_visual.age_unit": "歲",
+  "cases_visual.age_range": "{{min}} - {{max}}",
+  "cases_visual.age_range_mobile": "範圍：{{min}} - {{max}}",
+  "cases_visual.age_range_title": "範圍"
 }

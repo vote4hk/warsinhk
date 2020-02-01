@@ -172,7 +172,7 @@ export default function ConfirmedCaseVisual(props) {
 
   const genderPlot = (
     <BasicCard>
-      <Typography variant="h6">{t("confirmed_case_visual.gender")}</Typography>
+      <Typography variant="h6">{t("cases_visual.gender")}</Typography>
       <Plot
         data={isMobile ? genderBar : genderPie}
         layout={{
@@ -203,7 +203,7 @@ export default function ConfirmedCaseVisual(props) {
   )
   const citizenPlot = (
     <BasicCard>
-      <Typography variant="h6">{t("confirmed_case_visual.citizen")}</Typography>
+      <Typography variant="h6">{t("cases_visual.citizen")}</Typography>
       <Plot
         data={isMobile ? citizenBar : citizenPie}
         layout={{
@@ -237,23 +237,23 @@ export default function ConfirmedCaseVisual(props) {
     <>
       {isMobile ? (
         <BasicCard>
-          <Typography variant="h6">{t("confirmed_case_visual.age")}</Typography>
+          <Typography variant="h6">{t("cases_visual.age")}</Typography>
           <Row>
             <Box>
-              {`${t(`confirmed_case_visual.age_range_mobile`, {
+              {`${t(`cases_visual.age_range_mobile`, {
                 min: WarsCaseData.ageArray[0].age,
                 max:
                   WarsCaseData.ageArray[WarsCaseData.ageArray.length - 1].age,
               })}`}
             </Box>
             <Box>
-              {`${t(`confirmed_case_visual.average_age_mobile`, {
+              {`${t(`cases_visual.average_age_mobile`, {
                 gender: t(`dashboard.gender_${WarsCaseData.male.fieldValue}`),
               })}`}
               {maleAgeAverage}
             </Box>
             <Box>
-              {`${t(`confirmed_case_visual.average_age_mobile`, {
+              {`${t(`cases_visual.average_age_mobile`, {
                 gender: t(`dashboard.gender_${WarsCaseData.female.fieldValue}`),
               })}`}
               {femaleAgeAverage}
@@ -262,40 +262,40 @@ export default function ConfirmedCaseVisual(props) {
         </BasicCard>
       ) : (
         <BasicCard>
-          <Typography variant="h6">{t("confirmed_case_visual.age")}</Typography>
+          <Typography variant="h6">{t("cases_visual.age")}</Typography>
           <Grid container align="center">
             <Grid item xs={6}>
               <Typography variant="h4" align="center">
-                {t(`confirmed_case_visual.age_range_title`)}
+                {t(`cases_visual.age_range_title`)}
               </Typography>
               <DataValue component="span">
-                {`${t(`confirmed_case_visual.age_range`, {
+                {`${t(`cases_visual.age_range`, {
                   min: WarsCaseData.ageArray[0].age,
                   max:
                     WarsCaseData.ageArray[WarsCaseData.ageArray.length - 1].age,
                 })}`}
               </DataValue>
-              <span>{t("confirmed_case_visual.age_unit")}</span>
+              <span>{t("cases_visual.age_unit")}</span>
             </Grid>
             <Grid item xs={3}>
               <Typography variant="h4" align="center">
-                {`${t(`confirmed_case_visual.average_age`, {
+                {`${t(`cases_visual.average_age`, {
                   gender: t(`dashboard.gender_${WarsCaseData.male.fieldValue}`),
                 })}`}
               </Typography>
               <DataValue component="span">{maleAgeAverage}</DataValue>
-              <span>{t("confirmed_case_visual.age_unit")}</span>
+              <span>{t("cases_visual.age_unit")}</span>
             </Grid>
             <Grid item xs={3}>
               <Typography variant="h4" align="center">
-                {`${t(`confirmed_case_visual.average_age`, {
+                {`${t(`cases_visual.average_age`, {
                   gender: t(
                     `dashboard.gender_${WarsCaseData.female.fieldValue}`
                   ),
                 })}`}
               </Typography>
               <DataValue component="span">{femaleAgeAverage}</DataValue>
-              <span>{t("confirmed_case_visual.age_unit")}</span>
+              <span>{t("cases_visual.age_unit")}</span>
             </Grid>
           </Grid>
         </BasicCard>
