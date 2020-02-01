@@ -63,6 +63,13 @@
       "icon": "collections",
       "sideMenu": true,
       "bottomNav": false
+    },
+    {
+      "title": "disruption.title",
+      "to": "/disruption",
+      "icon": "not_interested",
+      "sideMenu": true,
+      "bottomNav": false
     }
   ]
 }

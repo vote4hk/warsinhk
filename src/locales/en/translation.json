@@ -62,5 +62,13 @@
   "confirmed_case_visual.citizen_hongkong": "Hong Kong",
   "confirmed_case_visual.others": "Others",
   "confirmed_case_visual.average_age": "Average Age",
-  "confirmed_case_visual.age_unit": "yo"
+  "confirmed_case_visual.age_unit": "yo",
+  "disruption.title": "Service Disruption",
+  "disruption.list_text": "Service Disruption",
+  "disruption.filter_by_category_text": "Search by category",
+  "disruption.filter_text": "Service search",
+  "disruption.status": "Status",
+  "disruption.to": "Resumption",
+  "disruption.source": "View source",
+  "disruption.last_updated": "Last update: {{date}}"
 }
