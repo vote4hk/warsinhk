@@ -27,6 +27,7 @@
   "waiting_time.last_updated": "最後更新：",
   "waiting_time.hour": "小時",
   "index.title": "疫情追蹤",
+  "index.confirmed_case_summary": "確診個案概要",
   "dodgy_shops.title": "懷疑商鋪",
   "news.title": "即時新聞",
   "news.source_google": "資料來源: Google 新聞",
@@ -54,5 +55,12 @@
   "dashboard.patient_hospital": "入住醫院",
   "dashboard.patient_status": "患者狀況",
   "dashboard.source": "資料來源",
-  "confirmed_case.title": "確診個案"
+  "confirmed_case.title": "確診個案",
+  "confirmed_case_visual.gender": "性別",
+  "confirmed_case_visual.citizen": "居住地",
+  "confirmed_case_visual.citizen_wuhan": "武漢",
+  "confirmed_case_visual.citizen_hongkong": "香港",
+  "confirmed_case_visual.others": "其他",
+  "confirmed_case_visual.average_age": "平均年齡",
+  "confirmed_case_visual.age_unit": "歲"
 }

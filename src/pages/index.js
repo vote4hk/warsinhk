@@ -1,5 +1,6 @@
 import React from "react"
 import SEO from "@/components/templates/SEO"
+import ConfirmedCaseVisual from "@/components/organisms/ConfirmedCaseVisual"
 import Layout from "@components/templates/Layout"
 import styled from "styled-components"
 import Box from "@material-ui/core/Box"
@@ -112,6 +113,9 @@ const IndexPage = ({ data }) => {
               {remarksText}
             </Typography>
           )}
+          <Typography variant="h4">{t("index.confirmed_case_summary")}</Typography>
+          <br/>
+          <ConfirmedCaseVisual data={data.allWarsCase.edges} />
         </SessiontWrapper>
       </Layout>
     </>
@@ -136,5 +140,30 @@ export const WarsCaseQuery = graphql`
         }
       }
     }
+    allWarsCase(
+      sort: { order: DESC, fields: case_no }
+      filter: { enabled: { eq: "Y" } }
+    ) {
+      edges {
+        node {
+          case_no
+          confirmation_date
+          gender
+          age
+          hospital_zh
+          hospital_en
+          status_zh
+          status_en
+          type_zh
+          type_en
+          citizenship_zh
+          citizenship_en
+          detail_zh
+          detail_en
+          source_url
+        }
+      }
+    }
+
   }
 `
