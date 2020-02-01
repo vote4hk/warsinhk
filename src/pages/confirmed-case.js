@@ -6,7 +6,6 @@ import Typography from "@material-ui/core/Typography"
 import { graphql } from "gatsby"
 import Box from "@material-ui/core/Box"
 import Link from "@material-ui/core/Link"
-import { BasicCard } from "@components/atoms/Card"
 import styled from "styled-components"
 import { Row } from "@components/atoms/Row"
 import { Label } from "@components/atoms/Text"
@@ -88,51 +87,6 @@ const ConfirmedCasePage = props => {
   data.allWarsCase.edges.sort(
     (a, b) => parseInt(b.node.case_no) - parseInt(a.node.case_no)
   )
-
-  const item = ({ node }) => {
-    return (
-      <WarsCaseContainer key={`case-${node.case_no}`}>
-        <Row>
-          <Box>
-            {`#${node.case_no}`} ({withLanguage(i18n, node, "type")})
-          </Box>
-          <Box>{withLanguage(i18n, node, "status")}</Box>
-        </Row>
-        <Row>
-          <Box>{`${t("dashboard.patient_age_format", { age: node.age })}  ${
-            node.gender === "F"
-              ? t("dashboard.gender_female")
-              : t("dashboard.gender_male")
-          }`}</Box>
-        </Row>
-        <Box>
-          <WarsCaseContent>
-            <Box>
-              <Label>{t("dashboard.patient_confirm_date")}</Label>
-              {node.confirmation_date}
-            </Box>
-            <Box>
-              <Label>{t("dashboard.patient_citizenship")}</Label>
-              {withLanguage(i18n, node, "citizenship") || "-"}
-            </Box>
-            <Box>
-              <Label>{t("dashboard.patient_hospital")}</Label>
-              {withLanguage(i18n, node, "hospital") || "-"}
-            </Box>
-          </WarsCaseContent>
-        </Box>
-        <Row>
-          <WarsCaseDetail>{withLanguage(i18n, node, "detail")}</WarsCaseDetail>
-        </Row>
-        <Row>
-          <WarsSource href={node.source_url} target="_blank">
-            {t("dashboard.source")}
-          </WarsSource>
-        </Row>
-      </WarsCaseContainer>
-    )
-
-  }
 
   return (
     <Layout>

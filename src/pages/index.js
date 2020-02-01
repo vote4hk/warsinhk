@@ -1,6 +1,5 @@
 import React from "react"
 import SEO from "@/components/templates/SEO"
-import ConfirmedCaseVisual from "@/components/organisms/ConfirmedCaseVisual"
 import Layout from "@components/templates/Layout"
 import styled from "styled-components"
 import Box from "@material-ui/core/Box"
@@ -11,6 +10,10 @@ import { useTranslation } from "react-i18next"
 import { withLanguage } from "../utils/i18n"
 import { graphql } from "gatsby"
 
+// lazy-load the chart to avoid SSR
+const ConfirmedCaseVisual = React.lazy(() =>
+  import("@/components/organisms/ConfirmedCaseVisual")
+)
 
 const SessiontWrapper = styled(Box)`
   margin-bottom: 16px;
@@ -86,6 +89,7 @@ function dailyStats(t, props) {
 
 const IndexPage = ({ data }) => {
   const { i18n, t } = useTranslation()
+  const isSSR = typeof window === "undefined"
 
   const latestStat = data.allDailyStats.edges[0].node
   const remarksText = withLanguage(i18n, latestStat, "remarks")
@@ -113,9 +117,15 @@ const IndexPage = ({ data }) => {
               {remarksText}
             </Typography>
           )}
-          <Typography variant="h4">{t("index.confirmed_case_summary")}</Typography>
-          <br/>
-          <ConfirmedCaseVisual data={data.allWarsCase.edges} />
+          <Typography variant="h4">
+            {t("index.confirmed_case_summary")}
+          </Typography>
+          <br />
+          {!isSSR && (
+            <React.Suspense fallback={<div />}>
+              <ConfirmedCaseVisual data={data.allWarsCase.edges} />
+            </React.Suspense>
+          )}
         </SessiontWrapper>
       </Layout>
     </>
@@ -164,6 +174,5 @@ export const WarsCaseQuery = graphql`
         }
       }
     }
-
   }
 `
