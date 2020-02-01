@@ -9,16 +9,16 @@
       "bottomNav": false
     },
     {
-      "title": "dodgy_shops.title",
-      "to": "/shops",
-      "icon": "add_shopping_cart",
+      "title": "confirmed_case.title",
+      "to": "/confirmed-case",
+      "icon": "error",
       "sideMenu": true,
       "bottomNav": true
     },
     {
-      "title": "confirmed_case.title",
-      "to": "/confirmed-case",
-      "icon": "error",
+      "title": "dodgy_shops.title",
+      "to": "/shops",
+      "icon": "add_shopping_cart",
       "sideMenu": true,
       "bottomNav": true
     },
@@ -34,7 +34,7 @@
       "to": "/ae-waiting-time",
       "icon": "timelapse",
       "sideMenu": true,
-      "bottomNav": true
+      "bottomNav": false
     },
     {
       "title": "wars_tips.title",
