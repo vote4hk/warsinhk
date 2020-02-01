@@ -9,8 +9,8 @@
       "bottomNav": false
     },
     {
-      "title": "confirmed_case.title",
-      "to": "/confirmed-case",
+      "title": "cases.title",
+      "to": "/cases",
       "icon": "error",
       "sideMenu": true,
       "bottomNav": true

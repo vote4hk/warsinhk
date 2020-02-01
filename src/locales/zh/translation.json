@@ -55,7 +55,7 @@
   "dashboard.patient_hospital": "入住醫院",
   "dashboard.patient_status": "患者狀況",
   "dashboard.source": "資料來源",
-  "confirmed_case.title": "個案",
+  "cases.title": "個案",
   "confirmed_case_visual.gender": "性別",
   "confirmed_case_visual.citizen": "居住地",
   "confirmed_case_visual.age": "年齡",

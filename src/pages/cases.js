@@ -91,7 +91,7 @@ const ConfirmedCasePage = props => {
   return (
     <Layout>
       <SEO title="ConfirmedCasePage" />
-      <Typography variant="h4">{t("confirmed_case.title")}</Typography>
+      <Typography variant="h4">{t("cases.title")}</Typography>
       {data.allWarsCase.edges.map(node => confirmedCases(i18n, node, t))}
     </Layout>
   )

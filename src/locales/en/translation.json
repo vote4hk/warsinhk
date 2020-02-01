@@ -55,7 +55,7 @@
   "dashboard.patient_hospital": "Hospital admitted",
   "dashboard.patient_status": "Status",
   "dashboard.source": "Source",
-  "confirmed_case.title": "Cases",
+  "cases.title": "Cases",
   "confirmed_case_visual.gender": "Gender",
   "confirmed_case_visual.citizen": "Citizenship",
   "confirmed_case_visual.age": "Age",
