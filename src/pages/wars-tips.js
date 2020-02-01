@@ -43,6 +43,7 @@ const WarTipsPage = ({ data, pageContext }) => {
                 imageUrl={node.image_url}
                 title={node.title}
                 text={node.text}
+                tags={node.tags}
                 sourceDescription={node.source_description}
                 sourceUrl={node.source_url}
               />
