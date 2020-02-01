@@ -63,6 +63,12 @@ const SearchBox = styled(TextField)`
 `
 const PageSize = 10;
 
+const MultiSelect = styled(Select)`
+  && {
+    margin-top: 16px;
+  }
+`
+
 function item(props, i18n, t) {
   const { node } = props
 
@@ -127,33 +133,37 @@ function containsText(i18n, node, text) {
 }
 
 function isInSubDistrict(i18n, node, textList) {
-  if (typeof textList === "string") return
   return (
     textList &&
+    typeof textList !== "string" &&
     textList.some(
       optionObj =>
-        withLanguage(i18n, node, "sub_district").indexOf(optionObj.value) >= 0
+        withLanguage(i18n, node, "sub_district").indexOf(optionObj.label) >=
+          0 ||
+        withLanguage({ language: "en" }, node, "sub_district").indexOf(
+          optionObj.value
+        ) >= 0
     )
   )
 }
 
 function createSubDistrictOptionList(allData, i18n) {
-  let subDistrictArray = allData
-    .map(({ node }) => withLanguage(i18n, node, "sub_district"))
-    .filter(district => district !== "-")
+  const subDistrictArrayForFilter = allData
+    .map(({ node }) => node["sub_district_en"])
+    .filter((a, b, arr) => arr.indexOf(a) === b)
 
-  let optionList = []
-
-  subDistrictArray
-    .filter((a, b) => subDistrictArray.indexOf(a) === b)
-    .forEach(value => {
-      optionList.push({
-        value: value,
-        label: value,
-      })
-    })
-
-  return optionList
+  return allData
+    .map(({ node }) => ({
+      zh: node["sub_district_zh"],
+      en: node["sub_district_en"],
+    }))
+    .filter(
+      (item, index) => subDistrictArrayForFilter.indexOf(item.en) === index
+    )
+    .map(item => ({
+      value: i18n.language === "zh" ? item.en.toLowerCase() : item.zh,
+      label: item[i18n.language],
+    }))
 }
 
 function paginate (array, page_size, page_number) {
@@ -205,7 +215,7 @@ const ShopsPage = props => {
         </FabContainer> */}
         <Typography variant="h4">{t("dodgy_shops.list_text")}</Typography>
         <>
-          <Select
+          <MultiSelect
             closeMenuOnSelect={false}
             components={animatedComponents}
             isMulti
