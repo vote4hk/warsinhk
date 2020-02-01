@@ -30,18 +30,11 @@
       "bottomNav": true
     },
     {
-      "title": "hygiene_tips.title",
-      "to": "/hygiene-tips",
-      "icon": "info",
-      "sideMenu": true,
-      "bottomNav": true
-    },
-    {
       "title": "wars_tips.title",
       "to": "/wars-tips",
       "icon": "info",
       "sideMenu": true,
-      "bottomNav": false
+      "bottomNav": true
     },
     {
       "title": "news.title",

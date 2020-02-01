@@ -5,9 +5,10 @@ import CardContent from "@material-ui/core/CardContent"
 import CardMedia from "@material-ui/core/CardMedia"
 import Button from "@material-ui/core/Button"
 import Typography from "@material-ui/core/Typography"
-import { Link, Chip } from "@material-ui/core"
+import { Link } from "gatsby"
 import styled from "styled-components"
 import { trackCustomEvent } from "gatsby-plugin-google-analytics"
+import { useTranslation } from "react-i18next"
 
 const StyledMediaCard = styled(Card)`
   width: 100%;
@@ -21,6 +22,10 @@ const StyledCardMedia = styled(CardMedia)`
   height: 400px;
 `
 
+const StyledCardContent = styled(CardContent)`
+  flex-grow: 1;
+`
+
 export function MediaCard(props) {
   const {
     title,
@@ -28,49 +33,52 @@ export function MediaCard(props) {
     imageUrl,
     sourceDescription,
     sourceUrl,
-    type,
     tags,
+    onTagClicked,
+    uri,
   } = props
+  const { t } = useTranslation()
   return (
     <StyledMediaCard>
-      <Link
-        href={sourceUrl}
-        onClick={() => {
-          trackCustomEvent({
-            category: type,
-            action: "click",
-            label: sourceUrl,
-          })
-        }}
-        target="_blank"
-      >
-        <StyledCardMedia image={imageUrl} title="Contemplative Reptile" />
-      </Link>
-      <CardContent>
-        {tags &&
-          tags.split(",").map((tag, index) => (
-            <Chip
-              key={index}
-              variant="outlined"
-              size="small"
-              label={tag}
-              onClick={evt => {
-                console.log(evt)
-                evt.stopPropagation()
-                evt.preventDefault()
-              }}
-            ></Chip>
-          ))}
-        <Typography gutterBottom variant="h5" component="h2">
-          {title}
-        </Typography>
+      <>
+        <Link to={uri}>
+          <StyledCardMedia image={imageUrl} title="Contemplative Reptile" />
+        </Link>
 
-        {text && (
-          <Typography variant="body2" color="textSecondary" component="p">
-            {text}
+        <StyledCardContent>
+          {tags &&
+            tags.map((tag, index) => (
+              <Button
+                key={index}
+                size="small"
+                color="primary"
+                href={sourceUrl}
+                onClick={evt => {
+                  onTagClicked(tag)
+                  trackCustomEvent({
+                    category: "wars_tips",
+                    action: "click_tag",
+                    label: tag,
+                  })
+                  evt.stopPropagation()
+                  evt.preventDefault()
+                }}
+              >
+                {`#${tag}`}
+              </Button>
+            ))}
+          <Typography gutterBottom variant="h5" component="h2">
+            {title}
           </Typography>
-        )}
-      </CardContent>
+
+          {text && (
+            <Typography variant="body2" color="textSecondary" component="p">
+              {text}
+            </Typography>
+          )}
+        </StyledCardContent>
+      </>
+
       <CardActions>
         <Button
           size="small"
@@ -78,13 +86,13 @@ export function MediaCard(props) {
           href={sourceUrl}
           onClick={() => {
             trackCustomEvent({
-              category: "hygiene_tips",
+              category: "wars_tips",
               action: "click_source",
               label: sourceUrl,
             })
           }}
         >
-          {`資料來源：${sourceDescription}`}
+          {`${t("wars_tips.source")}${sourceDescription}`}
         </Button>
       </CardActions>
     </StyledMediaCard>
