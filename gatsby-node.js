@@ -25,6 +25,10 @@ const PUBLISHED_SPREADSHEET_DODGY_SHOPS_URL =
   "https://docs.google.com/spreadsheets/d/e/2PACX-1vT_CejomuSCl7198EZ7JgujiAfcxwao-4_X5d3V8VasBKGTvSVtfPrFCl3NGMEwo_a6wZbmKZcqV-sB/pub?gid=1018551822"
 const PUBLISHED_SPREADSHEET_WARS_TIPS_URL =
   "https://docs.google.com/spreadsheets/d/e/2PACX-1vR6Zri9Rt6egCzKgs2PBdyCpEECI338XZ3UwqJqfEpffW6tnlterGLRne8uS1EKy6tS_Ba4u5OKitmP/pub?gid=0"
+const PUBLISHED_SPREADSHEET_DISRUPTION_URL =
+  "https://docs.google.com/spreadsheets/d/e/2PACX-1vS0gZ-QBC6JGMS28kYUMz90ZNXFb40CtoLtOIC-QzzlqhPKCIrAojuuN2GX6AXaECONvxJd84tpqzFd/pub?gid=0"
+const PUBLISHED_SPREADSHEET_DISRUPTION_DESCRIPTION_URL =
+  "https://docs.google.com/spreadsheets/d/e/2PACX-1vS0gZ-QBC6JGMS28kYUMz90ZNXFb40CtoLtOIC-QzzlqhPKCIrAojuuN2GX6AXaECONvxJd84tpqzFd/pub?gid=268131605"
 
 const createAENode = async ({
   actions: { createNode },
@@ -225,6 +229,18 @@ exports.sourceNodes = async props => {
       props,
       PUBLISHED_SPREADSHEET_WARS_TIPS_URL,
       "WarsTip",
+      { skipFirstLine: true }
+    ),
+    createPublishedGoogleSpreadsheetNode(
+      props,
+      PUBLISHED_SPREADSHEET_DISRUPTION_URL,
+      "Disruption",
+      { skipFirstLine: true }
+    ),
+    createPublishedGoogleSpreadsheetNode(
+      props,
+      PUBLISHED_SPREADSHEET_DISRUPTION_DESCRIPTION_URL,
+      "DisruptionDescription",
       { skipFirstLine: true }
     ),
     createNode(props, SHEET_SHOP_MASTER, "Shop"),
