@@ -11,12 +11,12 @@ import { useStaticQuery, graphql } from "gatsby"
 import ContextStore from "@/contextStore"
 import { useTranslation } from "react-i18next"
 
-const SEO = ({ meta }) => {
+const SEO = ({ meta, uri }) => {
   const { t, i18n } = useTranslation()
 
   const {
     route: {
-      state: { path },
+      state: { path, fullPath },
     },
   } = React.useContext(ContextStore)
   const { site, configJson } = useStaticQuery(
@@ -41,7 +41,11 @@ const SEO = ({ meta }) => {
 
   const currentPage = configJson.pages.find(p => p.to === path) || {}
   const image = `${site.siteMetadata.siteUrl}/images/og_share.png`
+  const localePath = i18n.language === "zh" ? "" : `${i18n.language}/`
 
+  const siteURL = uri
+    ? `${site.siteMetadata.siteUrl}/${localePath}${uri}`
+    : `${site.siteMetadata.siteUrl}${fullPath}`
   return (
     <Helmet
       htmlAttributes={{
@@ -76,7 +80,7 @@ const SEO = ({ meta }) => {
         },
         {
           property: `og:url`,
-          content: site.siteMetadata.siteUrl,
+          content: siteURL,
         },
         {
           property: `og:image`,
@@ -95,7 +99,12 @@ const SEO = ({ meta }) => {
           content: t("site.description"),
         },
       ].concat(meta || [])}
-    />
+    >
+      <script
+        src="https://widget.rss.app/v1/list.js"
+        type="text/javascript"
+      ></script>
+    </Helmet>
   )
 }
 

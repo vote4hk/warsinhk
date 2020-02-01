@@ -23,20 +23,25 @@ const ContextStore = React.createContext({
 })
 
 export const ContextStoreProvider = props => {
-  const [drawerState, drawerDispatch] = React.useReducer(
-    drawerReducer,
-    drawerInitialState
-  )
+  const { initialStore = {} } = props
 
-  const [routeState, routeDispatch] = React.useReducer(
-    routeReducer,
-    routeInitialState
-  )
+  const [drawerState, drawerDispatch] = React.useReducer(drawerReducer, {
+    ...drawerInitialState,
+    ...initialStore.drawer,
+  })
 
-  const [pageOptionsState, pageOptionsDispatch] = React.useReducer(
-    pageOptionsReducer,
-    pageOptionsInitialState
-  )
+  const [routeState, routeDispatch] = React.useReducer(routeReducer, {
+    ...routeInitialState,
+    ...initialStore.route,
+  })
+
+  const [
+    pageOptionsState,
+    pageOptionsDispatch,
+  ] = React.useReducer(pageOptionsReducer, {
+    ...pageOptionsInitialState,
+    ...initialStore.pageOptions,
+  })
 
   return (
     <ContextStore.Provider
