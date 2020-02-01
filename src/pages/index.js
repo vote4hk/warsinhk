@@ -118,12 +118,11 @@ const IndexPage = ({ data }) => {
             </Typography>
           )}
           <Typography variant="h4">
-            {t("index.confirmed_case_summary")}
+            {t("index.highlight", { count: latestStat.confirmed_case })}
           </Typography>
-          <br />
           {!isSSR && (
             <React.Suspense fallback={<div />}>
-              <ConfirmedCaseVisual data={data.allWarsCase.edges} />
+              <ConfirmedCaseVisual />
             </React.Suspense>
           )}
         </SessiontWrapper>
