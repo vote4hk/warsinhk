@@ -10,7 +10,6 @@ const ae = require("./ae")
 const gn = require("./gn")
 const poster = require("./poster-gallery")
 const GOOGLE_SPREADSHEET_ID = "14kreo2vRo1XCUXqFLcMApVtYmvkEzWBDm6b8fzJNKEc"
-const SHEET_HYGIENE_TIPS_MASTER = "hygiene_tips"
 const SHEET_SHOP_MASTER = "shop_master"
 const SHEET_ALERT_MASTER = "alert"
 
@@ -22,7 +21,7 @@ const PUBLISHED_SPREADSHEET_WARS_CASES_URL =
   "https://docs.google.com/spreadsheets/d/e/2PACX-1vSr2xYotDgnAq6bqm5Nkjq9voHBKzKNWH2zvTRx5LU0jnpccWykvEF8iB_0g7Tzo2pwzkTuM3ETlr_h/pub?gid=0"
 const PUBLISHED_SPREADSHEET_DODGY_SHOPS_URL =
   "https://docs.google.com/spreadsheets/d/e/2PACX-1vT_CejomuSCl7198EZ7JgujiAfcxwao-4_X5d3V8VasBKGTvSVtfPrFCl3NGMEwo_a6wZbmKZcqV-sB/pub?gid=1018551822"
-const PUBLISHED_SPREADSHEET_FACT_CHECKS_URL =
+const PUBLISHED_SPREADSHEET_WARS_TIPS_URL =
   "https://docs.google.com/spreadsheets/d/e/2PACX-1vR6Zri9Rt6egCzKgs2PBdyCpEECI338XZ3UwqJqfEpffW6tnlterGLRne8uS1EKy6tS_Ba4u5OKitmP/pub?gid=0"
 
 const createAENode = async ({
@@ -232,11 +231,10 @@ exports.sourceNodes = async props => {
     ),
     createPublishedGoogleSpreadsheetNode(
       props,
-      PUBLISHED_SPREADSHEET_FACT_CHECKS_URL,
-      "FactCheck",
+      PUBLISHED_SPREADSHEET_WARS_TIPS_URL,
+      "WarsTip",
       { skipFirstLine: true }
     ),
-    createNode(props, SHEET_HYGIENE_TIPS_MASTER, "HygieneTips"),
     createNode(props, SHEET_SHOP_MASTER, "Shop"),
     createNode(props, SHEET_ALERT_MASTER, "Alert"),
     createNode(props, SHEET_DAILY_STATS_MASTER, "DailyStats"),
@@ -251,12 +249,14 @@ exports.createPages = ({ actions }) => {
   actions.createRedirect({
     fromPath: `/en/hygiene-tips`,
     toPath: `/en/wars-tips`,
-    isPermanent: `true`,
+    redirectInBrowser: true,
+    isPermanent: true,
   })
 
   actions.createRedirect({
     fromPath: `/hygiene-tips`,
     toPath: `/wars-tips`,
-    isPermanent: `true`,
+    redirectInBrowser: true,
+    isPermanent: true,
   })
 }

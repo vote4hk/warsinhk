@@ -37,6 +37,13 @@
       "bottomNav": true
     },
     {
+      "title": "wars_tips.title",
+      "to": "/wars-tips",
+      "icon": "info",
+      "sideMenu": true,
+      "bottomNav": false
+    },
+    {
       "title": "news.title",
       "to": "/news",
       "icon": "web",

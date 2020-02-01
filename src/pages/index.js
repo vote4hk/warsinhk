@@ -153,7 +153,7 @@ const confirmedCases = (i18n, item, t) => {
 const IndexPage = ({ data }) => {
   const { i18n, t } = useTranslation()
 
-  data.allWarsCases.edges.sort(
+  data.allWarsCase.edges.sort(
     (a, b) => parseInt(b.node.case_no) - parseInt(a.node.case_no)
   )
 
@@ -186,7 +186,7 @@ const IndexPage = ({ data }) => {
         </SessiontWrapper>
         <SessiontWrapper>
           <Typography variant="h4">{t("dashboard.confirmed_case")}</Typography>
-          {data.allWarsCases.edges.map(node => confirmedCases(i18n, node, t))}
+          {data.allWarsCase.edges.map(node => confirmedCases(i18n, node, t))}
         </SessiontWrapper>
       </Layout>
     </>
@@ -195,9 +195,9 @@ const IndexPage = ({ data }) => {
 
 export default IndexPage
 
-export const WarsCasesQuery = graphql`
+export const WarsCaseQuery = graphql`
   query {
-    allWarsCases(
+    allWarsCase(
       sort: { order: DESC, fields: case_no }
       filter: { enabled: { eq: "Y" } }
     ) {

@@ -12,6 +12,10 @@ import { trackCustomEvent } from "gatsby-plugin-google-analytics"
 
 const StyledMediaCard = styled(Card)`
   width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 `
 
 const StyledCardMedia = styled(CardMedia)`
@@ -19,7 +23,7 @@ const StyledCardMedia = styled(CardMedia)`
 `
 
 export function MediaCard(props) {
-  const { title, text, imageUrl, sourceDescription, sourceUrl } = props
+  const { title, text, imageUrl, sourceDescription, sourceUrl, type } = props
 
   return (
     <StyledMediaCard>
@@ -28,7 +32,7 @@ export function MediaCard(props) {
           href={sourceUrl}
           onClick={() => {
             trackCustomEvent({
-              category: "hygiene_tips",
+              category: type,
               action: "click",
               label: sourceUrl,
             })
