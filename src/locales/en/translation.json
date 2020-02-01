@@ -14,7 +14,9 @@
   "dodgy_shops.category_dubious": "Dubious",
   "high_risk.title": "High Risk Areas",
   "high_risk.source": "Source: {{source}}",
-  "wars_tips.title": "Coronavirus Tips",
+  "high_risk.list_mode": "List",
+  "high_risk.map_mode": "Map",
+  "wars_tips.title": "Health tips",
   "wars_tips.source": "Source：",
   "poster_gallery.title": "Poster Gallery",
   "poster_gallery.source": "Source: Collaction",
@@ -25,6 +27,7 @@
   "waiting_time.last_updated": "Last update: ",
   "waiting_time.hour": "hr",
   "index.title": "Latest Update",
+  "index.confirmed_case_summary": "Summary on confirmed",
   "dodgy_shops.title": "Dubious Pharmacies",
   "news.title": "Latest News",
   "news.source_google": "Source: Google News",
@@ -51,5 +54,13 @@
   "dashboard.patient_citizenship": "Citizenship",
   "dashboard.patient_hospital": "Hospital admitted",
   "dashboard.patient_status": "Status",
-  "dashboard.source": "Source"
+  "dashboard.source": "Source",
+  "confirmed_case.title": "Confirmed",
+  "confirmed_case_visual.gender": "Gender",
+  "confirmed_case_visual.citizen": "Citizen",
+  "confirmed_case_visual.citizen_wuhan": "Wuhan",
+  "confirmed_case_visual.citizen_hongkong": "Hong Kong",
+  "confirmed_case_visual.others": "Others",
+  "confirmed_case_visual.average_age": "Average Age",
+  "confirmed_case_visual.age_unit": "yo"
 }

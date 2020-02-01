@@ -16,6 +16,13 @@
       "bottomNav": true
     },
     {
+      "title": "confirmed_case.title",
+      "to": "/confirmed-case",
+      "icon": "error",
+      "sideMenu": true,
+      "bottomNav": true
+    },
+    {
       "title": "high_risk.title",
       "to": "/high-risk",
       "icon": "warning",
