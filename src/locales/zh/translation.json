@@ -64,5 +64,20 @@
   "cases_visual.age_unit": "歲",
   "cases_visual.age_range": "{{min}} - {{max}}",
   "cases_visual.age_range_mobile": "範圍：{{min}} - {{max}}",
-  "cases_visual.age_range_title": "範圍"
+  "cases_visual.age_range_title": "範圍",
+  "confirmed_case_visual.gender": "性別",
+  "confirmed_case_visual.citizen": "居住地",
+  "confirmed_case_visual.citizen_wuhan": "武漢",
+  "confirmed_case_visual.citizen_hongkong": "香港",
+  "confirmed_case_visual.others": "其他",
+  "confirmed_case_visual.average_age": "平均年齡",
+  "confirmed_case_visual.age_unit": "歲",
+  "disruption.title": "服務影響",
+  "disruption.list_text": "服務影響",
+  "disruption.filter_by_category_text": "按類別搜尋",
+  "disruption.filter_text": "搜尋服務",
+  "disruption.status": "狀態",
+  "disruption.to": "恢復時間",
+  "disruption.source": "資料來源",
+  "disruption.last_updated": "最後更新：{{date}}"
 }

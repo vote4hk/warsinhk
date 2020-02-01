@@ -14,6 +14,7 @@ import TranslateIcon from "@material-ui/icons/Translate"
 import WebIcon from "@material-ui/icons/Web"
 import CollectionsIcon from "@material-ui/icons/Collections"
 import CloseIcon from "@material-ui/icons/Close"
+import NotInterestedIcon from "@material-ui/icons/NotInterested"
 
 export function mapIcon(name) {
   switch (name) {
@@ -41,6 +42,8 @@ export function mapIcon(name) {
       return <EventNoteIcon />
     case "collections":
       return <CollectionsIcon />
+    case "not_interested":
+      return <NotInterestedIcon />
     case "translate":
       return <TranslateIcon />
     case "web":

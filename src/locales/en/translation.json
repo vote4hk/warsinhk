@@ -64,5 +64,13 @@
   "cases_visual.age_unit": "yr",
   "cases_visual.age_range": "{{min}} - {{max}}",
   "cases_visual.age_range_mobile": "Range: {{min}} - {{max}}",
-  "cases_visual.age_range_title": "Range"
+  "cases_visual.age_range_title": "Range",
+  "disruption.title": "Service Disruption",
+  "disruption.list_text": "Service Disruption",
+  "disruption.filter_by_category_text": "Search by category",
+  "disruption.filter_text": "Service search",
+  "disruption.status": "Status",
+  "disruption.to": "Resumption",
+  "disruption.source": "View source",
+  "disruption.last_updated": "Last update: {{date}}"
 }
