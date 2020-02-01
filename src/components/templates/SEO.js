@@ -40,6 +40,7 @@ const SEO = ({ meta, uri }) => {
     `
   )
   const currentPage = configJson.pages.find(p => p.to === path) || {}
+  let title = _.isEmpty(currentPage) ? t("index.title") : t(currentPage.title)
   if (_.isEmpty(currentPage) && !uri) {
     console.error(
       `cannot look up page title. check the settings for path: ${path}`
@@ -59,7 +60,7 @@ const SEO = ({ meta, uri }) => {
       htmlAttributes={{
         lang: i18n.language,
       }}
-      title={t(currentPage.title)}
+      title={title}
       titleTemplate={`%s | ${t("site.title")}`}
       meta={[
         {
@@ -76,7 +77,7 @@ const SEO = ({ meta, uri }) => {
         },
         {
           property: `og:title`,
-          content: `${t(currentPage.title)} | ${t("site.title")}`,
+          content: `${title} | ${t("site.title")}`,
         },
         {
           property: `og:description`,
@@ -112,7 +113,7 @@ const SEO = ({ meta, uri }) => {
         },
         {
           name: `twitter:title`,
-          content: `${t(currentPage.title)} | ${t("site.title")}`,
+          content: `${t(title)} | ${t("site.title")}`,
         },
         {
           name: `twitter:description`,

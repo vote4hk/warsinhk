@@ -239,16 +239,16 @@ exports.sourceNodes = async props => {
 
 exports.createPages = async ({ graphql, actions }) => {
   actions.createRedirect({
-    fromPath: `/en/hygiene-tips`,
-    toPath: `/en/wars-tips`,
-    redirectInBrowser: true,
+    fromPath: `/en/hygiene-tips/`,
+    toPath: `/en/wars-tips/`,
+    redirectInBrowser: false,
     isPermanent: true,
   })
 
   actions.createRedirect({
-    fromPath: `/hygiene-tips`,
-    toPath: `/wars-tips`,
-    redirectInBrowser: true,
+    fromPath: `/hygiene-tips/`,
+    toPath: `/wars-tips/`,
+    redirectInBrowser: false,
     isPermanent: true,
   })
 
@@ -274,12 +274,17 @@ exports.createPages = async ({ graphql, actions }) => {
     // This will not trigger onCreatePage
     LANGUAGES.forEach(lang => {
       const uri = getWarTipPath(lang, node.title)
-      if (node.lang !== lang) {
-        actions.createRedirect({
-          fromPath: uri,
-          toPath: getPath(lang, "/wars-tips"),
-          redirectInBrowser: true,
-          isPermanent: false,
+      if (node.language !== lang) {
+        // actions.createRedirect not working here.. dont know why
+        // so create a client side redirect here
+        actions.createPage({
+          path: uri,
+          component: path.resolve(`./src/templates/redirect.js`),
+          context: {
+            uri,
+            redirectURL: getPath(lang, "/wars-tips/"),
+            locale: lang,
+          },
         })
       } else {
         actions.createPage({

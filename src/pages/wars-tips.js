@@ -104,8 +104,11 @@ const WarTipsPage = ({ data, pageContext }) => {
 export default WarTipsPage
 
 export const WarsTipsQuery = graphql`
-  query {
-    allWarsTip(sort: { fields: [sort_order, date], order: [DESC, DESC] }) {
+  query getWarsTips($locale: String) {
+    allWarsTip(
+      sort: { fields: [sort_order, date], order: [DESC, DESC] }
+      filter: { language: { eq: $locale } }
+    ) {
       edges {
         node {
           title

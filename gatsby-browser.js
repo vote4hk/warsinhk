@@ -19,7 +19,7 @@ const Router = ({ path }) => {
   } = React.useContext(ContextStore)
   let actualPath = path
   // TODO: dynamic langauges from somewhere?
-  actualPath = actualPath.replace(`/en/`, "/")
+  actualPath = actualPath.replace(/^\/en(?!\w)/, "") || "/"
   useEffect(() => {
     dispatch({ type: ROUTE_CHANGE, path: actualPath, fullPath: path })
   }, [actualPath, path, dispatch])

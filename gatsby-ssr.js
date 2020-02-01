@@ -14,7 +14,7 @@ export const wrapPageElement = ({ element, props }) => {
     props.location.pathname !== "/"
       ? props.location.pathname.replace(/\/$/, "")
       : "/"
-  const path = fullPath.replace(`/en/`, "/")
+  const path = fullPath.replace(/^\/en(?!\w)/, "") || "/"
   return (
     <>
       <RootLayout
