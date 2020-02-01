@@ -10,6 +10,7 @@ import Helmet from "react-helmet"
 import { useStaticQuery, graphql } from "gatsby"
 import ContextStore from "@/contextStore"
 import { useTranslation } from "react-i18next"
+import _ from "lodash"
 
 const SEO = ({ meta, uri }) => {
   const { t, i18n } = useTranslation()
@@ -38,8 +39,12 @@ const SEO = ({ meta, uri }) => {
       }
     `
   )
-
   const currentPage = configJson.pages.find(p => p.to === path) || {}
+  if (_.isEmpty(currentPage)) {
+    console.error(
+      `cannot look up page title. check the settings for path: ${path}`
+    )
+  }
   const image = `${site.siteMetadata.siteUrl}/images/og_share${
     i18n.language === "zh" ? "" : `_${i18n.language}`
   }.png`

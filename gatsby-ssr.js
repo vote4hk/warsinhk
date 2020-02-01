@@ -9,14 +9,19 @@ import I18nWrapper from "@/components/I18nWrapper"
 import RootLayout from "@/components/templates/RootLayout"
 
 export const wrapPageElement = ({ element, props }) => {
-  const path = props.location.pathname.replace(`/en/`, "/")
+  // remove the trailing slash
+  const fullPath =
+    props.location.pathname !== "/"
+      ? props.location.pathname.replace(/\/$/, "")
+      : "/"
+  const path = fullPath.replace(`/en/`, "/")
   return (
     <>
       <RootLayout
         initialStore={{
           route: {
             path,
-            fullPath: props.location.pathname,
+            fullPath,
           },
         }}
       >
