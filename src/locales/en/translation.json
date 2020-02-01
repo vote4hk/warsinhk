@@ -14,6 +14,8 @@
   "dodgy_shops.category_dubious": "Dubious",
   "high_risk.title": "High Risk Areas",
   "high_risk.source": "Source: {{source}}",
+  "high_risk.list_mode": "List",
+  "high_risk.map_mode": "Map",
   "wars_tips.title": "Coronavirus Tips",
   "wars_tips.source": "Source：",
   "poster_gallery.title": "Poster Gallery",

@@ -31,7 +31,6 @@ const CardContainer = styled(Box)`
 `
 
 const WarTipsPage = ({ data, pageContext }) => {
-  console.log(pageContext)
   const { t, i18n } = useTranslation()
   const [selectedTag, setSelectedTag] = useState(null)
 
