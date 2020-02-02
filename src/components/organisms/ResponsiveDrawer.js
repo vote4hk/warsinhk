@@ -55,6 +55,7 @@ const useStyles = makeStyles(theme => ({
   toolbar: theme.mixins.toolbar,
   drawerPaper: {
     width: drawerWidth,
+    justifyContent: "space-between",
   },
   content: {
     flexGrow: 1,
@@ -67,11 +68,6 @@ const AppTitle = styled(Typography)`
     flex-grow: 1;
     text-align: center;
   }
-`
-
-const SupportUsButton = styled(Link)`
-  position: absolute;
-  bottom: 0;
 `
 
 function ResponsiveDrawer(props) {
@@ -130,19 +126,23 @@ function ResponsiveDrawer(props) {
             </ListItem>
           </Link>
         )}
-
-        <SupportUsButton
-          target="_blank"
-          href={`https://www.collaction.hk/s/g0vhk/fund?lang=${i18n.language}`}
-        >
-          <ListItem>
-            <ListItemIcon>{mapIcon("thumb_up")}</ListItemIcon>
-            <ListItemText primary={t("text.support_us")} />
-          </ListItem>
-        </SupportUsButton>
       </div>
     )
   }
+
+  const drawlerFooter = () => (
+    <div>
+      <Link
+        target="_blank"
+        href={`https://www.collaction.hk/s/g0vhk/fund?lang=${i18n.language}`}
+      >
+        <ListItem>
+          <ListItemIcon>{mapIcon("thumb_up")}</ListItemIcon>
+          <ListItemText primary={t("text.support_us")} />
+        </ListItem>
+      </Link>
+    </div>
+  )
 
   return (
     <div className={`${classes.root} ${className}`}>
@@ -159,10 +159,7 @@ function ResponsiveDrawer(props) {
             {mapIcon("menu")}
           </IconButton>
           <AppTitle variant="h3" noWrap>
-            <Link
-              className={classes.appTitleLink}
-              href="/"
-            >
+            <Link className={classes.appTitleLink} href="/">
               {t("site.title")}
             </Link>
           </AppTitle>
@@ -186,6 +183,7 @@ function ResponsiveDrawer(props) {
             }}
           >
             {drawer(pages)}
+            {drawlerFooter()}
           </Drawer>
         </Hidden>
         <Hidden xsDown implementation="css">
@@ -197,6 +195,7 @@ function ResponsiveDrawer(props) {
             open
           >
             {drawer(pages)}
+            {drawlerFooter()}
           </Drawer>
         </Hidden>
       </nav>
