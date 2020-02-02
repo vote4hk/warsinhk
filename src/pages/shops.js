@@ -237,7 +237,7 @@ const ShopsPage = props => {
               trackCustomEvent({
                 category: "dodgy_shop",
                 action: "multiselect_input",
-                label: selectedArray.toString(),
+                label: (selectedArray && selectedArray.toString()) || "",
               })
               setFilter(selectedArray || "")
             }}
