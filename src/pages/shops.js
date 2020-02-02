@@ -299,7 +299,8 @@ const ShopsPage = props => {
             children={item(node, i18n, t)}
           />
         ))}
-        <MobileStepper
+        {/* TODO:  Fix button mobile stepper overlapping the bottom nav */}
+        {/* <MobileStepper
           steps={maxSteps}
           position="bottom"
           variant="text"
@@ -322,7 +323,7 @@ const ShopsPage = props => {
               <KeyboardArrowLeft />
             </Button>
           }
-        />
+        /> */}
       </Layout>
     </>
   )
