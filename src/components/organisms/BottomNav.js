@@ -25,6 +25,13 @@ const StyledBottomNavigation = styled(BottomNavigation)`
   .MuiBottomNavigationAction-label.Mui-selected {
     font-size: 12px;
   }
+  @media (max-width: 380px) {
+    .MuiBottomNavigationAction-root {
+      min-width: 65px;
+      padding-left: 0;
+      padding-right: 0;
+    }
+  }
 `
 
 export default function SimpleBottomNavigation(props) {
