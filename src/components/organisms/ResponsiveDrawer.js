@@ -130,7 +130,7 @@ function ResponsiveDrawer(props) {
     )
   }
 
-  const drawlerFooter = () => (
+  const drawerFooter = () => (
     <div>
       <Link
         target="_blank"
@@ -183,7 +183,7 @@ function ResponsiveDrawer(props) {
             }}
           >
             {drawer(pages)}
-            {drawlerFooter()}
+            {drawerFooter()}
           </Drawer>
         </Hidden>
         <Hidden xsDown implementation="css">
@@ -195,7 +195,7 @@ function ResponsiveDrawer(props) {
             open
           >
             {drawer(pages)}
-            {drawlerFooter()}
+            {drawerFooter()}
           </Drawer>
         </Hidden>
       </nav>
