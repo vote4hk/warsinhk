@@ -16,6 +16,10 @@ import Select from "react-select"
 import makeAnimated from "react-select/animated"
 import { Row, FlexStartRow } from "@components/atoms/Row"
 import { Label } from "@components/atoms/Text"
+import MobileStepper from '@material-ui/core/MobileStepper';
+import Button from '@material-ui/core/Button';
+import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
+import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
 
 import { withLanguage } from "../utils/i18n"
 import { bps } from "../ui/theme"
@@ -57,6 +61,7 @@ const SearchBox = styled(TextField)`
     }
   }
 `
+const PageSize = 10;
 
 function item(props, i18n, t) {
   const { node } = props
@@ -151,15 +156,43 @@ function createSubDistrictOptionList(allData, i18n) {
   return optionList
 }
 
+function paginate (array, page_size, page_number) {
+  return array.slice(page_number * page_size, (page_number + 1) * page_size);
+}
+
 const ShopsPage = props => {
   const { data } = props
   const { i18n, t } = useTranslation()
   const [filter, setFilter] = useState("")
+  const [activeStep, setActiveStep] = useState(0)
 
   const subDistrictOptionList = createSubDistrictOptionList(
     data.allDodgyShop.edges,
     i18n
   )
+
+  // added for paging
+  const handleNext = () => {
+    setActiveStep(prevActiveStep => prevActiveStep + 1);
+  };
+  
+  // added for paging
+  const handleBack = () => {
+    setActiveStep(prevActiveStep => prevActiveStep - 1);
+  };
+
+  const filteredData = data.allDodgyShop.edges
+                      .filter(
+                        e =>
+                          filter === "" ||
+                          containsText(i18n, e.node, filter) ||
+                          isInSubDistrict(i18n, e.node, filter)
+                      );
+  const maxSteps = Math.ceil(filteredData.length/PageSize);
+
+  if(activeStep >= maxSteps) {
+    setActiveStep(0);
+  }
 
   return (
     <>
@@ -202,13 +235,23 @@ const ShopsPage = props => {
             }}
           />
         </>
-        {data.allDodgyShop.edges
-          .filter(
-            e =>
-              filter === "" ||
-              containsText(i18n, e.node, filter) ||
-              isInSubDistrict(i18n, e.node, filter)
-          )
+        <MobileStepper
+            steps={maxSteps}
+            position="static"
+            variant="text"
+            activeStep={activeStep}
+            nextButton={
+              <Button size="small" onClick={handleNext} disabled={activeStep === maxSteps - 1}>
+                <KeyboardArrowRight />
+              </Button>
+            }
+            backButton={
+              <Button size="small" onClick={handleBack} disabled={activeStep === 0}>
+                <KeyboardArrowLeft />
+              </Button>
+            }
+          />        
+        {paginate(filteredData,PageSize,activeStep)
           .map((node, index) => (
             <BasicCard
               alignItems="flex-start"
@@ -216,6 +259,22 @@ const ShopsPage = props => {
               children={item(node, i18n, t)}
             />
           ))}
+        <MobileStepper
+          steps={maxSteps}
+          position="static"
+          variant="text"
+          activeStep={activeStep}
+          nextButton={
+            <Button size="small" onClick={handleNext} disabled={activeStep === maxSteps - 1}>
+              <KeyboardArrowRight />
+            </Button>
+          }
+          backButton={
+            <Button size="small" onClick={handleBack} disabled={activeStep === 0}>
+              <KeyboardArrowLeft />
+            </Button>
+          }
+        />          
       </Layout>
     </>
   )
