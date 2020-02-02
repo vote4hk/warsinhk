@@ -8,7 +8,8 @@ import { graphql } from "gatsby"
 import { MediaCard } from "@components/organisms/MediaCard"
 import Box from "@material-ui/core/Box"
 import { bps } from "@/ui/theme"
-import _ from "lodash"
+import _flatten from "lodash.flatten"
+import _uniq from "lodash.uniq"
 import { getWarTipPath } from "@/utils/urlHelper"
 import { trackCustomEvent } from "gatsby-plugin-google-analytics"
 
@@ -42,8 +43,8 @@ const WarTipsPage = ({ data, pageContext }) => {
   }
 
   const getAllTags = edges => {
-    return _.uniq(
-      _.flatten(
+    return _uniq(
+      _flatten(
         edges.map(edge => (edge.node.tags ? edge.node.tags.split(",") : []))
       )
     )
