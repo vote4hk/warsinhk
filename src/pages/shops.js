@@ -3,7 +3,7 @@ import SEO from "@/components/templates/SEO"
 import Layout from "@components/templates/Layout"
 import Box from "@material-ui/core/Box"
 import Link from "@material-ui/core/Link"
-import { UnstyledCardLink } from "@components/atoms/UnstyledLink"
+import { UnstyledLinkedCard } from "@components/atoms/LinkedCard"
 import styled from "styled-components"
 import { useTranslation } from "react-i18next"
 import Typography from "@material-ui/core/Typography"
@@ -16,10 +16,10 @@ import Select from "react-select"
 import makeAnimated from "react-select/animated"
 import { Row, FlexStartRow } from "@components/atoms/Row"
 import { Label } from "@components/atoms/Text"
-import MobileStepper from '@material-ui/core/MobileStepper';
-import Button from '@material-ui/core/Button';
-import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
-import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
+import MobileStepper from "@material-ui/core/MobileStepper"
+import Button from "@material-ui/core/Button"
+import KeyboardArrowLeft from "@material-ui/icons/KeyboardArrowLeft"
+import KeyboardArrowRight from "@material-ui/icons/KeyboardArrowRight"
 
 import { withLanguage } from "../utils/i18n"
 import { bps } from "../ui/theme"
@@ -61,7 +61,7 @@ const SearchBox = styled(TextField)`
     }
   }
 `
-const PageSize = 10;
+const PageSize = 10
 
 const MultiSelect = styled(Select)`
   && {
@@ -75,9 +75,13 @@ function item(props, i18n, t) {
   const sourceUrl = node.source_url
 
   return (
-    <UnstyledCardLink
-      href={`https://maps.google.com/?q=${withLanguage(i18n, node, "address")}`}
-      target="_blank"
+    <UnstyledLinkedCard
+      onClick={() =>
+        window.open(
+          `https://maps.google.com/?q=${withLanguage(i18n, node, "address")}`,
+          "_blank"
+        )
+      }
     >
       <Row>
         <Box>{withLanguage(i18n, node, "type")}</Box>
@@ -119,7 +123,7 @@ function item(props, i18n, t) {
       <Row>
         <Box>{t("dodgy_shops.last_updated", { date: node.last_update })}</Box>
       </Row>
-    </UnstyledCardLink>
+    </UnstyledLinkedCard>
   )
 }
 
@@ -175,8 +179,8 @@ function createSubDistrictOptionList(allData, i18n) {
     }))
 }
 
-function paginate (array, page_size, page_number) {
-  return array.slice(page_number * page_size, (page_number + 1) * page_size);
+function paginate(array, page_size, page_number) {
+  return array.slice(page_number * page_size, (page_number + 1) * page_size)
 }
 
 const ShopsPage = props => {
@@ -192,25 +196,24 @@ const ShopsPage = props => {
 
   // added for paging
   const handleNext = () => {
-    setActiveStep(prevActiveStep => prevActiveStep + 1);
-  };
-  
+    setActiveStep(prevActiveStep => prevActiveStep + 1)
+  }
+
   // added for paging
   const handleBack = () => {
-    setActiveStep(prevActiveStep => prevActiveStep - 1);
-  };
+    setActiveStep(prevActiveStep => prevActiveStep - 1)
+  }
 
-  const filteredData = data.allDodgyShop.edges
-                      .filter(
-                        e =>
-                          filter === "" ||
-                          containsText(i18n, e.node, filter) ||
-                          isInSubDistrict(i18n, e.node, filter)
-                      );
-  const maxSteps = Math.ceil(filteredData.length/PageSize);
+  const filteredData = data.allDodgyShop.edges.filter(
+    e =>
+      filter === "" ||
+      containsText(i18n, e.node, filter) ||
+      isInSubDistrict(i18n, e.node, filter)
+  )
+  const maxSteps = Math.ceil(filteredData.length / PageSize)
 
-  if(activeStep >= maxSteps) {
-    setActiveStep(0);
+  if (activeStep >= maxSteps) {
+    setActiveStep(0)
   }
 
   return (
@@ -260,45 +263,60 @@ const ShopsPage = props => {
           />
         </>
         <MobileStepper
-            steps={maxSteps}
-            position="static"
-            variant="text"
-            activeStep={activeStep}
-            nextButton={
-              <Button size="small" onClick={handleNext} disabled={activeStep === maxSteps - 1}>
-                <KeyboardArrowRight />
-              </Button>
-            }
-            backButton={
-              <Button size="small" onClick={handleBack} disabled={activeStep === 0}>
-                <KeyboardArrowLeft />
-              </Button>
-            }
-          />        
-        {paginate(filteredData,PageSize,activeStep)
-          .map((node, index) => (
-            <BasicCard
-              alignItems="flex-start"
-              key={index}
-              children={item(node, i18n, t)}
-            />
-          ))}
+          steps={maxSteps}
+          position="static"
+          variant="text"
+          activeStep={activeStep}
+          nextButton={
+            <Button
+              size="small"
+              onClick={handleNext}
+              disabled={activeStep === maxSteps - 1}
+            >
+              <KeyboardArrowRight />
+            </Button>
+          }
+          backButton={
+            <Button
+              size="small"
+              onClick={handleBack}
+              disabled={activeStep === 0}
+            >
+              <KeyboardArrowLeft />
+            </Button>
+          }
+        />
+        {paginate(filteredData, PageSize, activeStep).map((node, index) => (
+          <BasicCard
+            alignItems="flex-start"
+            key={index}
+            children={item(node, i18n, t)}
+          />
+        ))}
         <MobileStepper
           steps={maxSteps}
           position="static"
           variant="text"
           activeStep={activeStep}
           nextButton={
-            <Button size="small" onClick={handleNext} disabled={activeStep === maxSteps - 1}>
+            <Button
+              size="small"
+              onClick={handleNext}
+              disabled={activeStep === maxSteps - 1}
+            >
               <KeyboardArrowRight />
             </Button>
           }
           backButton={
-            <Button size="small" onClick={handleBack} disabled={activeStep === 0}>
+            <Button
+              size="small"
+              onClick={handleBack}
+              disabled={activeStep === 0}
+            >
               <KeyboardArrowLeft />
             </Button>
           }
-        />          
+        />
       </Layout>
     </>
   )

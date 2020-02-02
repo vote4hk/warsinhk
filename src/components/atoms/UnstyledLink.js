@@ -8,17 +8,3 @@ export const UnstyledLink = styled(Link)`
   cursor: pointer;
   display: flex;
 `
-
-export const UnstyledCardLink = styled.a`
-  && {
-    text-decoration: unset;
-    color: black;
-    font-style: unset;
-    cursor: pointer;
-
-    &:hover {
-      text-decoration: unset;
-      font-style: unset;
-    }
-  }
-`
