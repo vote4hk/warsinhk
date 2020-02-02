@@ -15,6 +15,7 @@ import WebIcon from "@material-ui/icons/Web"
 import CollectionsIcon from "@material-ui/icons/Collections"
 import CloseIcon from "@material-ui/icons/Close"
 import NotInterestedIcon from "@material-ui/icons/NotInterested"
+import SearchRoundedIcon from "@material-ui/icons/SearchRounded"
 
 export function mapIcon(name) {
   switch (name) {
@@ -50,6 +51,8 @@ export function mapIcon(name) {
       return <WebIcon />
     case "close":
       return <CloseIcon fontSize="inherit" />
+    case "search":
+      return <SearchRoundedIcon />
     default:
       return null
   }

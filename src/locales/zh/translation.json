@@ -12,6 +12,7 @@
   "dodgy_shops.source": "資料來源",
   "dodgy_shops.category_dubious": "可疑",
   "dodgy_shops.last_updated": "最後更新：{{date}}",
+  "dodgy_shops.find_mask": "揾口罩",
   "high_risk.title": "高危地區",
   "high_risk.source": "資料來源：{{source}}",
   "wars_tips.title": "抗疫貼士",

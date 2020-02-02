@@ -23,19 +23,19 @@ import KeyboardArrowRight from "@material-ui/icons/KeyboardArrowRight"
 
 import { withLanguage } from "../utils/i18n"
 import { bps } from "../ui/theme"
-// import { BasicFab } from "@components/atoms/Fab"
-// const FabContainer = styled(Box)`
-//   && {
-//     bottom: 84px;
-//     right: 16px;
-//     position: fixed;
-//     z-index: 1200;
+import { BasicFab } from "@components/atoms/Fab"
+const FabContainer = styled(Box)`
+  && {
+    bottom: 84px;
+    right: 16px;
+    position: fixed;
+    z-index: 1200;
 
-//     ${bps.up("md")} {
-//       bottom: 16px;
-//     }
-//   }
-// `
+    ${bps.up("md")} {
+      bottom: 16px;
+    }
+  }
+`
 
 const ShopDetail = styled(Typography)`
   margin-top: 8px;
@@ -220,11 +220,11 @@ const ShopsPage = props => {
     <>
       <SEO title="Home" />
       <Layout>
-        {/* <FabContainer>
-          <Link href="https://forms.gle/gK477bmq8cG57ELv8" target="_blank">
-            <BasicFab title={t("dodgy_shops.report_incident")} icon="edit" />
+        <FabContainer>
+          <Link href="https://t.me/findmasks" target="_blank">
+            <BasicFab title={t("dodgy_shops.find_mask")} icon="search" />
           </Link>
-        </FabContainer> */}
+        </FabContainer>
         <Typography variant="h4">{t("dodgy_shops.list_text")}</Typography>
         <>
           <MultiSelect
