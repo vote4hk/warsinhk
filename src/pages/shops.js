@@ -125,10 +125,18 @@ function item(props, i18n, t) {
 
 function containsText(i18n, node, text) {
   return (
-    withLanguage(i18n, node, "district").indexOf(text) >= 0 ||
-    withLanguage(i18n, node, "sub_district").indexOf(text) >= 0 ||
-    withLanguage(i18n, node, "name").indexOf(text) >= 0 ||
-    withLanguage(i18n, node, "address").indexOf(text) >= 0
+    withLanguage(i18n, node, "district")
+      .toLowerCase()
+      .indexOf(text) >= 0 ||
+    withLanguage(i18n, node, "sub_district")
+      .toLowerCase()
+      .indexOf(text) >= 0 ||
+    withLanguage(i18n, node, "name")
+      .toLowerCase()
+      .indexOf(text) >= 0 ||
+    withLanguage(i18n, node, "address")
+      .toLowerCase()
+      .indexOf(text) >= 0
   )
 }
 
@@ -148,9 +156,9 @@ function isInSubDistrict(i18n, node, textList) {
 }
 
 function createSubDistrictOptionList(allData, i18n) {
-  const subDistrictArrayForFilter = allData
-    .map(({ node }) => node["sub_district_en"])
-    .filter((a, b, arr) => arr.indexOf(a) === b)
+  const subDistrictArrayForFilter = allData.map(
+    ({ node }) => node["sub_district_en"]
+  )
 
   return allData
     .map(({ node }) => ({
@@ -160,6 +168,7 @@ function createSubDistrictOptionList(allData, i18n) {
     .filter(
       (item, index) => subDistrictArrayForFilter.indexOf(item.en) === index
     )
+    .filter(item => item.en !== "#N/A")
     .map(item => ({
       value: i18n.language === "zh" ? item.en.toLowerCase() : item.zh,
       label: item[i18n.language],
@@ -222,6 +231,11 @@ const ShopsPage = props => {
             placeholder={t("dodgy_shops.filter_by_district_text")}
             options={subDistrictOptionList}
             onChange={selectedArray => {
+              trackCustomEvent({
+                category: "dodgy_shop",
+                action: "multiselect_input",
+                label: selectedArray.toString(),
+              })
               setFilter(selectedArray || "")
             }}
           />
@@ -234,7 +248,7 @@ const ShopsPage = props => {
                 action: "filter_input",
                 label: e.target.value,
               })
-              setFilter(e.target.value)
+              setFilter(e.target.value.toLowerCase())
             }}
             InputProps={{
               startAdornment: (
