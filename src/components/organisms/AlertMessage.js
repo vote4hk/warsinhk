@@ -14,6 +14,11 @@ import { ALERT_CLOSE } from "@/reducers/pageOptions"
 const StyledAlert = styled(Alert)`
   && {
     margin-bottom: 20px;
+
+    a {
+      color: white;
+      text-decoration: underline;
+    }
   }
 `
 
@@ -54,7 +59,7 @@ const AlertChild = props => {
           }
         >
           {title && <AlertTitle>{title}</AlertTitle>}
-          {message}
+          <span dangerouslySetInnerHTML={{ __html: message }} />
         </StyledAlert>
       </Collapse>
     )
