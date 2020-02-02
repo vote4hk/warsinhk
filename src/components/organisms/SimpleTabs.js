@@ -5,6 +5,20 @@ import Tabs from "@material-ui/core/Tabs"
 import Tab from "@material-ui/core/Tab"
 import Typography from "@material-ui/core/Typography"
 import Box from "@material-ui/core/Box"
+import styled from "styled-components"
+
+const UnstyledTabPanel = styled(TabPanel)`
+  padding: 16px 0 16px;
+`
+
+const UnstyledAppBar = styled(AppBar)`
+  background: transparent;
+  box-shadow: none;
+
+  button {
+    text-transform: inherit;
+  }
+`
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props
@@ -18,7 +32,7 @@ function TabPanel(props) {
       aria-labelledby={`simple-tab-${index}`}
       {...other}
     >
-      {value === index && <Box p={3}>{children}</Box>}
+      {value === index && <Box>{children}</Box>}
     </Typography>
   )
 }
@@ -36,8 +50,8 @@ function a11yProps(index) {
   }
 }
 
-export default function SimpleTabs(props) {
-  const { tabs } = props
+export function SimpleTabs(props) {
+  const { tabs, onTabChange } = props
   const [value, setValue] = React.useState(0)
 
   const handleChange = (event, newValue) => {
@@ -45,23 +59,31 @@ export default function SimpleTabs(props) {
   }
 
   return (
-    <div>
-      <AppBar position="static">
+    <>
+      <UnstyledAppBar position="static">
         <Tabs
           value={value}
           onChange={handleChange}
           aria-label="simple tabs example"
+          variant="fullWidth"
+          indicatorColor="primary"
+          textColor="primary"
         >
           {tabs.map((tab, i) => (
-            <Tab key={i} label={tab.title}{...a11yProps(0)} />
+            <Tab
+              onClick={e => onTabChange(tab.name)}
+              key={i}
+              label={tab.title}
+              {...a11yProps(0)}
+            />
           ))}
         </Tabs>
-      </AppBar>
+      </UnstyledAppBar>
       {tabs.map((tab, i) => (
-        <TabPanel key={i} value={value} index={i}>
+        <UnstyledTabPanel key={i} value={value} index={i}>
           {tab.content}
-        </TabPanel>
+        </UnstyledTabPanel>
       ))}
-    </div>
+    </>
   )
 }
