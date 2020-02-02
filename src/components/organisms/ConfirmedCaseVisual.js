@@ -264,7 +264,7 @@ export default function ConfirmedCaseVisual(props) {
         <BasicCard>
           <Typography variant="h6">{t("cases_visual.age")}</Typography>
           <Grid container align="center">
-            <Grid item xs={6}>
+            <Grid item lg={6} md={12}>
               <Typography variant="h4" align="center">
                 {t(`cases_visual.age_range_title`)}
               </Typography>
@@ -277,7 +277,7 @@ export default function ConfirmedCaseVisual(props) {
               </DataValue>
               <span>{t("cases_visual.age_unit")}</span>
             </Grid>
-            <Grid item xs={3}>
+            <Grid item lg={3} md={6}>
               <Typography variant="h4" align="center">
                 {`${t(`cases_visual.average_age`, {
                   gender: t(`dashboard.gender_${WarsCaseData.male.fieldValue}`),
@@ -286,7 +286,7 @@ export default function ConfirmedCaseVisual(props) {
               <DataValue component="span">{maleAgeAverage}</DataValue>
               <span>{t("cases_visual.age_unit")}</span>
             </Grid>
-            <Grid item xs={3}>
+            <Grid item lg={3} md={6}>
               <Typography variant="h4" align="center">
                 {`${t(`cases_visual.average_age`, {
                   gender: t(
