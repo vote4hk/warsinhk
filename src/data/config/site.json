@@ -58,13 +58,6 @@
       "bottomNav": false
     },
     {
-      "title": "gov_news.title",
-      "to": "/gov-news",
-      "icon": "event_note",
-      "sideMenu": true,
-      "bottomNav": false
-    },
-    {
       "title": "poster_gallery.title",
       "to": "/poster-gallery",
       "icon": "collections",
