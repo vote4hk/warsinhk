@@ -29,6 +29,8 @@ const PUBLISHED_SPREADSHEET_DISRUPTION_URL =
   "https://docs.google.com/spreadsheets/d/e/2PACX-1vS0gZ-QBC6JGMS28kYUMz90ZNXFb40CtoLtOIC-QzzlqhPKCIrAojuuN2GX6AXaECONvxJd84tpqzFd/pub?gid=0"
 const PUBLISHED_SPREADSHEET_DISRUPTION_DESCRIPTION_URL =
   "https://docs.google.com/spreadsheets/d/e/2PACX-1vS0gZ-QBC6JGMS28kYUMz90ZNXFb40CtoLtOIC-QzzlqhPKCIrAojuuN2GX6AXaECONvxJd84tpqzFd/pub?gid=268131605"
+const PUBLISHED_SPREADSHEET_WARS_CASES_LOCATION_URL =
+  "https://docs.google.com/spreadsheets/d/e/2PACX-1vT6aoKk3iHmotqb5_iHggKc_3uAA901xVzwsllmNoOpGgRZ8VAA3TSxK6XreKzg_AUQXIkVX5rqb0Mo/pub?gid=0"
 
 const createAENode = async ({
   actions: { createNode },
@@ -243,6 +245,13 @@ exports.sourceNodes = async props => {
       "DisruptionDescription",
       { skipFirstLine: true }
     ),
+    createPublishedGoogleSpreadsheetNode(
+      props,
+      PUBLISHED_SPREADSHEET_WARS_CASES_LOCATION_URL,
+      "WarsCaseLocation",
+      { skipFirstLine: true }
+    ),
+
     createNode(props, SHEET_SHOP_MASTER, "Shop"),
     createNode(props, SHEET_ALERT_MASTER, "Alert"),
     createNode(props, SHEET_DAILY_STATS_MASTER, "DailyStats"),
