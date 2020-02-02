@@ -2,76 +2,70 @@
  * Fetch latest AE waiting time
  *
  */
-let Parser = require("rss-parser")
+const Parser = require("rss-parser")
+
+const googleNewsParser = new Parser({
+  customFields: {
+    item: ["source"],
+  },
+})
+
+async function fetchGoogleNewsByLanguage(language) {
+  const { items: records } = await googleNewsParser.parseURL(
+    `https://news.google.com/rss/topics/CAAqJQgKIh9DQkFTRVFvSUwyMHZNR1J4T1hBU0JYcG9MVWhMS0FBUAE?hl=${language}`
+  )
+  return {
+    language,
+    records: records
+      .map(record => {
+        const datetime = record.isoDate.split("T")
+        return {
+          date: datetime[0],
+          time: datetime[1].slice(0, 8),
+          ...record,
+        }
+      })
+      .sort((a, b) =>
+        a.isoDate < b.isoDate ? 1 : a.isoDate > b.isoDate ? -1 : 0
+      ),
+  }
+}
 
 exports.fetchGoogleNews = async () => {
-  let parser = new Parser({
-    customFields: {
-      item: ["source"],
-    },
-  })
-  const feed_zh = await parser.parseURL(
-    "https://news.google.com/rss/topics/CAAqJQgKIh9DQkFTRVFvSUwyMHZNR1J4T1hBU0JYcG9MVWhMS0FBUAE?hl=zh"
+  const languages = ["zh", "en"]
+  const records = await Promise.all(
+    languages.map(language => fetchGoogleNewsByLanguage(language))
   )
-  const feed_en = await parser.parseURL(
-    "https://news.google.com/rss/topics/CAAqJQgKIh9DQkFTRVFvSUwyMHZNR1J4T1hBU0JYcG9MVWhMS0FBUAE?hl=en"
-  )
-
-  const records_zh = feed_zh.items
-  const records_en = feed_en.items
-  const recordsProcessed = {
-    gn_en: records_en.map((r, ridx) => {
-      const datetime = r.isoDate.split("T")
-      return Object.assign(
-        {
-          date: datetime[0],
-          time: datetime[1].slice(0, 8),
-        },
-        r
-      )
-    })
-    .sort((a, b) => {
-      return (a.isoDate < b.isoDate) ? 1 : ((a.isoDate > b.isoDate) ? -1 : 0);
-    }),
-    gn_zh: records_zh.map((r, ridx) => {
-      const datetime = r.isoDate.split("T")
-      return Object.assign(
-        {
-          date: datetime[0],
-          time: datetime[1].slice(0, 8),
-        },
-        r
-      )
-    })
-    .sort((a, b) => {
-      return (a.isoDate < b.isoDate) ? 1 : ((a.isoDate > b.isoDate) ? -1 : 0);
-    }),
-  }
+  const recordsProcessed = records.reduce((obj, { language, records }) => {
+    obj[`gn_${language}`] = records
+    return obj
+  }, {})
   return { records: [recordsProcessed] }
 }
 
 exports.fetchGovNews = async () => {
-  let parser = new Parser({
+  const parser = new Parser({
     customFields: {
       item: ["description"],
     },
   })
-  const feed_zh = await parser.parseURL(
-    "https://www.news.gov.hk/tc/common/html/topstories.rss.xml"
-  )
-  const feed_en = await parser.parseURL(
-    "https://www.news.gov.hk/en/common/html/topstories.rss.xml"
-  )
 
-  const records_zh = feed_zh.items
-  const records_en = feed_en.items
+  const [{ items: records_zh }, { items: records_en }] = await Promise.all([
+    parser.parseURL(
+      "https://www.news.gov.hk/tc/common/html/topstories.rss.xml"
+    ),
+    parser.parseURL(
+      "https://www.news.gov.hk/en/common/html/topstories.rss.xml"
+    ),
+  ])
+
   function getMonth(monthStr) {
-    return new Date(monthStr+'-1-01').getMonth()+1
+    return new Date(monthStr + "-1-01").getMonth() + 1
   }
   const recordsProcessed = records_zh.map((r, ridx) => {
-    const d = r.pubDate.split(' ')
+    const d = r.pubDate.split(" ")
     const month = getMonth(d[2])
-    const date = [d[3],month < 10? '0'+month : month,d[1]].join('-')
+    const date = [d[3], month < 10 ? "0" + month : month, d[1]].join("-")
     return Object.assign(
       {
         title_zh: r.title,
