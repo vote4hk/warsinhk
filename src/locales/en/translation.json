@@ -65,7 +65,7 @@
   "cases_visual.average_age": "{{gender}} (Average)",
   "cases_visual.average_age_mobile": "{{gender}} (Average): ",
   "cases_visual.age_unit": "yr",
-  "cases_visual.age_range": "{{min}} - {{max}}",
+  "cases_visual.age_range": "{{min}}-{{max}}",
   "cases_visual.age_range_mobile": "Range: {{min}} - {{max}}",
   "cases_visual.age_range_title": "Range",
   "disruption.title": "Service Disruption",
