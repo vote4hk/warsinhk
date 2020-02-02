@@ -223,6 +223,12 @@ exports.sourceNodes = async props => {
     ),
     createPublishedGoogleSpreadsheetNode(
       props,
+      PUBLISHED_SPREADSHEET_WARS_CASES_LOCATION_URL,
+      "WarsCaseLocation",
+      { skipFirstLine: true }
+    ),
+    createPublishedGoogleSpreadsheetNode(
+      props,
       PUBLISHED_SPREADSHEET_DODGY_SHOPS_URL,
       "DodgyShop",
       { skipFirstLine: true }
@@ -245,13 +251,6 @@ exports.sourceNodes = async props => {
       "DisruptionDescription",
       { skipFirstLine: true }
     ),
-    createPublishedGoogleSpreadsheetNode(
-      props,
-      PUBLISHED_SPREADSHEET_WARS_CASES_LOCATION_URL,
-      "WarsCaseLocation",
-      { skipFirstLine: true }
-    ),
-
     createNode(props, SHEET_SHOP_MASTER, "Shop"),
     createNode(props, SHEET_ALERT_MASTER, "Alert"),
     createNode(props, SHEET_DAILY_STATS_MASTER, "DailyStats"),
@@ -260,6 +259,20 @@ exports.sourceNodes = async props => {
     createGovNewsNode(props),
     createPosterNode(props),
   ])
+}
+
+// https://www.gatsbyjs.org/docs/schema-customization/#foreign-key-fields
+exports.createSchemaCustomization = ({ actions, schema }) => {
+  const { createTypes } = actions
+  const typeDefs = [
+    `type WarsCase implements Node {
+      locations: [WarsCaseLocation] @link(by: "case_no", from: "case_no") # easy back-ref
+    }`,
+    `type WarsCaseLocation implements Node {
+      case: WarsCase @link(by: "case_no", from: "case_no")
+    }`,
+  ]
+  createTypes(typeDefs)
 }
 
 exports.createPages = async ({ graphql, actions }) => {
