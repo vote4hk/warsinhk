@@ -12,6 +12,7 @@
   "dodgy_shops.source": "View source",
   "dodgy_shops.last_updated": "Last update: {{date}}",
   "dodgy_shops.category_dubious": "Dubious",
+  "dodgy_shops.find_mask": "Find mask",
   "high_risk.title": "High Risk Areas",
   "high_risk.source": "Source: {{source}}",
   "high_risk.list_mode": "List",
