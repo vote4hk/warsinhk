@@ -7,6 +7,7 @@ import ShareIcon from "@material-ui/icons/Share"
 import { trackCustomEvent } from "gatsby-plugin-google-analytics"
 import { useStaticQuery, graphql } from "gatsby"
 import ContextStore from "@/contextStore"
+import { isSSR } from "@/utils"
 
 import {
   FacebookShareButton,
@@ -93,7 +94,10 @@ function ShareButton(props) {
     },
   } = React.useContext(ContextStore)
 
-  const url = `${site.siteMetadata.siteUrl}${fullPath}`
+  let url = `${site.siteMetadata.siteUrl}${fullPath}`
+  if (!isSSR()) {
+    url = url + decodeURIComponent(window.location.hash)
+  }
   return (
     <>
       <IconButton

@@ -31,10 +31,9 @@ const CardContainer = styled(Box)`
   }
 `
 
-const WarTipsPage = ({ data, pageContext }) => {
+const WarTipsPage = ({ data, location }) => {
   const { t, i18n } = useTranslation()
   const [selectedTag, setSelectedTag] = useState(null)
-
   const filterByTags = ({ node }) => {
     if (!node.tags || !selectedTag) {
       return true
@@ -53,6 +52,12 @@ const WarTipsPage = ({ data, pageContext }) => {
   const shorten = str => {
     return str ? `${str.substring(0, 50)}...` : ""
   }
+  React.useEffect(() => {
+    if (location.hash) {
+      const tag = decodeURIComponent(location.hash.replace(/^#/, ""))
+      setSelectedTag(tag)
+    }
+  }, [location.hash])
 
   return (
     <Layout>
@@ -64,7 +69,9 @@ const WarTipsPage = ({ data, pageContext }) => {
           size="small"
           color={tag === selectedTag ? "secondary" : "primary"}
           onClick={evt => {
-            setSelectedTag(tag === selectedTag ? null : tag)
+            const tagToSet = tag === selectedTag ? null : tag
+            setSelectedTag(tagToSet)
+            window.location.href = `#${tagToSet || ""}`
             trackCustomEvent({
               category: "wars_tips",
               action: "click_tag",
