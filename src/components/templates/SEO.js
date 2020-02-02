@@ -10,7 +10,7 @@ import Helmet from "react-helmet"
 import { useStaticQuery, graphql } from "gatsby"
 import ContextStore from "@/contextStore"
 import { useTranslation } from "react-i18next"
-import _ from "lodash"
+import _isEmpty from "lodash.isempty"
 
 const SEO = ({ meta, uri }) => {
   const { t, i18n } = useTranslation()
@@ -40,8 +40,8 @@ const SEO = ({ meta, uri }) => {
     `
   )
   const currentPage = configJson.pages.find(p => p.to === path) || {}
-  let title = _.isEmpty(currentPage) ? t("index.title") : t(currentPage.title)
-  if (_.isEmpty(currentPage) && !uri) {
+  let title = _isEmpty(currentPage) ? t("index.title") : t(currentPage.title)
+  if (_isEmpty(currentPage) && !uri) {
     console.error(
       `cannot look up page title. check the settings for path: ${path}`
     )

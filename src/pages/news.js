@@ -8,7 +8,7 @@ import Link from "@material-ui/core/Link"
 import { BasicCard } from "@components/atoms/Card"
 import styled from "styled-components"
 import { withLanguage } from "../utils/i18n"
-import _ from "lodash"
+import _get from "lodash.get"
 
 const NewsCard = styled(BasicCard)`
   margin-top: 8px;
@@ -19,18 +19,14 @@ const NewsPage = props => {
   const { data } = props
   const { i18n, t } = useTranslation()
 
-  const newsNode = _.get(data, "allGoogleNews.edges[0].node", {})
+  const newsNode = _get(data, "allGoogleNews.edges[0].node", {})
   const news = withLanguage(i18n, newsNode, "gn")
 
   const item = ({ node }) => {
     return (
       <NewsCard>
         {/* TODO: Using Link will render a wrong URL (en/zh)  */}
-        <a
-          href={node.link}
-          rel="noopener noreferrer"
-          target="_blank"
-        >
+        <a href={node.link} rel="noopener noreferrer" target="_blank">
           <Typography variant="body2" color="textPrimary">
             {`${node.date} ${node.time}`}
           </Typography>
@@ -56,11 +52,10 @@ const NewsPage = props => {
       </Typography>
       <Typography variant="body2">
         {t("waiting_time.last_updated")}
-        {_.get(news, "[0].date", '')}{" "}
-        {_.get(news, "[0].time", '')}
+        {_get(news, "[0].date", "")} {_get(news, "[0].time", "")}
       </Typography>
       {news.map((node, index) => (
-        <div key={index} children={item({node})} />
+        <div key={index} children={item({ node })} />
       ))}
     </Layout>
   )
