@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useState, useMemo } from "react"
 import SEO from "@/components/templates/SEO"
 import Layout from "@components/templates/Layout"
 import Box from "@material-ui/core/Box"
@@ -196,7 +196,10 @@ const ShopsPage = props => {
 
   // added for paging
   const handleNext = () => {
-    setActiveStep(prevActiveStep => prevActiveStep + 1)
+    const maxSteps = Math.ceil(filteredData.length / PageSize)
+    setActiveStep(prevActiveStep =>
+      prevActiveStep + 1 >= maxSteps ? 0 : prevActiveStep + 1
+    )
   }
 
   // added for paging
@@ -204,17 +207,20 @@ const ShopsPage = props => {
     setActiveStep(prevActiveStep => prevActiveStep - 1)
   }
 
-  const filteredData = data.allDodgyShop.edges.filter(
-    e =>
-      filter === "" ||
-      containsText(i18n, e.node, filter) ||
-      isInSubDistrict(i18n, e.node, filter)
+  const filteredData = useMemo(
+    () =>
+      data.allDodgyShop.edges.filter(
+        e =>
+          filter === "" ||
+          containsText(i18n, e.node, filter) ||
+          isInSubDistrict(i18n, e.node, filter)
+      ),
+    [filter, i18n, data]
   )
-  const maxSteps = Math.ceil(filteredData.length / PageSize)
 
-  if (activeStep >= maxSteps) {
-    setActiveStep(0)
-  }
+  const maxSteps = useMemo(() => Math.ceil(filteredData.length / PageSize), [
+    filteredData,
+  ])
 
   return (
     <>
@@ -295,7 +301,7 @@ const ShopsPage = props => {
         ))}
         <MobileStepper
           steps={maxSteps}
-          position="static"
+          position="bottom"
           variant="text"
           activeStep={activeStep}
           nextButton={
