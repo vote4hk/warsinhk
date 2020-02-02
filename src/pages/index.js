@@ -8,7 +8,9 @@ import Link from "@material-ui/core/Link"
 import { BasicCard } from "@components/atoms/Card"
 import { useTranslation } from "react-i18next"
 import { withLanguage } from "../utils/i18n"
-import { graphql } from "gatsby"
+import { graphql, Link as InternalLink } from "gatsby"
+import { WarsCaseCard } from "@components/organisms/CaseCard"
+import Button from "@material-ui/core/Button"
 
 // lazy-load the chart to avoid SSR
 const ConfirmedCaseVisual = React.lazy(() =>
@@ -38,6 +40,10 @@ const DailyChange = styled(Typography)`
   font-size: 14px;
   font-weight: 700;
   color: ${props => props.theme.palette.secondary.dark};
+`
+const FullWidthButton = styled(Button)`
+  width: 100%;
+  padding: 6px 10px;
 `
 
 function dailyStats(t, props) {
@@ -94,6 +100,10 @@ const IndexPage = ({ data }) => {
   const latestStat = data.allDailyStats.edges[0].node
   const remarksText = withLanguage(i18n, latestStat, "remarks")
 
+  data.allWarsCase.edges.sort(
+    (a, b) => parseInt(b.node.case_no) - parseInt(a.node.case_no)
+  )
+
   return (
     <>
       <SEO title="Home" />
@@ -126,6 +136,19 @@ const IndexPage = ({ data }) => {
             </React.Suspense>
           )}
         </SessiontWrapper>
+        <SessiontWrapper>
+          <Typography variant="h4">{t("index.latest_case")}</Typography>
+          {data.allWarsCase.edges.map((item, index) => (
+            <WarsCaseCard key={index} node={item.node} i18n={i18n} t={t} />
+          ))}
+          <FullWidthButton
+            component={InternalLink}
+            to="/cases"
+            variant="outlined"
+          >
+            {t("index.see_more")}
+          </FullWidthButton>
+        </SessiontWrapper>
       </Layout>
     </>
   )
@@ -150,8 +173,9 @@ export const WarsCaseQuery = graphql`
       }
     }
     allWarsCase(
-      sort: { order: DESC, fields: case_no }
+      sort: { order: DESC, fields: confirmation_date }
       filter: { enabled: { eq: "Y" } }
+      limit: 5
     ) {
       edges {
         node {

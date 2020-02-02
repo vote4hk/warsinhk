@@ -27,6 +27,8 @@
   "waiting_time.last_updated": "Last update: ",
   "waiting_time.hour": "hr",
   "index.title": "Latest Update",
+  "index.latest_case": "New Cases",
+  "index.see_more": "See more",
   "index.highlight": "Case highlights ({{count}} cases)",
   "dodgy_shops.title": "Dubious Pharmacies",
   "news.title": "Latest News",
