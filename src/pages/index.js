@@ -7,7 +7,7 @@ import Typography from "@material-ui/core/Typography"
 import Link from "@material-ui/core/Link"
 import { BasicCard } from "@components/atoms/Card"
 import { useTranslation } from "react-i18next"
-import { withLanguage } from "../utils/i18n"
+import { withLanguage, getLocalizedPath } from "../utils/i18n"
 import { graphql, Link as InternalLink } from "gatsby"
 import { WarsCaseCard } from "@components/organisms/CaseCard"
 import Button from "@material-ui/core/Button"
@@ -143,7 +143,7 @@ const IndexPage = ({ data }) => {
           ))}
           <FullWidthButton
             component={InternalLink}
-            to="/cases"
+            to={getLocalizedPath(i18n, "/cases")}
             variant="outlined"
           >
             {t("index.see_more")}
