@@ -183,10 +183,6 @@ function paginate(array, page_size, page_number) {
   return array.slice(page_number * page_size, (page_number + 1) * page_size)
 }
 
-function paginate (array, page_size, page_number) {
-  return array.slice(page_number * page_size, (page_number + 1) * page_size);
-}
-
 const ShopsPage = props => {
   const { data } = props
   const { i18n, t } = useTranslation()
@@ -225,6 +221,37 @@ const ShopsPage = props => {
   const maxSteps = useMemo(() => Math.ceil(filteredData.length / PageSize), [
     filteredData,
   ])
+
+  //Use to reset the activeStep after change filter
+  if(activeStep >= maxSteps) {
+    setActiveStep(0);
+  }
+
+  const mobileStepper = maxSteps < 2? <div/>: 
+    <MobileStepper
+      steps={maxSteps}
+      position="static"
+      variant="text"
+      activeStep={activeStep}
+      nextButton={
+        <Button
+          size="small"
+          onClick={handleNext}
+          disabled={activeStep === maxSteps - 1}
+        >
+          <KeyboardArrowRight />
+        </Button>
+      }
+      backButton={
+        <Button
+          size="small"
+          onClick={handleBack}
+          disabled={activeStep === 0}
+        >
+          <KeyboardArrowLeft />
+        </Button>
+      }
+    />
 
   return (
     <>
@@ -272,30 +299,7 @@ const ShopsPage = props => {
             }}
           />
         </>
-        <MobileStepper
-          steps={maxSteps}
-          position="static"
-          variant="text"
-          activeStep={activeStep}
-          nextButton={
-            <Button
-              size="small"
-              onClick={handleNext}
-              disabled={activeStep === maxSteps - 1}
-            >
-              <KeyboardArrowRight />
-            </Button>
-          }
-          backButton={
-            <Button
-              size="small"
-              onClick={handleBack}
-              disabled={activeStep === 0}
-            >
-              <KeyboardArrowLeft />
-            </Button>
-          }
-        />
+        {mobileStepper}
         {paginate(filteredData, PageSize, activeStep).map((node, index) => (
           <BasicCard
             alignItems="flex-start"
@@ -304,30 +308,7 @@ const ShopsPage = props => {
           />
         ))}
         {/* TODO:  Fix button mobile stepper overlapping the bottom nav */}
-        {/* <MobileStepper
-          steps={maxSteps}
-          position="bottom"
-          variant="text"
-          activeStep={activeStep}
-          nextButton={
-            <Button
-              size="small"
-              onClick={handleNext}
-              disabled={activeStep === maxSteps - 1}
-            >
-              <KeyboardArrowRight />
-            </Button>
-          }
-          backButton={
-            <Button
-              size="small"
-              onClick={handleBack}
-              disabled={activeStep === 0}
-            >
-              <KeyboardArrowLeft />
-            </Button>
-          }
-        /> */}
+        {/* {mobileStepper} */}
       </Layout>
     </>
   )
