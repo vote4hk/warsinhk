@@ -54,11 +54,32 @@ function item(props, i18n, t) {
         .map((c, i) => (
           <Row key={i}>
             <Box>
+              {/* TODO: Redirect to the case cards */}
               <Link>{`#${c.case_no} `}</Link>
             </Box>
             <Box>{t(`cases.type_${c.type}`)}</Box>
             <Box>{withLanguage(i18n, c, "action")}</Box>
             <Box>
+              {/* TODO: If start_time is the same as end_time, show one only */}
+              {/* TODO: Include start_time_period and end_time_period */}
+              {/* 
+              Add logic to sort and group dates with cases:
+
+              Current display:
+              
+              #13 患者 抵港 2020-01-23 - 2020-01-23 
+              #13 患者 離港 2020-01-21 - 2020-01-21 
+              #10 患者 抵港 2020-01-22 - 2020-01-22 
+              #9 患者 抵港 2020-01-22 - 2020-01-22 
+              #3 患者 抵港 2020-01-19 - 2020-01-19 
+              #1 患者 抵港 2020-01-21 - 2020-01-21 
+              #1 患者親友 抵港 2020-01-21 - 2020-01-21
+
+              Expected display:
+              #1, #9, #10     2020-01-21-2020-01-23 
+              #3                         2020-01-19 
+              
+              */}
               {c.start_time} - {c.end_time}
             </Box>
           </Row>
@@ -163,6 +184,7 @@ const HighRiskPage = ({ data, pageContext }) => {
       options: subDistrictOptionList,
     },
     {
+      // For 班次 / 航班: Only ferry no, flight no, and train no are searchable, ignore building
       label: t("search.location"),
       options: data.allWarsCaseLocation.edges.map(({ node }) => ({
         label: withLanguage(i18n, node, "location"),
@@ -209,6 +231,8 @@ const HighRiskPage = ({ data, pageContext }) => {
           setFilters(selectedArray || "")
         }}
       />
+
+      {/* Add Date-time picker for selecting ranges */}
       {mapMode ? (
         <>
           {/* Buy time component.. will get rid of this code once we have a nice map component */}
