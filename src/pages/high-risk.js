@@ -47,12 +47,22 @@ function item(props, i18n, t) {
             </Typography>
           </Box>
         </Box>
-        <Box>
-          <Typography component="span" variant="body2" color="textPrimary">
-            {node.start_time} - {node.end_time}
-          </Typography>
-        </Box>
+        <Box></Box>
       </HighRiskCardContent>
+      {node.cases
+        .sort((a, b) => b.case_no - a.case_no)
+        .map((c, i) => (
+          <Row key={i}>
+            <Box>
+              <Link>{`#${c.case_no} `}</Link>
+            </Box>
+            <Box>{t(`cases.type_${c.type}`)}</Box>
+            <Box>{withLanguage(i18n, c, "action")}</Box>
+            <Box>
+              {c.start_time} - {c.end_time}
+            </Box>
+          </Row>
+        ))}
       <Typography component="span" variant="body2" color="textPrimary">
         {withLanguage(i18n, node, "action")}
       </Typography>
@@ -91,13 +101,62 @@ const HighRiskPage = ({ data, pageContext }) => {
     i18n,
     data.allWarsCaseLocation.edges
   )
-  const sortedLocations = filterValues(
-    i18n,
-    data.allWarsCaseLocation.edges.sort(
-      (a, b) => Date.parse(b.node.end_time) - Date.parse(a.node.end_time)
-    ),
-    filters
-  )
+
+  const groupedLocations = data.allWarsCaseLocation.edges.reduce((a, c) => {
+    const {
+      case: { case_no },
+      location_zh,
+      location_en,
+      sub_district_zh,
+      sub_district_en,
+      action_zh,
+      action_en,
+      remarks_zh,
+      remarks_en,
+      start_time,
+      end_time,
+      type,
+      source_url_1,
+      source_url_2,
+    } = c.node
+
+    const caseDetail = {
+      case_no,
+      action_zh,
+      action_en,
+      remarks_zh,
+      remarks_en,
+      start_time,
+      end_time,
+      type,
+      source_url_1,
+      source_url_2,
+    }
+
+    const locationPos = a.findIndex(
+      item =>
+        withLanguage(i18n, item.node, "location") ===
+        withLanguage(i18n, c.node, "location")
+    )
+    if (locationPos === -1) {
+      const newLocation = {
+        node: {
+          location_zh,
+          location_en,
+          sub_district_zh,
+          sub_district_en,
+          cases: [caseDetail],
+        },
+      }
+      a.push(newLocation)
+      return a
+    }
+    a[locationPos].node.cases.push(caseDetail)
+    return a
+  }, [])
+
+  const sortedLocations = filterValues(i18n, groupedLocations, filters)
+
   const allOptions = [
     {
       label: t("search.sub_district"),
@@ -112,6 +171,7 @@ const HighRiskPage = ({ data, pageContext }) => {
       })),
     },
   ]
+
   return (
     <Layout>
       <SEO title="HighRiskPage" />
@@ -177,7 +237,10 @@ export default HighRiskPage
 
 export const HighRiskQuery = graphql`
   query {
-    allWarsCaseLocation {
+    allWarsCaseLocation(
+      filter: { enabled: { eq: "Y" } }
+      sort: { order: DESC, fields: end_time }
+    ) {
       edges {
         node {
           id
@@ -191,8 +254,8 @@ export const HighRiskQuery = graphql`
           remarks_zh
           source_url_1
           source_url_2
-          start_time
-          end_time
+          start_time(formatString: "YYYY-MM-DD")
+          end_time(formatString: "YYYY-MM-DD")
           type
           case {
             case_no

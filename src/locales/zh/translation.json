@@ -84,5 +84,7 @@
   "disruption.status": "狀態",
   "disruption.to": "恢復時間",
   "disruption.source": "資料來源",
-  "disruption.last_updated": "最後更新：{{date}}"
+  "disruption.last_updated": "最後更新：{{date}}",
+  "cases.type_self": "患者",
+  "cases.type_relatives": "患者親友"
 }
