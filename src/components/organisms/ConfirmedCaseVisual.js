@@ -314,7 +314,7 @@ export default function ConfirmedCaseVisual(props) {
   }
 
   return (
-    <div container>
+    <div>
       <Grid container spacing={2}>
         <Grid item xs={4}>
           {genderPlot}
