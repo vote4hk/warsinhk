@@ -44,6 +44,8 @@
   "text.english": "English",
   "text.chinese": "中文",
   "text.map": "View map",
+  "search.sub_district": "District",
+  "search.location": "Flight/Location",
   "dashboard.death_case": "Death",
   "dashboard.confirmed_case": "Confirmed",
   "dashboard.investigation_case": "Investigating",

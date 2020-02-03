@@ -6,10 +6,16 @@ import { Box, Button, Typography } from "@material-ui/core"
 import { graphql } from "gatsby"
 import styled from "styled-components"
 import Link from "@material-ui/core/Link"
-
 import { BasicCard } from "@components/atoms/Card"
 import { withLanguage } from "@/utils/i18n"
 import { Row } from "@components/atoms/Row"
+import { components } from "react-select"
+import AsyncSelect from "react-select/async"
+import {
+  createSubDistrictOptionList,
+  filterSearchOptions,
+  filterValues,
+} from "@/utils"
 
 const HighRiskCard = styled(Box)``
 
@@ -37,18 +43,18 @@ function item(props, i18n, t) {
           </Box>
           <Box>
             <Typography component="span" variant="h6" color="textPrimary">
-              {withLanguage(i18n, node, "name")}
+              {withLanguage(i18n, node, "location")}
             </Typography>
           </Box>
         </Box>
         <Box>
           <Typography component="span" variant="body2" color="textPrimary">
-            {node.last_seen}
+            {node.start_time} - {node.end_time}
           </Typography>
         </Box>
       </HighRiskCardContent>
       <Typography component="span" variant="body2" color="textPrimary">
-        {withLanguage(i18n, node, "details")}
+        {withLanguage(i18n, node, "action")}
       </Typography>
       {node.source_url && (
         <Box>
@@ -79,10 +85,33 @@ function item(props, i18n, t) {
 
 const HighRiskPage = ({ data, pageContext }) => {
   const [mapMode, setMapMode] = useState(false)
-  const sortedHighRisk = data.allHighRisk.edges.sort(
-    (a, b) => Date.parse(b.node.last_seen) - Date.parse(a.node.last_seen)
-  )
+  const [filters, setFilters] = useState([])
   const { i18n, t } = useTranslation()
+  const subDistrictOptionList = createSubDistrictOptionList(
+    i18n,
+    data.allWarsCaseLocation.edges
+  )
+  const sortedLocations = filterValues(
+    i18n,
+    data.allWarsCaseLocation.edges.sort(
+      (a, b) => Date.parse(b.node.end_time) - Date.parse(a.node.end_time)
+    ),
+    filters
+  )
+  const allOptions = [
+    {
+      label: t("search.sub_district"),
+      options: subDistrictOptionList,
+    },
+    {
+      label: t("search.location"),
+      options: data.allWarsCaseLocation.edges.map(({ node }) => ({
+        label: withLanguage(i18n, node, "location"),
+        value: withLanguage(i18n, node, "location"),
+        field: "location",
+      })),
+    },
+  ]
   return (
     <Layout>
       <SEO title="HighRiskPage" />
@@ -98,7 +127,28 @@ const HighRiskPage = ({ data, pageContext }) => {
           {mapMode ? t("high_risk.list_mode") : t("high_risk.map_mode")}
         </Button>
       </Row>
-
+      <AsyncSelect
+        closeMenuOnSelect={false}
+        components={{
+          Option: props =>
+            props.field === "sub_district" ? (
+              <components.Option {...props} />
+            ) : (
+              <components.Option {...props} />
+            ),
+        }}
+        loadOptions={(input, callback) =>
+          callback(filterSearchOptions(allOptions, input, 5))
+        }
+        isMulti
+        placeholder={t("dodgy_shops.filter_by_district_text")}
+        defaultOptions={filterSearchOptions(allOptions, null, 5)}
+        // formatGroupLabel={SelectGroupLabel}
+        onChange={selectedArray => {
+          console.log(selectedArray)
+          setFilters(selectedArray || "")
+        }}
+      />
       {mapMode ? (
         <>
           {/* Buy time component.. will get rid of this code once we have a nice map component */}
@@ -110,7 +160,7 @@ const HighRiskPage = ({ data, pageContext }) => {
         </>
       ) : (
         <>
-          {sortedHighRisk.map((node, index) => (
+          {sortedLocations.map((node, index) => (
             <BasicCard
               alignItems="flex-start"
               key={index}
@@ -127,21 +177,26 @@ export default HighRiskPage
 
 export const HighRiskQuery = graphql`
   query {
-    allHighRisk(filter: { enabled: { eq: "Y" } }) {
+    allWarsCaseLocation {
       edges {
         node {
-          district_zh
-          district_en
+          id
           sub_district_zh
           sub_district_en
-          name_zh
-          name_en
-          source_zh
-          source_en
-          source_url
-          details_zh
-          details_en
-          last_seen
+          action_zh
+          action_en
+          location_en
+          location_zh
+          remarks_en
+          remarks_zh
+          source_url_1
+          source_url_2
+          start_time
+          end_time
+          type
+          case {
+            case_no
+          }
         }
       }
     }

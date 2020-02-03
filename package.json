@@ -31,6 +31,7 @@
     "lodash.get": "^4.4.2",
     "lodash.isempty": "^4.4.0",
     "lodash.uniq": "^4.5.0",
+    "lodash.uniqby": "^4.7.0",
     "node-fetch": "^2.6.0",
     "plotly.js": "^1.52.1",
     "prop-types": "^15.7.2",
