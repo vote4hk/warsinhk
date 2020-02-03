@@ -9,9 +9,23 @@
       "bottomNav": false
     },
     {
+      "title": "cases.title",
+      "to": "/cases",
+      "icon": "error",
+      "sideMenu": true,
+      "bottomNav": true
+    },
+    {
       "title": "dodgy_shops.title",
       "to": "/shops",
       "icon": "add_shopping_cart",
+      "sideMenu": true,
+      "bottomNav": true
+    },
+    {
+      "title": "disruption.title",
+      "to": "/disruption",
+      "icon": "not_interested",
       "sideMenu": true,
       "bottomNav": true
     },
@@ -27,7 +41,7 @@
       "to": "/ae-waiting-time",
       "icon": "timelapse",
       "sideMenu": true,
-      "bottomNav": true
+      "bottomNav": false
     },
     {
       "title": "wars_tips.title",
@@ -40,13 +54,6 @@
       "title": "news.title",
       "to": "/news",
       "icon": "web",
-      "sideMenu": true,
-      "bottomNav": false
-    },
-    {
-      "title": "gov_news.title",
-      "to": "/gov-news",
-      "icon": "event_note",
       "sideMenu": true,
       "bottomNav": false
     },

@@ -1,10 +1,8 @@
-import _ from "lodash"
+import _get from "lodash.get"
 
 export const withLanguage = (i18n, object, path) => {
   return (
-    _.get(object, `${path}_${i18n.language}`) ||
-    _.get(object, `${path}_zh`) ||
-    ""
+    _get(object, `${path}_${i18n.language}`) || _get(object, `${path}_zh`) || ""
   )
 }
 

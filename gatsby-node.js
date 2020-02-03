@@ -25,6 +25,10 @@ const PUBLISHED_SPREADSHEET_DODGY_SHOPS_URL =
   "https://docs.google.com/spreadsheets/d/e/2PACX-1vT_CejomuSCl7198EZ7JgujiAfcxwao-4_X5d3V8VasBKGTvSVtfPrFCl3NGMEwo_a6wZbmKZcqV-sB/pub?gid=1018551822"
 const PUBLISHED_SPREADSHEET_WARS_TIPS_URL =
   "https://docs.google.com/spreadsheets/d/e/2PACX-1vR6Zri9Rt6egCzKgs2PBdyCpEECI338XZ3UwqJqfEpffW6tnlterGLRne8uS1EKy6tS_Ba4u5OKitmP/pub?gid=0"
+const PUBLISHED_SPREADSHEET_DISRUPTION_URL =
+  "https://docs.google.com/spreadsheets/d/e/2PACX-1vS0gZ-QBC6JGMS28kYUMz90ZNXFb40CtoLtOIC-QzzlqhPKCIrAojuuN2GX6AXaECONvxJd84tpqzFd/pub?gid=0"
+const PUBLISHED_SPREADSHEET_DISRUPTION_DESCRIPTION_URL =
+  "https://docs.google.com/spreadsheets/d/e/2PACX-1vS0gZ-QBC6JGMS28kYUMz90ZNXFb40CtoLtOIC-QzzlqhPKCIrAojuuN2GX6AXaECONvxJd84tpqzFd/pub?gid=268131605"
 
 const createAENode = async ({
   actions: { createNode },
@@ -193,7 +197,7 @@ exports.onCreatePage = async ({ page, actions }) => {
         path: getPath(lang, page.path),
         context: {
           ...page.context,
-          locale: "zh",
+          locale: lang,
         },
       })
     })
@@ -227,6 +231,18 @@ exports.sourceNodes = async props => {
       "WarsTip",
       { skipFirstLine: true }
     ),
+    createPublishedGoogleSpreadsheetNode(
+      props,
+      PUBLISHED_SPREADSHEET_DISRUPTION_URL,
+      "Disruption",
+      { skipFirstLine: true }
+    ),
+    createPublishedGoogleSpreadsheetNode(
+      props,
+      PUBLISHED_SPREADSHEET_DISRUPTION_DESCRIPTION_URL,
+      "DisruptionDescription",
+      { skipFirstLine: true }
+    ),
     createNode(props, SHEET_SHOP_MASTER, "Shop"),
     createNode(props, SHEET_ALERT_MASTER, "Alert"),
     createNode(props, SHEET_DAILY_STATS_MASTER, "DailyStats"),
@@ -239,16 +255,16 @@ exports.sourceNodes = async props => {
 
 exports.createPages = async ({ graphql, actions }) => {
   actions.createRedirect({
-    fromPath: `/en/hygiene-tips`,
-    toPath: `/en/wars-tips`,
-    redirectInBrowser: true,
+    fromPath: `/en/hygiene-tips/`,
+    toPath: `/en/wars-tips/`,
+    redirectInBrowser: false,
     isPermanent: true,
   })
 
   actions.createRedirect({
-    fromPath: `/hygiene-tips`,
-    toPath: `/wars-tips`,
-    redirectInBrowser: true,
+    fromPath: `/hygiene-tips/`,
+    toPath: `/wars-tips/`,
+    redirectInBrowser: false,
     isPermanent: true,
   })
 
@@ -274,17 +290,31 @@ exports.createPages = async ({ graphql, actions }) => {
     // This will not trigger onCreatePage
     LANGUAGES.forEach(lang => {
       const uri = getWarTipPath(lang, node.title)
-      actions.createPage({
-        path: uri,
-        component: path.resolve(`./src/templates/wars-tip.js`),
-        context: {
-          // Data passed to context is available
-          // in page queries as GraphQL variables.
-          node,
-          locale: lang,
-          uri,
-        },
-      })
+      if (node.language !== lang) {
+        // actions.createRedirect not working here.. dont know why
+        // so create a client side redirect here
+        actions.createPage({
+          path: uri,
+          component: path.resolve(`./src/templates/redirect.js`),
+          context: {
+            uri,
+            redirectURL: getPath(lang, "/wars-tips/"),
+            locale: lang,
+          },
+        })
+      } else {
+        actions.createPage({
+          path: uri,
+          component: path.resolve(`./src/templates/wars-tip.js`),
+          context: {
+            // Data passed to context is available
+            // in page queries as GraphQL variables.
+            node,
+            locale: lang,
+            uri,
+          },
+        })
+      }
     })
   })
 }

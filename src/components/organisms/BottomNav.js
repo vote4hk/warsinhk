@@ -8,6 +8,7 @@ import { UnstyledLink } from "@components/atoms/UnstyledLink"
 import ContextStore from "@/contextStore"
 import { getLocalizedPath } from "@/utils/i18n"
 import { useTranslation } from "react-i18next"
+import { bps } from "@/ui/theme"
 
 const StyledBottomNavigation = styled(BottomNavigation)`
   width: 100%;
@@ -24,6 +25,13 @@ const StyledBottomNavigation = styled(BottomNavigation)`
   span,
   .MuiBottomNavigationAction-label.Mui-selected {
     font-size: 12px;
+  }
+  ${bps.down("md")} {
+    .MuiBottomNavigationAction-root {
+      min-width: 65px;
+      padding-left: 0;
+      padding-right: 0;
+    }
   }
 `
 

@@ -8,7 +8,7 @@ import Link from "@material-ui/core/Link"
 import { BasicCard } from "@components/atoms/Card"
 import styled from "styled-components"
 import { withLanguage } from "../utils/i18n"
-import _ from "lodash"
+import _get from "lodash.get"
 
 const NewsCard = styled(BasicCard)`
   margin-top: 8px;
@@ -50,7 +50,7 @@ const NewsPage = props => {
       </Typography>
       <Typography variant="body2">
         {t("waiting_time.last_updated")}
-        {_.get(data.allGovNews, "edges[0].node.date", "")}
+        {_get(data.allGovNews, "edges[0].node.date", "")}
       </Typography>
       {data.allGovNews.edges.map((node, index) => (
         <div key={index} children={item(node)} />

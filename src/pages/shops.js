@@ -1,9 +1,9 @@
-import React, { useState } from "react"
+import React, { useState, useMemo } from "react"
 import SEO from "@/components/templates/SEO"
 import Layout from "@components/templates/Layout"
 import Box from "@material-ui/core/Box"
 import Link from "@material-ui/core/Link"
-import { UnstyledCardLink } from "@components/atoms/UnstyledLink"
+import { UnstyledLinkedCard } from "@components/atoms/LinkedCard"
 import styled from "styled-components"
 import { useTranslation } from "react-i18next"
 import Typography from "@material-ui/core/Typography"
@@ -16,26 +16,26 @@ import Select from "react-select"
 import makeAnimated from "react-select/animated"
 import { Row, FlexStartRow } from "@components/atoms/Row"
 import { Label } from "@components/atoms/Text"
-import MobileStepper from '@material-ui/core/MobileStepper';
-import Button from '@material-ui/core/Button';
-import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
-import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
+import MobileStepper from "@material-ui/core/MobileStepper"
+import Button from "@material-ui/core/Button"
+import KeyboardArrowLeft from "@material-ui/icons/KeyboardArrowLeft"
+import KeyboardArrowRight from "@material-ui/icons/KeyboardArrowRight"
 
 import { withLanguage } from "../utils/i18n"
 import { bps } from "../ui/theme"
-// import { BasicFab } from "@components/atoms/Fab"
-// const FabContainer = styled(Box)`
-//   && {
-//     bottom: 84px;
-//     right: 16px;
-//     position: fixed;
-//     z-index: 1200;
+import { BasicFab } from "@components/atoms/Fab"
+const FabContainer = styled(Box)`
+  && {
+    bottom: 84px;
+    right: 16px;
+    position: fixed;
+    z-index: 1200;
 
-//     ${bps.up("md")} {
-//       bottom: 16px;
-//     }
-//   }
-// `
+    ${bps.up("md")} {
+      bottom: 16px;
+    }
+  }
+`
 
 const ShopDetail = styled(Typography)`
   margin-top: 8px;
@@ -61,7 +61,13 @@ const SearchBox = styled(TextField)`
     }
   }
 `
-const PageSize = 10;
+const PageSize = 10
+
+const MultiSelect = styled(Select)`
+  && {
+    margin-top: 16px;
+  }
+`
 
 function item(props, i18n, t) {
   const { node } = props
@@ -69,9 +75,13 @@ function item(props, i18n, t) {
   const sourceUrl = node.source_url
 
   return (
-    <UnstyledCardLink
-      href={`https://maps.google.com/?q=${withLanguage(i18n, node, "address")}`}
-      target="_blank"
+    <UnstyledLinkedCard
+      onClick={() =>
+        window.open(
+          `https://maps.google.com/?q=${withLanguage(i18n, node, "address")}`,
+          "_blank"
+        )
+      }
     >
       <Row>
         <Box>{withLanguage(i18n, node, "type")}</Box>
@@ -113,47 +123,64 @@ function item(props, i18n, t) {
       <Row>
         <Box>{t("dodgy_shops.last_updated", { date: node.last_update })}</Box>
       </Row>
-    </UnstyledCardLink>
+    </UnstyledLinkedCard>
   )
 }
 
 function containsText(i18n, node, text) {
   return (
-    withLanguage(i18n, node, "district").indexOf(text) >= 0 ||
-    withLanguage(i18n, node, "sub_district").indexOf(text) >= 0 ||
-    withLanguage(i18n, node, "name").indexOf(text) >= 0 ||
-    withLanguage(i18n, node, "address").indexOf(text) >= 0
+    withLanguage(i18n, node, "district")
+      .toLowerCase()
+      .indexOf(text) >= 0 ||
+    withLanguage(i18n, node, "sub_district")
+      .toLowerCase()
+      .indexOf(text) >= 0 ||
+    withLanguage(i18n, node, "name")
+      .toLowerCase()
+      .indexOf(text) >= 0 ||
+    withLanguage(i18n, node, "address")
+      .toLowerCase()
+      .indexOf(text) >= 0
   )
 }
 
 function isInSubDistrict(i18n, node, textList) {
-  if (typeof textList === "string") return
   return (
     textList &&
+    typeof textList !== "string" &&
     textList.some(
       optionObj =>
-        withLanguage(i18n, node, "sub_district").indexOf(optionObj.value) >= 0
+        withLanguage(i18n, node, "sub_district").indexOf(optionObj.label) >=
+          0 ||
+        withLanguage({ language: "en" }, node, "sub_district").indexOf(
+          optionObj.value
+        ) >= 0
     )
   )
 }
 
 function createSubDistrictOptionList(allData, i18n) {
-  let subDistrictArray = allData
-    .map(({ node }) => withLanguage(i18n, node, "sub_district"))
-    .filter(district => district !== "-")
+  const subDistrictArrayForFilter = allData.map(
+    ({ node }) => node["sub_district_en"]
+  )
 
-  let optionList = []
+  return allData
+    .map(({ node }) => ({
+      zh: node["sub_district_zh"],
+      en: node["sub_district_en"],
+    }))
+    .filter(
+      (item, index) => subDistrictArrayForFilter.indexOf(item.en) === index
+    )
+    .filter(item => item.en !== "#N/A")
+    .map(item => ({
+      value: i18n.language === "zh" ? item.en.toLowerCase() : item.zh,
+      label: item[i18n.language],
+    }))
+}
 
-  subDistrictArray
-    .filter((a, b) => subDistrictArray.indexOf(a) === b)
-    .forEach(value => {
-      optionList.push({
-        value: value,
-        label: value,
-      })
-    })
-
-  return optionList
+function paginate(array, page_size, page_number) {
+  return array.slice(page_number * page_size, (page_number + 1) * page_size)
 }
 
 function paginate (array, page_size, page_number) {
@@ -173,45 +200,55 @@ const ShopsPage = props => {
 
   // added for paging
   const handleNext = () => {
-    setActiveStep(prevActiveStep => prevActiveStep + 1);
-  };
-  
+    const maxSteps = Math.ceil(filteredData.length / PageSize)
+    setActiveStep(prevActiveStep =>
+      prevActiveStep + 1 >= maxSteps ? 0 : prevActiveStep + 1
+    )
+  }
+
   // added for paging
   const handleBack = () => {
-    setActiveStep(prevActiveStep => prevActiveStep - 1);
-  };
-
-  const filteredData = data.allDodgyShop.edges
-                      .filter(
-                        e =>
-                          filter === "" ||
-                          containsText(i18n, e.node, filter) ||
-                          isInSubDistrict(i18n, e.node, filter)
-                      );
-  const maxSteps = Math.ceil(filteredData.length/PageSize);
-
-  if(activeStep >= maxSteps) {
-    setActiveStep(0);
+    setActiveStep(prevActiveStep => prevActiveStep - 1)
   }
+
+  const filteredData = useMemo(
+    () =>
+      data.allDodgyShop.edges.filter(
+        e =>
+          filter === "" ||
+          containsText(i18n, e.node, filter) ||
+          isInSubDistrict(i18n, e.node, filter)
+      ),
+    [filter, i18n, data]
+  )
+
+  const maxSteps = useMemo(() => Math.ceil(filteredData.length / PageSize), [
+    filteredData,
+  ])
 
   return (
     <>
       <SEO title="Home" />
       <Layout>
-        {/* <FabContainer>
-          <Link href="https://forms.gle/gK477bmq8cG57ELv8" target="_blank">
-            <BasicFab title={t("dodgy_shops.report_incident")} icon="edit" />
+        <FabContainer>
+          <Link href="https://t.me/findmasks" target="_blank">
+            <BasicFab title={t("dodgy_shops.find_mask")} icon="search" />
           </Link>
-        </FabContainer> */}
+        </FabContainer>
         <Typography variant="h4">{t("dodgy_shops.list_text")}</Typography>
         <>
-          <Select
+          <MultiSelect
             closeMenuOnSelect={false}
             components={animatedComponents}
             isMulti
             placeholder={t("dodgy_shops.filter_by_district_text")}
             options={subDistrictOptionList}
             onChange={selectedArray => {
+              trackCustomEvent({
+                category: "dodgy_shop",
+                action: "multiselect_input",
+                label: (selectedArray && selectedArray.toString()) || "",
+              })
               setFilter(selectedArray || "")
             }}
           />
@@ -224,7 +261,7 @@ const ShopsPage = props => {
                 action: "filter_input",
                 label: e.target.value,
               })
-              setFilter(e.target.value)
+              setFilter(e.target.value.toLowerCase())
             }}
             InputProps={{
               startAdornment: (
@@ -236,45 +273,61 @@ const ShopsPage = props => {
           />
         </>
         <MobileStepper
-            steps={maxSteps}
-            position="static"
-            variant="text"
-            activeStep={activeStep}
-            nextButton={
-              <Button size="small" onClick={handleNext} disabled={activeStep === maxSteps - 1}>
-                <KeyboardArrowRight />
-              </Button>
-            }
-            backButton={
-              <Button size="small" onClick={handleBack} disabled={activeStep === 0}>
-                <KeyboardArrowLeft />
-              </Button>
-            }
-          />        
-        {paginate(filteredData,PageSize,activeStep)
-          .map((node, index) => (
-            <BasicCard
-              alignItems="flex-start"
-              key={index}
-              children={item(node, i18n, t)}
-            />
-          ))}
-        <MobileStepper
           steps={maxSteps}
           position="static"
           variant="text"
           activeStep={activeStep}
           nextButton={
-            <Button size="small" onClick={handleNext} disabled={activeStep === maxSteps - 1}>
+            <Button
+              size="small"
+              onClick={handleNext}
+              disabled={activeStep === maxSteps - 1}
+            >
               <KeyboardArrowRight />
             </Button>
           }
           backButton={
-            <Button size="small" onClick={handleBack} disabled={activeStep === 0}>
+            <Button
+              size="small"
+              onClick={handleBack}
+              disabled={activeStep === 0}
+            >
               <KeyboardArrowLeft />
             </Button>
           }
-        />          
+        />
+        {paginate(filteredData, PageSize, activeStep).map((node, index) => (
+          <BasicCard
+            alignItems="flex-start"
+            key={index}
+            children={item(node, i18n, t)}
+          />
+        ))}
+        {/* TODO:  Fix button mobile stepper overlapping the bottom nav */}
+        {/* <MobileStepper
+          steps={maxSteps}
+          position="bottom"
+          variant="text"
+          activeStep={activeStep}
+          nextButton={
+            <Button
+              size="small"
+              onClick={handleNext}
+              disabled={activeStep === maxSteps - 1}
+            >
+              <KeyboardArrowRight />
+            </Button>
+          }
+          backButton={
+            <Button
+              size="small"
+              onClick={handleBack}
+              disabled={activeStep === 0}
+            >
+              <KeyboardArrowLeft />
+            </Button>
+          }
+        /> */}
       </Layout>
     </>
   )

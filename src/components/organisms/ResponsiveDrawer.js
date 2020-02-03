@@ -1,5 +1,4 @@
 import React from "react"
-import PropTypes from "prop-types"
 import AppBar from "@material-ui/core/AppBar"
 import CssBaseline from "@material-ui/core/CssBaseline"
 import Divider from "@material-ui/core/Divider"
@@ -55,6 +54,7 @@ const useStyles = makeStyles(theme => ({
   toolbar: theme.mixins.toolbar,
   drawerPaper: {
     width: drawerWidth,
+    justifyContent: "space-between",
   },
   content: {
     flexGrow: 1,
@@ -67,11 +67,6 @@ const AppTitle = styled(Typography)`
     flex-grow: 1;
     text-align: center;
   }
-`
-
-const SupportUsButton = styled(Link)`
-  position: absolute;
-  bottom: 0;
 `
 
 function ResponsiveDrawer(props) {
@@ -130,19 +125,23 @@ function ResponsiveDrawer(props) {
             </ListItem>
           </Link>
         )}
-
-        <SupportUsButton
-          target="_blank"
-          href={`https://www.collaction.hk/s/g0vhk/fund?lang=${i18n.language}`}
-        >
-          <ListItem>
-            <ListItemIcon>{mapIcon("thumb_up")}</ListItemIcon>
-            <ListItemText primary={t("text.support_us")} />
-          </ListItem>
-        </SupportUsButton>
       </div>
     )
   }
+
+  const drawerFooter = () => (
+    <div>
+      <Link
+        target="_blank"
+        href={`https://www.collaction.hk/s/g0vhk/fund?lang=${i18n.language}`}
+      >
+        <ListItem>
+          <ListItemIcon>{mapIcon("thumb_up")}</ListItemIcon>
+          <ListItemText primary={t("text.support_us")} />
+        </ListItem>
+      </Link>
+    </div>
+  )
 
   return (
     <div className={`${classes.root} ${className}`}>
@@ -159,10 +158,7 @@ function ResponsiveDrawer(props) {
             {mapIcon("menu")}
           </IconButton>
           <AppTitle variant="h3" noWrap>
-            <Link
-              className={classes.appTitleLink}
-              href="/"
-            >
+            <Link className={classes.appTitleLink} href="/">
               {t("site.title")}
             </Link>
           </AppTitle>
@@ -186,6 +182,7 @@ function ResponsiveDrawer(props) {
             }}
           >
             {drawer(pages)}
+            {drawerFooter()}
           </Drawer>
         </Hidden>
         <Hidden xsDown implementation="css">
@@ -197,6 +194,7 @@ function ResponsiveDrawer(props) {
             open
           >
             {drawer(pages)}
+            {drawerFooter()}
           </Drawer>
         </Hidden>
       </nav>
@@ -206,16 +204,6 @@ function ResponsiveDrawer(props) {
       </main>
     </div>
   )
-}
-
-ResponsiveDrawer.propTypes = {
-  /**
-   * Injected by the documentation to work in an iframe.
-   * You won't need it on your project.
-   */
-  container: PropTypes.instanceOf(
-    typeof Element === "undefined" ? Object : Element
-  ),
 }
 
 export default ResponsiveDrawer

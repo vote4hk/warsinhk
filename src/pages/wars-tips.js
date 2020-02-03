@@ -8,7 +8,8 @@ import { graphql } from "gatsby"
 import { MediaCard } from "@components/organisms/MediaCard"
 import Box from "@material-ui/core/Box"
 import { bps } from "@/ui/theme"
-import _ from "lodash"
+import _flatten from "lodash.flatten"
+import _uniq from "lodash.uniq"
 import { getWarTipPath } from "@/utils/urlHelper"
 import { trackCustomEvent } from "gatsby-plugin-google-analytics"
 
@@ -30,11 +31,9 @@ const CardContainer = styled(Box)`
   }
 `
 
-const WarTipsPage = ({ data, pageContext }) => {
-  console.log(pageContext)
+const WarTipsPage = ({ data, location }) => {
   const { t, i18n } = useTranslation()
   const [selectedTag, setSelectedTag] = useState(null)
-
   const filterByTags = ({ node }) => {
     if (!node.tags || !selectedTag) {
       return true
@@ -43,8 +42,8 @@ const WarTipsPage = ({ data, pageContext }) => {
   }
 
   const getAllTags = edges => {
-    return _.uniq(
-      _.flatten(
+    return _uniq(
+      _flatten(
         edges.map(edge => (edge.node.tags ? edge.node.tags.split(",") : []))
       )
     )
@@ -53,6 +52,12 @@ const WarTipsPage = ({ data, pageContext }) => {
   const shorten = str => {
     return str ? `${str.substring(0, 50)}...` : ""
   }
+  React.useEffect(() => {
+    if (location.hash) {
+      const tag = decodeURIComponent(location.hash.replace(/^#/, ""))
+      setSelectedTag(tag)
+    }
+  }, [location.hash])
 
   return (
     <Layout>
@@ -64,7 +69,9 @@ const WarTipsPage = ({ data, pageContext }) => {
           size="small"
           color={tag === selectedTag ? "secondary" : "primary"}
           onClick={evt => {
-            setSelectedTag(tag === selectedTag ? null : tag)
+            const tagToSet = tag === selectedTag ? null : tag
+            setSelectedTag(tagToSet)
+            window.location.href = `#${tagToSet || ""}`
             trackCustomEvent({
               category: "wars_tips",
               action: "click_tag",
@@ -105,8 +112,11 @@ const WarTipsPage = ({ data, pageContext }) => {
 export default WarTipsPage
 
 export const WarsTipsQuery = graphql`
-  query {
-    allWarsTip(sort: { fields: [sort_order, date], order: [DESC, DESC] }) {
+  query getWarsTips($locale: String) {
+    allWarsTip(
+      sort: { fields: [sort_order, date], order: [DESC, DESC] }
+      filter: { language: { eq: $locale } }
+    ) {
       edges {
         node {
           title
