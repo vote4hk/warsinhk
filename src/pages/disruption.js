@@ -24,6 +24,10 @@ import SEO from "@/components/templates/SEO"
 import Layout from "@components/templates/Layout"
 import { Row } from "@components/atoms/Row"
 import { withLanguage } from "../utils/i18n"
+import Button from "@material-ui/core/Button"
+import KeyboardArrowRight from "@material-ui/icons/KeyboardArrowRight"
+import KeyboardArrowLeft from "@material-ui/icons/KeyboardArrowLeft"
+import MobileStepper from "@material-ui/core/MobileStepper"
 
 const DisruptionSearchBox = styled(TextField)`
   margin-top: 0.5rem;
@@ -144,9 +148,7 @@ const Disruption = props => {
 
   return (
     <DisruptionCard>
-      <DisruptionCardHeader
-        title={withLanguage(i18n, node, "name")}
-      ></DisruptionCardHeader>
+      <DisruptionCardHeader title={withLanguage(i18n, node, "name")} />
       <DisruptionCardContent>
         <Box alignItems="flex-start">
           <Row>
@@ -208,11 +210,82 @@ const Disruption = props => {
   )
 }
 
+const Paginator = props => {
+  const {
+    disruptions,
+    disruptionDescriptions,
+    pageSize,
+    activeStep,
+    setActiveStep,
+  } = props
+
+  const paginate = (data, pageSize, pageNumber) => {
+    return data.slice(pageNumber * pageSize, (pageNumber + 1) * pageSize)
+  }
+
+  const handleNext = () => {
+    const maxSteps = Math.ceil(disruptions.length / pageSize)
+    setActiveStep(prevActiveStep =>
+      prevActiveStep + 1 >= maxSteps ? 0 : prevActiveStep + 1
+    )
+  }
+
+  const handleBack = () => {
+    setActiveStep(prevActiveStep => prevActiveStep - 1)
+  }
+
+  const maxSteps = Math.ceil(disruptions.length / pageSize) || 1
+
+  return (
+    <>
+      <MobileStepper
+        steps={maxSteps}
+        position="static"
+        variant="text"
+        activeStep={activeStep}
+        nextButton={
+          <Button
+            size="small"
+            onClick={handleNext}
+            disabled={activeStep === maxSteps - 1}
+          >
+            <KeyboardArrowRight />
+          </Button>
+        }
+        backButton={
+          <Button size="small" onClick={handleBack} disabled={activeStep === 0}>
+            <KeyboardArrowLeft />
+          </Button>
+        }
+      />
+      {paginate(disruptions, pageSize, activeStep).map(
+        (disruptionEdge, disruptionIndex) => (
+          <Disruption key={disruptionIndex} node={disruptionEdge.node}>
+            {disruptionDescriptions
+              .filter(
+                disruptionDescriptionEdge =>
+                  disruptionDescriptionEdge.node.disruption_id ===
+                  disruptionEdge.node.disruption_id
+              )
+              .map((disruptionDescriptionEdge, disruptionDescriptionIndex) => (
+                <DisruptionDescription
+                  key={disruptionDescriptionIndex}
+                  node={disruptionDescriptionEdge.node}
+                />
+              ))}
+          </Disruption>
+        )
+      )}
+    </>
+  )
+}
+
 const DisruptionPage = props => {
   const { data } = props
   const { i18n, t } = useTranslation()
   const [keyword, setKeyword] = useState("")
   const [categories, setCategories] = useState([])
+  const [activeStep, setActiveStep] = useState(0)
 
   const disruptions = data.allDisruption.edges.filter(
     e =>
@@ -232,6 +305,7 @@ const DisruptionPage = props => {
       <DisruptionSearchBox
         placeholder={t("disruption.filter_text")}
         onChange={e => {
+          setActiveStep(0)
           setKeyword(e.target.value)
         }}
         InputProps={{
@@ -250,25 +324,17 @@ const DisruptionPage = props => {
         placeholder={t("disruption.filter_by_category_text")}
         options={categoryOptions}
         onChange={selectedCategories => {
+          setActiveStep(0)
           setCategories(selectedCategories || [])
         }}
       />
-      {disruptions.map((disruptionEdge, disruptionIndex) => (
-        <Disruption key={disruptionIndex} node={disruptionEdge.node}>
-          {disruptionDescriptions
-            .filter(
-              disruptionDescriptionEdge =>
-                disruptionDescriptionEdge.node.disruption_id ===
-                disruptionEdge.node.disruption_id
-            )
-            .map((disruptionDescriptionEdge, disruptionDescriptionIndex) => (
-              <DisruptionDescription
-                key={disruptionDescriptionIndex}
-                node={disruptionDescriptionEdge.node}
-              />
-            ))}
-        </Disruption>
-      ))}
+      <Paginator
+        disruptions={disruptions}
+        disruptionDescriptions={disruptionDescriptions}
+        activeStep={activeStep}
+        setActiveStep={setActiveStep}
+        pageSize={10}
+      />
     </Layout>
   )
 }
