@@ -29,6 +29,8 @@ const PUBLISHED_SPREADSHEET_DISRUPTION_URL =
   "https://docs.google.com/spreadsheets/d/e/2PACX-1vS0gZ-QBC6JGMS28kYUMz90ZNXFb40CtoLtOIC-QzzlqhPKCIrAojuuN2GX6AXaECONvxJd84tpqzFd/pub?gid=0"
 const PUBLISHED_SPREADSHEET_DISRUPTION_DESCRIPTION_URL =
   "https://docs.google.com/spreadsheets/d/e/2PACX-1vS0gZ-QBC6JGMS28kYUMz90ZNXFb40CtoLtOIC-QzzlqhPKCIrAojuuN2GX6AXaECONvxJd84tpqzFd/pub?gid=268131605"
+const PUBLISHED_SPREADSHEET_WARS_CASES_LOCATION_URL =
+  "https://docs.google.com/spreadsheets/d/e/2PACX-1vT6aoKk3iHmotqb5_iHggKc_3uAA901xVzwsllmNoOpGgRZ8VAA3TSxK6XreKzg_AUQXIkVX5rqb0Mo/pub?gid=0"
 
 const createAENode = async ({
   actions: { createNode },
@@ -221,6 +223,12 @@ exports.sourceNodes = async props => {
     ),
     createPublishedGoogleSpreadsheetNode(
       props,
+      PUBLISHED_SPREADSHEET_WARS_CASES_LOCATION_URL,
+      "WarsCaseLocation",
+      { skipFirstLine: true }
+    ),
+    createPublishedGoogleSpreadsheetNode(
+      props,
       PUBLISHED_SPREADSHEET_DODGY_SHOPS_URL,
       "DodgyShop",
       { skipFirstLine: true }
@@ -251,6 +259,20 @@ exports.sourceNodes = async props => {
     createGovNewsNode(props),
     createPosterNode(props),
   ])
+}
+
+// https://www.gatsbyjs.org/docs/schema-customization/#foreign-key-fields
+exports.createSchemaCustomization = ({ actions, schema }) => {
+  const { createTypes } = actions
+  const typeDefs = [
+    `type WarsCase implements Node {
+      locations: [WarsCaseLocation] @link(by: "case_no", from: "case_no") # easy back-ref
+    }`,
+    `type WarsCaseLocation implements Node {
+      case: WarsCase @link(by: "case_no", from: "case_no")
+    }`,
+  ]
+  createTypes(typeDefs)
 }
 
 exports.createPages = async ({ graphql, actions }) => {
