@@ -11,6 +11,7 @@ import { BasicCard } from "@components/atoms/Card"
 import { Row } from "@components/atoms/Row"
 import Box from "@material-ui/core/Box"
 import { Hidden } from "@material-ui/core"
+import { bps } from "@/ui/theme"
 
 const AgeGrid = styled(Grid)`
   display: flex;
@@ -21,13 +22,13 @@ const AgeGrid = styled(Grid)`
 `
 
 const AgeWrapper = styled(Row)`
-  @media screen and (min-width: 60em) {
+  ${bps.up("md")} {
     flex-direction: column;
   }
 `
 
 const AgeBox = styled(Box)`
-  @media screen and (min-width: 60em) {
+  ${bps.up("md")} {
     text-align: center;
     margin: 0 0 3em;
   }
@@ -35,14 +36,14 @@ const AgeBox = styled(Box)`
 
 const AgeTitle = styled.h4`
   display: inline;
-  @media screen and (min-width: 60em) {
+  ${bps.up("md")} {
     display: block;
     font-size: 18px;
   }
 `
 
 const DataValue = styled.span`
-  @media screen and (min-width: 60em) {
+  ${bps.up("md")} {
     font-size: 48px;
     line-height: 1.4;
   }
