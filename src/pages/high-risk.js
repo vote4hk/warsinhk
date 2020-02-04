@@ -11,6 +11,8 @@ import { withLanguage } from "@/utils/i18n"
 import { Row } from "@components/atoms/Row"
 import { components } from "react-select"
 import AsyncSelect from "react-select/async"
+import _uniqBy from "lodash.uniqby"
+
 import {
   createSubDistrictOptionList,
   filterSearchOptions,
@@ -32,6 +34,10 @@ const MapContainer = styled.div`
 function item(props, i18n, t) {
   const { node } = props
 
+  const caseNumbers = _uniqBy(node.cases, "case_no")
+    .map(c => c.case_no)
+    .sort((a, b) => parseInt(a) - parseInt(b))
+
   return (
     <HighRiskCard>
       <HighRiskCardContent>
@@ -49,20 +55,12 @@ function item(props, i18n, t) {
         </Box>
         <Box></Box>
       </HighRiskCardContent>
-      {node.cases
-        .sort((a, b) => b.case_no - a.case_no)
-        .map((c, i) => (
-          <Row key={i}>
-            <Box>
-              {/* TODO: Redirect to the case cards */}
-              <Link>{`#${c.case_no} `}</Link>
-            </Box>
-            <Box>{t(`cases.type_${c.type}`)}</Box>
-            <Box>{withLanguage(i18n, c, "action")}</Box>
-            <Box>
-              {/* TODO: If start_time is the same as end_time, show one only */}
-              {/* TODO: Include start_time_period and end_time_period */}
-              {/* 
+      {caseNumbers.map((cn, i) => (
+        <Link>{`#${cn} `}</Link>
+      ))}
+      {/* TODO: If start_time is the same as end_time, show one only */}
+      {/* TODO: Include start_time_period and end_time_period */}
+      {/* 
               Add logic to sort and group dates with cases:
 
               Current display:
@@ -80,10 +78,6 @@ function item(props, i18n, t) {
               #3                         2020-01-19 
               
               */}
-              {c.start_time} - {c.end_time}
-            </Box>
-          </Row>
-        ))}
       <Typography component="span" variant="body2" color="textPrimary">
         {withLanguage(i18n, node, "action")}
       </Typography>
@@ -98,7 +92,8 @@ function item(props, i18n, t) {
           </Link>
         </Box>
       )}
-      <Typography variant="body2">
+      {/* TODO: The Whole card should be clickable and redirect to map */}
+      {/* <Typography variant="body2">
         <Link
           href={`https://maps.google.com/?q=${withLanguage(
             i18n,
@@ -109,7 +104,7 @@ function item(props, i18n, t) {
         >
           {t("text.map")}
         </Link>
-      </Typography>
+      </Typography> */}
     </HighRiskCard>
   )
 }
