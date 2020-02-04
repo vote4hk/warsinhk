@@ -53,8 +53,8 @@ function dailyStats(t, props) {
   const dataArray = [
     {
       label: t("dashboard.death_case"),
-      today_stat: today.death_case || 0,
-      diff: today.death_case - ytd.death_case,
+      today_stat: today.death || 0,
+      diff: today.death - ytd.death,
     },
     {
       label: t("dashboard.confirmed_case"),
