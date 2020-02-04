@@ -1,11 +1,11 @@
 import React from "react"
 import { useTranslation } from "react-i18next"
 import Typography from "@material-ui/core/Typography"
-import Plot from "react-plotly.js"
 import Grid from "@material-ui/core/Grid"
 import { useMediaQuery } from "react-responsive"
 import { useStaticQuery, graphql } from "gatsby"
 import { withLanguage } from "../../utils/i18n"
+import Chart from "@components/atoms/Chart"
 import styled from "styled-components"
 import { BasicCard } from "@components/atoms/Card"
 import { Row } from "@components/atoms/Row"
@@ -86,46 +86,8 @@ export default function ConfirmedCaseVisual(props) {
   )
 
   const isMobile = useMediaQuery({ maxWidth: 960 })
-  const font = {
-    size: isMobile ? 15 : 16,
-    family: "Noto Sans TC, 微軟正黑體, 新細明體, sans-serif",
-  }
 
   const GENDER_COLOR_LIST = ["#006266", "#ED4C67"]
-
-  const genderPie = [
-    {
-      type: "pie",
-      values: [WarsCaseData.female.totalCount, WarsCaseData.male.totalCount],
-      labels: [
-        t(`dashboard.gender_${WarsCaseData.female.fieldValue}`),
-        t(`dashboard.gender_${WarsCaseData.male.fieldValue}`),
-      ],
-      marker: {
-        colors: GENDER_COLOR_LIST,
-      },
-      hole: 0.5,
-    },
-  ]
-
-  const genderBar = [WarsCaseData.male, WarsCaseData.female].map(
-    (data, index) => {
-      return {
-        x: [data.totalCount],
-        name: t(`dashboard.gender_${data.fieldValue}`),
-        orientation: "h",
-        type: "bar",
-        text: `${t(`dashboard.gender_${data.fieldValue}`)} - ${
-          data.totalCount
-        } `,
-        textposition: "auto",
-        width: 0.5,
-        marker: {
-          color: GENDER_COLOR_LIST[index],
-        },
-      }
-    }
-  )
 
   const COLOR_LIST = [
     "#45CF8F",
@@ -140,95 +102,63 @@ export default function ConfirmedCaseVisual(props) {
     "#FCC457",
   ]
 
-  const citizenPie = [
-    {
-      type: "pie",
-      values: citizenshipData.map(c => c.totalCount),
-      labels: citizenshipData.map(c => c.fieldValue),
-      marker: {
-        colors: COLOR_LIST,
-      },
-      hole: 0.5,
-    },
-  ]
-
-  const citizenBar = citizenshipData
-    .sort((a, b) => parseInt(a.totalCount) - parseInt(b.totalCount))
-    .map((data, index) => {
-      return {
-        x: [data.totalCount],
-        y: [data.fieldValue],
-        name: [data.fieldValue],
-        orientation: "h",
-        type: "bar",
-        text: `${data.fieldValue} - ${data.totalCount} `,
-        textposition: "auto",
-        width: (0.8 / citizenshipData.length) * citizenshipData.length,
-        marker: {
-          color: COLOR_LIST[index],
+  const axis = isMobile
+    ? {
+        rotated: true,
+        x: {
+          show: false,
+        },
+        y: {
+          show: false,
         },
       }
-    })
+    : undefined
+  const bar = isMobile
+    ? {
+        width: 30,
+      }
+    : undefined
 
   const genderPlot = (
     <BasicCard>
       <Typography variant="h6">{t("cases_visual.gender")}</Typography>
-      <Plot
-        data={isMobile ? genderBar : genderPie}
-        layout={{
-          title: null,
-          font,
-          showlegend: isMobile ? false : true,
-          margin: { t: 0, l: 0, r: 0, b: 0, pad: 0 },
-          height: isMobile ? 50 : "auto",
-          barmode: "stack",
-          hovermode: false,
-          xaxis: {
-            showline: false,
-            showgrid: false,
-            zeroline: false,
-            showticklabels: false,
-          },
-          yaxis: {
-            showline: false,
-            showgrid: false,
-            zeroline: false,
-            showticklabels: false,
-          },
+      <Chart
+        data={{
+          columns: ["female", "male"].map(gender => [
+            t(`dashboard.gender_${WarsCaseData[gender].fieldValue}`),
+            WarsCaseData[gender].totalCount,
+          ]),
+          labels: isMobile,
+          type: isMobile ? "dount" : "bar",
         }}
-        style={{ width: "100%" }}
-        config={{ displayModeBar: false, staticPlot: true }}
+        color={{ pattern: GENDER_COLOR_LIST }}
+        bar={bar}
+        size={isMobile ? { height: 100 } : undefined}
+        tooltip={{
+          grouped: false,
+        }}
+        axis={axis}
       />
     </BasicCard>
   )
   const citizenPlot = (
     <BasicCard>
       <Typography variant="h6">{t("cases_visual.citizen")}</Typography>
-      <Plot
-        data={isMobile ? citizenBar : citizenPie}
-        layout={{
-          title: null,
-          font,
-          showlegend: isMobile ? false : true,
-          margin: { t: 0, l: 0, r: 0, b: 0, pad: 0 },
-          height: isMobile ? 30 * citizenshipData.length : "auto",
-          barmode: "stack",
-          hovermode: false,
-          xaxis: {
-            showline: false,
-            showgrid: false,
-            zeroline: false,
-            showticklabels: false,
-          },
-          yaxis: {
-            showline: false,
-            showgrid: false,
-            zeroline: false,
-            showticklabels: false,
-          },
+      <Chart
+        data={{
+          columns: citizenshipData.map(c => [c.fieldValue, c.totalCount]),
+          type: isMobile ? "bar" : "donut",
+          labels: isMobile,
         }}
-        style={{ width: "100%" }}
-        config={{ displayModeBar: false, staticPlot: true }}
+        color={{ pattern: COLOR_LIST }}
+        tooltip={{
+          grouped: false,
+        }}
+        bar={bar}
+        size={
+          isMobile ? { height: 40 + 30 * citizenshipData.length } : undefined
+        }
+        axis={axis}
       />
     </BasicCard>
   )
