@@ -2,16 +2,20 @@ import React, { useState } from "react"
 import SEO from "@/components/templates/SEO"
 import Layout from "@components/templates/Layout"
 import { useTranslation } from "react-i18next"
-import { Box, Button, Typography } from "@material-ui/core"
+import { Box, Button, Typography, Tooltip } from "@material-ui/core"
 import { graphql } from "gatsby"
 import styled from "styled-components"
-import Link from "@material-ui/core/Link"
+import MuiLink from "@material-ui/core/Link"
+import { Link } from "gatsby"
 import { BasicCard } from "@components/atoms/Card"
-import { withLanguage } from "@/utils/i18n"
+import { withLanguage, getLocalizedPath } from "@/utils/i18n"
 import { Row } from "@components/atoms/Row"
+import Grid from "@material-ui/core/Grid"
 import { components } from "react-select"
 import AsyncSelect from "react-select/async"
-import _uniqBy from "lodash.uniqby"
+import InfoIcon from "@material-ui/icons/InfoOutlined"
+import HelpIcon from "@material-ui/icons/HelpOutline"
+import AssignmentIcon from "@material-ui/icons/AssignmentIndOutlined"
 
 import {
   createSubDistrictOptionList,
@@ -23,6 +27,7 @@ const HighRiskCard = styled(Box)``
 
 const HighRiskCardContent = styled(Box)`
   display: flex;
+  flex-direction: column;
   justify-content: space-between;
 `
 
@@ -34,64 +39,52 @@ const MapContainer = styled.div`
 function item(props, i18n, t) {
   const { node } = props
 
-  const caseNumbers = _uniqBy(node.cases, "case_no")
-    .map(c => c.case_no)
-    .sort((a, b) => parseInt(a) - parseInt(b))
-
   return (
     <HighRiskCard>
       <HighRiskCardContent>
         <Box>
-          <Box>
-            <Typography component="span" variant="body2" color="textPrimary">
-              {withLanguage(i18n, node, "sub_district")}
-            </Typography>
-          </Box>
-          <Box>
-            <Typography component="span" variant="h6" color="textPrimary">
-              {withLanguage(i18n, node, "location")}
-            </Typography>
-          </Box>
+          <Typography component="span" variant="h6" color="textPrimary">
+            {withLanguage(i18n, node, "location")}
+          </Typography>
         </Box>
-        <Box></Box>
+        {node.cases.map((c, index) => (
+          <Grid key={index} container spacing={3}>
+            <Grid item xs={4}>
+              <Typography component="span" variant="body2" color="textPrimary">
+                {c.start_date}
+              </Typography>
+            </Grid>
+            <Grid item xs={2}>
+              <Typography component="span" variant="body2" color="textPrimary">
+                {withLanguage(i18n, c, "action")}
+              </Typography>
+            </Grid>
+            <Grid item xs={4}>
+              {withLanguage(i18n, c, "remarks") && (
+                <Tooltip title="tsetset" placement="top-end">
+                  <HelpIcon fontSize="small" />
+                </Tooltip>
+              )}
+              {c.case_no && (
+                <Link to={getLocalizedPath(i18n, `/cases/#${c.case_no}`)}>
+                  <Typography
+                    component="span"
+                    variant="body2"
+                    color="textPrimary"
+                  >
+                    <AssignmentIcon fontSize="small" />
+                  </Typography>
+                </Link>
+              )}
+              {c.source_url_1 && (
+                <MuiLink target="_blank" href={c.source_url_1}>
+                  <InfoIcon fontSize="small" />
+                </MuiLink>
+              )}
+            </Grid>
+          </Grid>
+        ))}
       </HighRiskCardContent>
-      {caseNumbers.map((cn, i) => (
-        <Link>{`#${cn} `}</Link>
-      ))}
-      {/* TODO: If start_time is the same as end_time, show one only */}
-      {/* TODO: Include start_time_period and end_time_period */}
-      {/* 
-              Add logic to sort and group dates with cases:
-
-              Current display:
-              
-              #13 患者 抵港 2020-01-23 - 2020-01-23 
-              #13 患者 離港 2020-01-21 - 2020-01-21 
-              #10 患者 抵港 2020-01-22 - 2020-01-22 
-              #9 患者 抵港 2020-01-22 - 2020-01-22 
-              #3 患者 抵港 2020-01-19 - 2020-01-19 
-              #1 患者 抵港 2020-01-21 - 2020-01-21 
-              #1 患者親友 抵港 2020-01-21 - 2020-01-21
-
-              Expected display:
-              #1, #9, #10     2020-01-21-2020-01-23 
-              #3                         2020-01-19 
-              
-              */}
-      <Typography component="span" variant="body2" color="textPrimary">
-        {withLanguage(i18n, node, "action")}
-      </Typography>
-      {node.source_url && (
-        <Box>
-          <Link href={node.source_url} target="_blank">
-            <Typography component="span" variant="body2" color="textPrimary">
-              {t("high_risk.source", {
-                source: withLanguage(i18n, node, "source"),
-              })}
-            </Typography>
-          </Link>
-        </Box>
-      )}
       {/* TODO: The Whole card should be clickable and redirect to map */}
       {/* <Typography variant="body2">
         <Link
@@ -118,58 +111,29 @@ const HighRiskPage = ({ data, pageContext }) => {
     data.allWarsCaseLocation.edges
   )
 
-  const groupedLocations = data.allWarsCaseLocation.edges.reduce((a, c) => {
-    const {
-      case: { case_no },
-      location_zh,
-      location_en,
-      sub_district_zh,
-      sub_district_en,
-      action_zh,
-      action_en,
-      remarks_zh,
-      remarks_en,
-      start_time,
-      end_time,
-      type,
-      source_url_1,
-      source_url_2,
-    } = c.node
-
-    const caseDetail = {
-      case_no,
-      action_zh,
-      action_en,
-      remarks_zh,
-      remarks_en,
-      start_time,
-      end_time,
-      type,
-      source_url_1,
-      source_url_2,
-    }
-
-    const locationPos = a.findIndex(
-      item =>
-        withLanguage(i18n, item.node, "location") ===
-        withLanguage(i18n, c.node, "location")
-    )
-    if (locationPos === -1) {
-      const newLocation = {
-        node: {
-          location_zh,
-          location_en,
-          sub_district_zh,
-          sub_district_en,
-          cases: [caseDetail],
-        },
+  const groupedLocations = data.allWarsCaseLocation.edges.reduce(
+    (a, { node }) => {
+      const locationPos = a.findIndex(
+        item =>
+          withLanguage(i18n, item.node, "location") ===
+          withLanguage(i18n, node, "location")
+      )
+      if (locationPos === -1) {
+        const newLocation = {
+          node: {
+            location_zh: node.location_zh,
+            location_en: node.location_en,
+            cases: [{ ...node }],
+          },
+        }
+        a.push(newLocation)
+        return a
       }
-      a.push(newLocation)
+      a[locationPos].node.cases.push({ ...node })
       return a
-    }
-    a[locationPos].node.cases.push(caseDetail)
-    return a
-  }, [])
+    },
+    []
+  )
 
   const sortedLocations = filterValues(i18n, groupedLocations, filters)
 
@@ -218,7 +182,7 @@ const HighRiskPage = ({ data, pageContext }) => {
           callback(filterSearchOptions(allOptions, input, 5))
         }
         isMulti
-        placeholder={t("dodgy_shops.filter_by_district_text")}
+        placeholder={t("search.placeholder")}
         defaultOptions={filterSearchOptions(allOptions, null, 5)}
         // formatGroupLabel={SelectGroupLabel}
         onChange={selectedArray => {
@@ -258,7 +222,7 @@ export const HighRiskQuery = graphql`
   query {
     allWarsCaseLocation(
       filter: { enabled: { eq: "Y" } }
-      sort: { order: DESC, fields: end_time }
+      sort: { order: DESC, fields: end_date }
     ) {
       edges {
         node {
@@ -273,9 +237,10 @@ export const HighRiskQuery = graphql`
           remarks_zh
           source_url_1
           source_url_2
-          start_time(formatString: "YYYY-MM-DD")
-          end_time(formatString: "YYYY-MM-DD")
+          start_date(formatString: "YYYY-MM-DD")
+          end_date(formatString: "YYYY-MM-DD")
           type
+          case_no
           case {
             case_no
           }
