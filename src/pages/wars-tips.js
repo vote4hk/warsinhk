@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import styled from "styled-components"
 import SEO from "@/components/templates/SEO"
 import Layout from "@components/templates/Layout"
@@ -6,7 +6,7 @@ import { useTranslation } from "react-i18next"
 import { Typography, Button } from "@material-ui/core"
 import { graphql } from "gatsby"
 import { MediaCard } from "@components/organisms/MediaCard"
-import Box from "@material-ui/core/Box"
+import { Box, useMediaQuery } from "@material-ui/core"
 import { bps } from "@/ui/theme"
 import _flatten from "lodash.flatten"
 import _uniq from "lodash.uniq"
@@ -34,6 +34,35 @@ const CardContainer = styled(Box)`
 const WarTipsPage = ({ data, location }) => {
   const { t, i18n } = useTranslation()
   const [selectedTag, setSelectedTag] = useState(null)
+  const isMobile = useMediaQuery(bps.down("md"))
+  const [itemSize, setItemSize] = useState(5)
+  const [loadMore, setLoadMore] = useState(false)
+
+  useEffect(() => {
+    if (!loadMore) return
+    setItemSize(itemSize + (isMobile ? 5 : 20))
+    setLoadMore(false)
+  }, [loadMore, itemSize, isMobile])
+
+  const onScroll = () => {
+    if (
+      window.innerHeight + document.documentElement.scrollTop !==
+      document.documentElement.offsetHeight
+    )
+      return
+    setLoadMore(true)
+  }
+
+  useEffect(() => {
+    window.addEventListener("scroll", onScroll)
+    return () => window.removeEventListener("scroll", onScroll)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  useEffect(() => {
+    setItemSize(isMobile ? 5 : 20)
+  }, [isMobile])
+
   const filterByTags = ({ node }) => {
     if (!node.tags || !selectedTag) {
       return true
@@ -85,25 +114,28 @@ const WarTipsPage = ({ data, location }) => {
         </Button>
       ))}
       <CardsContainer>
-        {data.allWarsTip.edges.filter(filterByTags).map((edge, index) => {
-          const { node } = edge
-          return (
-            <CardContainer key={index}>
-              <MediaCard
-                imageUrl={node.image_url}
-                title={node.title}
-                text={shorten(node.text)}
-                tags={node.tags ? node.tags.split(",") : []}
-                sourceDescription={node.source_description}
-                sourceUrl={node.source_url}
-                onTagClicked={tag => {
-                  setSelectedTag(tag === selectedTag ? null : tag)
-                }}
-                uri={getWarTipPath(i18n.language, node.title)}
-              />
-            </CardContainer>
-          )
-        })}
+        {data.allWarsTip.edges
+          .filter(filterByTags)
+          .filter((_, i) => i < itemSize)
+          .map((edge, index) => {
+            const { node } = edge
+            return (
+              <CardContainer key={index}>
+                <MediaCard
+                  imageUrl={node.image_url}
+                  title={node.title}
+                  text={shorten(node.text)}
+                  tags={node.tags ? node.tags.split(",") : []}
+                  sourceDescription={node.source_description}
+                  sourceUrl={node.source_url}
+                  onTagClicked={tag => {
+                    setSelectedTag(tag === selectedTag ? null : tag)
+                  }}
+                  uri={getWarTipPath(i18n.language, node.title)}
+                />
+              </CardContainer>
+            )
+          })}
       </CardsContainer>
     </Layout>
   )
