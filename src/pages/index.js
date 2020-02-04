@@ -148,9 +148,7 @@ export default function IndexPage({ data }) {
                 {remarksText}
               </Typography>
             )}
-            <Typography variant="h3">
-              {t("index.highlight", { count: latestStat.confirmed_case })}
-            </Typography>
+            <Typography variant="h2">{t("index.highlight")}</Typography>
             {!isSSR && (
               <React.Suspense fallback={<div />}>
                 <ConfirmedCaseVisual />
@@ -158,7 +156,7 @@ export default function IndexPage({ data }) {
             )}
           </SessiontWrapper>
           <SessiontWrapper>
-            <Typography variant="h3">{t("index.latest_case")}</Typography>
+            <Typography variant="h2">{t("index.latest_case")}</Typography>
             {data.allWarsCase.edges.map((item, index) => (
               <WarsCaseCard key={index} node={item.node} i18n={i18n} t={t} />
             ))}
