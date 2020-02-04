@@ -11,6 +11,7 @@ import { withLanguage, getLocalizedPath } from "../utils/i18n"
 import { graphql, Link as InternalLink } from "gatsby"
 import { WarsCaseCard } from "@components/organisms/CaseCard"
 import Button from "@material-ui/core/Button"
+import { bps } from "@/ui/theme"
 
 // lazy-load the chart to avoid SSR
 const ConfirmedCaseVisual = React.lazy(() =>
@@ -21,6 +22,22 @@ const ConfirmedCaseVisual = React.lazy(() =>
 
 const SessiontWrapper = styled(Box)`
   margin-bottom: 16px;
+`
+const SplitWrapper = styled.div`
+  ${bps.up("lg")} {
+    display: flex;
+    align-items: flex-start;
+
+    ${SessiontWrapper} {
+      flex: 1 0 calc(50% - 12px);
+
+      &:nth-of-type(2) {
+        max-width: 600px;
+        flex: 0 0 calc(50% - 12px);
+        margin-left: 24px;
+      }
+    }
+  }
 `
 const DailyStatsContainer = styled(Box)`
   display: flex;
@@ -109,49 +126,51 @@ export default function IndexPage({ data }) {
     <>
       <SEO title="Home" />
       <Layout>
-        <SessiontWrapper>
-          <Typography variant="h4">{t("index.title")}</Typography>
-          <Typography variant="body2">
-            <Link
-              href="https://www.chp.gov.hk/tc/features/102465.html"
-              target="_blank"
-            >
-              {t("dashboard.source_chpgovhk")}
-            </Link>
-          </Typography>
-          <Typography variant="body2" color="textPrimary">
-            {`${t("dashboard.last_updated")}${latestStat.last_updated}`}
-          </Typography>
-          <BasicCard>
-            <DailyStats t={t} data={data.allDailyStats.edges} />
-          </BasicCard>
-          {remarksText && (
-            <Typography variant="body2" color="textPrimary">
-              {remarksText}
+        <SplitWrapper>
+          <SessiontWrapper>
+            <Typography variant="h4">{t("index.title")}</Typography>
+            <Typography variant="body2">
+              <Link
+                href="https://www.chp.gov.hk/tc/features/102465.html"
+                target="_blank"
+              >
+                {t("dashboard.source_chpgovhk")}
+              </Link>
             </Typography>
-          )}
-          <Typography variant="h4">
-            {t("index.highlight", { count: latestStat.confirmed_case })}
-          </Typography>
-          {!isSSR && (
-            <React.Suspense fallback={<div />}>
-              <ConfirmedCaseVisual />
-            </React.Suspense>
-          )}
-        </SessiontWrapper>
-        <SessiontWrapper>
-          <Typography variant="h4">{t("index.latest_case")}</Typography>
-          {data.allWarsCase.edges.map((item, index) => (
-            <WarsCaseCard key={index} node={item.node} i18n={i18n} t={t} />
-          ))}
-          <FullWidthButton
-            component={InternalLink}
-            to={getLocalizedPath(i18n, "/cases")}
-            variant="outlined"
-          >
-            {t("index.see_more")}
-          </FullWidthButton>
-        </SessiontWrapper>
+            <Typography variant="body2" color="textPrimary">
+              {`${t("dashboard.last_updated")}${latestStat.last_updated}`}
+            </Typography>
+            <BasicCard>
+              <DailyStats t={t} data={data.allDailyStats.edges} />
+            </BasicCard>
+            {remarksText && (
+              <Typography variant="body2" color="textPrimary">
+                {remarksText}
+              </Typography>
+            )}
+            <Typography variant="h4">
+              {t("index.highlight", { count: latestStat.confirmed_case })}
+            </Typography>
+            {!isSSR && (
+              <React.Suspense fallback={<div />}>
+                <ConfirmedCaseVisual />
+              </React.Suspense>
+            )}
+          </SessiontWrapper>
+          <SessiontWrapper>
+            <Typography variant="h4">{t("index.latest_case")}</Typography>
+            {data.allWarsCase.edges.map((item, index) => (
+              <WarsCaseCard key={index} node={item.node} i18n={i18n} t={t} />
+            ))}
+            <FullWidthButton
+              component={InternalLink}
+              to={getLocalizedPath(i18n, "/cases")}
+              variant="outlined"
+            >
+              {t("index.see_more")}
+            </FullWidthButton>
+          </SessiontWrapper>
+        </SplitWrapper>
       </Layout>
     </>
   )
