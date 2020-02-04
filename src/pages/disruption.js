@@ -82,6 +82,10 @@ const InvertedExpandMoreIcon = styled(ExpandMoreIcon)`
   transform: "rotate(180deg)";
 `
 
+const DisruptionDescriptionContainer = styled(Box)`
+  margin-bottom: 8px;
+`
+
 const animatedComponents = makeAnimated()
 
 function containsText(i18n, node, text) {
@@ -123,13 +127,14 @@ const DisruptionDescription = props => {
   const { i18n } = useTranslation()
 
   return (
-    <Row>
-      <Typography variant="caption">
+    <DisruptionDescriptionContainer>
+      <Typography variant="h6">
         {withLanguage(i18n, node, "description_title")}
-        <br />
+      </Typography>
+      <Typography variant="body2">
         {withLanguage(i18n, node, "description_content")}
       </Typography>
-    </Row>
+    </DisruptionDescriptionContainer>
   )
 }
 
