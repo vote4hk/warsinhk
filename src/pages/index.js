@@ -14,7 +14,9 @@ import Button from "@material-ui/core/Button"
 
 // lazy-load the chart to avoid SSR
 const ConfirmedCaseVisual = React.lazy(() =>
-  import("@/components/organisms/ConfirmedCaseVisual")
+  import(
+    /* webpackPrefetch: true */ "@/components/organisms/ConfirmedCaseVisual"
+  )
 )
 
 const SessiontWrapper = styled(Box)`
@@ -46,10 +48,7 @@ const FullWidthButton = styled(Button)`
   padding: 6px 10px;
 `
 
-function dailyStats(t, props) {
-  const today = props[0].node
-  const ytd = props[1].node
-
+function DailyStats({ t, data: [{ node: today }, { node: ytd }] }) {
   const dataArray = [
     {
       label: t("dashboard.death_case"),
@@ -73,32 +72,34 @@ function dailyStats(t, props) {
     },
   ]
 
-  const dailyStat = (d, i) => {
-    return (
-      <DailyStat key={i}>
-        <Typography component="span" variant="body2" color="textPrimary">
-          {d.label}
-        </Typography>
-        <DailyStatFigure>{d.today_stat}</DailyStatFigure>
-        <DailyChange>
-          {d.diff > 0 ? `▲ ${d.diff}` : d.diff < 0 ? `▼ ${d.diff}` : `-`}
-        </DailyChange>
-      </DailyStat>
-    )
-  }
   return (
     <DailyStatsContainer>
-      {dataArray.map((d, i) => dailyStat(d, i))}
+      {dataArray.map((d, i) => (
+        <DailyStat key={i}>
+          <Typography component="span" variant="body2" color="textPrimary">
+            {d.label}
+          </Typography>
+          <DailyStatFigure>{d.today_stat}</DailyStatFigure>
+          <DailyChange>
+            {d.diff > 0 ? `▲ ${d.diff}` : d.diff < 0 ? `▼ ${d.diff}` : `-`}
+          </DailyChange>
+        </DailyStat>
+      ))}
     </DailyStatsContainer>
   )
 }
 
-const IndexPage = ({ data }) => {
+export default function IndexPage({ data }) {
   const { i18n, t } = useTranslation()
   const isSSR = typeof window === "undefined"
 
-  const latestStat = data.allDailyStats.edges[0].node
-  const remarksText = withLanguage(i18n, latestStat, "remarks")
+  const latestStat = React.useMemo(() => data.allDailyStats.edges[0].node, [
+    data,
+  ])
+  const remarksText = React.useMemo(
+    () => withLanguage(i18n, latestStat, "remarks"),
+    [i18n, latestStat]
+  )
 
   data.allWarsCase.edges.sort(
     (a, b) => parseInt(b.node.case_no) - parseInt(a.node.case_no)
@@ -121,7 +122,9 @@ const IndexPage = ({ data }) => {
           <Typography variant="body2" color="textPrimary">
             {`${t("dashboard.last_updated")}${latestStat.last_updated}`}
           </Typography>
-          <BasicCard children={dailyStats(t, data.allDailyStats.edges)} />
+          <BasicCard>
+            <DailyStats t={t} data={data.allDailyStats.edges} />
+          </BasicCard>
           {remarksText && (
             <Typography variant="body2" color="textPrimary">
               {remarksText}
@@ -153,8 +156,6 @@ const IndexPage = ({ data }) => {
     </>
   )
 }
-
-export default IndexPage
 
 export const WarsCaseQuery = graphql`
   query {
