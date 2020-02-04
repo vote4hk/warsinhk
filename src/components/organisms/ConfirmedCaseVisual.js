@@ -129,7 +129,14 @@ export default function ConfirmedCaseVisual(props) {
             WarsCaseData[gender].totalCount,
           ]),
           labels: isMobile,
-          type: isMobile ? "bar" : "dount",
+          type: isMobile ? "bar" : "donut",
+          groups: isMobile
+            ? [
+                ["male", "female"].map(gender =>
+                  t(`dashboard.gender_${WarsCaseData[gender].fieldValue}`)
+                ),
+              ]
+            : undefined,
         }}
         color={{ pattern: GENDER_COLOR_LIST }}
         bar={bar}
@@ -146,7 +153,9 @@ export default function ConfirmedCaseVisual(props) {
       <Typography variant="h6">{t("cases_visual.citizen")}</Typography>
       <Chart
         data={{
-          columns: citizenshipData.map(c => [c.fieldValue, c.totalCount]),
+          columns: citizenshipData
+            .sort((a, b) => b.totalCount - a.totalCount)
+            .map(c => [c.fieldValue, c.totalCount]),
           type: isMobile ? "bar" : "donut",
           labels: isMobile,
         }}
