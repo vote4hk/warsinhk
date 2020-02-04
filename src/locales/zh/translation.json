@@ -24,6 +24,8 @@
   "poster_gallery.last_updated": "每天更新兩次",
   "poster_gallery.more": "查看更多圖集",
   "waiting_time.title": "急症等候",
+  "waiting_time.page_title": "急症室最長等候時間",
+  "waiting_time.content": "急症室分流護士會根據病情將病人分為五類，其中<b>危殆</b>、<b>危急</b>和<b>緊急</b>的病人會被優先診治。下列數據是統計過去數小時其他病人的最長等候時間，只供參考，並非現時預計等候時間。",
   "waiting_time.source_datagovhk": "資料來源：醫管局",
   "waiting_time.last_updated": "最後更新：",
   "waiting_time.hour": "小時",

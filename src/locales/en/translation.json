@@ -24,6 +24,8 @@
   "poster_gallery.last_updated": "Updated twice a day",
   "poster_gallery.more": "More Galleries",
   "waiting_time.title": "A&E Waiting Time",
+  "waiting_time.page_title": "Reference A&E Waiting Time",
+  "waiting_time.content": "When patients arrive at the A&E Department, they will first be assessed by an experienced and specially trained triage nurse according to the severity and nature of their medical conditions, and priority will be given to <b>critical</b>, <b>emergency</b> and <b>urgent</b> cases. The following data is collated from the waiting time of other patients in the past few hours. This is for reference only but not the current estimated waiting time.",
   "waiting_time.source_datagovhk": "Source: Hospital Authority",
   "waiting_time.last_updated": "Last update: ",
   "waiting_time.hour": "hr",
