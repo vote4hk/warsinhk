@@ -13,6 +13,16 @@ import Box from "@material-ui/core/Box"
 import { Hidden } from "@material-ui/core"
 import { bps } from "@/ui/theme"
 
+const PlotsWrapper = styled(Grid)`
+  ${bps.up("lg")} {
+    flex-direction: column;
+
+    > * {
+      max-width: 100%;
+    }
+  }
+`
+
 const AgeGrid = styled(Grid)`
   display: flex;
 
@@ -312,7 +322,7 @@ export default function ConfirmedCaseVisual(props) {
 
   return (
     <div>
-      <Grid container spacing={2}>
+      <PlotsWrapper container spacing={2}>
         <Grid item xs={4}>
           {genderPlot}
         </Grid>
@@ -322,7 +332,7 @@ export default function ConfirmedCaseVisual(props) {
         <Grid item xs={4}>
           {citizenPlot}
         </Grid>
-      </Grid>
+      </PlotsWrapper>
     </div>
   )
 }
