@@ -46,6 +46,9 @@
   "text.english": "English",
   "text.chinese": "中文",
   "text.map": "地圖",
+  "search.sub_district": "地區",
+  "search.location": "航班/場所",
+  "search.placeholder": "搜尋地區/航班/場所",
   "dashboard.death_case": "死亡個案",
   "dashboard.confirmed_case": "確診個案",
   "dashboard.investigation_case": "住院檢查",
@@ -84,5 +87,7 @@
   "disruption.status": "狀態",
   "disruption.to": "恢復時間",
   "disruption.source": "資料來源",
-  "disruption.last_updated": "最後更新：{{date}}"
+  "disruption.last_updated": "最後更新：{{date}}",
+  "cases.type_self": "患者",
+  "cases.type_relatives": "患者親友"
 }

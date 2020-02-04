@@ -46,6 +46,9 @@
   "text.english": "English",
   "text.chinese": "中文",
   "text.map": "View map",
+  "search.sub_district": "District",
+  "search.location": "Flight/Location",
+  "search.placeholder": "Search for district/flight no./location",
   "dashboard.death_case": "Death",
   "dashboard.confirmed_case": "Confirmed",
   "dashboard.investigation_case": "Investigating",
@@ -77,5 +80,7 @@
   "disruption.status": "Status",
   "disruption.to": "Resumption",
   "disruption.source": "View source",
-  "disruption.last_updated": "Last update: {{date}}"
+  "disruption.last_updated": "Last update: {{date}}",
+  "cases.type_self": "Patient",
+  "cases.type_relatives": "Patient's relatives"
 }
