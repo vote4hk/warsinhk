@@ -143,6 +143,9 @@ export default function ConfirmedCaseVisual(props) {
         size={isMobile ? { height: 100 } : undefined}
         tooltip={{
           grouped: false,
+          format: {
+            title: () => t("cases_visual.gender"),
+          },
         }}
         axis={axis}
       />
@@ -162,6 +165,9 @@ export default function ConfirmedCaseVisual(props) {
         color={{ pattern: COLOR_LIST }}
         tooltip={{
           grouped: false,
+          format: {
+            title: () => t("cases_visual.citizen"),
+          },
         }}
         bar={bar}
         size={
