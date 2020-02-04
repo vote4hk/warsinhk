@@ -189,7 +189,7 @@ const DisruptionPage = props => {
   return (
     <Layout>
       <SEO title="DisruptionPage" />
-      <Typography variant="h4" component="h1">
+      <Typography variant="h2" component="h1">
         {t("disruption.list_text")}
       </Typography>
       <DisruptionSearchBox

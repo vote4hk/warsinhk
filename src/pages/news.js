@@ -61,7 +61,7 @@ const NewsPage = props => {
   // const renderGoogleNews = () => {
   //   return (
   //     <>
-  //       <Typography variant="h4">{t("news.title")}</Typography>
+  //       <Typography variant="h2">{t("news.title")}</Typography>
   //       <Typography variant="body2">
   //         <Link href={t("news.url")} target="_blank">
   //           {t("news.source_google")}
@@ -81,7 +81,7 @@ const NewsPage = props => {
   const renderGovNews = () => {
     return (
       <>
-        <Typography variant="h4">{t("gov_news.title")}</Typography>
+        <Typography variant="h2">{t("gov_news.title")}</Typography>
         <Typography variant="body2">
           <Link href={t("gov_news.url")} target="_blank">
             {t("gov_news.source")}

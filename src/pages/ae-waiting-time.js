@@ -71,7 +71,7 @@ const AEWaitingTimePage = props => {
   return (
     <Layout>
       <SEO title="AEWaitingTimePage" />
-      <Typography variant="h4">{t("waiting_time.page_title")}</Typography>
+      <Typography variant="h1">{t("waiting_time.page_title")}</Typography>
       <Typography variant="body2">
         <Link
           href="https://www.ha.org.hk/visitor/ha_visitor_index.asp?Content_ID=235504&Lang=CHIB5"
