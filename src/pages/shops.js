@@ -3,7 +3,6 @@ import SEO from "@/components/templates/SEO"
 import Layout from "@components/templates/Layout"
 import Box from "@material-ui/core/Box"
 import Link from "@material-ui/core/Link"
-import { UnstyledLinkedCard } from "@components/atoms/LinkedCard"
 import styled from "styled-components"
 import { useTranslation } from "react-i18next"
 import Typography from "@material-ui/core/Typography"
@@ -80,14 +79,7 @@ function item(props, i18n, t) {
   const sourceUrl = node.source_url
 
   return (
-    <UnstyledLinkedCard
-      onClick={() =>
-        window.open(
-          `https://maps.google.com/?q=${withLanguage(i18n, node, "address")}`,
-          "_blank"
-        )
-      }
-    >
+    <React.Fragment>
       <Row>
         <Box>{withLanguage(i18n, node, "type")}</Box>
         <DubiousShopLabel>
@@ -95,7 +87,14 @@ function item(props, i18n, t) {
         </DubiousShopLabel>
       </Row>
       <Row>
-        <Box>{withLanguage(i18n, node, "address")}</Box>
+        <Link 
+          onClick={() =>
+            window.open(`https://maps.google.com/?q=${withLanguage(i18n, node, "address")}`,
+          "_blank")
+          }
+        >
+          {withLanguage(i18n, node, "address")}
+        </Link>
       </Row>
       <Row>
         <Typography variant="h6">{withLanguage(i18n, node, "name")}</Typography>
@@ -128,7 +127,7 @@ function item(props, i18n, t) {
       <Row>
         <Box>{t("dodgy_shops.last_updated", { date: node.last_update })}</Box>
       </Row>
-    </UnstyledLinkedCard>
+    </React.Fragment>
   )
 }
 
@@ -262,7 +261,7 @@ const ShopsPage = props => {
           />
         ))}
         {/* TODO:  Fix button mobile stepper overlapping the bottom nav */}
-        {/* {mobileStepper} */}
+        {mobileStepper}
       </Layout>
     </>
   )
