@@ -87,7 +87,7 @@ const HighRiskPage = ({ data, pageContext }) => {
     <Layout>
       <SEO title="HighRiskPage" />
       <Row>
-        <Typography variant="h4">{t("high_risk.title")}</Typography>
+        <Typography variant="h2">{t("high_risk.title")}</Typography>
         <Button
           size="small"
           color="primary"

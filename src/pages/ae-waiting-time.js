@@ -9,6 +9,7 @@ import Link from "@material-ui/core/Link"
 import { BasicCard } from "@components/atoms/Card"
 import styled from "styled-components"
 import { withLanguage } from "../utils/i18n"
+import { Paragraph } from "@components/atoms/Text"
 
 const AECard = styled(Box)`
   display: flex;
@@ -70,7 +71,7 @@ const AEWaitingTimePage = props => {
   return (
     <Layout>
       <SEO title="AEWaitingTimePage" />
-      <Typography variant="h4">{t("waiting_time.title")}</Typography>
+      <Typography variant="h1">{t("waiting_time.page_title")}</Typography>
       <Typography variant="body2">
         <Link
           href="https://www.ha.org.hk/visitor/ha_visitor_index.asp?Content_ID=235504&Lang=CHIB5"
@@ -83,6 +84,9 @@ const AEWaitingTimePage = props => {
         {t("waiting_time.last_updated")}
         {data.allAeWaitingTime.edges[0].node.hospTimeEn}
       </Typography>
+      <Paragraph
+        dangerouslySetInnerHTML={{ __html: t("waiting_time.content") }}
+      />
       {data.allAeWaitingTime.edges.map((node, index) => (
         <BasicCard alignItems="flex-start" key={index} children={item(node)} />
       ))}

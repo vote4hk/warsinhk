@@ -10,6 +10,7 @@ import AlertTitle from "@material-ui/lab/AlertTitle"
 import { withLanguage } from "@/utils/i18n"
 import ContextStore from "@/contextStore"
 import { ALERT_CLOSE } from "@/reducers/pageOptions"
+import { bps } from "@/ui/theme"
 
 const StyledAlert = styled(Alert)`
   && {
@@ -18,6 +19,22 @@ const StyledAlert = styled(Alert)`
     a {
       color: white;
       text-decoration: underline;
+    }
+  }
+`
+const AlertMessagesWrapper = styled.div`
+  ${bps.up("lg")} {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+
+    > * {
+      flex: 0 0 calc(50% - 12px);
+      margin-right: 24px;
+    }
+
+    > :nth-child(even) {
+      margin-right: 0;
     }
   }
 `
@@ -111,11 +128,11 @@ const AlertMessage = props => {
   }, [])
 
   return (
-    <>
+    <AlertMessagesWrapper>
       {alerts.map((edge, index) => {
         return <AlertChild edge={edge} key={index} dispatch={dispatch} />
       })}
-    </>
+    </AlertMessagesWrapper>
   )
 }
 

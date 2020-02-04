@@ -35,7 +35,7 @@ const PosterGalleryPage = ({ data, pageContext }) => {
   return (
     <Layout>
       <SEO title="PosterGalleryPage" />
-      <Typography variant="h4">{t("poster_gallery.title")}</Typography>
+      <Typography variant="h2">{t("poster_gallery.title")}</Typography>
       <Typography variant="body2">
         <Link
           href="https://www.collaction.hk/lab/extradition_gallery?tag=武漢肺炎"

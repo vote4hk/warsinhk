@@ -42,7 +42,7 @@ const NewsPage = props => {
   return (
     <Layout>
       <SEO title="NewsPage" />
-      <Typography variant="h4">{t("gov_news.title")}</Typography>
+      <Typography variant="h2">{t("gov_news.title")}</Typography>
       <Typography variant="body2">
         <Link href={t("gov_news.url")} target="_blank">
           {t("gov_news.source")}

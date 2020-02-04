@@ -62,7 +62,7 @@ const WarTipsPage = ({ data, location }) => {
   return (
     <Layout>
       <SEO title="WarsTipsPage" />
-      <Typography variant="h4">{t("wars_tips.title")}</Typography>
+      <Typography variant="h2">{t("wars_tips.title")}</Typography>
       {getAllTags(data.allWarsTip.edges).map(tag => (
         <Button
           key={tag}

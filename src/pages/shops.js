@@ -231,7 +231,7 @@ const ShopsPage = props => {
             <BasicFab title={t("dodgy_shops.find_mask")} icon="search" />
           </Link>
         </FabContainer>
-        <Typography variant="h4">{t("dodgy_shops.list_text")}</Typography>
+        <Typography variant="h2">{t("dodgy_shops.list_text")}</Typography>
         <>
           <MultiSelect
             closeMenuOnSelect={false}

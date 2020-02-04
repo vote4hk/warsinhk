@@ -1,0 +1,25 @@
+.c3 svg {
+  font-size: 16px;
+  font-family: "Noto Sans TC", 微軟正黑體, 新細明體, sans-serif;
+}
+
+.c3-legend-item {
+  font-size: 14px;
+}
+
+.c3 svg text {
+  text-shadow: 1px 1px 0.5px #eee, -1px -1px 0.5px #eee, 1px -1px 0.5px #eee,
+    -1px 1px 0.5px #eee;
+}
+
+.c3 svg .c3-chart-arc text {
+  font-size: 16px;
+  text-shadow: 1px 1px 0.5px #333, -1px -1px 0.5px #333, 1px -1px 0.5px #333,
+    -1px 1px 0.5px #333;
+  /* text-shadow: none; */
+}
+@media (max-width: 968px) {
+  .c3 svg {
+    font-size: 15px;
+  }
+}
