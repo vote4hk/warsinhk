@@ -11,17 +11,23 @@ import {
   Link,
   Chip,
   Typography,
-  ExpansionPanel,
-  ExpansionPanelSummary,
-  ExpansionPanelDetails,
+  Card,
+  CardHeader,
+  CardContent,
+  CardActions,
+  IconButton,
+  Collapse,
 } from "@material-ui/core"
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore"
 import SearchIcon from "@material-ui/icons/Search"
 import SEO from "@/components/templates/SEO"
 import Layout from "@components/templates/Layout"
 import { Row } from "@components/atoms/Row"
-
 import { withLanguage } from "../utils/i18n"
+import Button from "@material-ui/core/Button"
+import KeyboardArrowRight from "@material-ui/icons/KeyboardArrowRight"
+import KeyboardArrowLeft from "@material-ui/icons/KeyboardArrowLeft"
+import MobileStepper from "@material-ui/core/MobileStepper"
 
 const DisruptionSearchBox = styled(TextField)`
   margin-top: 0.5rem;
@@ -36,7 +42,7 @@ const CategorySelect = styled(Select)`
   margin-bottom: 0.5rem;
 `
 
-const DisruptionExpansionPanel = styled(ExpansionPanel)`
+const DisruptionCard = styled(Card)`
   margin-top: 1rem;
   margin-bottom: 1rem;
 
@@ -46,14 +52,34 @@ const DisruptionExpansionPanel = styled(ExpansionPanel)`
   }
 `
 
-const DisruptionExpansionPanelSummary = styled(ExpansionPanelSummary)`
-  .Mui-expanded {
-    margin: 1rem 0;
-  }
+const DisruptionCardHeader = styled(CardHeader)`
+  padding-bottom: 0px;
+`
+
+const DisruptionCardContent = styled(CardContent)`
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+`
+
+const DisruptionCardActions = styled(CardActions)`
+  padding-top: 0rem;
+  padding-bottom: 0rem;
+  justify-content: flex-end;
 `
 
 const DisruptionDetail = styled(Typography)`
   color: ${props => props.theme.palette.secondary.main};
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+`
+
+const DisruptionAction = styled(Box)`
+  padding-left: 0.5rem;
+  flex-grow: 1;
+`
+
+const InvertedExpandMoreIcon = styled(ExpandMoreIcon)`
+  transform: "rotate(180deg)";
 `
 
 const animatedComponents = makeAnimated()
@@ -99,7 +125,8 @@ const DisruptionDescription = props => {
   return (
     <Row>
       <Typography variant="caption">
-        {withLanguage(i18n, node, "description_title")} -{" "}
+        {withLanguage(i18n, node, "description_title")}
+        <br />
         {withLanguage(i18n, node, "description_content")}
       </Typography>
     </Row>
@@ -109,26 +136,21 @@ const DisruptionDescription = props => {
 const Disruption = props => {
   const { node } = props
   const { i18n, t } = useTranslation()
+  const [expanded, setExpanded] = React.useState(false)
+
+  const handleExpandClick = () => {
+    setExpanded(!expanded)
+  }
 
   const sourceUrl = withLanguage(i18n, node, "source_url")
   const hasDescription = props.children && props.children.length > 0
-  const panelSummaryAttributes = hasDescription
-    ? { expandIcon: <ExpandMoreIcon /> }
-    : {}
+  const ExpandIcon = expanded ? InvertedExpandMoreIcon : ExpandMoreIcon
 
   return (
-    <DisruptionExpansionPanel disabled={!hasDescription}>
-      <DisruptionExpansionPanelSummary
-        aria-controls={`panel-${node.id}-content`}
-        id={`panel-${node.id}-header`}
-        {...panelSummaryAttributes}
-      >
+    <DisruptionCard>
+      <DisruptionCardHeader title={withLanguage(i18n, node, "name")} />
+      <DisruptionCardContent>
         <Box alignItems="flex-start">
-          <Row>
-            <Typography variant="h3" component="h2">
-              {withLanguage(i18n, node, "name")}
-            </Typography>
-          </Row>
           <Row>
             <Chip
               label={withLanguage(i18n, node, "category")}
@@ -148,26 +170,133 @@ const Disruption = props => {
           <Row>
             {t("disruption.to")}: {withLanguage(i18n, node, "to") || "-"}
           </Row>
-          {sourceUrl && (
+        </Box>
+      </DisruptionCardContent>
+      <>
+        <DisruptionCardActions disableSpacing>
+          <DisruptionAction>
+            {sourceUrl && (
+              <Row>
+                <Typography variant="caption">
+                  <Link component={Link} href={sourceUrl} target="_blank">
+                    {t("disruption.source")}
+                  </Link>
+                </Typography>
+              </Row>
+            )}
             <Row>
               <Typography variant="caption">
-                <Link component={Link} href={sourceUrl} target="_blank">
-                  {t("disruption.source")}
-                </Link>
+                {t("disruption.last_updated", { date: node.last_update })}
               </Typography>
             </Row>
+          </DisruptionAction>
+          {hasDescription && (
+            <IconButton onClick={handleExpandClick} aria-expanded={expanded}>
+              <ExpandIcon />
+            </IconButton>
           )}
-          <Row>
-            <Typography variant="caption">
-              {t("disruption.last_updated", { date: node.last_update })}
-            </Typography>
-          </Row>
-        </Box>
-      </DisruptionExpansionPanelSummary>
-      <ExpansionPanelDetails>
-        {hasDescription && <Box alignItems="flex-start">{props.children}</Box>}
-      </ExpansionPanelDetails>
-    </DisruptionExpansionPanel>
+        </DisruptionCardActions>
+        {hasDescription && (
+          <Collapse in={expanded} timeout="auto" unmountOnExit>
+            <DisruptionCardContent>
+              {hasDescription && (
+                <Box alignItems="flex-start">{props.children}</Box>
+              )}
+            </DisruptionCardContent>
+          </Collapse>
+        )}
+      </>
+    </DisruptionCard>
+  )
+}
+
+const Paginator = props => {
+  const {
+    disruptions,
+    disruptionDescriptions,
+    pageSize,
+    activeStep,
+    setActiveStep,
+  } = props
+
+  const paginate = (data, pageSize, pageNumber) => {
+    return data.slice(pageNumber * pageSize, (pageNumber + 1) * pageSize)
+  }
+
+  const handleNext = () => {
+    const maxSteps = Math.ceil(disruptions.length / pageSize)
+    setActiveStep(prevActiveStep =>
+      prevActiveStep + 1 >= maxSteps ? 0 : prevActiveStep + 1
+    )
+  }
+
+  const handleBack = () => {
+    setActiveStep(prevActiveStep => prevActiveStep - 1)
+  }
+
+  const maxSteps = Math.ceil(disruptions.length / pageSize) || 1
+
+  return (
+    <>
+      <MobileStepper
+        steps={maxSteps}
+        position="static"
+        variant="text"
+        activeStep={activeStep}
+        nextButton={
+          <Button
+            size="small"
+            onClick={handleNext}
+            disabled={activeStep === maxSteps - 1}
+          >
+            <KeyboardArrowRight />
+          </Button>
+        }
+        backButton={
+          <Button size="small" onClick={handleBack} disabled={activeStep === 0}>
+            <KeyboardArrowLeft />
+          </Button>
+        }
+      />
+      {paginate(disruptions, pageSize, activeStep).map(
+        (disruptionEdge, disruptionIndex) => (
+          <Disruption key={disruptionIndex} node={disruptionEdge.node}>
+            {disruptionDescriptions
+              .filter(
+                disruptionDescriptionEdge =>
+                  disruptionDescriptionEdge.node.disruption_id ===
+                  disruptionEdge.node.disruption_id
+              )
+              .map((disruptionDescriptionEdge, disruptionDescriptionIndex) => (
+                <DisruptionDescription
+                  key={disruptionDescriptionIndex}
+                  node={disruptionDescriptionEdge.node}
+                />
+              ))}
+          </Disruption>
+        )
+      )}
+      <MobileStepper
+        steps={maxSteps}
+        position="static"
+        variant="text"
+        activeStep={activeStep}
+        nextButton={
+          <Button
+            size="small"
+            onClick={handleNext}
+            disabled={activeStep === maxSteps - 1}
+          >
+            <KeyboardArrowRight />
+          </Button>
+        }
+        backButton={
+          <Button size="small" onClick={handleBack} disabled={activeStep === 0}>
+            <KeyboardArrowLeft />
+          </Button>
+        }
+      />
+    </>
   )
 }
 
@@ -176,6 +305,7 @@ const DisruptionPage = props => {
   const { i18n, t } = useTranslation()
   const [keyword, setKeyword] = useState("")
   const [categories, setCategories] = useState([])
+  const [activeStep, setActiveStep] = useState(0)
 
   const disruptions = data.allDisruption.edges.filter(
     e =>
@@ -195,6 +325,7 @@ const DisruptionPage = props => {
       <DisruptionSearchBox
         placeholder={t("disruption.filter_text")}
         onChange={e => {
+          setActiveStep(0)
           setKeyword(e.target.value)
         }}
         InputProps={{
@@ -213,25 +344,17 @@ const DisruptionPage = props => {
         placeholder={t("disruption.filter_by_category_text")}
         options={categoryOptions}
         onChange={selectedCategories => {
+          setActiveStep(0)
           setCategories(selectedCategories || [])
         }}
       />
-      {disruptions.map((disruptionEdge, disruptionIndex) => (
-        <Disruption key={disruptionIndex} node={disruptionEdge.node}>
-          {disruptionDescriptions
-            .filter(
-              disruptionDescriptionEdge =>
-                disruptionDescriptionEdge.node.disruption_id ===
-                disruptionEdge.node.disruption_id
-            )
-            .map((disruptionDescriptionEdge, disruptionDescriptionIndex) => (
-              <DisruptionDescription
-                key={disruptionDescriptionIndex}
-                node={disruptionDescriptionEdge.node}
-              />
-            ))}
-        </Disruption>
-      ))}
+      <Paginator
+        disruptions={disruptions}
+        disruptionDescriptions={disruptionDescriptions}
+        activeStep={activeStep}
+        setActiveStep={setActiveStep}
+        pageSize={10}
+      />
     </Layout>
   )
 }
