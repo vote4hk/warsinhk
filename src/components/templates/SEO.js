@@ -119,6 +119,14 @@ const SEO = ({ meta, uri }) => {
           name: `twitter:description`,
           content: t("site.description"),
         },
+        {
+          name: "apple-mobile-web-app-capable",
+          content: "yes",
+        },
+        {
+          name: "mobile-web-app-capable",
+          content: "yes",
+        },
       ].concat(meta || [])}
     >
       <script

@@ -2,19 +2,32 @@ import React, { useState } from "react"
 import SEO from "@/components/templates/SEO"
 import Layout from "@components/templates/Layout"
 import { useTranslation } from "react-i18next"
-import { Box, Button, Typography } from "@material-ui/core"
+import { Box, Button, Typography, Tooltip } from "@material-ui/core"
 import { graphql } from "gatsby"
 import styled from "styled-components"
-import Link from "@material-ui/core/Link"
-
+import MuiLink from "@material-ui/core/Link"
+import { Link } from "gatsby"
 import { BasicCard } from "@components/atoms/Card"
-import { withLanguage } from "@/utils/i18n"
+import { withLanguage, getLocalizedPath } from "@/utils/i18n"
 import { Row } from "@components/atoms/Row"
+import Grid from "@material-ui/core/Grid"
+import { components } from "react-select"
+import AsyncSelect from "react-select/async"
+import InfoIcon from "@material-ui/icons/InfoOutlined"
+import HelpIcon from "@material-ui/icons/HelpOutline"
+import AssignmentIcon from "@material-ui/icons/AssignmentIndOutlined"
+
+import {
+  createSubDistrictOptionList,
+  filterSearchOptions,
+  filterValues,
+} from "@/utils"
 
 const HighRiskCard = styled(Box)``
 
 const HighRiskCardContent = styled(Box)`
   display: flex;
+  flex-direction: column;
   justify-content: space-between;
 `
 
@@ -30,38 +43,50 @@ function item(props, i18n, t) {
     <HighRiskCard>
       <HighRiskCardContent>
         <Box>
-          <Box>
-            <Typography component="span" variant="body2" color="textPrimary">
-              {withLanguage(i18n, node, "sub_district")}
-            </Typography>
-          </Box>
-          <Box>
-            <Typography component="span" variant="h6" color="textPrimary">
-              {withLanguage(i18n, node, "name")}
-            </Typography>
-          </Box>
-        </Box>
-        <Box>
-          <Typography component="span" variant="body2" color="textPrimary">
-            {node.last_seen}
+          <Typography component="span" variant="h6" color="textPrimary">
+            {withLanguage(i18n, node, "location")}
           </Typography>
         </Box>
+        {node.cases.map((c, index) => (
+          <Grid key={index} container spacing={3}>
+            <Grid item xs={4}>
+              <Typography component="span" variant="body2" color="textPrimary">
+                {c.start_date}
+              </Typography>
+            </Grid>
+            <Grid item xs={2}>
+              <Typography component="span" variant="body2" color="textPrimary">
+                {withLanguage(i18n, c, "action")}
+              </Typography>
+            </Grid>
+            <Grid item xs={4}>
+              {withLanguage(i18n, c, "remarks") && (
+                <Tooltip title="tsetset" placement="top-end">
+                  <HelpIcon fontSize="small" />
+                </Tooltip>
+              )}
+              {c.case_no && (
+                <Link to={getLocalizedPath(i18n, `/cases/#${c.case_no}`)}>
+                  <Typography
+                    component="span"
+                    variant="body2"
+                    color="textPrimary"
+                  >
+                    <AssignmentIcon fontSize="small" />
+                  </Typography>
+                </Link>
+              )}
+              {c.source_url_1 && (
+                <MuiLink target="_blank" href={c.source_url_1}>
+                  <InfoIcon fontSize="small" />
+                </MuiLink>
+              )}
+            </Grid>
+          </Grid>
+        ))}
       </HighRiskCardContent>
-      <Typography component="span" variant="body2" color="textPrimary">
-        {withLanguage(i18n, node, "details")}
-      </Typography>
-      {node.source_url && (
-        <Box>
-          <Link href={node.source_url} target="_blank">
-            <Typography component="span" variant="body2" color="textPrimary">
-              {t("high_risk.source", {
-                source: withLanguage(i18n, node, "source"),
-              })}
-            </Typography>
-          </Link>
-        </Box>
-      )}
-      <Typography variant="body2">
+      {/* TODO: The Whole card should be clickable and redirect to map */}
+      {/* <Typography variant="body2">
         <Link
           href={`https://maps.google.com/?q=${withLanguage(
             i18n,
@@ -72,17 +97,62 @@ function item(props, i18n, t) {
         >
           {t("text.map")}
         </Link>
-      </Typography>
+      </Typography> */}
     </HighRiskCard>
   )
 }
 
 const HighRiskPage = ({ data, pageContext }) => {
   const [mapMode, setMapMode] = useState(false)
-  const sortedHighRisk = data.allHighRisk.edges.sort(
-    (a, b) => Date.parse(b.node.last_seen) - Date.parse(a.node.last_seen)
-  )
+  const [filters, setFilters] = useState([])
   const { i18n, t } = useTranslation()
+  const subDistrictOptionList = createSubDistrictOptionList(
+    i18n,
+    data.allWarsCaseLocation.edges
+  )
+
+  const groupedLocations = data.allWarsCaseLocation.edges.reduce(
+    (a, { node }) => {
+      const locationPos = a.findIndex(
+        item =>
+          withLanguage(i18n, item.node, "location") ===
+          withLanguage(i18n, node, "location")
+      )
+      if (locationPos === -1) {
+        const newLocation = {
+          node: {
+            location_zh: node.location_zh,
+            location_en: node.location_en,
+            cases: [{ ...node }],
+          },
+        }
+        a.push(newLocation)
+        return a
+      }
+      a[locationPos].node.cases.push({ ...node })
+      return a
+    },
+    []
+  )
+
+  const sortedLocations = filterValues(i18n, groupedLocations, filters)
+
+  const allOptions = [
+    {
+      label: t("search.sub_district"),
+      options: subDistrictOptionList,
+    },
+    {
+      // For 班次 / 航班: Only ferry no, flight no, and train no are searchable, ignore building
+      label: t("search.location"),
+      options: data.allWarsCaseLocation.edges.map(({ node }) => ({
+        label: withLanguage(i18n, node, "location"),
+        value: withLanguage(i18n, node, "location"),
+        field: "location",
+      })),
+    },
+  ]
+
   return (
     <Layout>
       <SEO title="HighRiskPage" />
@@ -98,7 +168,30 @@ const HighRiskPage = ({ data, pageContext }) => {
           {mapMode ? t("high_risk.list_mode") : t("high_risk.map_mode")}
         </Button>
       </Row>
+      <AsyncSelect
+        closeMenuOnSelect={false}
+        components={{
+          Option: props =>
+            props.field === "sub_district" ? (
+              <components.Option {...props} />
+            ) : (
+              <components.Option {...props} />
+            ),
+        }}
+        loadOptions={(input, callback) =>
+          callback(filterSearchOptions(allOptions, input, 5))
+        }
+        isMulti
+        placeholder={t("search.placeholder")}
+        defaultOptions={filterSearchOptions(allOptions, null, 5)}
+        // formatGroupLabel={SelectGroupLabel}
+        onChange={selectedArray => {
+          console.log(selectedArray)
+          setFilters(selectedArray || "")
+        }}
+      />
 
+      {/* Add Date-time picker for selecting ranges */}
       {mapMode ? (
         <>
           {/* Buy time component.. will get rid of this code once we have a nice map component */}
@@ -110,7 +203,7 @@ const HighRiskPage = ({ data, pageContext }) => {
         </>
       ) : (
         <>
-          {sortedHighRisk.map((node, index) => (
+          {sortedLocations.map((node, index) => (
             <BasicCard
               alignItems="flex-start"
               key={index}
@@ -127,21 +220,30 @@ export default HighRiskPage
 
 export const HighRiskQuery = graphql`
   query {
-    allHighRisk(filter: { enabled: { eq: "Y" } }) {
+    allWarsCaseLocation(
+      filter: { enabled: { eq: "Y" } }
+      sort: { order: DESC, fields: end_date }
+    ) {
       edges {
         node {
-          district_zh
-          district_en
+          id
           sub_district_zh
           sub_district_en
-          name_zh
-          name_en
-          source_zh
-          source_en
-          source_url
-          details_zh
-          details_en
-          last_seen
+          action_zh
+          action_en
+          location_en
+          location_zh
+          remarks_en
+          remarks_zh
+          source_url_1
+          source_url_2
+          start_date(formatString: "YYYY-MM-DD")
+          end_date(formatString: "YYYY-MM-DD")
+          type
+          case_no
+          case {
+            case_no
+          }
         }
       }
     }

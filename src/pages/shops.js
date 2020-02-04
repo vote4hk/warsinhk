@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react"
+import React, { useState } from "react"
 import SEO from "@/components/templates/SEO"
 import Layout from "@components/templates/Layout"
 import Box from "@material-ui/core/Box"
@@ -20,10 +20,15 @@ import MobileStepper from "@material-ui/core/MobileStepper"
 import Button from "@material-ui/core/Button"
 import KeyboardArrowLeft from "@material-ui/icons/KeyboardArrowLeft"
 import KeyboardArrowRight from "@material-ui/icons/KeyboardArrowRight"
-
-import { withLanguage } from "../utils/i18n"
-import { bps } from "../ui/theme"
+import {
+  createSubDistrictOptionList,
+  isInSubDistrict,
+  containsText,
+} from "@/utils"
+import { withLanguage } from "@/utils/i18n"
+import { bps } from "@/ui/theme"
 import { BasicFab } from "@components/atoms/Fab"
+
 const FabContainer = styled(Box)`
   && {
     bottom: 84px;
@@ -127,58 +132,6 @@ function item(props, i18n, t) {
   )
 }
 
-function containsText(i18n, node, text) {
-  return (
-    withLanguage(i18n, node, "district")
-      .toLowerCase()
-      .indexOf(text) >= 0 ||
-    withLanguage(i18n, node, "sub_district")
-      .toLowerCase()
-      .indexOf(text) >= 0 ||
-    withLanguage(i18n, node, "name")
-      .toLowerCase()
-      .indexOf(text) >= 0 ||
-    withLanguage(i18n, node, "address")
-      .toLowerCase()
-      .indexOf(text) >= 0
-  )
-}
-
-function isInSubDistrict(i18n, node, textList) {
-  return (
-    textList &&
-    typeof textList !== "string" &&
-    textList.some(
-      optionObj =>
-        withLanguage(i18n, node, "sub_district").indexOf(optionObj.label) >=
-          0 ||
-        withLanguage({ language: "en" }, node, "sub_district").indexOf(
-          optionObj.value
-        ) >= 0
-    )
-  )
-}
-
-function createSubDistrictOptionList(allData, i18n) {
-  const subDistrictArrayForFilter = allData.map(
-    ({ node }) => node["sub_district_en"]
-  )
-
-  return allData
-    .map(({ node }) => ({
-      zh: node["sub_district_zh"],
-      en: node["sub_district_en"],
-    }))
-    .filter(
-      (item, index) => subDistrictArrayForFilter.indexOf(item.en) === index
-    )
-    .filter(item => item.en !== "#N/A")
-    .map(item => ({
-      value: i18n.language === "zh" ? item.en.toLowerCase() : item.zh,
-      label: item[i18n.language],
-    }))
-}
-
 function paginate(array, page_size, page_number) {
   return array.slice(page_number * page_size, (page_number + 1) * page_size)
 }
@@ -190,8 +143,8 @@ const ShopsPage = props => {
   const [activeStep, setActiveStep] = useState(0)
 
   const subDistrictOptionList = createSubDistrictOptionList(
-    data.allDodgyShop.edges,
-    i18n
+    i18n,
+    data.allDodgyShop.edges
   )
 
   // added for paging
@@ -207,20 +160,19 @@ const ShopsPage = props => {
     setActiveStep(prevActiveStep => prevActiveStep - 1)
   }
 
-  const filteredData = useMemo(
-    () =>
-      data.allDodgyShop.edges.filter(
-        e =>
-          filter === "" ||
-          containsText(i18n, e.node, filter) ||
-          isInSubDistrict(i18n, e.node, filter)
-      ),
-    [filter, i18n, data]
+  const filteredData = data.allDodgyShop.edges.filter(
+    e =>
+      filter === "" ||
+      containsText(i18n, e.node, filter, [
+        "district",
+        "sub_district",
+        "name",
+        "address",
+      ]) ||
+      isInSubDistrict(i18n, e.node, filter)
   )
 
-  const maxSteps = useMemo(() => Math.ceil(filteredData.length / PageSize), [
-    filteredData,
-  ])
+  const maxSteps = Math.ceil(filteredData.length / PageSize)
 
   //Use to reset the activeStep after change filter
   if(activeStep >= maxSteps) {
@@ -266,10 +218,12 @@ const ShopsPage = props => {
         <>
           <MultiSelect
             closeMenuOnSelect={false}
+            // components={(props) => props.type === "sub_district" ? <components.Option {...props} /> : <components.Option {...props} />}
             components={animatedComponents}
             isMulti
             placeholder={t("dodgy_shops.filter_by_district_text")}
             options={subDistrictOptionList}
+            // formatGroupLabel={SelectGroupLabel}
             onChange={selectedArray => {
               trackCustomEvent({
                 category: "dodgy_shop",

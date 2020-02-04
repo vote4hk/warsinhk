@@ -11,24 +11,24 @@ import _get from "lodash.get"
 import { SimpleTabs } from "@/components/organisms/SimpleTabs"
 import { trackCustomEvent } from "gatsby-plugin-google-analytics"
 
-const GoogleNewsCard = ({ node }) => {
-  return (
-    <BasicCard>
-      {/* TODO: Using Link will render a wrong URL (en/zh)  */}
-      <a href={node.link} rel="noopener noreferrer" target="_blank">
-        <Typography variant="body2" color="textPrimary">
-          {`${node.date} ${node.time}`}
-        </Typography>
-        <Typography variant="body2" color="textPrimary">
-          {node.source}
-        </Typography>
-        <Typography variant="h6" color="textPrimary">
-          {node.title}
-        </Typography>
-      </a>
-    </BasicCard>
-  )
-}
+// const GoogleNewsCard = ({ node }) => {
+//   return (
+//     <BasicCard>
+//       {/* TODO: Using Link will render a wrong URL (en/zh)  */}
+//       <a href={node.link} rel="noopener noreferrer" target="_blank">
+//         <Typography variant="body2" color="textPrimary">
+//           {`${node.date} ${node.time}`}
+//         </Typography>
+//         <Typography variant="body2" color="textPrimary">
+//           {node.source}
+//         </Typography>
+//         <Typography variant="h6" color="textPrimary">
+//           {node.title}
+//         </Typography>
+//       </a>
+//     </BasicCard>
+//   )
+// }
 
 const GovNewsCard = ({ node, i18n }) => {
   return (
@@ -54,29 +54,29 @@ const NewsPage = props => {
   const { data } = props
   const { i18n, t } = useTranslation()
 
-  const newsNode = _get(data, "allGoogleNews.edges[0].node", {})
-  const googleNews = withLanguage(i18n, newsNode, "gn")
+  // const newsNode = _get(data, "allGoogleNews.edges[0].node", {})
+  // const googleNews = withLanguage(i18n, newsNode, "gn")
   const govNews = data.allGovNews.edges.map(edge => edge.node)
 
-  const renderGoogleNews = () => {
-    return (
-      <>
-        <Typography variant="h4">{t("news.title")}</Typography>
-        <Typography variant="body2">
-          <Link href={t("news.url")} target="_blank">
-            {t("news.source_google")}
-          </Link>
-        </Typography>
-        <Typography variant="body2">
-          {t("waiting_time.last_updated")}
-          {_get(googleNews, "[0].date", "")} {_get(googleNews, "[0].time", "")}
-        </Typography>
-        {googleNews.map((node, index) => (
-          <GoogleNewsCard key={index} node={node} />
-        ))}
-      </>
-    )
-  }
+  // const renderGoogleNews = () => {
+  //   return (
+  //     <>
+  //       <Typography variant="h4">{t("news.title")}</Typography>
+  //       <Typography variant="body2">
+  //         <Link href={t("news.url")} target="_blank">
+  //           {t("news.source_google")}
+  //         </Link>
+  //       </Typography>
+  //       <Typography variant="body2">
+  //         {t("waiting_time.last_updated")}
+  //         {_get(googleNews, "[0].date", "")} {_get(googleNews, "[0].time", "")}
+  //       </Typography>
+  //       {googleNews.map((node, index) => (
+  //         <GoogleNewsCard key={index} node={node} />
+  //       ))}
+  //     </>
+  //   )
+  // }
 
   const renderGovNews = () => {
     return (
@@ -99,11 +99,11 @@ const NewsPage = props => {
   }
 
   const tabs = [
-    {
-      name: "google_news",
-      title: t("news.title"),
-      content: renderGoogleNews(),
-    },
+    // {
+    //   name: "google_news",
+    //   title: t("news.title"),
+    //   content: renderGoogleNews(),
+    // },
     {
       name: "gov_news",
       title: t("gov_news.title"),

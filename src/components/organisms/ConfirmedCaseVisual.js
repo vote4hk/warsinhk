@@ -10,9 +10,53 @@ import styled from "styled-components"
 import { BasicCard } from "@components/atoms/Card"
 import { Row } from "@components/atoms/Row"
 import Box from "@material-ui/core/Box"
+import { Hidden } from "@material-ui/core"
+import { bps } from "@/ui/theme"
 
-const DataValue = styled(Typography)`
-  font-size: 48px;
+const PlotsWrapper = styled(Grid)`
+  ${bps.up("lg")} {
+    flex-direction: column;
+
+    > * {
+      max-width: 100%;
+    }
+  }
+`
+
+const AgeGrid = styled(Grid)`
+  display: flex;
+
+  > div {
+    width: 100%;
+  }
+`
+
+const AgeWrapper = styled(Row)`
+  ${bps.up("md")} {
+    flex-direction: column;
+  }
+`
+
+const AgeBox = styled(Box)`
+  ${bps.up("md")} {
+    text-align: center;
+    margin: 0 0 3em;
+  }
+`
+
+const AgeTitle = styled.h4`
+  display: inline;
+  ${bps.up("md")} {
+    display: block;
+    font-size: 18px;
+  }
+`
+
+const DataValue = styled.span`
+  ${bps.up("md")} {
+    font-size: 48px;
+    line-height: 1.4;
+  }
 `
 
 export default function ConfirmedCaseVisual(props) {
@@ -234,73 +278,36 @@ export default function ConfirmedCaseVisual(props) {
   )
 
   const agePlot = (
-    <>
-      {isMobile ? (
-        <BasicCard>
-          <Typography variant="h6">{t("cases_visual.age")}</Typography>
-          <Row>
-            <Box>
-              {`${t(`cases_visual.age_range_mobile`, {
-                min: WarsCaseData.ageArray[0].age,
-                max:
-                  WarsCaseData.ageArray[WarsCaseData.ageArray.length - 1].age,
-              })}`}
-            </Box>
-            <Box>
-              {`${t(`cases_visual.average_age_mobile`, {
-                gender: t(`dashboard.gender_${WarsCaseData.male.fieldValue}`),
-              })}`}
-              {maleAgeAverage}
-            </Box>
-            <Box>
-              {`${t(`cases_visual.average_age_mobile`, {
-                gender: t(`dashboard.gender_${WarsCaseData.female.fieldValue}`),
-              })}`}
-              {femaleAgeAverage}
-            </Box>
-          </Row>
-        </BasicCard>
-      ) : (
-        <BasicCard>
-          <Typography variant="h6">{t("cases_visual.age")}</Typography>
-          <Grid container align="center">
-            <Grid item lg={6} md={12}>
-              <Typography variant="h4" align="center">
-                {t(`cases_visual.age_range_title`)}
-              </Typography>
-              <DataValue component="span">
-                {`${t(`cases_visual.age_range`, {
-                  min: WarsCaseData.ageArray[0].age,
-                  max:
-                    WarsCaseData.ageArray[WarsCaseData.ageArray.length - 1].age,
-                })}`}
-              </DataValue>
-              <span>{t("cases_visual.age_unit")}</span>
-            </Grid>
-            <Grid item lg={3} md={6}>
-              <Typography variant="h4" align="center">
-                {`${t(`cases_visual.average_age`, {
-                  gender: t(`dashboard.gender_${WarsCaseData.male.fieldValue}`),
-                })}`}
-              </Typography>
-              <DataValue component="span">{maleAgeAverage}</DataValue>
-              <span>{t("cases_visual.age_unit")}</span>
-            </Grid>
-            <Grid item lg={3} md={6}>
-              <Typography variant="h4" align="center">
-                {`${t(`cases_visual.average_age`, {
-                  gender: t(
-                    `dashboard.gender_${WarsCaseData.female.fieldValue}`
-                  ),
-                })}`}
-              </Typography>
-              <DataValue component="span">{femaleAgeAverage}</DataValue>
-              <span>{t("cases_visual.age_unit")}</span>
-            </Grid>
-          </Grid>
-        </BasicCard>
-      )}
-    </>
+    <BasicCard>
+      <Typography variant="h6">{t("cases_visual.age")}</Typography>
+      <AgeWrapper>
+        <AgeBox>
+          <AgeTitle>{t(`cases_visual.age_range_title`)}</AgeTitle>
+          <Hidden mdUp>:&nbsp;</Hidden>
+          <DataValue>{`${t(`cases_visual.age_range`, {
+            min: WarsCaseData.ageArray[0].age,
+            max: WarsCaseData.ageArray[WarsCaseData.ageArray.length - 1].age,
+          })}`}</DataValue>
+          <Hidden smDown>{t("cases_visual.age_unit")}</Hidden>
+        </AgeBox>
+        <AgeBox>
+          <AgeTitle>{`${t(`cases_visual.average_age`, {
+            gender: t(`dashboard.gender_${WarsCaseData.male.fieldValue}`),
+          })}`}</AgeTitle>
+          <Hidden mdUp>:&nbsp;</Hidden>
+          <DataValue>{maleAgeAverage}</DataValue>
+          <Hidden smDown>{t("cases_visual.age_unit")}</Hidden>
+        </AgeBox>
+        <AgeBox>
+          <AgeTitle>{`${t(`cases_visual.average_age`, {
+            gender: t(`dashboard.gender_${WarsCaseData.female.fieldValue}`),
+          })}`}</AgeTitle>
+          <Hidden mdUp>:&nbsp;</Hidden>
+          <DataValue>{femaleAgeAverage}</DataValue>
+          <Hidden smDown>{t("cases_visual.age_unit")}</Hidden>
+        </AgeBox>
+      </AgeWrapper>
+    </BasicCard>
   )
 
   if (isMobile) {
@@ -314,18 +321,18 @@ export default function ConfirmedCaseVisual(props) {
   }
 
   return (
-    <div container>
-      <Grid container spacing={2}>
+    <div>
+      <PlotsWrapper container spacing={2}>
         <Grid item xs={4}>
           {genderPlot}
         </Grid>
-        <Grid item xs={4}>
+        <AgeGrid item xs={4}>
           {agePlot}
-        </Grid>
+        </AgeGrid>
         <Grid item xs={4}>
           {citizenPlot}
         </Grid>
-      </Grid>
+      </PlotsWrapper>
     </div>
   )
 }
