@@ -124,12 +124,12 @@ export default function ConfirmedCaseVisual(props) {
       <Typography variant="h6">{t("cases_visual.gender")}</Typography>
       <Chart
         data={{
-          columns: ["female", "male"].map(gender => [
+          columns: ["male", "female"].map(gender => [
             t(`dashboard.gender_${WarsCaseData[gender].fieldValue}`),
             WarsCaseData[gender].totalCount,
           ]),
           labels: isMobile,
-          type: isMobile ? "dount" : "bar",
+          type: isMobile ? "bar" : "dount",
         }}
         color={{ pattern: GENDER_COLOR_LIST }}
         bar={bar}
