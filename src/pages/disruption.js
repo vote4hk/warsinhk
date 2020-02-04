@@ -276,6 +276,26 @@ const Paginator = props => {
           </Disruption>
         )
       )}
+      <MobileStepper
+        steps={maxSteps}
+        position="static"
+        variant="text"
+        activeStep={activeStep}
+        nextButton={
+          <Button
+            size="small"
+            onClick={handleNext}
+            disabled={activeStep === maxSteps - 1}
+          >
+            <KeyboardArrowRight />
+          </Button>
+        }
+        backButton={
+          <Button size="small" onClick={handleBack} disabled={activeStep === 0}>
+            <KeyboardArrowLeft />
+          </Button>
+        }
+      />
     </>
   )
 }
