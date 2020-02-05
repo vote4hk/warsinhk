@@ -82,10 +82,16 @@ function item(props, i18n, t) {
         </DubiousShopLabel>
       </Row>
       <Row>
-        <Link 
+        <Link
           onClick={() =>
-            window.open(`https://maps.google.com/?q=${withLanguage(i18n, node, "address")}`,
-          "_blank")
+            window.open(
+              `https://maps.google.com/?q=${withLanguage(
+                i18n,
+                node,
+                "address"
+              )}`,
+              "_blank"
+            )
           }
         >
           {withLanguage(i18n, node, "address")}
@@ -225,44 +231,48 @@ const ShopsPage = props => {
   ])
 
   //Use to reset the activeStep after change filter
-  if(maxSteps > 0 && activeStep >= maxSteps) {
-    setActiveStep(0);
+  if (maxSteps > 0 && activeStep >= maxSteps) {
+    setActiveStep(0)
   }
 
-  const mobileStepper = maxSteps < 2? <div/>: 
-    <MobileStepper
-      steps={maxSteps}
-      position="static"
-      variant="text"
-      activeStep={activeStep}
-      nextButton={
-        <Button
-          size="small"
-          onClick={handleNext}
-          disabled={activeStep === maxSteps - 1}
-        >
-          <KeyboardArrowRight />
-        </Button>
-      }
-      backButton={
-        <Button
-          size="small"
-          onClick={handleBack}
-          disabled={activeStep === 0}
-        >
-          <KeyboardArrowLeft />
-        </Button>
-      }
-    />
-
-  const searchResult = (filteredData.length == 0) ? <Typography variant="h4">{t("dodgy_shops.no_result")}</Typography> :
-    paginate(filteredData, PageSize, activeStep).map((node, index) => (
-      <BasicCard
-        alignItems="flex-start"
-        key={index}
-        children={item(node, i18n, t)}
+  const mobileStepper =
+    maxSteps < 2 ? (
+      <div />
+    ) : (
+      <MobileStepper
+        steps={maxSteps}
+        position="static"
+        variant="text"
+        activeStep={activeStep}
+        nextButton={
+          <Button
+            size="small"
+            onClick={handleNext}
+            disabled={activeStep === maxSteps - 1}
+          >
+            <KeyboardArrowRight />
+          </Button>
+        }
+        backButton={
+          <Button size="small" onClick={handleBack} disabled={activeStep === 0}>
+            <KeyboardArrowLeft />
+          </Button>
+        }
       />
-    ));
+    )
+
+  const searchResult =
+    filteredData.length === 0 ? (
+      <Typography variant="h4">{t("dodgy_shops.no_result")}</Typography>
+    ) : (
+      paginate(filteredData, PageSize, activeStep).map((node, index) => (
+        <BasicCard
+          alignItems="flex-start"
+          key={index}
+          children={item(node, i18n, t)}
+        />
+      ))
+    )
 
   return (
     <>
