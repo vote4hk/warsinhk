@@ -24,18 +24,18 @@ export const typography = {
   fontFamily: FONT_FAMILY.join(","),
   h1: {
     fontFamily: headingFontFamily,
-    fontSize: 24,
+    fontSize: 22,
     fontWeight: 600,
   },
   h2: {
     fontFamily: headingFontFamily,
-    fontSize: 24,
-    fontWeight: 500,
+    fontSize: 26,
+    fontWeight: 600,
   },
   h3: {
     fontFamily: headingFontFamily,
     fontSize: 22,
-    fontWeight: 500,
+    fontWeight: 600,
   },
   h4: {
     fontFamily: FONT_FAMILY,
@@ -124,6 +124,7 @@ export default createMuiTheme({
     background: {
       default: "#f5f5f6",
       paper: "#fff",
+      paperHighlighted: "#f99",
     },
     trafficLight: {
       red: "#c0392b",

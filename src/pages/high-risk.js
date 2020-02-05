@@ -2,7 +2,13 @@ import React, { useState } from "react"
 import SEO from "@/components/templates/SEO"
 import Layout from "@components/templates/Layout"
 import { useTranslation } from "react-i18next"
-import { Box, Button, Typography, Tooltip } from "@material-ui/core"
+import {
+  Box,
+  Button,
+  Typography,
+  Tooltip,
+  ClickAwayListener,
+} from "@material-ui/core"
 import { graphql } from "gatsby"
 import styled from "styled-components"
 import MuiLink from "@material-ui/core/Link"
@@ -13,15 +19,19 @@ import { Row } from "@components/atoms/Row"
 import Grid from "@material-ui/core/Grid"
 import { components } from "react-select"
 import AsyncSelect from "react-select/async"
-import InfoIcon from "@material-ui/icons/InfoOutlined"
-import HelpIcon from "@material-ui/icons/HelpOutline"
-import AssignmentIcon from "@material-ui/icons/AssignmentIndOutlined"
+import * as d3 from "d3"
 
 import {
   createSubDistrictOptionList,
   filterSearchOptions,
   filterValues,
-} from "@/utils"
+  sortOptionsWithHistories,
+} from "@/utils/search"
+
+import { saveToLocalStorage, loadFromLocalStorage } from "@/utils"
+
+const colors = d3.scaleOrdinal(d3.schemeAccent).domain([0, 1, 2, 3])
+const KEY_HISTORY_LOCAL_STORAGE = "high-risk-search-history"
 
 const HighRiskCard = styled(Box)``
 
@@ -35,6 +45,53 @@ const MapContainer = styled.div`
   width: 100%;
   height: 70vh;
 `
+
+const StyledToolTip = styled(Tooltip)`
+  .tooltip {
+    background-color: papayawhip;
+    color: #000;
+    margin: 0px;
+  }
+`
+
+const CaseLabel = styled(Box)`
+  background: ${props => props.color};
+  color: white;
+  padding: 4px 6px 4px;
+  margin-right: 4px;
+  border-radius: 2px;
+`
+
+const LabelRow = styled(Row)`
+  justify-content: flex-start;
+  margin: 0px;
+  margin-bottom: 4px;
+`
+
+const InfoToolTip = ({ t, title, className, color }) => {
+  const [open, setOpen] = useState(false)
+  return (
+    <ClickAwayListener onClickAway={() => setOpen(false)}>
+      <StyledToolTip
+        PopperProps={{
+          disablePortal: true,
+        }}
+        classes={{ popper: className, tooltip: "tooltip" }}
+        onClose={() => setOpen(false)}
+        open={open}
+        disableFocusListener
+        disableHoverListener
+        disableTouchListener
+        placement="top"
+        title={title}
+      >
+        <CaseLabel color={color} onClick={() => setOpen(true)}>
+          {t("high_risk.detail")}
+        </CaseLabel>
+      </StyledToolTip>
+    </ClickAwayListener>
+  )
+}
 
 function item(props, i18n, t) {
   const { node } = props
@@ -59,28 +116,30 @@ function item(props, i18n, t) {
                 {withLanguage(i18n, c, "action")}
               </Typography>
             </Grid>
-            <Grid item xs={4}>
-              {withLanguage(i18n, c, "remarks") && (
-                <Tooltip title="tsetset" placement="top-end">
-                  <HelpIcon fontSize="small" />
-                </Tooltip>
-              )}
-              {c.case_no && (
-                <Link to={getLocalizedPath(i18n, `/cases/#${c.case_no}`)}>
-                  <Typography
-                    component="span"
-                    variant="body2"
-                    color="textPrimary"
-                  >
-                    <AssignmentIcon fontSize="small" />
-                  </Typography>
-                </Link>
-              )}
-              {c.source_url_1 && (
-                <MuiLink target="_blank" href={c.source_url_1}>
-                  <InfoIcon fontSize="small" />
-                </MuiLink>
-              )}
+            <Grid item xs={6}>
+              <LabelRow>
+                {withLanguage(i18n, c, "remarks") && (
+                  <InfoToolTip
+                    title={withLanguage(i18n, c, "remarks")}
+                    t={t}
+                    color={colors(0)}
+                  />
+                )}
+                {c.case_no && (
+                  <Link to={getLocalizedPath(i18n, `/cases/#${c.case_no} `)}>
+                    <CaseLabel color={colors(1)}>
+                      {t("high_risk.confirmed_case")}
+                    </CaseLabel>
+                  </Link>
+                )}
+                {c.source_url_1 && (
+                  <MuiLink target="_blank" href={c.source_url_1}>
+                    <CaseLabel color={colors(2)}>
+                      {t("high_risk.source_1")}
+                    </CaseLabel>
+                  </MuiLink>
+                )}
+              </LabelRow>
             </Grid>
           </Grid>
         ))}
@@ -89,9 +148,9 @@ function item(props, i18n, t) {
       {/* <Typography variant="body2">
         <Link
           href={`https://maps.google.com/?q=${withLanguage(
-            i18n,
-            node,
-            "name"
+i18n,
+  node,
+  "name"
           )}`}
           target="_blank"
         >
@@ -105,11 +164,20 @@ function item(props, i18n, t) {
 const HighRiskPage = ({ data, pageContext }) => {
   const [mapMode, setMapMode] = useState(false)
   const [filters, setFilters] = useState([])
+  const [histories, setHistories] = useState([])
+
   const { i18n, t } = useTranslation()
   const subDistrictOptionList = createSubDistrictOptionList(
     i18n,
     data.allWarsCaseLocation.edges
   )
+
+  React.useEffect(() => {
+    const v = loadFromLocalStorage(KEY_HISTORY_LOCAL_STORAGE)
+    if (v) {
+      setHistories(JSON.parse(v))
+    }
+  }, [])
 
   const groupedLocations = data.allWarsCaseLocation.edges.reduce(
     (a, { node }) => {
@@ -123,6 +191,8 @@ const HighRiskPage = ({ data, pageContext }) => {
           node: {
             location_zh: node.location_zh,
             location_en: node.location_en,
+            sub_district_zh: node.sub_district_zh,
+            sub_district_en: node.sub_district_en,
             cases: [{ ...node }],
           },
         }
@@ -135,21 +205,24 @@ const HighRiskPage = ({ data, pageContext }) => {
     []
   )
 
-  const sortedLocations = filterValues(i18n, groupedLocations, filters)
+  const filteredLocations = filterValues(i18n, groupedLocations, filters)
 
   const allOptions = [
     {
       label: t("search.sub_district"),
-      options: subDistrictOptionList,
+      options: sortOptionsWithHistories(subDistrictOptionList, histories),
     },
     {
       // For 班次 / 航班: Only ferry no, flight no, and train no are searchable, ignore building
       label: t("search.location"),
-      options: data.allWarsCaseLocation.edges.map(({ node }) => ({
-        label: withLanguage(i18n, node, "location"),
-        value: withLanguage(i18n, node, "location"),
-        field: "location",
-      })),
+      options: sortOptionsWithHistories(
+        data.allWarsCaseLocation.edges.map(({ node }) => ({
+          label: withLanguage(i18n, node, "location"),
+          value: withLanguage(i18n, node, "location"),
+          field: "location",
+        })),
+        histories
+      ),
     },
   ]
 
@@ -157,7 +230,7 @@ const HighRiskPage = ({ data, pageContext }) => {
     <Layout>
       <SEO title="HighRiskPage" />
       <Row>
-        <Typography variant="h4">{t("high_risk.title")}</Typography>
+        <Typography variant="h2">{t("high_risk.title")}</Typography>
         <Button
           size="small"
           color="primary"
@@ -183,10 +256,22 @@ const HighRiskPage = ({ data, pageContext }) => {
         }
         isMulti
         placeholder={t("search.placeholder")}
-        defaultOptions={filterSearchOptions(allOptions, null, 5)}
+        defaultOptions={filterSearchOptions(allOptions, null, 10)}
         // formatGroupLabel={SelectGroupLabel}
         onChange={selectedArray => {
-          console.log(selectedArray)
+          // only append the history
+          if (selectedArray && selectedArray.length > filters.length) {
+            const historiesToSave = [
+              ...histories,
+              selectedArray[selectedArray.length - 1],
+            ].filter((_, i) => i < 10)
+            setHistories(historiesToSave)
+            saveToLocalStorage(
+              KEY_HISTORY_LOCAL_STORAGE,
+              JSON.stringify(historiesToSave)
+            )
+          }
+
           setFilters(selectedArray || "")
         }}
       />
@@ -197,13 +282,13 @@ const HighRiskPage = ({ data, pageContext }) => {
           {/* Buy time component.. will get rid of this code once we have a nice map component */}
           <MapContainer
             dangerouslySetInnerHTML={{
-              __html: `<iframe title="map" src="https://www.google.com/maps/d/embed?mid=1VdE10fojNRAVr1omckkgKbINL12oj5Bm" width="100%" height="100%"></iframe>`,
+              __html: `< iframe title = "map" src = "https://www.google.com/maps/d/embed?mid=1VdE10fojNRAVr1omckkgKbINL12oj5Bm" width = "100%" height = "100%" ></iframe > `,
             }}
           />
         </>
       ) : (
         <>
-          {sortedLocations.map((node, index) => (
+          {filteredLocations.map((node, index) => (
             <BasicCard
               alignItems="flex-start"
               key={index}

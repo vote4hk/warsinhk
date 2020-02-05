@@ -7,4 +7,8 @@ export const UnstyledLink = styled(Link)`
   font-style: unset;
   cursor: pointer;
   display: flex;
+  background: rgba(0, 0, 0, 0);
+  &.active {
+    background: rgba(0, 0, 0, 0.1);
+  }
 `

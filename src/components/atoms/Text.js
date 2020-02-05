@@ -6,3 +6,12 @@ export const Label = styled(Typography)`
   font-size: 12px;
   color: ${props => props.theme.palette.primary.dark};
 `
+
+export const Paragraph = styled(Typography)`
+  margin-top: 8px;
+  font-size: 14px;
+
+  && b {
+    font-weight: 800;
+  }
+`

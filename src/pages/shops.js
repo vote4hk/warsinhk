@@ -23,7 +23,8 @@ import {
   createSubDistrictOptionList,
   isInSubDistrict,
   containsText,
-} from "@/utils"
+} from "@/utils/search"
+
 import { withLanguage } from "@/utils/i18n"
 import { bps } from "@/ui/theme"
 import { BasicFab } from "@components/atoms/Fab"
@@ -222,9 +223,9 @@ const ShopsPage = props => {
             <BasicFab title={t("dodgy_shops.find_mask")} icon="search" />
           </Link>
         </FabContainer>
-        <Typography variant="h4">{t("dodgy_shops.list_text")}</Typography>
+        <Typography variant="h2">{t("dodgy_shops.list_text")}</Typography>
         <>
-          <MultiSelect
+        <MultiSelect
             closeMenuOnSelect={false}
             // components={(props) => props.type === "sub_district" ? <components.Option {...props} /> : <components.Option {...props} />}
             components={animatedComponents}
