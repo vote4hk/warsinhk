@@ -10,6 +10,7 @@ import { Disruption } from "@components/organisms/disruption/Disruption"
 import { ItemPaginator } from "@components/organisms/item/ItemPaginator"
 import { ItemSearch } from "@components/organisms/item/ItemSearch"
 import { ItemSelect } from "@components/organisms/item/ItemSelect"
+import { ItemEmpty } from "@components/organisms/item/ItemEmpty"
 
 function containsText(i18n, node, text) {
   return (
@@ -94,6 +95,7 @@ const DisruptionPage = props => {
           setCategories(selectedCategories || [])
         }
         pageSize={10}
+        renderEmpty={() => <ItemEmpty />}
       >
         {(item, index) => (
           <Disruption key={index} node={item.node}>

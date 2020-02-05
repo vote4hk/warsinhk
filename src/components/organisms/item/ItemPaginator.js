@@ -6,7 +6,14 @@ const paginate = (data, pageSize, activeStep) => {
 }
 
 export const ItemPaginator = props => {
-  const { items, pageSize, activeStep, setActiveStep, children } = props
+  const {
+    items,
+    pageSize,
+    activeStep,
+    setActiveStep,
+    renderEmpty,
+    children,
+  } = props
 
   const handleNextClick = () => {
     const maxSteps = Math.ceil(items.length / pageSize)
@@ -21,6 +28,8 @@ export const ItemPaginator = props => {
 
   const maxSteps = Math.ceil(items.length / pageSize) || 1
 
+  const paginatedItems = paginate(items, pageSize, activeStep)
+
   return (
     <>
       <ItemStepper
@@ -29,9 +38,8 @@ export const ItemPaginator = props => {
         onNextClick={handleNextClick}
         onBackClick={handleBackClick}
       />
-      {paginate(items, pageSize, activeStep).map((item, index) =>
-        children(item, index)
-      )}
+      {paginatedItems.map((item, index) => children(item, index))}
+      {paginatedItems.length === 0 && renderEmpty()}
       <ItemStepper
         maxSteps={maxSteps}
         activeStep={activeStep}
