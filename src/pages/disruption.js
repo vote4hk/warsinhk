@@ -1,32 +1,15 @@
 import React, { useState } from "react"
 import { graphql } from "gatsby"
-import Select from "react-select"
-import makeAnimated from "react-select/animated"
-import styled from "styled-components"
 import { useTranslation } from "react-i18next"
-import { InputAdornment, TextField, Typography } from "@material-ui/core"
-import SearchIcon from "@material-ui/icons/Search"
+import { Typography } from "@material-ui/core"
 import SEO from "@/components/templates/SEO"
 import Layout from "@components/templates/Layout"
 import { withLanguage } from "../utils/i18n"
-import { ItemStepper } from "@components/organisms/item/ItemSteper"
 import { DisruptionDescription } from "@components/organisms/disruption/DisruptionDescription"
 import { Disruption } from "@components/organisms/disruption/Disruption"
-
-const DisruptionSearchBox = styled(TextField)`
-  margin-top: 0.5rem;
-  margin-bottom: 0.5rem;
-  && {
-    width: 100%;
-  }
-`
-
-const CategorySelect = styled(Select)`
-  margin-top: 0.5rem;
-  margin-bottom: 0.5rem;
-`
-
-const animatedComponents = makeAnimated()
+import { ItemPaginator } from "@components/organisms/item/ItemPaginator"
+import { ItemSearch } from "@components/organisms/item/ItemSearch"
+import { ItemSelect } from "@components/organisms/item/ItemSelect"
 
 function containsText(i18n, node, text) {
   return (
@@ -62,47 +45,6 @@ function createCategoryOptions(edges, i18n) {
     })
 }
 
-const ItemPaginator = props => {
-  const { items, pageSize, activeStep, setActiveStep, children } = props
-
-  const paginate = (data, pageSize, activeStep) => {
-    return data.slice(activeStep * pageSize, (activeStep + 1) * pageSize)
-  }
-
-  const handleNextClick = () => {
-    const maxSteps = Math.ceil(items.length / pageSize)
-    setActiveStep(prevActiveStep =>
-      prevActiveStep + 1 >= maxSteps ? 0 : prevActiveStep + 1
-    )
-  }
-
-  const handleBackClick = () => {
-    setActiveStep(prevActiveStep => prevActiveStep - 1)
-  }
-
-  const maxSteps = Math.ceil(items.length / pageSize) || 1
-
-  return (
-    <>
-      <ItemStepper
-        maxSteps={maxSteps}
-        activeStep={activeStep}
-        onNextClick={handleNextClick}
-        onBackClick={handleBackClick}
-      />
-      {paginate(items, pageSize, activeStep).map((item, index) =>
-        children(item, index)
-      )}
-      <ItemStepper
-        maxSteps={maxSteps}
-        activeStep={activeStep}
-        onNextClick={handleNextClick}
-        onBackClick={handleBackClick}
-      />
-    </>
-  )
-}
-
 const DisruptionPage = props => {
   const { data } = props
   const { i18n, t } = useTranslation()
@@ -135,22 +77,11 @@ const DisruptionPage = props => {
       <Typography variant="h2" component="h1">
         {t("disruption.list_text")}
       </Typography>
-      <DisruptionSearchBox
+      <ItemSearch
         placeholder={t("disruption.filter_text")}
         onChange={handleSearchBoxChange}
-        InputProps={{
-          startAdornment: (
-            <InputAdornment position="start">
-              <SearchIcon />
-            </InputAdornment>
-          ),
-        }}
-        size="small"
       />
-      <CategorySelect
-        closeMenuOnSelect={false}
-        components={animatedComponents}
-        isMulti
+      <ItemSelect
         placeholder={t("disruption.filter_by_category_text")}
         options={categoryOptions}
         onChange={handleCategoryChange}
