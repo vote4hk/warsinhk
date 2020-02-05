@@ -11,14 +11,14 @@
     {
       "title": "cases.title",
       "to": "/cases",
-      "icon": "error",
+      "icon": "hotel",
       "sideMenu": true,
       "bottomNav": true
     },
     {
       "title": "dodgy_shops.title",
       "to": "/shops",
-      "icon": "add_shopping_cart",
+      "icon": "remove_shopping_cart",
       "sideMenu": true,
       "bottomNav": true
     },
@@ -32,7 +32,7 @@
     {
       "title": "high_risk.title",
       "to": "/high-risk",
-      "icon": "warning",
+      "icon": "priority_high",
       "sideMenu": true,
       "bottomNav": true
     },
@@ -46,7 +46,7 @@
     {
       "title": "wars_tips.title",
       "to": "/wars-tips",
-      "icon": "info",
+      "icon": "verified_user",
       "sideMenu": true,
       "bottomNav": true
     },

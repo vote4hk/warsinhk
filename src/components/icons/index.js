@@ -1,9 +1,9 @@
 import React from "react"
-import AddShopingCartIcon from "@material-ui/icons/AddShoppingCart"
-import WarningRoundedIcon from "@material-ui/icons/WarningRounded"
+import RemoveShoppingCartRoundedIcon from "@material-ui/icons/RemoveShoppingCartRounded"
+import PriorityHighRoundedIcon from "@material-ui/icons/PriorityHighRounded"
 import ErrorIcon from "@material-ui/icons/ErrorOutlineSharp"
 import TimelapseIcon from "@material-ui/icons/Timelapse"
-import InfoRoundedIcon from "@material-ui/icons/InfoRounded"
+import VerifiedUserIcon from "@material-ui/icons/VerifiedUserRounded"
 import MenuIcon from "@material-ui/icons/Menu"
 import EditRoundedIcon from "@material-ui/icons/EditRounded"
 import HomeRoundedIcon from "@material-ui/icons/HomeRounded"
@@ -16,19 +16,20 @@ import CollectionsIcon from "@material-ui/icons/Collections"
 import CloseIcon from "@material-ui/icons/Close"
 import NotInterestedIcon from "@material-ui/icons/NotInterested"
 import SearchRoundedIcon from "@material-ui/icons/SearchRounded"
+import HotelRoundedIcon from "@material-ui/icons/HotelRounded"
 
 export function mapIcon(name) {
   switch (name) {
-    case "add_shopping_cart":
-      return <AddShopingCartIcon />
-    case "warning":
-      return <WarningRoundedIcon />
+    case "remove_shopping_cart":
+      return <RemoveShoppingCartRoundedIcon />
+    case "priority_high":
+      return <PriorityHighRoundedIcon />
     case "error":
       return <ErrorIcon />
     case "timelapse":
       return <TimelapseIcon />
-    case "info":
-      return <InfoRoundedIcon />
+    case "verified_user":
+      return <VerifiedUserIcon />
     case "menu":
       return <MenuIcon />
     case "edit":
@@ -53,6 +54,8 @@ export function mapIcon(name) {
       return <CloseIcon fontSize="inherit" />
     case "search":
       return <SearchRoundedIcon />
+    case "hotel":
+      return <HotelRoundedIcon />
     default:
       return null
   }

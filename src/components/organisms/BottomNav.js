@@ -15,6 +15,7 @@ const StyledBottomNavigation = styled(BottomNavigation)`
   position: fixed;
   bottom: 0;
   text-align: center;
+  height: 60px;
 
   .MuiBottomNavigationAction-root.Mui-selected {
     color: ${props => props.theme.palette.primary.text};
@@ -24,6 +25,7 @@ const StyledBottomNavigation = styled(BottomNavigation)`
 
   span,
   .MuiBottomNavigationAction-label.Mui-selected {
+    margin-top: 3px;
     font-size: 12px;
   }
   ${bps.down("md")} {
