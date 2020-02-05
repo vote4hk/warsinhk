@@ -107,9 +107,12 @@ function item(props, i18n, t) {
       </FlexStartRow>
 
       <Row>
-        <ShopDetail component="p">
-          {withLanguage(i18n, node, "details")}
-        </ShopDetail>
+        <ShopDetail
+          component="p"
+          dangerouslySetInnerHTML={{
+            __html: withLanguage(i18n, node, "details"),
+          }}
+        />
       </Row>
       <FlexStartRow>
         {sourceUrl && (
