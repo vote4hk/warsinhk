@@ -24,7 +24,8 @@ import {
   createSubDistrictOptionList,
   isInSubDistrict,
   containsText,
-} from "@/utils"
+} from "@/utils/search"
+
 import { withLanguage } from "@/utils/i18n"
 import { bps } from "@/ui/theme"
 import { BasicFab } from "@components/atoms/Fab"

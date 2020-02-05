@@ -25,7 +25,13 @@ import {
   createSubDistrictOptionList,
   filterSearchOptions,
   filterValues,
-} from "@/utils"
+  sortOptionsWithHistories,
+} from "@/utils/search"
+
+import { saveToLocalStorage, loadFromLocalStorage } from "@/utils"
+
+const colors = d3.scaleOrdinal(d3.schemeAccent).domain([0, 1, 2, 3])
+const KEY_HISTORY_LOCAL_STORAGE = "high-risk-search-history"
 
 const HighRiskCard = styled(Box)``
 
@@ -89,7 +95,7 @@ const InfoToolTip = ({ t, title, className, color }) => {
 
 function item(props, i18n, t) {
   const { node } = props
-  const colors = d3.scaleOrdinal(d3.schemeAccent).domain([0, 1, 2, 3])
+
   return (
     <HighRiskCard>
       <HighRiskCardContent>
@@ -158,11 +164,20 @@ i18n,
 const HighRiskPage = ({ data, pageContext }) => {
   const [mapMode, setMapMode] = useState(false)
   const [filters, setFilters] = useState([])
+  const [histories, setHistories] = useState([])
+
   const { i18n, t } = useTranslation()
   const subDistrictOptionList = createSubDistrictOptionList(
     i18n,
     data.allWarsCaseLocation.edges
   )
+
+  React.useEffect(() => {
+    const v = loadFromLocalStorage(KEY_HISTORY_LOCAL_STORAGE)
+    if (v) {
+      setHistories(JSON.parse(v))
+    }
+  }, [])
 
   const groupedLocations = data.allWarsCaseLocation.edges.reduce(
     (a, { node }) => {
@@ -195,16 +210,19 @@ const HighRiskPage = ({ data, pageContext }) => {
   const allOptions = [
     {
       label: t("search.sub_district"),
-      options: subDistrictOptionList,
+      options: sortOptionsWithHistories(subDistrictOptionList, histories),
     },
     {
       // For 班次 / 航班: Only ferry no, flight no, and train no are searchable, ignore building
       label: t("search.location"),
-      options: data.allWarsCaseLocation.edges.map(({ node }) => ({
-        label: withLanguage(i18n, node, "location"),
-        value: withLanguage(i18n, node, "location"),
-        field: "location",
-      })),
+      options: sortOptionsWithHistories(
+        data.allWarsCaseLocation.edges.map(({ node }) => ({
+          label: withLanguage(i18n, node, "location"),
+          value: withLanguage(i18n, node, "location"),
+          field: "location",
+        })),
+        histories
+      ),
     },
   ]
 
@@ -238,9 +256,22 @@ const HighRiskPage = ({ data, pageContext }) => {
         }
         isMulti
         placeholder={t("search.placeholder")}
-        defaultOptions={filterSearchOptions(allOptions, null, 5)}
+        defaultOptions={filterSearchOptions(allOptions, null, 10)}
         // formatGroupLabel={SelectGroupLabel}
         onChange={selectedArray => {
+          // only append the history
+          if (selectedArray && selectedArray.length > filters.length) {
+            const historiesToSave = [
+              ...histories,
+              selectedArray[selectedArray.length - 1],
+            ].filter((_, i) => i < 10)
+            setHistories(historiesToSave)
+            saveToLocalStorage(
+              KEY_HISTORY_LOCAL_STORAGE,
+              JSON.stringify(historiesToSave)
+            )
+          }
+
           setFilters(selectedArray || "")
         }}
       />
