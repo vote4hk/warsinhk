@@ -3,7 +3,6 @@ import SEO from "@/components/templates/SEO"
 import Layout from "@components/templates/Layout"
 import Box from "@material-ui/core/Box"
 import Link from "@material-ui/core/Link"
-import { UnstyledLinkedCard } from "@components/atoms/LinkedCard"
 import styled from "styled-components"
 import { useTranslation } from "react-i18next"
 import Typography from "@material-ui/core/Typography"
@@ -75,14 +74,7 @@ function item(props, i18n, t) {
   const sourceUrl = node.source_url
 
   return (
-    <UnstyledLinkedCard
-      onClick={() =>
-        window.open(
-          `https://maps.google.com/?q=${withLanguage(i18n, node, "address")}`,
-          "_blank"
-        )
-      }
-    >
+    <>
       <Row>
         <Box>{withLanguage(i18n, node, "type")}</Box>
         <DubiousShopLabel>
@@ -90,7 +82,14 @@ function item(props, i18n, t) {
         </DubiousShopLabel>
       </Row>
       <Row>
-        <Box>{withLanguage(i18n, node, "address")}</Box>
+        <Link 
+          onClick={() =>
+            window.open(`https://maps.google.com/?q=${withLanguage(i18n, node, "address")}`,
+          "_blank")
+          }
+        >
+          {withLanguage(i18n, node, "address")}
+        </Link>
       </Row>
       <Row>
         <Typography variant="h6">{withLanguage(i18n, node, "name")}</Typography>
@@ -126,7 +125,7 @@ function item(props, i18n, t) {
       <Row>
         <Box>{t("dodgy_shops.last_updated", { date: node.last_update })}</Box>
       </Row>
-    </UnstyledLinkedCard>
+    </>
   )
 }
 
@@ -225,6 +224,46 @@ const ShopsPage = props => {
     filteredData,
   ])
 
+  //Use to reset the activeStep after change filter
+  if(maxSteps > 0 && activeStep >= maxSteps) {
+    setActiveStep(0);
+  }
+
+  const mobileStepper = maxSteps < 2? <div/>: 
+    <MobileStepper
+      steps={maxSteps}
+      position="static"
+      variant="text"
+      activeStep={activeStep}
+      nextButton={
+        <Button
+          size="small"
+          onClick={handleNext}
+          disabled={activeStep === maxSteps - 1}
+        >
+          <KeyboardArrowRight />
+        </Button>
+      }
+      backButton={
+        <Button
+          size="small"
+          onClick={handleBack}
+          disabled={activeStep === 0}
+        >
+          <KeyboardArrowLeft />
+        </Button>
+      }
+    />
+
+  const searchResult = (filteredData.length == 0) ? <Typography variant="h4">{t("dodgy_shops.no_result")}</Typography> :
+    paginate(filteredData, PageSize, activeStep).map((node, index) => (
+      <BasicCard
+        alignItems="flex-start"
+        key={index}
+        children={item(node, i18n, t)}
+      />
+    ));
+
   return (
     <>
       <SEO title="Home" />
@@ -271,62 +310,9 @@ const ShopsPage = props => {
             }}
           />
         </>
-        <MobileStepper
-          steps={maxSteps}
-          position="static"
-          variant="text"
-          activeStep={activeStep}
-          nextButton={
-            <Button
-              size="small"
-              onClick={handleNext}
-              disabled={activeStep === maxSteps - 1}
-            >
-              <KeyboardArrowRight />
-            </Button>
-          }
-          backButton={
-            <Button
-              size="small"
-              onClick={handleBack}
-              disabled={activeStep === 0}
-            >
-              <KeyboardArrowLeft />
-            </Button>
-          }
-        />
-        {paginate(filteredData, PageSize, activeStep).map((node, index) => (
-          <BasicCard
-            alignItems="flex-start"
-            key={index}
-            children={item(node, i18n, t)}
-          />
-        ))}
-        {/* TODO:  Fix button mobile stepper overlapping the bottom nav */}
-        {/* <MobileStepper
-          steps={maxSteps}
-          position="bottom"
-          variant="text"
-          activeStep={activeStep}
-          nextButton={
-            <Button
-              size="small"
-              onClick={handleNext}
-              disabled={activeStep === maxSteps - 1}
-            >
-              <KeyboardArrowRight />
-            </Button>
-          }
-          backButton={
-            <Button
-              size="small"
-              onClick={handleBack}
-              disabled={activeStep === 0}
-            >
-              <KeyboardArrowLeft />
-            </Button>
-          }
-        /> */}
+        {mobileStepper}
+        {searchResult}
+        {mobileStepper}
       </Layout>
     </>
   )
