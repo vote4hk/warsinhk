@@ -12,6 +12,7 @@ import { Row } from "@components/atoms/Row"
 import Box from "@material-ui/core/Box"
 import { Hidden } from "@material-ui/core"
 import { bps } from "@/ui/theme"
+import { median } from "@/utils"
 
 const PlotsWrapper = styled(Grid)`
   ${bps.up("lg")} {
@@ -114,20 +115,6 @@ export default function ConfirmedCaseVisual(props) {
   }
 
   const citizenshipData = withLanguage(i18n, WarsCaseData, "citizenship")
-
-  const femaleAgeTotal = parseInt(
-    WarsCaseData.female.edges.reduce((a, c) => a + parseInt(c.node.age), 0)
-  )
-  const maleAgeTotal = parseInt(
-    WarsCaseData.male.edges.reduce((a, c) => a + parseInt(c.node.age), 0)
-  )
-
-  const maleAgeAverage = parseInt(
-    maleAgeTotal / parseInt(WarsCaseData.male.totalCount)
-  )
-  const femaleAgeAverage = parseInt(
-    femaleAgeTotal / parseInt(WarsCaseData.female.totalCount)
-  )
 
   const isMobile = useMediaQuery({ maxWidth: 960 })
 
@@ -236,19 +223,31 @@ export default function ConfirmedCaseVisual(props) {
           <Hidden smDown>{t("cases_visual.age_unit")}</Hidden>
         </AgeBox>
         <AgeBox>
-          <AgeTitle>{`${t(`cases_visual.average_age`, {
+          <AgeTitle>{`${t(`cases_visual.median_age`, {
             gender: t(`dashboard.gender_${WarsCaseData.male.fieldValue}`),
           })}`}</AgeTitle>
           <Hidden mdUp>:&nbsp;</Hidden>
-          <DataValue>{maleAgeAverage}</DataValue>
+          <DataValue>
+            {median(
+              WarsCaseData.male.edges
+                .filter(e => e.node.age)
+                .map(e => parseInt(e.node.age))
+            )}
+          </DataValue>
           <Hidden smDown>{t("cases_visual.age_unit")}</Hidden>
         </AgeBox>
         <AgeBox>
-          <AgeTitle>{`${t(`cases_visual.average_age`, {
+          <AgeTitle>{`${t(`cases_visual.median_age`, {
             gender: t(`dashboard.gender_${WarsCaseData.female.fieldValue}`),
           })}`}</AgeTitle>
           <Hidden mdUp>:&nbsp;</Hidden>
-          <DataValue>{femaleAgeAverage}</DataValue>
+          <DataValue>
+            {median(
+              WarsCaseData.female.edges
+                .filter(e => e.node.age)
+                .map(e => parseInt(e.node.age))
+            )}
+          </DataValue>
           <Hidden smDown>{t("cases_visual.age_unit")}</Hidden>
         </AgeBox>
       </AgeWrapper>
