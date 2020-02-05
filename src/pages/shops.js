@@ -174,7 +174,7 @@ const ShopsPage = props => {
   const maxSteps = Math.ceil(filteredData.length / PageSize)
 
   //Use to reset the activeStep after change filter
-  if(activeStep >= maxSteps) {
+  if(maxSteps > 0 && activeStep >= maxSteps) {
     setActiveStep(0);
   }
 
@@ -203,6 +203,15 @@ const ShopsPage = props => {
         </Button>
       }
     />
+  
+  const searchResult = (filteredData.length == 0) ? <Typography variant="h4">{t("dodgy_shops.no_result")}</Typography> :
+    paginate(filteredData, PageSize, activeStep).map((node, index) => (
+      <BasicCard
+        alignItems="flex-start"
+        key={index}
+        children={item(node, i18n, t)}
+      />
+    ));
 
   return (
     <>
@@ -253,14 +262,7 @@ const ShopsPage = props => {
           />
         </>
         {mobileStepper}
-        {paginate(filteredData, PageSize, activeStep).map((node, index) => (
-          <BasicCard
-            alignItems="flex-start"
-            key={index}
-            children={item(node, i18n, t)}
-          />
-        ))}
-        {/* TODO:  Fix button mobile stepper overlapping the bottom nav */}
+        {searchResult}
         {mobileStepper}
       </Layout>
     </>
