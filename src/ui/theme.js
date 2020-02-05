@@ -124,6 +124,7 @@ export default createMuiTheme({
     background: {
       default: "#f5f5f6",
       paper: "#fff",
+      paperHighlighted: "#f99",
     },
     trafficLight: {
       red: "#c0392b",
