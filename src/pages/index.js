@@ -17,6 +17,8 @@ import { WarsCaseCard } from "@components/organisms/CaseCard"
 import AlertMessage from "@components/organisms/AlertMessage"
 import { Paragraph } from "@components/atoms/Text"
 
+import { formatNumber } from "@/utils"
+
 // lazy-load the chart to avoid SSR
 const ConfirmedCaseVisual = React.lazy(() =>
   import(
@@ -76,10 +78,6 @@ const FullWidthButton = styled(Button)`
   width: 100%;
   padding: 6px 10px;
 `
-
-function formatNumber(num) {
-  return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
-}
 
 function DailyStats({ t, data: [{ node: today }, { node: ytd }] }) {
   const dataArray = [
