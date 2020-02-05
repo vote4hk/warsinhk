@@ -93,7 +93,11 @@ function ResponsiveDrawer(props) {
         <Divider />
         <List>
           {pages.map((page, index) => (
-            <UnstyledLink to={getLocalizedPath(i18n, page.to)} key={index}>
+            <UnstyledLink
+              to={getLocalizedPath(i18n, page.to)}
+              key={index}
+              activeClassName={"active"}
+            >
               <ListItem>
                 <ListItemIcon>{mapIcon(page.icon)}</ListItemIcon>
                 <ListItemText primary={t(page.title)} />
