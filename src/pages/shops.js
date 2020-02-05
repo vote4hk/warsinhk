@@ -80,7 +80,7 @@ function item(props, i18n, t) {
   const sourceUrl = node.source_url
 
   return (
-    <React.Fragment>
+    <>
       <Row>
         <Box>{withLanguage(i18n, node, "type")}</Box>
         <DubiousShopLabel>
@@ -128,7 +128,7 @@ function item(props, i18n, t) {
       <Row>
         <Box>{t("dodgy_shops.last_updated", { date: node.last_update })}</Box>
       </Row>
-    </React.Fragment>
+    </>
   )
 }
 
@@ -225,7 +225,7 @@ const ShopsPage = props => {
         </FabContainer>
         <Typography variant="h2">{t("dodgy_shops.list_text")}</Typography>
         <>
-        <MultiSelect
+          <MultiSelect
             closeMenuOnSelect={false}
             // components={(props) => props.type === "sub_district" ? <components.Option {...props} /> : <components.Option {...props} />}
             components={animatedComponents}

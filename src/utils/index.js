@@ -1,6 +1,3 @@
-import { withLanguage } from "@/utils/i18n"
-import _uniqBy from "lodash.uniqby"
-
 export const isSSR = () => typeof window === "undefined"
 
 export const saveToLocalStorage = (key, value) => {
