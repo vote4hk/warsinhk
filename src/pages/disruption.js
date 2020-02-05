@@ -139,7 +139,7 @@ const DisruptionDescription = props => {
 }
 
 const Disruption = props => {
-  const { node } = props
+  const { node, setCategories } = props
   const { i18n, t } = useTranslation()
   const [expanded, setExpanded] = React.useState(false)
 
@@ -161,6 +161,14 @@ const Disruption = props => {
               label={withLanguage(i18n, node, "category")}
               size="small"
               variant="outlined"
+              onClick={() =>
+                setCategories([
+                  {
+                    value: withLanguage(i18n, node, "category"),
+                    label: withLanguage(i18n, node, "category"),
+                  },
+                ])
+              }
             />
           </Row>
           <Row>
@@ -222,6 +230,7 @@ const Paginator = props => {
     pageSize,
     activeStep,
     setActiveStep,
+    setCategories,
   } = props
 
   const paginate = (data, pageSize, pageNumber) => {
@@ -265,7 +274,11 @@ const Paginator = props => {
       />
       {paginate(disruptions, pageSize, activeStep).map(
         (disruptionEdge, disruptionIndex) => (
-          <Disruption key={disruptionIndex} node={disruptionEdge.node}>
+          <Disruption
+            key={disruptionIndex}
+            node={disruptionEdge.node}
+            setCategories={setCategories}
+          >
             {disruptionDescriptions
               .filter(
                 disruptionDescriptionEdge =>
@@ -358,6 +371,9 @@ const DisruptionPage = props => {
         disruptionDescriptions={disruptionDescriptions}
         activeStep={activeStep}
         setActiveStep={setActiveStep}
+        setCategories={selectedCategories =>
+          setCategories(selectedCategories || [])
+        }
         pageSize={10}
       />
     </Layout>
