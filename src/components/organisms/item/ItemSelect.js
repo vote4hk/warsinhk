@@ -1,4 +1,4 @@
-import React from "react"
+import React, { forwardRef } from "react"
 import Select from "react-select"
 import makeAnimated from "react-select/animated/dist/react-select.esm"
 import styled from "styled-components"
@@ -10,10 +10,12 @@ const StyledSelect = styled(Select)`
   margin-bottom: 0.5rem;
 `
 
-export const ItemSelect = props => {
+const ReactSelect = (props, ref) => {
   const { options, onChange, placeholder } = props
+
   return (
     <StyledSelect
+      ref={ref}
       closeMenuOnSelect={false}
       components={animatedComponents}
       isMulti
@@ -23,3 +25,5 @@ export const ItemSelect = props => {
     />
   )
 }
+
+export const ItemSelect = forwardRef(ReactSelect)

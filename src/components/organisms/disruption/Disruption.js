@@ -52,7 +52,7 @@ const InvertedExpandMoreIcon = styled(ExpandMoreIcon)`
 `
 
 export const Disruption = props => {
-  const { node } = props
+  const { node, onCategoryClick } = props
   const { i18n, t } = useTranslation()
   const [expanded, setExpanded] = React.useState(false)
 
@@ -74,6 +74,9 @@ export const Disruption = props => {
               label={withLanguage(i18n, node, "category")}
               size="small"
               variant="outlined"
+              onClick={() =>
+                onCategoryClick(withLanguage(i18n, node, "category"))
+              }
             />
           </Row>
           <Row>

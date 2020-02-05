@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useRef, useState } from "react"
 import { graphql } from "gatsby"
 import { useTranslation } from "react-i18next"
 import { Typography } from "@material-ui/core"
@@ -52,6 +52,7 @@ const DisruptionPage = props => {
   const [keyword, setKeyword] = useState("")
   const [categories, setCategories] = useState([])
   const [activeStep, setActiveStep] = useState(0)
+  const selectRef = useRef(null)
 
   const disruptions = data.allDisruption.edges.filter(
     e =>
@@ -68,8 +69,18 @@ const DisruptionPage = props => {
   }
 
   const handleCategoryChange = selectedCategories => {
+    console.log(selectedCategories)
     setActiveStep(0)
     setCategories(selectedCategories || [])
+  }
+
+  const handleCategoryClick = category => {
+    console.log(category)
+    setActiveStep(0)
+    setCategories([{ value: category, label: category }])
+    if (selectRef.current) {
+      selectRef.current.select.setValue([{ value: category, label: category }])
+    }
   }
 
   return (
@@ -83,6 +94,7 @@ const DisruptionPage = props => {
         onChange={handleSearchBoxChange}
       />
       <ItemSelect
+        ref={selectRef}
         placeholder={t("disruption.filter_by_category_text")}
         options={categoryOptions}
         onChange={handleCategoryChange}
@@ -98,7 +110,11 @@ const DisruptionPage = props => {
         renderEmpty={() => <ItemEmpty />}
       >
         {(item, index) => (
-          <Disruption key={index} node={item.node}>
+          <Disruption
+            key={index}
+            node={item.node}
+            onCategoryClick={handleCategoryClick}
+          >
             {disruptionDescriptions
               .filter(
                 disruptionDescriptionEdge =>
