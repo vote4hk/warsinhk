@@ -15,6 +15,7 @@ import Layout from "@components/templates/Layout"
 import { BasicCard } from "@components/atoms/Card"
 import { WarsCaseCard } from "@components/organisms/CaseCard"
 import AlertMessage from "@components/organisms/AlertMessage"
+import { Paragraph } from "@components/atoms/Text"
 
 // lazy-load the chart to avoid SSR
 const ConfirmedCaseVisual = React.lazy(() =>
@@ -77,7 +78,7 @@ const FullWidthButton = styled(Button)`
 `
 
 function formatNumber(num) {
-  return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
+  return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
 }
 
 function DailyStats({ t, data: [{ node: today }, { node: ytd }] }) {
@@ -121,18 +122,23 @@ function DailyStats({ t, data: [{ node: today }, { node: ytd }] }) {
   )
 }
 
-
-function PassengerStats({ t
-    ,bay: [{ node: bay_today }, { node: bay_ytd }]
-    ,bridge: [{ node: bridge_today }, { node: bridge_ytd }]
-    ,airport: [{ node: airport_today }, { node: airport_ytd }]
-    ,total: [{ node: total_today }, { node: total_ytd }]
-  }) {
+function PassengerStats({
+  t,
+  bay: [{ node: bay_today }, { node: bay_ytd }],
+  bridge: [{ node: bridge_today }, { node: bridge_ytd }],
+  airport: [{ node: airport_today }, { node: airport_ytd }],
+  total: [{ node: total_today }, { node: total_ytd }],
+}) {
   const dataArray = [
+    {
+      label: t("dashboard.airport"),
+      today_stat: airport_today.arrival_mainland,
+      diff: airport_today.arrival_mainland - airport_ytd.arrival_mainland,
+    },
     {
       label: t("dashboard.bay"),
       today_stat: bay_today.arrival_mainland || 0,
-      diff: bay_today.arrival_mainland  - bay_ytd.arrival_mainland ,
+      diff: bay_today.arrival_mainland - bay_ytd.arrival_mainland,
     },
     {
       label: t("dashboard.bridge"),
@@ -140,16 +146,10 @@ function PassengerStats({ t
       diff: bridge_today.arrival_mainland - bridge_ytd.arrival_mainland,
     },
     {
-      label: t("dashboard.airport"),
-      today_stat: airport_today.arrival_mainland,
-      diff: airport_today.arrival_mainland - airport_ytd.arrival_mainland,
-    },
-    {
       label: t("dashboard.total"),
       today_stat: total_today.arrival_mainland,
       diff: total_today.arrival_mainland - total_ytd.arrival_mainland,
     },
-
   ]
 
   return (
@@ -161,14 +161,17 @@ function PassengerStats({ t
           </Typography>
           <DailyStatFigure>{formatNumber(d.today_stat)}</DailyStatFigure>
           <DailyChange>
-            {d.diff > 0 ? `▲ ${formatNumber(d.diff)}` : d.diff < 0 ? `▼ ${formatNumber(d.diff)}` : `-`}
+            {d.diff > 0
+              ? `▲ ${formatNumber(d.diff)}`
+              : d.diff < 0
+              ? `▼ ${formatNumber(d.diff)}`
+              : `-`}
           </DailyChange>
         </DailyStat>
       ))}
     </DailyStatsContainer>
   )
 }
-
 
 export default function IndexPage({ data }) {
   const { i18n, t } = useTranslation()
@@ -214,6 +217,8 @@ export default function IndexPage({ data }) {
               </Typography>
             )}
             <Typography variant="h2">{t("dashboard.passenger")}</Typography>
+
+            <Paragraph>{t("dashboard.mainland_only")}</Paragraph>
             <Typography variant="body2">
               <Link
                 href="https://www.immd.gov.hk/hkt/message_from_us/stat_menu.html"
@@ -224,14 +229,19 @@ export default function IndexPage({ data }) {
             </Typography>
 
             <Typography variant="body2" color="textPrimary">
-              {`${t("dashboard.immd_remark", {to: data.allImmdAirport.edges[0].node.date, from:data.allImmdAirport.edges[1].node.date})}`}
+              {`${t("dashboard.immd_remark", {
+                to: data.allImmdAirport.edges[0].node.date,
+                from: data.allImmdAirport.edges[1].node.date,
+              })}`}
             </Typography>
             <BasicCard>
-              <PassengerStats t={t}
+              <PassengerStats
+                t={t}
                 bridge={data.allImmdHongKongZhuhaiMacaoBridge.edges}
                 airport={data.allImmdAirport.edges}
                 total={data.allImmdTotal.edges}
-                bay={data.allImmdShenzhenBay.edges} />
+                bay={data.allImmdShenzhenBay.edges}
+              />
             </BasicCard>
 
             <Typography variant="h2">{t("index.highlight")}</Typography>
@@ -262,7 +272,7 @@ export default function IndexPage({ data }) {
 
 export const WarsCaseQuery = graphql`
   query {
-    allImmdHongKongZhuhaiMacaoBridge(sort: { order: DESC, fields: date })  {
+    allImmdHongKongZhuhaiMacaoBridge(sort: { order: DESC, fields: date }) {
       edges {
         node {
           arrival_hong_kong
@@ -274,11 +284,11 @@ export const WarsCaseQuery = graphql`
           departure_mainland
           departure_other
           departure_total
-          location 
+          location
         }
       }
     }
-    allImmdTotal(sort: { order: DESC, fields: date })  {
+    allImmdTotal(sort: { order: DESC, fields: date }) {
       edges {
         node {
           arrival_hong_kong
@@ -290,11 +300,11 @@ export const WarsCaseQuery = graphql`
           departure_mainland
           departure_other
           departure_total
-          location 
+          location
         }
       }
     }
-    allImmdAirport(sort: { order: DESC, fields: date })  {
+    allImmdAirport(sort: { order: DESC, fields: date }) {
       edges {
         node {
           arrival_hong_kong
@@ -306,11 +316,11 @@ export const WarsCaseQuery = graphql`
           departure_mainland
           departure_other
           departure_total
-          location 
+          location
         }
       }
     }
-    allImmdShenzhenBay(sort: { order: DESC, fields: date })  {
+    allImmdShenzhenBay(sort: { order: DESC, fields: date }) {
       edges {
         node {
           arrival_hong_kong
@@ -322,7 +332,7 @@ export const WarsCaseQuery = graphql`
           departure_mainland
           departure_other
           departure_total
-          location 
+          location
         }
       }
     }
