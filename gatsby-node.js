@@ -15,6 +15,7 @@ const SHEET_SHOP_MASTER = "shop_master"
 const SHEET_ALERT_MASTER = "alert"
 const SHEET_DAILY_STATS_MASTER = "daily_stats"
 const LANGUAGES = ["zh", "en"]
+const { request } = require('graphql-request')
 const { getPath, getWarTipPath } = require("./src/utils/urlHelper")
 
 const PUBLISHED_SPREADSHEET_HIGH_RISK_URL =
@@ -31,6 +32,53 @@ const PUBLISHED_SPREADSHEET_DISRUPTION_DESCRIPTION_URL =
   "https://docs.google.com/spreadsheets/d/e/2PACX-1vS0gZ-QBC6JGMS28kYUMz90ZNXFb40CtoLtOIC-QzzlqhPKCIrAojuuN2GX6AXaECONvxJd84tpqzFd/pub?gid=268131605"
 const PUBLISHED_SPREADSHEET_WARS_CASES_LOCATION_URL =
   "https://docs.google.com/spreadsheets/d/e/2PACX-1vT6aoKk3iHmotqb5_iHggKc_3uAA901xVzwsllmNoOpGgRZ8VAA3TSxK6XreKzg_AUQXIkVX5rqb0Mo/pub?gid=0"
+
+const GRAPHQL_URL = "https://api2.vote4.hk/v1/graphql"
+
+
+const createIMMDNode = async({
+  actions: { createNode },
+  createNodeId,
+  createContentDigest,
+}) => {
+  const type = "Immd"
+  const addNodeByGate = async(gate) => {
+    const query = `{
+      wars_immd(order_by: {date: desc}, limit: 2, where: {location: {_eq: "${gate}"}}) {
+        arrival_hong_kong
+        arrival_mainland
+        arrival_other
+        arrival_total
+        date
+        departure_hong_kong
+        departure_mainland
+        departure_other
+        departure_total
+        location
+      }
+    }`
+    const data = await request(GRAPHQL_URL, query)
+    data.wars_immd.forEach((p, i) => {
+       const gateKey = gate.replace(/[- ]/g, "")
+       const meta = {
+         id: createNodeId(`${type}${gateKey}-${i}`),
+         parent: null,
+         children: [],
+         internal: {
+           type: `${type}${gateKey}`,
+           contentDigest: createContentDigest(p),
+         },
+       }
+       const node = Object.assign({}, p, meta)
+       createNode(node)
+    })
+  };
+  addNodeByGate("Airport")
+  addNodeByGate("Hong Kong-Zhuhai-Macao Bridge")
+  addNodeByGate("Shenzhen Bay")
+  addNodeByGate("Total")
+} 
+
 
 const createAENode = async ({
   actions: { createNode },
@@ -255,6 +303,7 @@ exports.sourceNodes = async props => {
     createNode(props, SHEET_ALERT_MASTER, "Alert"),
     createNode(props, SHEET_DAILY_STATS_MASTER, "DailyStats"),
     createAENode(props),
+    createIMMDNode(props),
     createGNNode(props),
     createGovNewsNode(props),
     createPosterNode(props),
