@@ -1,17 +1,20 @@
 import React from "react"
-import SEO from "@/components/templates/SEO"
-import Layout from "@components/templates/Layout"
+import { useTranslation } from "react-i18next"
+import { graphql, Link as InternalLink } from "gatsby"
 import styled from "styled-components"
+
+import { bps } from "@/ui/theme"
 import Box from "@material-ui/core/Box"
 import Typography from "@material-ui/core/Typography"
 import Link from "@material-ui/core/Link"
-import { BasicCard } from "@components/atoms/Card"
-import { useTranslation } from "react-i18next"
-import { withLanguage, getLocalizedPath } from "../utils/i18n"
-import { graphql, Link as InternalLink } from "gatsby"
-import { WarsCaseCard } from "@components/organisms/CaseCard"
 import Button from "@material-ui/core/Button"
-import { bps } from "@/ui/theme"
+import { withLanguage, getLocalizedPath } from "../utils/i18n"
+
+import SEO from "@components/templates/SEO"
+import Layout from "@components/templates/Layout"
+import { BasicCard } from "@components/atoms/Card"
+import { WarsCaseCard } from "@components/organisms/CaseCard"
+import AlertMessage from "@components/organisms/AlertMessage"
 
 // lazy-load the chart to avoid SSR
 const ConfirmedCaseVisual = React.lazy(() =>
@@ -20,6 +23,14 @@ const ConfirmedCaseVisual = React.lazy(() =>
   )
 )
 
+const IndexAlertMessage = styled(AlertMessage)`
+  ${bps.up("lg")} {
+    > * {
+      flex: 1 0 100%;
+      margin-right: 0;
+    }
+  }
+`
 const SessiontWrapper = styled(Box)`
   margin-bottom: 16px;
 `
@@ -125,9 +136,10 @@ export default function IndexPage({ data }) {
   return (
     <>
       <SEO title="Home" />
-      <Layout>
+      <Layout hideAlerts={true}>
         <SplitWrapper>
           <SessiontWrapper>
+            <IndexAlertMessage />
             <Typography variant="h2">{t("index.title")}</Typography>
             <Typography variant="body2">
               <Link

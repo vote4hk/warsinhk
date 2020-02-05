@@ -128,7 +128,7 @@ const AlertMessage = props => {
   }, [])
 
   return (
-    <AlertMessagesWrapper>
+    <AlertMessagesWrapper className={props.className}>
       {alerts.map((edge, index) => {
         return <AlertChild edge={edge} key={index} dispatch={dispatch} />
       })}
