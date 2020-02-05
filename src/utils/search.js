@@ -39,14 +39,18 @@ export const createSubDistrictOptionList = (i18n, edges) => {
 }
 
 export const containsText = (i18n, node, text, fields) => {
-  return fields
-    .map(
-      field =>
-        withLanguage(i18n, node, field)
-          .toLowerCase()
-          .indexOf(text.toLowerCase()) >= 0
-    )
-    .reduce((c, v) => c || v, false)
+  if(typeof text === "string") {
+    return fields
+      .map(
+        field =>
+          withLanguage(i18n, node, field)
+            .toLowerCase()
+            .indexOf(text.toLowerCase()) >= 0
+      )
+      .reduce((c, v) => c || v, false)
+  } else {
+    return false;
+  }
 }
 
 export const searchText = (value, text) =>
