@@ -174,6 +174,37 @@ const ShopsPage = props => {
 
   const maxSteps = Math.ceil(filteredData.length / PageSize)
 
+  //Use to reset the activeStep after change filter
+  if(activeStep >= maxSteps) {
+    setActiveStep(0);
+  }
+
+  const mobileStepper = maxSteps < 2? <div/>: 
+    <MobileStepper
+      steps={maxSteps}
+      position="static"
+      variant="text"
+      activeStep={activeStep}
+      nextButton={
+        <Button
+          size="small"
+          onClick={handleNext}
+          disabled={activeStep === maxSteps - 1}
+        >
+          <KeyboardArrowRight />
+        </Button>
+      }
+      backButton={
+        <Button
+          size="small"
+          onClick={handleBack}
+          disabled={activeStep === 0}
+        >
+          <KeyboardArrowLeft />
+        </Button>
+      }
+    />
+
   return (
     <>
       <SEO title="Home" />
@@ -222,30 +253,7 @@ const ShopsPage = props => {
             }}
           />
         </>
-        <MobileStepper
-          steps={maxSteps}
-          position="static"
-          variant="text"
-          activeStep={activeStep}
-          nextButton={
-            <Button
-              size="small"
-              onClick={handleNext}
-              disabled={activeStep === maxSteps - 1}
-            >
-              <KeyboardArrowRight />
-            </Button>
-          }
-          backButton={
-            <Button
-              size="small"
-              onClick={handleBack}
-              disabled={activeStep === 0}
-            >
-              <KeyboardArrowLeft />
-            </Button>
-          }
-        />
+        {mobileStepper}
         {paginate(filteredData, PageSize, activeStep).map((node, index) => (
           <BasicCard
             alignItems="flex-start"
@@ -254,30 +262,7 @@ const ShopsPage = props => {
           />
         ))}
         {/* TODO:  Fix button mobile stepper overlapping the bottom nav */}
-        {/* <MobileStepper
-          steps={maxSteps}
-          position="bottom"
-          variant="text"
-          activeStep={activeStep}
-          nextButton={
-            <Button
-              size="small"
-              onClick={handleNext}
-              disabled={activeStep === maxSteps - 1}
-            >
-              <KeyboardArrowRight />
-            </Button>
-          }
-          backButton={
-            <Button
-              size="small"
-              onClick={handleBack}
-              disabled={activeStep === 0}
-            >
-              <KeyboardArrowLeft />
-            </Button>
-          }
-        /> */}
+        {/* {mobileStepper} */}
       </Layout>
     </>
   )
