@@ -19,6 +19,7 @@ import { Row } from "@components/atoms/Row"
 import Grid from "@material-ui/core/Grid"
 import AsyncSelect from "react-select/async"
 import * as d3 from "d3"
+import InfiniteScroll from "@/components/modecules/InfiniteScroll"
 
 import {
   createSubDistrictOptionList,
@@ -272,13 +273,17 @@ const HighRiskPage = ({ data, pageContext }) => {
               setFilters(selectedArray || "")
             }}
           />
-          {filteredLocations.map((node, index) => (
-            <BasicCard
-              alignItems="flex-start"
-              key={index}
-              children={item(node, i18n, t)}
-            />
-          ))}
+          <InfiniteScroll
+            list={filteredLocations}
+            step={{ mobile: 20 }}
+            onItem={(node, index) => (
+              <BasicCard
+                alignItems="flex-start"
+                key={index}
+                children={item(node, i18n, t)}
+              />
+            )}
+          />
         </>
       )}
     </Layout>
