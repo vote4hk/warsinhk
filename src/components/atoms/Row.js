@@ -1,12 +1,17 @@
 import styled from "styled-components"
 import Box from "@material-ui/core/Box"
 
-export const Row = styled(Box)`
+export const UnstyledRow = styled(Box)`
   font-size: 14px;
-  margin: 6px 0 6px;
+  margin: 0;
+  padding: 0;
   display: flex;
   justify-content: space-between;
   align-items: center;
+`
+
+export const Row = styled(UnstyledRow)`
+  margin: 6px 0 6px;
 `
 
 export const FlexStartRow = styled(Row)`

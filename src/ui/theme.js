@@ -51,6 +51,7 @@ export const typography = {
     fontFamily: headingFontFamily,
     fontSize: 16,
     fontWeight: 600,
+    lineHeight: 1.3,
   },
   body1: {
     fontFamily: bodyFontFamily,
