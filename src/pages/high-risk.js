@@ -280,6 +280,7 @@ const HighRiskPage = ({ data, pageContext }) => {
             }
             isMulti
             placeholder={t("search.placeholder")}
+            noOptionsMessage={() => t("text.not_found")}
             defaultOptions={filterSearchOptions(allOptions, null, 10)}
             onChange={selectedArray => {
               // only append the history
