@@ -8,27 +8,20 @@ import { useTranslation } from "react-i18next"
 import Typography from "@material-ui/core/Typography"
 import { graphql } from "gatsby"
 import { BasicCard } from "@components/atoms/Card"
-import { TextField, InputAdornment } from "@material-ui/core/"
-import SearchIcon from "@material-ui/icons/Search"
-import { trackCustomEvent } from "gatsby-plugin-google-analytics"
-import Select from "react-select"
-import makeAnimated from "react-select/animated"
+
 import { Row, FlexStartRow } from "@components/atoms/Row"
 import { Label } from "@components/atoms/Text"
 import MobileStepper from "@material-ui/core/MobileStepper"
 import Button from "@material-ui/core/Button"
 import KeyboardArrowLeft from "@material-ui/icons/KeyboardArrowLeft"
 import KeyboardArrowRight from "@material-ui/icons/KeyboardArrowRight"
-import {
-  createSubDistrictOptionList,
-  isInSubDistrict,
-  containsText,
-} from "@/utils/search"
+import { createDedupOptions } from "@/utils/search"
 
 import { withLanguage } from "@/utils/i18n"
 import { bps } from "@/ui/theme"
 import { BasicFab } from "@components/atoms/Fab"
 import { ResponsiveWrapper } from "@components/atoms/ResponsiveWrapper"
+import MultiPurposeSearch from "../components/modecules/MultiPurposeSearch"
 
 const FabContainer = styled(Box)`
   && {
@@ -53,6 +46,7 @@ const DubiousShopLabel = styled(Box)`
 `
 
 const animatedComponents = makeAnimated()
+const PageSize = 10
 
 const SearchBox = styled(TextField)`
   && {
@@ -151,13 +145,8 @@ function paginate(array, page_size, page_number) {
 const ShopsPage = props => {
   const { data } = props
   const { i18n, t } = useTranslation()
-  const [filter, setFilter] = useState("")
+  const [filteredData, setFilteredData] = useState(data.allDodgyShop.edges)
   const [activeStep, setActiveStep] = useState(0)
-
-  const subDistrictOptionList = createSubDistrictOptionList(
-    i18n,
-    data.allDodgyShop.edges
-  )
 
   // added for paging
   const handleNext = () => {
@@ -172,19 +161,7 @@ const ShopsPage = props => {
     setActiveStep(prevActiveStep => prevActiveStep - 1)
   }
 
-  const filteredData = data.allDodgyShop.edges.filter(
-    e =>
-      filter === "" ||
-      containsText(i18n, e.node, filter, [
-        "district",
-        "sub_district",
-        "name",
-        "address",
-      ]) ||
-      isInSubDistrict(i18n, e.node, filter)
-  )
-
-  const maxSteps = Math.ceil(filteredData.length / pageSize)
+  const maxSteps = Math.ceil(filteredData.length / PageSize)
 
   //Use to reset the activeStep after change filter
   if (maxSteps > 0 && activeStep >= maxSteps) {
@@ -195,40 +172,40 @@ const ShopsPage = props => {
     maxSteps < 2 ? (
       <div />
     ) : (
-      <MobileStepper
-        steps={maxSteps}
-        position="static"
-        variant="text"
-        activeStep={activeStep}
-        nextButton={
-          <Button
-            size="small"
-            onClick={handleNext}
-            disabled={activeStep === maxSteps - 1}
-          >
-            <KeyboardArrowRight />
-          </Button>
-        }
-        backButton={
-          <Button size="small" onClick={handleBack} disabled={activeStep === 0}>
-            <KeyboardArrowLeft />
-          </Button>
-        }
-      />
-    )
+        <MobileStepper
+          steps={maxSteps}
+          position="static"
+          variant="text"
+          activeStep={activeStep}
+          nextButton={
+            <Button
+              size="small"
+              onClick={handleNext}
+              disabled={activeStep === maxSteps - 1}
+            >
+              <KeyboardArrowRight />
+            </Button>
+          }
+          backButton={
+            <Button size="small" onClick={handleBack} disabled={activeStep === 0}>
+              <KeyboardArrowLeft />
+            </Button>
+          }
+        />
+      )
 
   const searchResult =
     filteredData.length === 0 ? (
       <Typography variant="h4">{t("dodgy_shops.no_result")}</Typography>
     ) : (
-      paginate(filteredData, pageSize, activeStep).map((node, index) => (
-        <BasicCard
-          alignItems="flex-start"
-          key={index}
-          children={item(node, i18n, t)}
-        />
-      ))
-    )
+        paginate(filteredData, pageSize, activeStep).map((node, index) => (
+          <BasicCard
+            alignItems="flex-start"
+            key={index}
+            children={item(node, i18n, t)}
+          />
+        ))
+      )
 
   return (
     <>
@@ -241,40 +218,30 @@ const ShopsPage = props => {
         </FabContainer>
         <Typography variant="h2">{t("dodgy_shops.list_text")}</Typography>
         <>
-          <SearchBox
-            id="input-with-icon-textfield"
-            placeholder={t("dodgy_shops.filter_text")}
-            onChange={e => {
-              trackCustomEvent({
-                category: "dodgy_shop",
-                action: "filter_input",
-                label: e.target.value,
-              })
-              setFilter(e.target.value.toLowerCase())
-            }}
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position="start">
-                  <SearchIcon />
-                </InputAdornment>
-              ),
-            }}
-          />
-          <MultiSelect
-            closeMenuOnSelect={false}
-            // components={(props) => props.type === "sub_district" ? <components.Option {...props} /> : <components.Option {...props} />}
-            components={animatedComponents}
-            isMulti
-            placeholder={t("dodgy_shops.filter_by_district_text")}
-            options={subDistrictOptionList}
-            // formatGroupLabel={SelectGroupLabel}
-            onChange={selectedArray => {
-              trackCustomEvent({
-                category: "dodgy_shop",
-                action: "multiselect_input",
-                label: (selectedArray && selectedArray.toString()) || "",
-              })
-              setFilter(selectedArray || "")
+          <MultiPurposeSearch
+            list={data.allDodgyShop.edges}
+            placeholder={t("dodgy_shops.search_placeholder")}
+            options={[
+              {
+                label: t("search.sub_district"),
+                options: createDedupOptions(
+                  i18n,
+                  data.allDodgyShop.edges,
+                  "sub_district"
+                ),
+              },
+              {
+                label: t("search.pharmacy"),
+                options: createDedupOptions(
+                  i18n,
+                  data.allDodgyShop.edges,
+                  "name"
+                ),
+              },
+            ]}
+            searchKey="dodgy_shop"
+            onListFiltered={list => {
+              setFilteredData(list)
             }}
           />
         </>
