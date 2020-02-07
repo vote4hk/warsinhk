@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect, Fragment } from "react"
 import { useMediaQuery } from "@material-ui/core"
 import { bps } from "@/ui/theme"
 import PropTypes from "prop-types"
@@ -16,11 +16,10 @@ const InfiniteScroll = ({ list, onItem, step }) => {
   }, [loadMore, itemSize, isMobile])
 
   const onScroll = () => {
-    if (
-      window.innerHeight + document.documentElement.scrollTop !==
-      document.documentElement.offsetHeight
-    )
-      return
+    const diff =
+      document.documentElement.offsetHeight -
+      (window.innerHeight + document.documentElement.scrollTop)
+    if (diff > 10) return
     setLoadMore(true)
   }
 
@@ -33,7 +32,9 @@ const InfiniteScroll = ({ list, onItem, step }) => {
   return (
     <>
       {list &&
-        list.filter((_, i) => i < itemSize).map((item, i) => onItem(item, i))}
+        list
+          .filter((_, i) => i < itemSize)
+          .map((item, i) => <Fragment key={i}>{onItem(item, i)}</Fragment>)}
     </>
   )
 }
