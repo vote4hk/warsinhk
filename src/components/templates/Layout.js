@@ -23,7 +23,7 @@ const StyledResponsiveDrawer = styled(ResponsiveDrawer)`
   && {
     /* bottom nav bar height */
     ${bps.down("md")} {
-      padding-bottom: 56px;
+      padding-bottom: 60px;
     }
   }
 `

@@ -69,6 +69,11 @@ const DailyStatFigure = styled(Typography)`
   font-weight: 700;
 `
 
+const PassengerDailyStatFigure = styled(Typography)`
+  font-size: 25px;
+  font-weight: 700;
+`
+
 const DailyChange = styled(Typography)`
   font-size: 14px;
   font-weight: 700;
@@ -118,7 +123,7 @@ function DailyStats({ t, data: [{ node: today }, { node: ytd }] }) {
             {d.diff > 0
               ? `▲ ${formatNumber(d.diff)}`
               : d.diff < 0
-              ? `▼ ${Math.abs(formatNumber(d.diff))}`
+              ? `▼ ${formatNumber(Math.abs(d.diff))}`
               : `-`}
           </DailyChange>
         </DailyStat>
@@ -164,7 +169,9 @@ function PassengerStats({
           <Typography component="span" variant="body2" color="textPrimary">
             {d.label}
           </Typography>
-          <DailyStatFigure>{formatNumber(d.today_stat)}</DailyStatFigure>
+          <PassengerDailyStatFigure>
+            {formatNumber(d.today_stat)}
+          </PassengerDailyStatFigure>
           <DailyChange badSign={d.diff > 0}>
             {d.diff > 0
               ? `▲ ${formatNumber(d.diff)}`
