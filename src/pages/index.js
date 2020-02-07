@@ -16,6 +16,7 @@ import { BasicCard } from "@components/atoms/Card"
 import { WarsCaseCard } from "@components/organisms/CaseCard"
 import AlertMessage from "@components/organisms/AlertMessage"
 import { Paragraph } from "@components/atoms/Text"
+import { useMediaQuery } from "@material-ui/core"
 
 import { formatNumber } from "@/utils"
 
@@ -188,6 +189,7 @@ function PassengerStats({
 export default function IndexPage({ data }) {
   const { i18n, t } = useTranslation()
   const isSSR = typeof window === "undefined"
+  const isMobile = useMediaQuery(bps.down("md"))
 
   const latestStat = React.useMemo(() => data.allDailyStats.edges[0].node, [
     data,
@@ -265,9 +267,11 @@ export default function IndexPage({ data }) {
           </SessiontWrapper>
           <SessiontWrapper>
             <Typography variant="h2">{t("index.latest_case")}</Typography>
-            {data.allWarsCase.edges.map((item, index) => (
-              <WarsCaseCard key={index} node={item.node} i18n={i18n} t={t} />
-            ))}
+            {data.allWarsCase.edges
+              .slice(0, isMobile ? 5 : 10)
+              .map((item, index) => (
+                <WarsCaseCard key={index} node={item.node} i18n={i18n} t={t} />
+              ))}
             <FullWidthButton
               component={InternalLink}
               to={getLocalizedPath(i18n, "/cases")}
@@ -365,7 +369,7 @@ export const WarsCaseQuery = graphql`
     allWarsCase(
       sort: { order: DESC, fields: confirmation_date }
       filter: { enabled: { eq: "Y" } }
-      limit: 5
+      limit: 10
     ) {
       edges {
         node {
