@@ -59,10 +59,10 @@ module.exports = {
       resolve: `gatsby-plugin-manifest`,
       options: {
         name: `武漢肺炎民間資訊`,
-        short_name: `WARS`,
+        short_name: `Coronavirus in HK`,
         start_url: `/`,
-        background_color: `#663399`,
-        theme_color: `#663399`,
+        background_color: `#1a237e`,
+        theme_color: `#1a237e`,
         display: `standalone`,
         icon: `static/images/pwa_icon.jpeg`, // This path is relative to the root of the site.
       },
