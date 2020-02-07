@@ -35,10 +35,6 @@ const FabContainer = styled(Box)`
     right: 16px;
     position: fixed;
     z-index: 1200;
-
-    ${bps.up("md")} {
-      bottom: 16px;
-    }
   }
 `
 
