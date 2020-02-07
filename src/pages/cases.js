@@ -66,19 +66,20 @@ export const ConfirmedCaseQuery = graphql`
       edges {
         node {
           case_no
+          onset_date
           confirmation_date
           gender
           age
           hospital_zh
           hospital_en
-          status_zh
-          status_en
+          status
           type_zh
           type_en
           citizenship_zh
           citizenship_en
           detail_zh
           detail_en
+          classification
           source_url
         }
       }

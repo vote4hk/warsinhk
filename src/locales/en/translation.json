@@ -64,6 +64,7 @@
   "dashboard.patient_age_format": "Age {{age}}",
   "dashboard.gender_M": "Male",
   "dashboard.gender_F": "Female",
+  "dashboard.patient_onset_date": "Onset date",
   "dashboard.patient_confirm_date": "Confirmed date",
   "dashboard.patient_citizenship": "Place of residence",
   "dashboard.patient_hospital": "Hospital admitted",
@@ -96,5 +97,17 @@
   "disruption.source": "View source",
   "disruption.last_updated": "Last update: {{date}}",
   "cases.type_self": "Patient",
-  "cases.type_relatives": "Patient's relatives"
+  "cases.type_relatives": "Patient's relatives",
+  "cases.classification_imported": "Imported",
+  "cases.classification_imported_close_contact": "Close contact of imported case",
+  "cases.classification_local": "Local",
+  "cases.classification_local_possibly": "Possibly local",
+  "cases.classification_local_close_contact": "Close contact of local case",
+  "cases.classification_local_possibly_close_contact": "Close contact of possibly local",
+  "cases.classification_local_unknown_source": "Local case with unknown source",
+  "cases.status_hospitalised": "Hospitalised",
+  "cases.status_discharged": "Discharged",
+  "cases.status_serious": "Serious",
+  "cases.status_critical": "Critical",
+  "cases.status_deceased": "Deceased"
 }

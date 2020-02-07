@@ -64,6 +64,7 @@
   "dashboard.patient_age_format": "{{age}} 歲",
   "dashboard.gender_M": "男",
   "dashboard.gender_F": "女",
+  "dashboard.patient_onset_date": "發病日期",
   "dashboard.patient_confirm_date": "確診日期",
   "dashboard.patient_citizenship": "居住地",
   "dashboard.patient_hospital": "入住醫院",
@@ -103,5 +104,17 @@
   "disruption.source": "資料來源",
   "disruption.last_updated": "最後更新：{{date}}",
   "cases.type_self": "患者",
-  "cases.type_relatives": "患者親友"
+  "cases.type_relatives": "患者親友",
+  "cases.classification_imported": "輸入個案",
+  "cases.classification_imported_close_contact": "輸入個案的密切接觸者",
+  "cases.classification_local": "本地個案",
+  "cases.classification_local_possibly": "可能本地個案",
+  "cases.classification_local_close_contact": "本地個案的密切接觸者",
+  "cases.classification_local_possibly_close_contact": "可能本地個案的密切接觸者",
+  "cases.classification_local_unknown_source": "本地個案（源頭不明）",
+  "cases.status_hospitalised": "住院中",
+  "cases.status_discharged": "出院",
+  "cases.status_serious": "嚴重",
+  "cases.status_critical": "危殆",
+  "cases.status_deceased": "死亡"
 }

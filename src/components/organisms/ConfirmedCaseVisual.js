@@ -115,6 +115,7 @@ export default function ConfirmedCaseVisual(props) {
   }
 
   const citizenshipData = withLanguage(i18n, WarsCaseData, "citizenship")
+  console.log(citizenshipData)
 
   const isMobile = useMediaQuery({ maxWidth: 960 })
 
