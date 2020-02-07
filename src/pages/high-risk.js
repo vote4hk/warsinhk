@@ -19,17 +19,15 @@ import groupBy from "lodash/groupBy"
 import DatePicker from "@/components/organisms/DatePicker"
 import Theme from "@/ui/theme"
 import { trackCustomEvent } from "gatsby-plugin-google-analytics"
-import {
-  createSubDistrictOptionList,
-  filterSearchOptions,
-  filterValues,
-  sortOptionsWithHistories,
-} from "@/utils/search"
+import { createDedupOptions } from "@/utils/search"
+import InfiniteScroll from "@/components/modecules/InfiniteScroll"
 
-import { saveToLocalStorage, loadFromLocalStorage } from "@/utils"
+
+
+
+import MultiPurposeSearch from "../components/modecules/MultiPurposeSearch"
 
 const colors = d3.scaleOrdinal(d3.schemeDark2).domain([0, 1, 2, 3, 4])
-const KEY_HISTORY_LOCAL_STORAGE = "high-risk-search-history"
 
 const HighRiskCardContainer = styled("div")`
   box-sizing: border-box;
@@ -37,9 +35,9 @@ const HighRiskCardContainer = styled("div")`
 
   border-left: 4px
     ${props =>
-      props.isActive
-        ? Theme.palette.secondary.main
-        : props.theme.palette.background.paper}
+    props.isActive
+      ? Theme.palette.secondary.main
+      : props.theme.palette.background.paper}
     solid;
 `
 
@@ -183,14 +181,14 @@ export const CaseRow = ({ c, i18n, t }) => (
         </CaseActionRow>
       </Grid>
     </Grid>
-  </CaseRowContainer>
+  </CaseRowContainer >
 )
 const formatDate = d => {
   // Orignal formatString: "DD/M" cannot be parsed in DatePicker
   // formatString: "YYYY-MM-DD" for DatePicker
   // Reformat for UI here
   if (d) {
-    d = d.replace(/(\d{4})-(\d\d)-(\d\d)/, function(_, y, m, d) {
+    d = d.replace(/(\d{4})-(\d\d)-(\d\d)/, function (_, y, m, d) {
       return [d, m].join("/")
     })
   }
@@ -209,6 +207,7 @@ const Item = ({ node, i18n, t }) => {
         <CaseRow key={c.id} c={c} i18n={i18n} t={t}></CaseRow>
       ))}
     </HighRiskCardContent>
+
   )
 }
 const useStyle = makeStyles(theme => {
@@ -282,15 +281,20 @@ const HighRiskPage = ({ data, pageContext }) => {
       ? filterValues(i18n, Object.values(groupBy(otherLocation, "location_zh")).map(toGroupedLocations), filters)
       : filteredRealLocations
 
-  const allOptions = [
+
+  const options = [
     {
       label: t("search.sub_district"),
-      options: sortOptionsWithHistories(subDistrictOptionList, histories),
+      options: createDedupOptions(
+        i18n,
+        data.allWarsCaseLocation.edges,
+        "sub_district"
+      ),
     },
     {
       // For 班次 / 航班: Only ferry no, flight no, and train no are searchable, ignore building
       label: t("search.location"),
-      options: sortOptionsWithHistories(
+      options: createDedupOptions(
         data.allWarsCaseLocation.edges.map(({ node }) => ({
           label: withLanguage(i18n, node, "location"),
           value: withLanguage(i18n, node, "location"),
@@ -299,8 +303,8 @@ const HighRiskPage = ({ data, pageContext }) => {
           end_date: node.end_date,
           search_start_date: searchStartDate,
           search_end_date: searchEndDate,
-        })),
-        histories
+        }),
+          "location"),
       ),
     },
   ]
@@ -329,33 +333,13 @@ const HighRiskPage = ({ data, pageContext }) => {
                 />
               }
               selectBar={
-                <AsyncSelect
-                  closeMenuOnSelect={false}
-                  loadOptions={(input, callback) =>
-                    callback(filterSearchOptions(allOptions, input, 5))
-                  }
-                  isMulti
+                <MultiPurposeSearch
+                  list={groupedLocations}
                   placeholder={t("search.placeholder")}
-                  noOptionsMessage={() => t("text.not_found")}
-                  defaultOptions={filterSearchOptions(allOptions, null, 10)}
-                  value={filters}
-                  onChange={selectedArray => {
-                    // only append the history
-                    if (
-                      selectedArray &&
-                      selectedArray.length > filters.length
-                    ) {
-                      const historiesToSave = [
-                        ...histories,
-                        selectedArray[selectedArray.length - 1],
-                      ].filter((_, i) => i < 10)
-                      setHistories(historiesToSave)
-                      saveToLocalStorage(
-                        KEY_HISTORY_LOCAL_STORAGE,
-                        JSON.stringify(historiesToSave)
-                      )
-                    }
-                    setFilters(selectedArray || [])
+                  options={options}
+                  searchKey="high_risk"
+                  onListFiltered={list => {
+                    setFilteredLocations(list)
                   }}
                 />
               }
@@ -374,7 +358,7 @@ const HighRiskPage = ({ data, pageContext }) => {
           )}
         </AutoSizer>
       </div>
-    </Layout>
+    </Layout >
   )
 }
 

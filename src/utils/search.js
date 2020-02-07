@@ -1,44 +1,15 @@
 import { withLanguage } from "@/utils/i18n"
 import _uniqBy from "lodash.uniqby"
+import _uniq from "lodash.uniq"
 import _isEqual from "lodash.isequal"
 
-export const isInSubDistrict = (i18n, node, textList) => {
-  return (
-    textList &&
-    typeof textList !== "string" &&
-    textList.some(
-      optionObj =>
-        withLanguage(i18n, node, "sub_district").indexOf(optionObj.label) >=
-          0 ||
-        withLanguage({ language: "en" }, node, "sub_district").indexOf(
-          optionObj.value
-        ) >= 0
-    )
-  )
-}
-
-export const createSubDistrictOptionList = (i18n, edges) => {
-  const subDistrictArrayForFilter = edges.map(
-    ({ node }) => node["sub_district_en"]
-  )
-
-  return edges
-    .map(({ node }) => ({
-      zh: node["sub_district_zh"],
-      en: node["sub_district_en"],
-      start_date: node["start_date"],
-      end_date: node["end_date"],
-    }))
-    .filter(
-      (item, index) => subDistrictArrayForFilter.indexOf(item.en) === index
-    )
-    .filter(item => item.en !== "#N/A" && item.zh !== "-")
-    .map(item => ({
-      value: i18n.language === "zh" ? item.en.toLowerCase() : item.zh,
-      label: item[i18n.language],
-      field: "sub_district",
-      start_date: item.start_date,
-      end_date: item.end_date,
+export const createDedupOptions = (i18n, edges, field) => {
+  return _uniq(edges.map(({ node }) => withLanguage(i18n, node, field)))
+    .filter(v => v !== "#N/A" && v !== "-" && v !== "")
+    .map(v => ({
+      label: v,
+      value: v,
+      field,
     }))
 }
 
