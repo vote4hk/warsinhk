@@ -22,6 +22,8 @@ import HighRiskMap from "@components/highRiskMap"
 import * as d3 from "d3"
 import InfiniteScroll from "@/components/modecules/InfiniteScroll"
 import { makeStyles } from "@material-ui/core/styles"
+import { useMediaQuery } from "@material-ui/core"
+import { bps } from "@/ui/theme"
 
 import {
   createSubDistrictOptionList,
@@ -86,6 +88,32 @@ const LabelRow = styled(UnstyledRow)`
   justify-content: flex-start;
   margin: 0px;
   flex-wrap: wrap;
+`
+
+const HighRiskCardWrapper = styled(Box)`
+  height: calc(100vh - 150px);
+  overflow: scroll;
+  min-width: 360px;
+  max-width: 480px;
+  flex: 0 0 30%;
+  margin-right: 16px;
+`
+
+const HighRiskMapDesktopWrapper = styled(Box)`
+  height: calc(100vh - 150px);
+  margin-bottom: 16px;
+  flex: 0 0 70%;
+`
+
+const HighRiskMapMobileWrapper = styled(Box)`
+  height: calc(100vh - 150px);
+`
+
+const SplitWrapper = styled.div`
+  ${bps.up("md")} {
+    display: flex;
+    align-items: flex-start;
+  }
 `
 
 const InfoToolTip = ({ t, title, className, color }) => {
@@ -186,6 +214,8 @@ const HighRiskPage = ({ data, pageContext }) => {
   const [filters, setFilters] = useState([])
   const [histories, setHistories] = useState([])
 
+  const isMobile = useMediaQuery(bps.down("sm"))
+
   const { i18n, t } = useTranslation()
   const subDistrictOptionList = createSubDistrictOptionList(
     i18n,
@@ -254,42 +284,84 @@ const HighRiskPage = ({ data, pageContext }) => {
       <SEO title="HighRiskPage" />
       <Row>
         <Typography variant="h2">{t("high_risk.title")}</Typography>
-        <Button
-          size="small"
-          color="primary"
-          onClick={() => {
-            setMapMode(!mapMode)
-          }}
-        >
-          {mapMode ? t("high_risk.list_mode") : t("high_risk.map_mode")}
-        </Button>
-      </Row>
-      {/* Add Date-time picker for selecting ranges */}
-      {mapMode ? (
-        <div className={fullWidthContent}>
-          <HighRiskMap
-            t={t}
-            getTranslated={(node, key) => withLanguage(i18n, node, key)}
-            filteredLocations={filteredLocations.flatMap(i => i.node.cases)}
-            height={480}
-            renderTooltip={node => (
-              <HighRiskCardContent style={{ width: 300 }}>
-                <HighRiskCardTitle>
-                  <Typography component="span" variant="h6" color="textPrimary">
-                    {withLanguage(i18n, node, "location")}
-                  </Typography>
-                </HighRiskCardTitle>
-                <CaseRow c={node} i18n={i18n} t={t}></CaseRow>
-                <br />
-                <a
-                  href={`https://maps.google.com/?ll=${node.lat},${node.lng},15z`}
-                >
-                  Google Map
-                </a>
-              </HighRiskCardContent>
-            )}
+        {isMobile && (
+          <Button
+            size="small"
+            color="primary"
+            onClick={() => {
+              setMapMode(!mapMode)
+            }}
           >
-            <div className={floatingFilterBar}>
+            {mapMode ? t("high_risk.list_mode") : t("high_risk.map_mode")}
+          </Button>
+        )}
+      </Row>
+      {isMobile ? (
+        <>
+          {/* Add Date-time picker for selecting ranges */}
+          {mapMode ? (
+            <HighRiskMapMobileWrapper className={fullWidthContent}>
+              <HighRiskMap
+                t={t}
+                getTranslated={(node, key) => withLanguage(i18n, node, key)}
+                filteredLocations={filteredLocations.flatMap(i => i.node.cases)}
+                height={"100%"}
+                renderTooltip={node => (
+                  <HighRiskCardContent style={{ width: 300 }}>
+                    <HighRiskCardTitle>
+                      <Typography
+                        component="span"
+                        variant="h6"
+                        color="textPrimary"
+                      >
+                        {withLanguage(i18n, node, "location")}
+                      </Typography>
+                    </HighRiskCardTitle>
+                    <CaseRow c={node} i18n={i18n} t={t}></CaseRow>
+                    <br />
+                    <a
+                      href={`https://maps.google.com/?ll=${node.lat},${node.lng},15z`}
+                    >
+                      Google Map
+                    </a>
+                  </HighRiskCardContent>
+                )}
+              >
+                <div className={floatingFilterBar}>
+                  <AsyncSelect
+                    closeMenuOnSelect={false}
+                    loadOptions={(input, callback) =>
+                      callback(filterSearchOptions(allOptions, input, 5))
+                    }
+                    isMulti
+                    placeholder={t("search.placeholder")}
+                    noOptionsMessage={() => t("text.not_found")}
+                    defaultOptions={filterSearchOptions(allOptions, null, 10)}
+                    value={filters}
+                    onChange={selectedArray => {
+                      // only append the history
+                      if (
+                        selectedArray &&
+                        selectedArray.length > filters.length
+                      ) {
+                        const historiesToSave = [
+                          ...histories,
+                          selectedArray[selectedArray.length - 1],
+                        ].filter((_, i) => i < 10)
+                        setHistories(historiesToSave)
+                        saveToLocalStorage(
+                          KEY_HISTORY_LOCAL_STORAGE,
+                          JSON.stringify(historiesToSave)
+                        )
+                      }
+                      setFilters(selectedArray || [])
+                    }}
+                  />
+                </div>
+              </HighRiskMap>
+            </HighRiskMapMobileWrapper>
+          ) : (
+            <>
               <AsyncSelect
                 closeMenuOnSelect={false}
                 loadOptions={(input, callback) =>
@@ -316,46 +388,87 @@ const HighRiskPage = ({ data, pageContext }) => {
                   setFilters(selectedArray || [])
                 }}
               />
-            </div>
-          </HighRiskMap>
-        </div>
+              <InfiniteScroll
+                list={filteredLocations}
+                step={{ mobile: 20 }}
+                onItem={(node, index) => (
+                  <HighRiskCardContainer alignItems="flex-start" key={index}>
+                    <Item node={node.node} i18n={i18n} t={t} />
+                  </HighRiskCardContainer>
+                )}
+              />
+            </>
+          )}
+        </>
       ) : (
         <>
-          <AsyncSelect
-            closeMenuOnSelect={false}
-            loadOptions={(input, callback) =>
-              callback(filterSearchOptions(allOptions, input, 5))
-            }
-            isMulti
-            placeholder={t("search.placeholder")}
-            noOptionsMessage={() => t("text.not_found")}
-            defaultOptions={filterSearchOptions(allOptions, null, 10)}
-            value={filters}
-            onChange={selectedArray => {
-              // only append the history
-              if (selectedArray && selectedArray.length > filters.length) {
-                const historiesToSave = [
-                  ...histories,
-                  selectedArray[selectedArray.length - 1],
-                ].filter((_, i) => i < 10)
-                setHistories(historiesToSave)
-                saveToLocalStorage(
-                  KEY_HISTORY_LOCAL_STORAGE,
-                  JSON.stringify(historiesToSave)
-                )
-              }
-              setFilters(selectedArray || [])
-            }}
-          />
-          <InfiniteScroll
-            list={filteredLocations}
-            step={{ mobile: 20 }}
-            onItem={(node, index) => (
-              <HighRiskCardContainer alignItems="flex-start" key={index}>
-                <Item node={node.node} i18n={i18n} t={t} />
-              </HighRiskCardContainer>
-            )}
-          />
+          <SplitWrapper>
+            <HighRiskCardWrapper>
+              <AsyncSelect
+                closeMenuOnSelect={false}
+                loadOptions={(input, callback) =>
+                  callback(filterSearchOptions(allOptions, input, 5))
+                }
+                isMulti
+                placeholder={t("search.placeholder")}
+                noOptionsMessage={() => t("text.not_found")}
+                defaultOptions={filterSearchOptions(allOptions, null, 10)}
+                value={filters}
+                onChange={selectedArray => {
+                  // only append the history
+                  if (selectedArray && selectedArray.length > filters.length) {
+                    const historiesToSave = [
+                      ...histories,
+                      selectedArray[selectedArray.length - 1],
+                    ].filter((_, i) => i < 10)
+                    setHistories(historiesToSave)
+                    saveToLocalStorage(
+                      KEY_HISTORY_LOCAL_STORAGE,
+                      JSON.stringify(historiesToSave)
+                    )
+                  }
+                  setFilters(selectedArray || [])
+                }}
+              />
+              <InfiniteScroll
+                list={filteredLocations}
+                step={{ mobile: 20 }}
+                onItem={(node, index) => (
+                  <HighRiskCardContainer alignItems="flex-start" key={index}>
+                    <Item node={node.node} i18n={i18n} t={t} />
+                  </HighRiskCardContainer>
+                )}
+              />
+            </HighRiskCardWrapper>
+            <HighRiskMapDesktopWrapper>
+              <HighRiskMap
+                t={t}
+                getTranslated={(node, key) => withLanguage(i18n, node, key)}
+                filteredLocations={filteredLocations.flatMap(i => i.node.cases)}
+                height={"100%"}
+                renderTooltip={node => (
+                  <HighRiskCardContent style={{ width: 300 }}>
+                    <HighRiskCardTitle>
+                      <Typography
+                        component="span"
+                        variant="h6"
+                        color="textPrimary"
+                      >
+                        {withLanguage(i18n, node, "location")}
+                      </Typography>
+                    </HighRiskCardTitle>
+                    <CaseRow c={node} i18n={i18n} t={t}></CaseRow>
+                    <br />
+                    <a
+                      href={`https://maps.google.com/?ll=${node.lat},${node.lng},15z`}
+                    >
+                      Google Map
+                    </a>
+                  </HighRiskCardContent>
+                )}
+              ></HighRiskMap>
+            </HighRiskMapDesktopWrapper>
+          </SplitWrapper>
         </>
       )}
     </Layout>

@@ -125,7 +125,7 @@ export default class highRiskMap extends Component {
   render() {
     const PopUp = this.PopUpContent || "div"
     return (
-      <div style={{ position: "relative" }}>
+      <div style={{ position: "relative", height: "100%" }}>
         <div
           ref={el => (this.mapContainer = el)}
           style={{ height: this.props.height, zIndex: 0 }}
