@@ -255,6 +255,25 @@ exports.onCreatePage = async ({ page, actions }) => {
   })
 }
 
+exports.onCreateWebpackConfig = ({ stage, loaders, actions }) => {
+  if (stage === "build-html") {
+    const regex = [
+      /node_modules\/leaflet/,
+      /node_modules\\leaflet/
+    ]
+    actions.setWebpackConfig({
+      module: {
+        rules: [
+          {
+            test: regex,
+            use: loaders.null()
+          }
+        ]
+      }
+    })
+  }
+}
+
 exports.sourceNodes = async props => {
   await Promise.all([
     createPublishedGoogleSpreadsheetNode(
