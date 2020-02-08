@@ -18,8 +18,10 @@ import { withLanguage, getLocalizedPath } from "@/utils/i18n"
 import { Row, UnstyledRow } from "@components/atoms/Row"
 import Grid from "@material-ui/core/Grid"
 import AsyncSelect from "react-select/async"
+import HighRiskMap from "@components/highRiskMap"
 import * as d3 from "d3"
 import InfiniteScroll from "@/components/modecules/InfiniteScroll"
+import { makeStyles } from "@material-ui/core/styles"
 
 import {
   createSubDistrictOptionList,
@@ -29,6 +31,19 @@ import {
 } from "@/utils/search"
 
 import { saveToLocalStorage, loadFromLocalStorage } from "@/utils"
+
+const useStyle = makeStyles(theme => ({
+  fullWidthContent: {
+    marginLeft: -theme.spacing(3),
+    marginRight: -theme.spacing(3),
+  },
+  floatingFilterBar: {
+    position: "absolute",
+    top: theme.spacing(3),
+    left: theme.spacing(3),
+    right: theme.spacing(3),
+  },
+}))
 
 const colors = d3.scaleOrdinal(d3.schemeDark2).domain([0, 1, 2, 3, 4])
 const KEY_HISTORY_LOCAL_STORAGE = "high-risk-search-history"
@@ -43,11 +58,6 @@ const HighRiskCardContent = styled(Box)`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-`
-
-const MapContainer = styled.div`
-  width: 100%;
-  height: 70vh;
 `
 
 const StyledToolTip = styled(Tooltip)`
@@ -103,9 +113,58 @@ const InfoToolTip = ({ t, title, className, color }) => {
   )
 }
 
-function item(props, i18n, t) {
-  const { node } = props
+const CaseRow = ({ c, i18n, t }) => (
+  <CaseRowContainer>
+    <Grid container spacing={1}>
+      <Grid item xs={4}>
+        <UnstyledRow>
+          <Typography component="span" variant="body2" color="textPrimary">
+            {c.start_date === c.end_date
+              ? c.end_date
+              : `${c.start_date} - ${c.end_date}`}
+          </Typography>
+        </UnstyledRow>
+      </Grid>
+      <Grid item xs>
+        <UnstyledRow>
+          <Typography component="div" variant="body2" color="textPrimary">
+            {withLanguage(i18n, c, "action")}
+          </Typography>
+          <LabelRow>
+            {withLanguage(i18n, c, "remarks") && (
+              <InfoToolTip
+                title={withLanguage(i18n, c, "remarks")}
+                t={t}
+                color={colors(0)}
+              />
+            )}
+            {c.case && (
+              <Link to={getLocalizedPath(i18n, `/cases/#${c.case_no} `)}>
+                <CaseLabel color={colors(1)}>{`#${c.case_no}`}</CaseLabel>
+              </Link>
+            )}
+            {c.source_url_1 && (
+              <MuiLink target="_blank" href={c.source_url_1}>
+                <CaseLabel color={colors(2)}>
+                  {t("high_risk.source_1")}
+                </CaseLabel>
+              </MuiLink>
+            )}
+            {c.source_url_2 && (
+              <MuiLink target="_blank" href={c.source_url_2}>
+                <CaseLabel color={colors(4)}>
+                  {t("high_risk.source_2")}
+                </CaseLabel>
+              </MuiLink>
+            )}
+          </LabelRow>
+        </UnstyledRow>
+      </Grid>
+    </Grid>
+  </CaseRowContainer>
+)
 
+const Item = ({ node, i18n, t }) => {
   return (
     <HighRiskCard>
       <HighRiskCardContent>
@@ -114,67 +173,8 @@ function item(props, i18n, t) {
             {withLanguage(i18n, node, "location")}
           </Typography>
         </HighRiskCardTitle>
-        {node.cases.map((c, index) => (
-          <CaseRowContainer>
-            <Grid key={index} container spacing={1}>
-              <Grid item xs={4}>
-                <UnstyledRow>
-                  <Typography
-                    component="span"
-                    variant="body2"
-                    color="textPrimary"
-                  >
-                    {c.start_date === c.end_date
-                      ? c.end_date
-                      : `${c.start_date} - ${c.end_date}`}
-                  </Typography>
-                </UnstyledRow>
-              </Grid>
-              <Grid item xs>
-                <UnstyledRow>
-                  <Typography
-                    component="div"
-                    variant="body2"
-                    color="textPrimary"
-                  >
-                    {withLanguage(i18n, c, "action")}
-                  </Typography>
-                  <LabelRow>
-                    {withLanguage(i18n, c, "remarks") && (
-                      <InfoToolTip
-                        title={withLanguage(i18n, c, "remarks")}
-                        t={t}
-                        color={colors(0)}
-                      />
-                    )}
-                    {c.case && (
-                      <Link
-                        to={getLocalizedPath(i18n, `/cases/#${c.case_no} `)}
-                      >
-                        <CaseLabel
-                          color={colors(1)}
-                        >{`#${c.case_no}`}</CaseLabel>
-                      </Link>
-                    )}
-                    {c.source_url_1 && (
-                      <MuiLink target="_blank" href={c.source_url_1}>
-                        <CaseLabel color={colors(2)}>
-                          {t("high_risk.source_1")}
-                        </CaseLabel>
-                      </MuiLink>
-                    )}
-                    {c.source_url_2 && (
-                      <MuiLink target="_blank" href={c.source_url_2}>
-                        <CaseLabel color={colors(4)}>
-                          {t("high_risk.source_2")}
-                        </CaseLabel>
-                      </MuiLink>
-                    )}
-                  </LabelRow>
-                </UnstyledRow>
-              </Grid>
-            </Grid>
-          </CaseRowContainer>
+        {node.cases.map(c => (
+          <CaseRow key={c.id} c={c} i18n={i18n} t={t}></CaseRow>
         ))}
       </HighRiskCardContent>
     </HighRiskCard>
@@ -182,7 +182,7 @@ function item(props, i18n, t) {
 }
 
 const HighRiskPage = ({ data, pageContext }) => {
-  const [mapMode, setMapMode] = useState(false)
+  const [mapMode, setMapMode] = useState(true)
   const [filters, setFilters] = useState([])
   const [histories, setHistories] = useState([])
 
@@ -209,10 +209,13 @@ const HighRiskPage = ({ data, pageContext }) => {
       if (locationPos === -1) {
         const newLocation = {
           node: {
+            id: node.id,
             location_zh: node.location_zh,
             location_en: node.location_en,
             sub_district_zh: node.sub_district_zh,
             sub_district_en: node.sub_district_en,
+            lat: node.lat,
+            lng: node.lng,
             cases: [{ ...node }],
           },
         }
@@ -245,7 +248,7 @@ const HighRiskPage = ({ data, pageContext }) => {
       ),
     },
   ]
-
+  const { fullWidthContent, floatingFilterBar } = useStyle()
   return (
     <Layout>
       <SEO title="HighRiskPage" />
@@ -263,14 +266,55 @@ const HighRiskPage = ({ data, pageContext }) => {
       </Row>
       {/* Add Date-time picker for selecting ranges */}
       {mapMode ? (
-        <>
-          {/* Buy time component.. will get rid of this code once we have a nice map component */}
-          <MapContainer
-            dangerouslySetInnerHTML={{
-              __html: `<iframe title = "map" src = "https://www.google.com/maps/d/embed?mid=1VdE10fojNRAVr1omckkgKbINL12oj5Bm" width= "100%" height = "100%" ></iframe> `,
-            }}
-          />
-        </>
+        <div className={fullWidthContent}>
+          <HighRiskMap
+            t={t}
+            getTranslated={(node, key) => withLanguage(i18n, node, key)}
+            filteredLocations={filteredLocations.flatMap(i => i.node.cases)}
+            height={Math.min(window.innerHeight, window.innerWidth) - 300}
+            renderTooltip={node => (
+              <HighRiskCardContent style={{width: 300}}>
+                <HighRiskCardTitle>
+                  <Typography component="span" variant="h6" color="textPrimary">
+                    {withLanguage(i18n, node, "location")}
+                  </Typography>
+                </HighRiskCardTitle>
+                <CaseRow c={node} i18n={i18n} t={t}></CaseRow>
+                <br/>
+                <a href={`https://maps.google.com/?ll=${node.lat},${node.lng},15z`}>Google Map</a>
+              </HighRiskCardContent>
+            )}
+          >
+            <div className={floatingFilterBar}>
+              <AsyncSelect
+                closeMenuOnSelect={false}
+                loadOptions={(input, callback) =>
+                  callback(filterSearchOptions(allOptions, input, 5))
+                }
+                isMulti
+                placeholder={t("search.placeholder")}
+                noOptionsMessage={() => t("text.not_found")}
+                defaultOptions={filterSearchOptions(allOptions, null, 10)}
+                value={filters}
+                onChange={selectedArray => {
+                  // only append the history
+                  if (selectedArray && selectedArray.length > filters.length) {
+                    const historiesToSave = [
+                      ...histories,
+                      selectedArray[selectedArray.length - 1],
+                    ].filter((_, i) => i < 10)
+                    setHistories(historiesToSave)
+                    saveToLocalStorage(
+                      KEY_HISTORY_LOCAL_STORAGE,
+                      JSON.stringify(historiesToSave)
+                    )
+                  }
+                  setFilters(selectedArray || [])
+                }}
+              />
+            </div>
+          </HighRiskMap>
+        </div>
       ) : (
         <>
           <AsyncSelect
@@ -282,6 +326,7 @@ const HighRiskPage = ({ data, pageContext }) => {
             placeholder={t("search.placeholder")}
             noOptionsMessage={() => t("text.not_found")}
             defaultOptions={filterSearchOptions(allOptions, null, 10)}
+            value={filters}
             onChange={selectedArray => {
               // only append the history
               if (selectedArray && selectedArray.length > filters.length) {
@@ -295,7 +340,7 @@ const HighRiskPage = ({ data, pageContext }) => {
                   JSON.stringify(historiesToSave)
                 )
               }
-              setFilters(selectedArray || "")
+              setFilters(selectedArray || [])
             }}
           />
           <InfiniteScroll
@@ -303,7 +348,7 @@ const HighRiskPage = ({ data, pageContext }) => {
             step={{ mobile: 20 }}
             onItem={(node, index) => (
               <HighRiskCardContainer alignItems="flex-start" key={index}>
-                {item(node, i18n, t)}
+                <Item node={node.node} i18n={i18n} t={t} />
               </HighRiskCardContainer>
             )}
           />
@@ -336,6 +381,8 @@ export const HighRiskQuery = graphql`
           source_url_2
           start_date(formatString: "DD/M")
           end_date(formatString: "DD/M")
+          lat
+          lng
           type
           case_no
           case {
