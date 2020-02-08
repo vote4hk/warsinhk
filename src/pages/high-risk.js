@@ -271,7 +271,7 @@ const HighRiskPage = ({ data, pageContext }) => {
             t={t}
             getTranslated={(node, key) => withLanguage(i18n, node, key)}
             filteredLocations={filteredLocations.flatMap(i => i.node.cases)}
-            height={Math.min(window.innerHeight, window.innerWidth) - 300}
+            height={480}
             renderTooltip={node => (
               <HighRiskCardContent style={{width: 300}}>
                 <HighRiskCardTitle>
