@@ -1,4 +1,5 @@
 import React, { Component } from "react"
+
 import ReactDom from "react-dom"
 import PropTypes from "prop-types"
 import L from "leaflet"
@@ -6,16 +7,16 @@ import "leaflet.markercluster"
 import "leaflet.markercluster/dist/MarkerCluster.css"
 import "leaflet.markercluster/dist/MarkerCluster.Default.css"
 import "leaflet/dist/leaflet.css"
-import mapMarker from "./icons/map-marker.png"
+// import mapMarker from "./icons/map-marker.png"
 
-const icons = {
-  defaultMarker: L.icon({
-    iconUrl: mapMarker,
-    iconSize: [30, 30],
-    iconAnchor: [15, 30],
-    popupAnchor: [0, -30],
-  }),
-}
+// const icons = {
+//   defaultMarker: L.icon({
+//     iconUrl: mapMarker,
+//     iconSize: [30, 30],
+//     iconAnchor: [15, 30],
+//     popupAnchor: [0, -30],
+//   }),
+// }
 const limit = 1.5
 export default class highRiskMap extends Component {
   static propTypes = {
@@ -39,9 +40,6 @@ export default class highRiskMap extends Component {
   }
   constructor(props) {
     super(props)
-    this.popupContainer = document.createElement("div")
-    this.PopUpContent = ({ children }) =>
-      ReactDom.createPortal(children, this.popupContainer)
     this.state = {
       activeDataPoint: {},
     }
@@ -53,7 +51,7 @@ export default class highRiskMap extends Component {
     // const marker = L.marker
     const marker = L.circleMarker
     return marker([+lat, +lng], {
-      icon: icons.defaultMarker,
+      // icon: icons.defaultMarker,
       radius: 10,
       fillColor: "red",
       fillOpacity: 1,
@@ -74,6 +72,9 @@ export default class highRiskMap extends Component {
   }
 
   componentDidMount() {
+    this.popupContainer = document.createElement("div")
+    this.PopUpContent = ({ children }) =>
+      ReactDom.createPortal(children, this.popupContainer)
     this.map = L.map(this.mapContainer, {
       zoomControl: false,
       maxBounds: this.props.maxBounds,
@@ -97,22 +98,32 @@ export default class highRiskMap extends Component {
   componentDidUpdate(prevProps, prevState) {
     if (prevProps.filteredLocations !== this.props.filteredLocations) {
       this.updateLocationMarkers(this.props.filteredLocations)
-      const centerPoint = this.props.filteredLocations
+      const bounds = this.props.filteredLocations
         .filter(i => i.lat && i.lng)
         .reduce(
           (acc, node, i, arr) => {
-            acc[0] += +node.lat / arr.length
-            acc[1] += +node.lng / arr.length
+            if (i === 0) {
+              acc[0][0] = acc[1][0] = +node.lat
+              acc[0][1] = acc[1][1] = +node.lng
+            } else {
+              acc[0][0] = Math.min(acc[0][0], +node.lat)
+              acc[0][1] = Math.min(acc[0][1], +node.lng)
+              acc[1][0] = Math.max(acc[1][0], +node.lat)
+              acc[1][1] = Math.max(acc[1][1], +node.lng)
+            }
             return acc
           },
-          [0, 0]
+          [
+            [0, 0],
+            [0, 0],
+          ]
         )
-      this.map.setView(centerPoint, this.props.defaultZoom)
+      this.map.fitBounds(L.latLngBounds(bounds).pad(0.2))
     }
   }
 
   render() {
-    const PopUp = this.PopUpContent
+    const PopUp = this.PopUpContent || "div"
     return (
       <div style={{ position: "relative" }}>
         <div
