@@ -24,6 +24,7 @@ import InfiniteScroll from "@/components/modecules/InfiniteScroll"
 import { makeStyles } from "@material-ui/core/styles"
 import { useMediaQuery } from "@material-ui/core"
 import { bps } from "@/ui/theme"
+import { mapIcon } from "@components/icons"
 
 import {
   createSubDistrictOptionList,
@@ -91,7 +92,8 @@ const LabelRow = styled(UnstyledRow)`
 `
 
 const HighRiskCardWrapper = styled(Box)`
-  height: calc(100vh - 150px);
+  margin-top: 16px;
+  height: calc(100vh - 120px);
   overflow: scroll;
   min-width: 360px;
   max-width: 480px;
@@ -100,19 +102,27 @@ const HighRiskCardWrapper = styled(Box)`
 `
 
 const HighRiskMapDesktopWrapper = styled(Box)`
-  height: calc(100vh - 150px);
+  margin-top: 16px;
+  height: calc(100vh - 120px);
   margin-bottom: 16px;
   flex: 0 0 70%;
 `
 
 const HighRiskMapMobileWrapper = styled(Box)`
-  height: calc(100vh - 150px);
+  margin-top: 16px;
+  height: calc(100vh - 120px);
 `
 
 const SplitWrapper = styled.div`
   ${bps.up("md")} {
     display: flex;
     align-items: flex-start;
+  }
+`
+
+const ToggleButton = styled(Button)`
+  svg {
+    margin-right: 5px;
   }
 `
 
@@ -285,15 +295,25 @@ const HighRiskPage = ({ data, pageContext }) => {
       <Row>
         <Typography variant="h2">{t("high_risk.title")}</Typography>
         {isMobile && (
-          <Button
+          <ToggleButton
             size="small"
             color="primary"
             onClick={() => {
               setMapMode(!mapMode)
             }}
           >
-            {mapMode ? t("high_risk.list_mode") : t("high_risk.map_mode")}
-          </Button>
+            {mapMode ? (
+              <>
+                {mapIcon("view_list")}
+                {t("high_risk.list_mode")}
+              </>
+            ) : (
+              <>
+                {mapIcon("satellite")}
+                {t("high_risk.map_mode")}
+              </>
+            )}
+          </ToggleButton>
         )}
       </Row>
       {isMobile ? (
