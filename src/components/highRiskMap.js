@@ -153,11 +153,13 @@ class HighRiskMap extends Component {
       attributionControl: false,
       maxBounds: this.props.maxBounds,
     }).setView(this.props.center, this.props.defaultZoom)
+    this.attributionControl = L.control.attribution()
+      .setPrefix("")
+      .addAttribution('Tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy;<a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>')
+    this.attributionControl.addTo(this.map)
     L.tileLayer(
       "https://stamen-tiles-{s}.a.ssl.fastly.net/toner-lite/{z}/{x}/{y}{r}.{ext}",
       {
-        attribution:
-          'Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
         subdomains: "abcd",
         maxZoom: 20,
         minZoom: 9,
@@ -241,19 +243,6 @@ class HighRiskMap extends Component {
             zIndex: 0,
           }}
         ></div>
-        {!useHorizontalLayout && (
-          <div
-            style={{
-              position: "absolute",
-              top: theme.spacing(1),
-              left: theme.spacing(3),
-              right: theme.spacing(3),
-              opacity: 0.96,
-            }}
-          >
-            {this.props.selectBar}
-          </div>
-        )}
         <div
           style={{
             position: "absolute",
@@ -295,6 +284,19 @@ class HighRiskMap extends Component {
             </AutoSizer>
           )}
         </div>
+        {!useHorizontalLayout && (
+          <div
+            style={{
+              position: "absolute",
+              top: theme.spacing(1),
+              left: theme.spacing(3),
+              right: theme.spacing(3),
+              opacity: 0.96,
+            }}
+          >
+            {this.props.selectBar}
+          </div>
+        )}
       </div>
     )
   }
