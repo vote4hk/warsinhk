@@ -30,6 +30,8 @@
     "gatsby-transformer-sharp": "^2.3.7",
     "graphql-request": "^1.8.2",
     "i18next": "^19.0.3",
+    "leaflet": "^1.6.0",
+    "leaflet.markercluster": "^1.4.1",
     "lodash.flatten": "^4.4.0",
     "lodash.get": "^4.4.2",
     "lodash.groupby": "^4.6.0",
