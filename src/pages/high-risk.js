@@ -4,7 +4,6 @@ import Layout from "@components/templates/Layout"
 import { useTranslation } from "react-i18next"
 import {
   Box,
-  Button,
   Typography,
   Tooltip,
   ClickAwayListener,
@@ -15,12 +14,14 @@ import MuiLink from "@material-ui/core/Link"
 import { Link } from "gatsby"
 import { BasicCard } from "@components/atoms/Card"
 import { withLanguage, getLocalizedPath } from "@/utils/i18n"
-import { Row, UnstyledRow } from "@components/atoms/Row"
+import { UnstyledRow } from "@components/atoms/Row"
+import HighRiskMap from "@components/highRiskMap"
 import Grid from "@material-ui/core/Grid"
+import { makeStyles } from "@material-ui/core/styles"
 import AsyncSelect from "react-select/async"
+import AutoSizer from "react-virtualized/dist/es/AutoSizer"
 import * as d3 from "d3"
-import InfiniteScroll from "@/components/modecules/InfiniteScroll"
-import { ResponsiveWrapper } from "@components/atoms/ResponsiveWrapper"
+import groupyBy from "lodash/groupBy"
 
 import {
   createSubDistrictOptionList,
@@ -44,11 +45,6 @@ const HighRiskCardContent = styled(Box)`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-`
-
-const MapContainer = styled.div`
-  width: 100%;
-  height: 70vh;
 `
 
 const StyledToolTip = styled(Tooltip)`
@@ -177,9 +173,34 @@ const Item = ({ node, i18n, t, style }) => {
     </HighRiskCard>
   )
 }
+const useStyle = makeStyles(theme => {
+  return {
+    fullPageContent: {
+      position: "absolute",
+      // compensate AppBar (56px)
+      top: 56,
+      left: 0,
+      right: 0,
+      bottom: 60,
+      overflow: "hidden",
+    },
+    virtualizedRowContainer: {
+      paddingTop: 8,
+      paddingBottom: 8,
+      paddingLeft: theme.spacing(3),
+      paddingRight: theme.spacing(3),
+    },
+    [`${theme.breakpoints.up("sm")}`]: {
+      fullPageContent: {
+        top: 64,
+        left: 240,
+        bottom: 0,
+      },
+    },
+  }
+})
 
 const HighRiskPage = ({ data, pageContext }) => {
-  const [mapMode, setMapMode] = useState(false)
   const [filters, setFilters] = useState([])
   const [histories, setHistories] = useState([])
 
@@ -195,33 +216,23 @@ const HighRiskPage = ({ data, pageContext }) => {
       setHistories(JSON.parse(v))
     }
   }, [])
-
-  const groupedLocations = data.allWarsCaseLocation.edges.reduce(
-    (a, { node }) => {
-      const locationPos = a.findIndex(
-        item =>
-          withLanguage(i18n, item.node, "location") ===
-          withLanguage(i18n, node, "location")
-      )
-      if (locationPos === -1) {
-        const newLocation = {
-          node: {
-            location_zh: node.location_zh,
-            location_en: node.location_en,
-            sub_district_zh: node.sub_district_zh,
-            sub_district_en: node.sub_district_en,
-            cases: [{ ...node }],
-          },
-        }
-        a.push(newLocation)
-        return a
-      }
-      a[locationPos].node.cases.push({ ...node })
-      return a
-    },
-    []
+  const dataPoint = data.allWarsCaseLocation.edges.map(i => i.node)
+  const realLocationByPoint = groupyBy(
+    dataPoint.filter(i => i.sub_district_zh !== "-"),
+    i => `${i.lat}${i.lng}`
   )
-
+  dataPoint
+    .filter(i => i.sub_district_zh === "-")
+    .forEach(i => {
+      if (realLocationByPoint[`${i.lat}${i.lng}`])
+        realLocationByPoint[`${i.lat}${i.lng}`].push(i)
+    })
+  const groupedLocations = Object.values(realLocationByPoint).map(cases => ({
+    node: {
+      ...cases[0],
+      cases,
+    },
+  }))
   const filteredLocations = filterValues(i18n, groupedLocations, filters)
 
   const allOptions = [
@@ -242,71 +253,70 @@ const HighRiskPage = ({ data, pageContext }) => {
       ),
     },
   ]
-
+  const {
+    fullPageContent,
+    floatingInfoPane,
+    virtualizedRowContainer,
+  } = useStyle()
   return (
     <Layout>
       <SEO title="HighRiskPage" />
-      <Row>
-        <Typography variant="h2">{t("high_risk.title")}</Typography>
-        <Button
-          size="small"
-          color="primary"
-          onClick={() => {
-            setMapMode(!mapMode)
-          }}
-        >
-          {mapMode ? t("high_risk.list_mode") : t("high_risk.map_mode")}
-        </Button>
-      </Row>
-      {/* Add Date-time picker for selecting ranges */}
-      {mapMode ? (
-        <>
-          {/* Buy time component.. will get rid of this code once we have a nice map component */}
-          <MapContainer
-            dangerouslySetInnerHTML={{
-              __html: `<iframe title = "map" src = "https://www.google.com/maps/d/embed?mid=1VdE10fojNRAVr1omckkgKbINL12oj5Bm" width= "100%" height = "100%" ></iframe> `,
-            }}
-          />
-        </>
-      ) : (
-        <>
-          <AsyncSelect
-            closeMenuOnSelect={false}
-            loadOptions={(input, callback) =>
-              callback(filterSearchOptions(allOptions, input, 5))
-            }
-            isMulti
-            placeholder={t("search.placeholder")}
-            noOptionsMessage={() => t("text.not_found")}
-            defaultOptions={filterSearchOptions(allOptions, null, 10)}
-            value={filters}
-            onChange={selectedArray => {
-              // only append the history
-              if (selectedArray && selectedArray.length > filters.length) {
-                const historiesToSave = [
-                  ...histories,
-                  selectedArray[selectedArray.length - 1],
-                ].filter((_, i) => i < 10)
-                setHistories(historiesToSave)
-                saveToLocalStorage(
-                  KEY_HISTORY_LOCAL_STORAGE,
-                  JSON.stringify(historiesToSave)
-                )
+      <div className={fullPageContent}>
+        <AutoSizer>
+          {({ width, height }) => (
+            <HighRiskMap
+              t={t}
+              getTranslated={(node, key) => withLanguage(i18n, node, key)}
+              filteredLocations={filteredLocations.map(i => i.node)}
+              height={height}
+              width={width}
+              infoPaneClass={floatingInfoPane}
+              selectBar={
+                <AsyncSelect
+                  closeMenuOnSelect={false}
+                  loadOptions={(input, callback) =>
+                    callback(filterSearchOptions(allOptions, input, 5))
+                  }
+                  isMulti
+                  placeholder={t("search.placeholder")}
+                  noOptionsMessage={() => t("text.not_found")}
+                  defaultOptions={filterSearchOptions(allOptions, null, 10)}
+                  value={filters}
+                  onChange={selectedArray => {
+                    // only append the history
+                    if (
+                      selectedArray &&
+                      selectedArray.length > filters.length
+                    ) {
+                      const historiesToSave = [
+                        ...histories,
+                        selectedArray[selectedArray.length - 1],
+                      ].filter((_, i) => i < 10)
+                      setHistories(historiesToSave)
+                      saveToLocalStorage(
+                        KEY_HISTORY_LOCAL_STORAGE,
+                        JSON.stringify(historiesToSave)
+                      )
+                    }
+                    setFilters(selectedArray || [])
+                  }}
+                />
               }
-              setFilters(selectedArray || [])
-            }}
-          />
-          <ResponsiveWrapper>
-            <InfiniteScroll
-              list={filteredLocations}
-              step={{ mobile: 20 }}
-              onItem={(node, index) => (
-                <HighRiskCardItem key={node.id} node={node} i18n={i18n} t={t} />
+              renderInfoPane={node => (
+                <div class={virtualizedRowContainer}>
+                  <HighRiskCardItem
+                    key={node.id}
+                    node={{ node }}
+                    i18n={i18n}
+                    t={t}
+                    style={{ margin: 0 }}
+                  />
+                </div>
               )}
-            />
-          </ResponsiveWrapper>
-        </>
-      )}
+            ></HighRiskMap>
+          )}
+        </AutoSizer>
+      </div>
     </Layout>
   )
 }
@@ -334,6 +344,8 @@ export const HighRiskQuery = graphql`
           source_url_2
           start_date(formatString: "DD/M")
           end_date(formatString: "DD/M")
+          lat
+          lng
           type
           case_no
           case {
