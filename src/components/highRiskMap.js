@@ -178,7 +178,7 @@ class HighRiskMap extends Component {
     ).addTo(this.map)
     this.markerClusterGroup = L.markerClusterGroup({
       spiderfyOnMaxZoom: false,
-      disableClusteringAtZoom: 15,
+      disableClusteringAtZoom: 11,
     })
     this.markerClusterGroup.addTo(this.map)
     this.updateLocationMarkers(this.props.filteredLocations)
