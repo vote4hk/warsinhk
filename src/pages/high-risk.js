@@ -104,9 +104,58 @@ const InfoToolTip = ({ t, title, className, color }) => {
   )
 }
 
-function item(props, i18n, t) {
-  const { node } = props
+export const CaseRow = ({ c, i18n, t }) => (
+  <CaseRowContainer>
+    <Grid container spacing={1}>
+      <Grid item xs={4}>
+        <UnstyledRow>
+          <Typography component="span" variant="body2" color="textPrimary">
+            {c.start_date === c.end_date
+              ? c.end_date
+              : `${c.start_date} - ${c.end_date}`}
+          </Typography>
+        </UnstyledRow>
+      </Grid>
+      <Grid item xs>
+        <UnstyledRow>
+          <Typography component="div" variant="body2" color="textPrimary">
+            {withLanguage(i18n, c, "action")}
+          </Typography>
+          <LabelRow>
+            {withLanguage(i18n, c, "remarks") && (
+              <InfoToolTip
+                title={withLanguage(i18n, c, "remarks")}
+                t={t}
+                color={colors(0)}
+              />
+            )}
+            {c.case && (
+              <Link to={getLocalizedPath(i18n, `/cases/#${c.case_no} `)}>
+                <CaseLabel color={colors(1)}>{`#${c.case_no}`}</CaseLabel>
+              </Link>
+            )}
+            {c.source_url_1 && (
+              <MuiLink target="_blank" href={c.source_url_1}>
+                <CaseLabel color={colors(2)}>
+                  {t("high_risk.source_1")}
+                </CaseLabel>
+              </MuiLink>
+            )}
+            {c.source_url_2 && (
+              <MuiLink target="_blank" href={c.source_url_2}>
+                <CaseLabel color={colors(4)}>
+                  {t("high_risk.source_2")}
+                </CaseLabel>
+              </MuiLink>
+            )}
+          </LabelRow>
+        </UnstyledRow>
+      </Grid>
+    </Grid>
+  </CaseRowContainer>
+)
 
+const Item = ({ node, i18n, t }) => {
   return (
     <HighRiskCard>
       <HighRiskCardContent>
@@ -115,67 +164,8 @@ function item(props, i18n, t) {
             {withLanguage(i18n, node, "location")}
           </Typography>
         </HighRiskCardTitle>
-        {node.cases.map((c, index) => (
-          <CaseRowContainer>
-            <Grid key={index} container spacing={1}>
-              <Grid item xs={4}>
-                <UnstyledRow>
-                  <Typography
-                    component="span"
-                    variant="body2"
-                    color="textPrimary"
-                  >
-                    {c.start_date === c.end_date
-                      ? c.end_date
-                      : `${c.start_date} - ${c.end_date}`}
-                  </Typography>
-                </UnstyledRow>
-              </Grid>
-              <Grid item xs>
-                <UnstyledRow>
-                  <Typography
-                    component="div"
-                    variant="body2"
-                    color="textPrimary"
-                  >
-                    {withLanguage(i18n, c, "action")}
-                  </Typography>
-                  <LabelRow>
-                    {withLanguage(i18n, c, "remarks") && (
-                      <InfoToolTip
-                        title={withLanguage(i18n, c, "remarks")}
-                        t={t}
-                        color={colors(0)}
-                      />
-                    )}
-                    {c.case && (
-                      <Link
-                        to={getLocalizedPath(i18n, `/cases/#${c.case_no} `)}
-                      >
-                        <CaseLabel
-                          color={colors(1)}
-                        >{`#${c.case_no}`}</CaseLabel>
-                      </Link>
-                    )}
-                    {c.source_url_1 && (
-                      <MuiLink target="_blank" href={c.source_url_1}>
-                        <CaseLabel color={colors(2)}>
-                          {t("high_risk.source_1")}
-                        </CaseLabel>
-                      </MuiLink>
-                    )}
-                    {c.source_url_2 && (
-                      <MuiLink target="_blank" href={c.source_url_2}>
-                        <CaseLabel color={colors(4)}>
-                          {t("high_risk.source_2")}
-                        </CaseLabel>
-                      </MuiLink>
-                    )}
-                  </LabelRow>
-                </UnstyledRow>
-              </Grid>
-            </Grid>
-          </CaseRowContainer>
+        {node.cases.map(c => (
+          <CaseRow key={c.id} c={c} i18n={i18n} t={t}></CaseRow>
         ))}
       </HighRiskCardContent>
     </HighRiskCard>
@@ -305,7 +295,7 @@ const HighRiskPage = ({ data, pageContext }) => {
               step={{ mobile: 20 }}
               onItem={(node, index) => (
                 <HighRiskCardContainer alignItems="flex-start" key={index}>
-                  {item(node, i18n, t)}
+                  <Item node={node.node} i18n={i18n} t={t} />
                 </HighRiskCardContainer>
               )}
             />
