@@ -13,6 +13,7 @@ import _uniq from "lodash.uniq"
 import { getWarTipPath } from "@/utils/urlHelper"
 import { trackCustomEvent } from "gatsby-plugin-google-analytics"
 import InfiniteScroll from "@/components/modecules/InfiniteScroll"
+import { ResponsiveWrapper } from "@components/atoms/ResponsiveWrapper"
 
 const CardContainer = styled(Box)`
   flex: 1 1 calc(25% - 1em);
@@ -81,26 +82,28 @@ const WarTipsPage = ({ data, location }) => {
           {`#${tag}`}
         </Button>
       ))}
-      <InfiniteScroll
-        list={data.allWarsTip.edges.filter(filterByTags)}
-        step={{ mobile: 5 }}
-        onItem={({ node }, index) => (
-          <CardContainer key={index}>
-            <MediaCard
-              imageUrl={node.image_url}
-              title={node.title}
-              text={shorten(node.text)}
-              tags={node.tags ? node.tags.split(",") : []}
-              sourceDescription={node.source_description}
-              sourceUrl={node.source_url}
-              onTagClicked={tag => {
-                setSelectedTag(tag === selectedTag ? null : tag)
-              }}
-              uri={getWarTipPath(i18n.language, node.title)}
-            />
-          </CardContainer>
-        )}
-      />
+      <ResponsiveWrapper>
+        <InfiniteScroll
+          list={data.allWarsTip.edges.filter(filterByTags)}
+          step={{ mobile: 5 }}
+          onItem={({ node }, index) => (
+            <CardContainer key={index}>
+              <MediaCard
+                imageUrl={node.image_url}
+                title={node.title}
+                text={shorten(node.text)}
+                tags={node.tags ? node.tags.split(",") : []}
+                sourceDescription={node.source_description}
+                sourceUrl={node.source_url}
+                onTagClicked={tag => {
+                  setSelectedTag(tag === selectedTag ? null : tag)
+                }}
+                uri={getWarTipPath(i18n.language, node.title)}
+              />
+            </CardContainer>
+          )}
+        />
+      </ResponsiveWrapper>
     </Layout>
   )
 }

@@ -10,6 +10,7 @@ import { withLanguage } from "../utils/i18n"
 import _get from "lodash.get"
 import { SimpleTabs } from "@/components/organisms/SimpleTabs"
 import { trackCustomEvent } from "gatsby-plugin-google-analytics"
+import { ResponsiveWrapper } from "@components/atoms/ResponsiveWrapper"
 
 // const GoogleNewsCard = ({ node }) => {
 //   return (
@@ -91,9 +92,11 @@ const NewsPage = props => {
           {t("waiting_time.last_updated")}
           {_get(govNews, "[0].date", "")}
         </Typography>
-        {govNews.map((node, index) => (
-          <GovNewsCard key={index} node={node} i18n={i18n} />
-        ))}
+        <ResponsiveWrapper>
+          {govNews.map((node, index) => (
+            <GovNewsCard key={index} node={node} i18n={i18n} />
+          ))}
+        </ResponsiveWrapper>
       </>
     )
   }

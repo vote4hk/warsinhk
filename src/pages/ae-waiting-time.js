@@ -10,6 +10,7 @@ import { BasicCard } from "@components/atoms/Card"
 import styled from "styled-components"
 import { withLanguage } from "../utils/i18n"
 import { Paragraph } from "@components/atoms/Text"
+import { ResponsiveWrapper } from "@components/atoms/ResponsiveWrapper"
 
 const AECard = styled(Box)`
   display: flex;
@@ -87,9 +88,15 @@ const AEWaitingTimePage = props => {
       <Paragraph
         dangerouslySetInnerHTML={{ __html: t("waiting_time.content") }}
       />
-      {data.allAeWaitingTime.edges.map((node, index) => (
-        <BasicCard alignItems="flex-start" key={index} children={item(node)} />
-      ))}
+      <ResponsiveWrapper>
+        {data.allAeWaitingTime.edges.map((node, index) => (
+          <BasicCard
+            alignItems="flex-start"
+            key={index}
+            children={item(node)}
+          />
+        ))}
+      </ResponsiveWrapper>
     </Layout>
   )
 }
