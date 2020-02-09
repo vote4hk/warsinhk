@@ -2,14 +2,13 @@ import React, { useState } from "react"
 import SEO from "@/components/templates/SEO"
 import Layout from "@components/templates/Layout"
 import { useTranslation } from "react-i18next"
-import { Box, Typography } from "@material-ui/core"
 import { graphql } from "gatsby"
-import styled from "styled-components"
 import { withLanguage } from "@/utils/i18n"
 import AsyncSelect from "react-select/async"
 import HighRiskMap from "@components/highRiskMap"
 import { makeStyles } from "@material-ui/core/styles"
-import { CaseRow } from "./high-risk"
+import { HighRiskCardItem } from "./high-risk"
+import AutoSizer from "react-virtualized/dist/es/AutoSizer"
 import {
   createSubDistrictOptionList,
   filterSearchOptions,
@@ -18,7 +17,7 @@ import {
 } from "@/utils/search"
 
 import { saveToLocalStorage, loadFromLocalStorage } from "@/utils"
-import gropyBy from "lodash/groupBy"
+import groupyBy from "lodash/groupBy"
 
 const useStyle = makeStyles(theme => {
   return {
@@ -28,32 +27,26 @@ const useStyle = makeStyles(theme => {
       top: 56,
       left: 0,
       right: 0,
-      bottom: 0,
+      bottom: 60,
+      overflow: "hidden",
     },
-    floatingFilterBar: {
-      position: "absolute",
-      top: theme.spacing(3),
-      left: theme.spacing(3),
-      right: theme.spacing(3),
+    virtualizedRowContainer: {
+      paddingTop: 8,
+      paddingBottom: 8,
+      paddingLeft: theme.spacing(3),
+      paddingRight: theme.spacing(3),
     },
     [`${theme.breakpoints.up("sm")}`]: {
       fullPageContent: {
-        // compensate SideBar (240px)
+        top: 64,
         left: 240,
+        bottom: 0,
       },
     },
   }
 })
 
 const KEY_HISTORY_LOCAL_STORAGE = "high-risk-search-history"
-
-const HighRiskCardTitle = styled(Box)``
-
-const HighRiskCardContent = styled(Box)`
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-`
 
 const HighRiskMapPage = ({ data, pageContext }) => {
   const [filters, setFilters] = useState([])
@@ -72,21 +65,21 @@ const HighRiskMapPage = ({ data, pageContext }) => {
     }
   }, [])
   const dataPoint = data.allWarsCaseLocation.edges.map(i => i.node)
-  const realLocaitonByPoint = gropyBy(
+  const realLocationByPoint = groupyBy(
     dataPoint.filter(i => i.sub_district_zh !== "-"),
     i => `${i.lat}${i.lng}`
   )
   dataPoint
     .filter(i => i.sub_district_zh === "-")
     .forEach(i => {
-      if (realLocaitonByPoint[`${i.lat}${i.lng}`])
-        realLocaitonByPoint[`${i.lat}${i.lng}`].push(i)
+      if (realLocationByPoint[`${i.lat}${i.lng}`])
+        realLocationByPoint[`${i.lat}${i.lng}`].push(i)
     })
-  const groupedLocations = Object.values(realLocaitonByPoint).map(cases => ({
-      node:{
-        ...cases[0],
-        cases,
-      }
+  const groupedLocations = Object.values(realLocationByPoint).map(cases => ({
+    node: {
+      ...cases[0],
+      cases,
+    },
   }))
   const filteredLocations = filterValues(i18n, groupedLocations, filters)
 
@@ -108,62 +101,69 @@ const HighRiskMapPage = ({ data, pageContext }) => {
       ),
     },
   ]
-  const { fullPageContent, floatingFilterBar } = useStyle()
+  const {
+    fullPageContent,
+    floatingInfoPane,
+    virtualizedRowContainer,
+  } = useStyle()
   return (
     <Layout>
       <SEO title="HighRiskPage" />
       <div className={fullPageContent}>
-        <HighRiskMap
-          t={t}
-          getTranslated={(node, key) => withLanguage(i18n, node, key)}
-          filteredLocations={filteredLocations}
-          height={480}
-          renderTooltip={node => (
-            <HighRiskCardContent style={{ width: 300 }}>
-              <HighRiskCardTitle>
-                <Typography component="span" variant="h6" color="textPrimary">
-                  {withLanguage(i18n, node, "location")}
-                </Typography>
-              </HighRiskCardTitle>
-              <CaseRow c={node} i18n={i18n} t={t}></CaseRow>
-              <br />
-              <a
-                href={`https://maps.google.com/?ll=${node.lat},${node.lng},15z`}
-              >
-                Google Map
-              </a>
-            </HighRiskCardContent>
-          )}
-        >
-          <div className={floatingFilterBar}>
-            <AsyncSelect
-              closeMenuOnSelect={false}
-              loadOptions={(input, callback) =>
-                callback(filterSearchOptions(allOptions, input, 5))
+        <AutoSizer>
+          {({ width, height }) => (
+            <HighRiskMap
+              t={t}
+              getTranslated={(node, key) => withLanguage(i18n, node, key)}
+              filteredLocations={filteredLocations.map(i => i.node)}
+              height={height}
+              width={width}
+              infoPaneClass={floatingInfoPane}
+              selectBar={
+                <AsyncSelect
+                  closeMenuOnSelect={false}
+                  loadOptions={(input, callback) =>
+                    callback(filterSearchOptions(allOptions, input, 5))
+                  }
+                  isMulti
+                  placeholder={t("search.placeholder")}
+                  noOptionsMessage={() => t("text.not_found")}
+                  defaultOptions={filterSearchOptions(allOptions, null, 10)}
+                  value={filters}
+                  onChange={selectedArray => {
+                    // only append the history
+                    if (
+                      selectedArray &&
+                      selectedArray.length > filters.length
+                    ) {
+                      const historiesToSave = [
+                        ...histories,
+                        selectedArray[selectedArray.length - 1],
+                      ].filter((_, i) => i < 10)
+                      setHistories(historiesToSave)
+                      saveToLocalStorage(
+                        KEY_HISTORY_LOCAL_STORAGE,
+                        JSON.stringify(historiesToSave)
+                      )
+                    }
+                    setFilters(selectedArray || [])
+                  }}
+                />
               }
-              isMulti
-              placeholder={t("search.placeholder")}
-              noOptionsMessage={() => t("text.not_found")}
-              defaultOptions={filterSearchOptions(allOptions, null, 10)}
-              value={filters}
-              onChange={selectedArray => {
-                // only append the history
-                if (selectedArray && selectedArray.length > filters.length) {
-                  const historiesToSave = [
-                    ...histories,
-                    selectedArray[selectedArray.length - 1],
-                  ].filter((_, i) => i < 10)
-                  setHistories(historiesToSave)
-                  saveToLocalStorage(
-                    KEY_HISTORY_LOCAL_STORAGE,
-                    JSON.stringify(historiesToSave)
-                  )
-                }
-                setFilters(selectedArray || [])
-              }}
-            />
-          </div>
-        </HighRiskMap>
+              renderInfoPane={node => (
+                <div class={virtualizedRowContainer}>
+                  <HighRiskCardItem
+                    key={node.id}
+                    node={{ node }}
+                    i18n={i18n}
+                    t={t}
+                    style={{ margin: 0 }}
+                  />
+                </div>
+              )}
+            ></HighRiskMap>
+          )}
+        </AutoSizer>
       </div>
     </Layout>
   )

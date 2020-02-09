@@ -104,6 +104,12 @@ const InfoToolTip = ({ t, title, className, color }) => {
   )
 }
 
+export const HighRiskCardItem = ({ node, i18n, t, style }) => (
+  <HighRiskCardContainer alignItems="flex-start">
+    <Item node={node.node} i18n={i18n} t={t} style={style} />
+  </HighRiskCardContainer>
+)
+
 export const CaseRow = ({ c, i18n, t }) => (
   <CaseRowContainer>
     <Grid container spacing={1}>
@@ -155,9 +161,9 @@ export const CaseRow = ({ c, i18n, t }) => (
   </CaseRowContainer>
 )
 
-const Item = ({ node, i18n, t }) => {
+const Item = ({ node, i18n, t, style }) => {
   return (
-    <HighRiskCard>
+    <HighRiskCard style={style}>
       <HighRiskCardContent>
         <HighRiskCardTitle>
           <Typography component="span" variant="h6" color="textPrimary">
@@ -273,6 +279,7 @@ const HighRiskPage = ({ data, pageContext }) => {
             placeholder={t("search.placeholder")}
             noOptionsMessage={() => t("text.not_found")}
             defaultOptions={filterSearchOptions(allOptions, null, 10)}
+            value={filters}
             onChange={selectedArray => {
               // only append the history
               if (selectedArray && selectedArray.length > filters.length) {
@@ -286,7 +293,7 @@ const HighRiskPage = ({ data, pageContext }) => {
                   JSON.stringify(historiesToSave)
                 )
               }
-              setFilters(selectedArray || "")
+              setFilters(selectedArray || [])
             }}
           />
           <ResponsiveWrapper>
@@ -294,9 +301,7 @@ const HighRiskPage = ({ data, pageContext }) => {
               list={filteredLocations}
               step={{ mobile: 20 }}
               onItem={(node, index) => (
-                <HighRiskCardContainer alignItems="flex-start" key={index}>
-                  <Item node={node.node} i18n={i18n} t={t} />
-                </HighRiskCardContainer>
+                <HighRiskCardItem key={node.id} node={node} i18n={i18n} t={t} />
               )}
             />
           </ResponsiveWrapper>
