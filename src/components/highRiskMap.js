@@ -276,7 +276,6 @@ class HighRiskMap extends Component {
               {this.props.selectBar}
             </div>
           )}
-          {console.log(this.state)}
           {this.state.activeDataPoint ? (
             this.state.dataPointRendered
           ) : (
