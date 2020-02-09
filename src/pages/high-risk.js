@@ -258,7 +258,6 @@ const HighRiskPage = ({ data, pageContext }) => {
   ]
   const {
     fullPageContent,
-    floatingInfoPane,
     virtualizedRowContainer,
   } = useStyle()
   return (
@@ -273,7 +272,7 @@ const HighRiskPage = ({ data, pageContext }) => {
               filteredLocations={filteredLocations.map(i => i.node)}
               height={height}
               width={width}
-              infoPaneClass={floatingInfoPane}
+              rowContainerClass={virtualizedRowContainer}
               selectBar={
                 <AsyncSelect
                   closeMenuOnSelect={false}
@@ -305,8 +304,7 @@ const HighRiskPage = ({ data, pageContext }) => {
                   }}
                 />
               }
-              renderInfoPane={node => (
-                <div class={virtualizedRowContainer}>
+              renderCard={node => (
                   <HighRiskCardItem
                     key={node.id}
                     node={{ node }}
@@ -314,7 +312,6 @@ const HighRiskPage = ({ data, pageContext }) => {
                     t={t}
                     style={{ margin: 0 }}
                   />
-                </div>
               )}
             ></HighRiskMap>
           )}

@@ -58,10 +58,16 @@ class HighRiskMap extends Component {
           rowIndex={index}
         >
           <div
-            style={{ ...style, paddingTop: index === 0 ? 8 : 0 }}
-            onClick={this.getActiveHandler(this.props.filteredLocations[index])}
+            className={this.props.rowContainerClass}
+            style={{ ...style, paddingTop: index === 0 ? 16 : undefined }}
           >
-            {this.props.renderInfoPane(this.props.filteredLocations[index])}
+            <div
+              onClick={this.getActiveHandler(
+                this.props.filteredLocations[index]
+              )}
+            >
+              {this.props.renderCard(this.props.filteredLocations[index])}
+            </div>
           </div>
         </CellMeasurer>
       )
@@ -76,10 +82,11 @@ class HighRiskMap extends Component {
           activeDataPoint: highRiskLocation,
           dataPointRendered: (
             <div
+              className={this.props.rowContainerClass}
+              style={{ height: "100%", paddingTop: 16 }}
               onClick={this.getActiveHandler(highRiskLocation)}
-              style={{ height: "100%", paddingTop: 8, overflow: 'auto', }}
             >
-              {this.props.renderInfoPane(highRiskLocation)}
+              {this.props.renderCard(highRiskLocation)}
             </div>
           ),
         },
@@ -153,9 +160,12 @@ class HighRiskMap extends Component {
       attributionControl: false,
       maxBounds: this.props.maxBounds,
     }).setView(this.props.center, this.props.defaultZoom)
-    this.attributionControl = L.control.attribution()
+    this.attributionControl = L.control
+      .attribution()
       .setPrefix("")
-      .addAttribution('Tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy;<a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>')
+      .addAttribution(
+        'Tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy;<a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+      )
     this.attributionControl.addTo(this.map)
     L.tileLayer(
       "https://stamen-tiles-{s}.a.ssl.fastly.net/toner-lite/{z}/{x}/{y}{r}.{ext}",
