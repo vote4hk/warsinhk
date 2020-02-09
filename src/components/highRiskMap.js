@@ -94,7 +94,7 @@ class HighRiskMap extends Component {
             }
           )
           const marker = this.markersById[id]
-          if (!marker.isPopupOpen())
+          if (marker && !marker.isPopupOpen())
             this.map.openPopup(marker._popup, marker._latlng, {
               autoClose: false,
               closeOnClick: false,
@@ -105,7 +105,7 @@ class HighRiskMap extends Component {
       )
     } else {
       this.setState({ activeDataPoint: undefined }, () => {
-        if (this.markersById[id].isPopupOpen())
+        if (this.markersById[id] && this.markersById[id].isPopupOpen())
           this.map.closePopup(this.markersById[id]._popup)
         this.resetMapViewPort()
       })
