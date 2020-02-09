@@ -18,6 +18,7 @@ import {
 } from "@/utils/search"
 
 import { saveToLocalStorage, loadFromLocalStorage } from "@/utils"
+import gropyBy from "lodash/groupBy"
 
 const useStyle = makeStyles(theme => {
   return {
@@ -70,36 +71,23 @@ const HighRiskMapPage = ({ data, pageContext }) => {
       setHistories(JSON.parse(v))
     }
   }, [])
-
-  const groupedLocations = data.allWarsCaseLocation.edges.reduce(
-    (a, { node }) => {
-      const locationPos = a.findIndex(
-        item =>
-          withLanguage(i18n, item.node, "location") ===
-          withLanguage(i18n, node, "location")
-      )
-      if (locationPos === -1) {
-        const newLocation = {
-          node: {
-            id: node.id,
-            location_zh: node.location_zh,
-            location_en: node.location_en,
-            sub_district_zh: node.sub_district_zh,
-            sub_district_en: node.sub_district_en,
-            lat: node.lat,
-            lng: node.lng,
-            cases: [{ ...node }],
-          },
-        }
-        a.push(newLocation)
-        return a
-      }
-      a[locationPos].node.cases.push({ ...node })
-      return a
-    },
-    []
+  const dataPoint = data.allWarsCaseLocation.edges.map(i => i.node)
+  const realLocaitonByPoint = gropyBy(
+    dataPoint.filter(i => i.sub_district_zh !== "-"),
+    i => `${i.lat}${i.lng}`
   )
-
+  dataPoint
+    .filter(i => i.sub_district_zh === "-")
+    .forEach(i => {
+      if (realLocaitonByPoint[`${i.lat}${i.lng}`])
+        realLocaitonByPoint[`${i.lat}${i.lng}`].push(i)
+    })
+  const groupedLocations = Object.values(realLocaitonByPoint).map(cases => ({
+      node:{
+        ...cases[0],
+        cases,
+      }
+  }))
   const filteredLocations = filterValues(i18n, groupedLocations, filters)
 
   const allOptions = [
@@ -123,12 +111,12 @@ const HighRiskMapPage = ({ data, pageContext }) => {
   const { fullPageContent, floatingFilterBar } = useStyle()
   return (
     <Layout>
-      <SEO title="HighRiskMapPage" />
+      <SEO title="HighRiskPage" />
       <div className={fullPageContent}>
         <HighRiskMap
           t={t}
           getTranslated={(node, key) => withLanguage(i18n, node, key)}
-          filteredLocations={filteredLocations.flatMap(i => i.node.cases)}
+          filteredLocations={filteredLocations}
           height={480}
           renderTooltip={node => (
             <HighRiskCardContent style={{ width: 300 }}>
