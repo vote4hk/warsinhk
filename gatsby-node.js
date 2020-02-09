@@ -203,7 +203,7 @@ const createPublishedGoogleSpreadsheetNode = async (
   { actions: { createNode }, createNodeId, createContentDigest },
   publishedURL,
   type,
-  { skipFirstLine = false, checkEnabled = true }
+  { skipFirstLine = false, alwaysEnabled = false }
 ) => {
   // All table has first row reserved
   const result = await fetch(
@@ -214,7 +214,7 @@ const createPublishedGoogleSpreadsheetNode = async (
   const data = await result.text()
   const records = await csv2json().fromString(data)
   records
-    .filter(r => (checkEnabled ? r.enabled === "Y" : r))
+    .filter(r => alwaysEnabled || r.enabled === "Y")
     .forEach((p, i) => {
       // create node for build time data example in the docs
       const meta = {
@@ -302,7 +302,7 @@ exports.sourceNodes = async props => {
       props,
       PUBLISHED_SPREADSHEET_BOT_WARS_LATEST_FIGURES_URL,
       "BotWarsLatestFigures",
-      { skipFirstLine: true, checkEnabled: false }
+      { skipFirstLine: true, alwaysEnabled: true }
     ),
     createNode(props, SHEET_ALERT_MASTER, "Alert"),
     createNode(
