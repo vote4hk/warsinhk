@@ -66,9 +66,17 @@ const CaseLabel = styled(Box)`
 `
 
 const LabelRow = styled(UnstyledRow)`
-  justify-content: flex-start;
+  justify-content: flex-end;
   margin: 0px;
   flex-wrap: wrap;
+`
+
+const CaseActionRow = styled(UnstyledRow)`
+  align-items: flex-start;
+
+  .case_action {
+    margin-right: 5px;
+  }
 `
 
 const InfoToolTip = ({ t, title, className, color }) => {
@@ -121,8 +129,13 @@ export const CaseRow = ({ c, i18n, t }) => (
         </UnstyledRow>
       </Grid>
       <Grid item xs>
-        <UnstyledRow>
-          <Typography component="div" variant="body2" color="textPrimary">
+        <CaseActionRow>
+          <Typography
+            className="case_action"
+            component="div"
+            variant="body2"
+            color="textPrimary"
+          >
             {withLanguage(i18n, c, "action")}
           </Typography>
           <LabelRow>
@@ -153,7 +166,7 @@ export const CaseRow = ({ c, i18n, t }) => (
               </MuiLink>
             )}
           </LabelRow>
-        </UnstyledRow>
+        </CaseActionRow>
       </Grid>
     </Grid>
   </CaseRowContainer>
@@ -185,12 +198,6 @@ const useStyle = makeStyles(theme => {
       right: 0,
       bottom: 60,
       overflow: "hidden",
-    },
-    virtualizedRowContainer: {
-      paddingTop: 8,
-      paddingBottom: 8,
-      paddingLeft: theme.spacing(3),
-      paddingRight: theme.spacing(3),
     },
     [`${theme.breakpoints.up("sm")}`]: {
       fullPageContent: {

@@ -171,7 +171,7 @@ class HighRiskMap extends Component {
       "https://stamen-tiles-{s}.a.ssl.fastly.net/toner-lite/{z}/{x}/{y}{r}.{ext}",
       {
         subdomains: "abcd",
-        maxZoom: 20,
+        maxZoom: 16,
         minZoom: 9,
         ext: "png",
       }
@@ -276,6 +276,7 @@ class HighRiskMap extends Component {
               {this.props.selectBar}
             </div>
           )}
+          {console.log(this.state)}
           {this.state.activeDataPoint ? (
             this.state.dataPointRendered
           ) : (
