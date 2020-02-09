@@ -225,7 +225,8 @@ const HighRiskPage = ({ data, pageContext }) => {
     .filter(i => i.sub_district_zh === "-")
     .forEach(i => {
       if (realLocationByPoint[`${i.lat}${i.lng}`])
-        realLocationByPoint[`${i.lat}${i.lng}`].push(i)
+        return realLocationByPoint[`${i.lat}${i.lng}`].push(i)
+      realLocationByPoint[`${i.lat}${i.lng}`] = [i];
     })
   const groupedLocations = Object.values(realLocationByPoint).map(cases => ({
     node: {
