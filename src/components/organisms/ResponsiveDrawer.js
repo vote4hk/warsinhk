@@ -59,6 +59,9 @@ const useStyles = makeStyles(theme => ({
   },
   content: {
     flexGrow: 1,
+  },
+  contentWithPadding: {
+    flexGrow: 1,
     padding: theme.spacing(3),
   },
 }))
@@ -77,7 +80,7 @@ const LanguageSwitcherContainer = styled(ListItem)`
 `
 
 function ResponsiveDrawer(props) {
-  const { container, pages, children, className } = props
+  const { container, pages, children, className, noPadding } = props
   const classes = useStyles()
   const theme = useTheme()
   const [mobileOpen, setMobileOpen] = React.useState(false)
@@ -211,7 +214,9 @@ function ResponsiveDrawer(props) {
           </SwipeableDrawer>
         </Hidden>
       </nav>
-      <main className={classes.content}>
+      <main
+        className={noPadding ? classes.content : classes.contentWithPadding}
+      >
         <div className={classes.toolbar} />
         {children}
       </main>

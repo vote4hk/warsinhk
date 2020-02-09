@@ -37,6 +37,8 @@ const PUBLISHED_SPREADSHEET_BOT_WARS_LATEST_FIGURES_URL =
 const PUBLISHED_SPREADSHEET_FRIENDLY_LINK_URL =
   "https://docs.google.com/spreadsheets/d/e/2PACX-1vRrwN4gNtogizNkYKGzMXpa7GTNJhE_vkZuYiFraU7f-N7ZKiT-araG-0jb586kczxc9Ua6oht8SVcE/pub?gid=0"
 
+const PUBLISHED_SPREADSHEET_EPIDEMIC_CURVE_URL =
+  "https://docs.google.com/spreadsheets/d/e/2PACX-1vTvBVmXpY_zziEY_onMntWqEi3GM4cazp3ILcquBdEYrl6g8VEtu4q80XElS6M2XUAMr-VE9KPwAAXu/pub?gid=0"
 const GRAPHQL_URL = "https://api2.vote4.hk/v1/graphql"
 
 const createIMMDNode = async ({
@@ -330,6 +332,10 @@ exports.sourceNodes = async props => {
       PUBLISHED_SPREADSHEET_FRIENDLY_LINK_URL,
       "FriendlyLink",
       { skipFirstLine: true }
+    ),
+      PUBLISHED_SPREADSHEET_EPIDEMIC_CURVE_URL,
+      "EpidemicData",
+      { skipFirstLine: true, alwaysEnabled: true }
     ),
     createNode(props, SHEET_ALERT_MASTER, "Alert"),
     createNode(

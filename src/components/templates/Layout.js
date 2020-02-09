@@ -29,7 +29,7 @@ const StyledResponsiveDrawer = styled(ResponsiveDrawer)`
 `
 
 const Layout = props => {
-  const { children } = props // const { children, hideAlerts } = props
+  const { children, noPadding = false } = props
 
   const { configJson } = useStaticQuery(
     graphql`
@@ -50,6 +50,7 @@ const Layout = props => {
     <>
       <StyledResponsiveDrawer
         pages={configJson.pages.filter(p => p.sideMenu)}
+        noPadding={noPadding}
         children={
           <Container>
             {/* Alert is shown in index page only */}
