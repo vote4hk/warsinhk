@@ -88,27 +88,48 @@ const FullWidthButton = styled(Button)`
   padding: 6px 10px;
 `
 
-function DailyStats({ t, data: [{ node: today }, { node: ytd }] }) {
+function DailyStats({
+  t,
+  botdata: [{ node: first }, { node: second }],
+  overridedata,
+}) {
+  let today, ytd
+
+  today = {
+    ...first,
+    confirmed: Math.max(overridedata.confirmed, first.confirmed),
+  }
+
+  if (overridedata.date > first.date) {
+    ytd = {
+      ...first,
+    }
+  } else {
+    ytd = {
+      ...second,
+    }
+  }
+
   const dataArray = [
     {
-      label: t("dashboard.death_case"),
+      label: t("dashboard.death"),
       today_stat: today.death || 0,
       diff: today.death - ytd.death,
     },
     {
-      label: t("dashboard.confirmed_case"),
-      today_stat: today.confirmed_case,
-      diff: today.confirmed_case - ytd.confirmed_case,
+      label: t("dashboard.confirmed"),
+      today_stat: today.confirmed,
+      diff: today.confirmed - ytd.confirmed,
     },
     {
-      label: t("dashboard.investigation_case"),
-      today_stat: today.still_investigated,
-      diff: today.still_investigated - ytd.still_investigated,
+      label: t("dashboard.investigating"),
+      today_stat: today.investigating,
+      diff: today.investigating - ytd.investigating,
     },
     {
-      label: t("dashboard.fulfilling"),
-      today_stat: today.fulfilling,
-      diff: today.fulfilling - ytd.fulfilling,
+      label: t("dashboard.reported"),
+      today_stat: today.reported,
+      diff: today.reported - ytd.reported,
     },
   ]
 
@@ -191,12 +212,19 @@ export default function IndexPage({ data }) {
   const isSSR = typeof window === "undefined"
   const isMobile = useMediaQuery(bps.down("md"))
 
-  const latestStat = React.useMemo(() => data.allDailyStats.edges[0].node, [
-    data,
-  ])
+  const latestFigures = React.useMemo(
+    () => data.allBotWarsLatestFigures.edges[0].node,
+    [data]
+  )
+
+  const latestFiguresOverride = React.useMemo(
+    () => data.allWarsLatestFiguresOverride.edges[0].node,
+    [data]
+  )
+
   const remarksText = React.useMemo(
-    () => withLanguage(i18n, latestStat, "remarks"),
-    [i18n, latestStat]
+    () => withLanguage(i18n, latestFiguresOverride, "remarks"),
+    [i18n, latestFiguresOverride]
   )
 
   data.allWarsCase.edges.sort(
@@ -220,10 +248,18 @@ export default function IndexPage({ data }) {
               </Link>
             </Typography>
             <Typography variant="body2" color="textPrimary">
-              {`${t("dashboard.last_updated")}${latestStat.last_updated}`}
+              {`${t("dashboard.last_updated")}${
+                latestFiguresOverride.date > latestFigures.date
+                  ? latestFiguresOverride.date
+                  : latestFigures.date
+              }`}
             </Typography>
             <BasicCard>
-              <DailyStats t={t} data={data.allDailyStats.edges} />
+              <DailyStats
+                t={t}
+                botdata={data.allBotWarsLatestFigures.edges}
+                overridedata={latestFiguresOverride}
+              />
             </BasicCard>
             {remarksText && (
               <Typography variant="body2" color="textPrimary">
@@ -352,15 +388,31 @@ export const WarsCaseQuery = graphql`
         }
       }
     }
-    allDailyStats(sort: { order: DESC, fields: last_updated }) {
+    allBotWarsLatestFigures(sort: { order: DESC, fields: date }) {
       edges {
         node {
-          last_updated
-          death
-          confirmed_case
+          date
+          time
+          confirmed
           ruled_out
-          still_investigated
-          fulfilling
+          investigating
+          reported
+          death
+          discharged
+        }
+      }
+    }
+    allWarsLatestFiguresOverride(sort: { order: DESC, fields: date }) {
+      edges {
+        node {
+          date
+          time
+          confirmed
+          ruled_out
+          investigating
+          reported
+          death
+          discharged
           remarks_zh
           remarks_en
         }

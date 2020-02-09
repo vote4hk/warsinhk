@@ -11,6 +11,8 @@ import { ItemPaginator } from "@components/organisms/item/ItemPaginator"
 import { ItemSearch } from "@components/organisms/item/ItemSearch"
 import { ItemSelect } from "@components/organisms/item/ItemSelect"
 import { ItemEmpty } from "@components/organisms/item/ItemEmpty"
+import { bps } from "@/ui/theme"
+import { ResponsiveWrapper } from "@components/atoms/ResponsiveWrapper"
 
 function containsText(i18n, node, text) {
   return (
@@ -53,6 +55,15 @@ const DisruptionPage = props => {
   const [categories, setCategories] = useState([])
   const [activeStep, setActiveStep] = useState(0)
   const selectRef = useRef(null)
+
+  let pageSize = 10
+  if (typeof window !== "undefined") {
+    if (window.innerWidth > bps.values.lg) {
+      pageSize = 21
+    } else if (window.innerWidth > bps.values.md) {
+      pageSize = 20
+    }
+  }
 
   const disruptions = data.allDisruption.edges.filter(
     e =>
@@ -97,37 +108,41 @@ const DisruptionPage = props => {
         options={categoryOptions}
         onChange={handleCategoryChange}
       />
-      <ItemPaginator
-        items={disruptions}
-        activeStep={activeStep}
-        setActiveStep={setActiveStep}
-        setCategories={selectedCategories =>
-          setCategories(selectedCategories || [])
-        }
-        pageSize={10}
-        renderEmpty={() => <ItemEmpty />}
-      >
-        {(item, index) => (
-          <Disruption
-            key={index}
-            node={item.node}
-            onCategoryClick={handleCategoryClick}
-          >
-            {disruptionDescriptions
-              .filter(
-                disruptionDescriptionEdge =>
-                  disruptionDescriptionEdge.node.disruption_id ===
-                  item.node.disruption_id
-              )
-              .map((disruptionDescriptionEdge, disruptionDescriptionIndex) => (
-                <DisruptionDescription
-                  key={disruptionDescriptionIndex}
-                  node={disruptionDescriptionEdge.node}
-                />
-              ))}
-          </Disruption>
-        )}
-      </ItemPaginator>
+      <ResponsiveWrapper>
+        <ItemPaginator
+          items={disruptions}
+          activeStep={activeStep}
+          setActiveStep={setActiveStep}
+          setCategories={selectedCategories =>
+            setCategories(selectedCategories || [])
+          }
+          pageSize={pageSize}
+          renderEmpty={() => <ItemEmpty />}
+        >
+          {(item, index) => (
+            <Disruption
+              key={index}
+              node={item.node}
+              onCategoryClick={handleCategoryClick}
+            >
+              {disruptionDescriptions
+                .filter(
+                  disruptionDescriptionEdge =>
+                    disruptionDescriptionEdge.node.disruption_id ===
+                    item.node.disruption_id
+                )
+                .map(
+                  (disruptionDescriptionEdge, disruptionDescriptionIndex) => (
+                    <DisruptionDescription
+                      key={disruptionDescriptionIndex}
+                      node={disruptionDescriptionEdge.node}
+                    />
+                  )
+                )}
+            </Disruption>
+          )}
+        </ItemPaginator>
+      </ResponsiveWrapper>
     </Layout>
   )
 }
