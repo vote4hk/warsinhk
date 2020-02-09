@@ -77,7 +77,7 @@ class HighRiskMap extends Component {
           dataPointRendered: (
             <div
               onClick={this.getActiveHandler(highRiskLocation)}
-              style={{ height: "100%", paddingTop: 8 }}
+              style={{ height: "100%", paddingTop: 8, overflow: 'auto', }}
             >
               {this.props.renderInfoPane(highRiskLocation)}
             </div>
