@@ -10,7 +10,7 @@ import PropTypes from "prop-types"
 import Box from "@material-ui/core/Box"
 import ResponsiveDrawer from "@components/organisms/ResponsiveDrawer"
 import BottomNav from "@components/organisms/BottomNav"
-import AlertMessage from "@components/organisms/AlertMessage"
+// import AlertMessage from "@components/organisms/AlertMessage"
 import styled from "styled-components"
 import { useStaticQuery, graphql } from "gatsby"
 import { bps } from "@/ui/theme"
@@ -29,7 +29,7 @@ const StyledResponsiveDrawer = styled(ResponsiveDrawer)`
 `
 
 const Layout = props => {
-  const { children, hideAlerts } = props
+  const { children } = props // const { children, hideAlerts } = props
 
   const { configJson } = useStaticQuery(
     graphql`
@@ -52,7 +52,8 @@ const Layout = props => {
         pages={configJson.pages.filter(p => p.sideMenu)}
         children={
           <Container>
-            {!hideAlerts && <AlertMessage />}
+            {/* Alert is shown in index page only */}
+            {/* {!hideAlerts && <AlertMessage />} */}
             {children}
           </Container>
         }
