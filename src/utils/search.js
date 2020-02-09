@@ -90,7 +90,6 @@ export const filterSearchOptions = (options, text, size) =>
   }))
 
 export const filterByDate = node => {
-  console.log(node)
   const { start_date, end_date, search_start_date, search_end_date } = node
   if (!search_start_date || !search_end_date) {
     return true

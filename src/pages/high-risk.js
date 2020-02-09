@@ -320,7 +320,6 @@ const HighRiskPage = ({ data, pageContext }) => {
                   JSON.stringify(historiesToSave)
                 )
               }
-              console.log(selectedArray)
               setFilters(selectedArray || "")
             }}
           />
