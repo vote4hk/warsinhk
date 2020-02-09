@@ -183,6 +183,7 @@ class HighRiskMap extends Component {
       this.cache.clearAll()
       this.setState({ activeDataPoint: null, dataPointRendered: null })
     }
+    return null
   }
 
   componentDidUpdate(prevProps, prevState) {
