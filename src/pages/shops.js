@@ -28,6 +28,7 @@ import {
 import { withLanguage } from "@/utils/i18n"
 import { bps } from "@/ui/theme"
 import { BasicFab } from "@components/atoms/Fab"
+import { ResponsiveWrapper } from "@components/atoms/ResponsiveWrapper"
 
 const FabContainer = styled(Box)`
   && {
@@ -55,18 +56,22 @@ const animatedComponents = makeAnimated()
 
 const SearchBox = styled(TextField)`
   && {
-    ${bps.down("md")} {
-      margin-top: 8px;
-      margin-bottom: 8px;
-      width: 100%;
-    }
+    margin-top: 8px;
+    width: 100%;
   }
 `
-const PageSize = 10
+
+let pageSize = 10
+if (window.innerWidth > bps.values.lg) {
+  pageSize = 21
+} else if (window.innerWidth > bps.values.md) {
+  pageSize = 20
+}
 
 const MultiSelect = styled(Select)`
   && {
     margin-top: 16px;
+    margin-bottom: 8px;
   }
 `
 
@@ -154,7 +159,7 @@ const ShopsPage = props => {
 
   // added for paging
   const handleNext = () => {
-    const maxSteps = Math.ceil(filteredData.length / PageSize)
+    const maxSteps = Math.ceil(filteredData.length / pageSize)
     setActiveStep(prevActiveStep =>
       prevActiveStep + 1 >= maxSteps ? 0 : prevActiveStep + 1
     )
@@ -177,7 +182,7 @@ const ShopsPage = props => {
       isInSubDistrict(i18n, e.node, filter)
   )
 
-  const maxSteps = Math.ceil(filteredData.length / PageSize)
+  const maxSteps = Math.ceil(filteredData.length / pageSize)
 
   //Use to reset the activeStep after change filter
   if (maxSteps > 0 && activeStep >= maxSteps) {
@@ -214,7 +219,7 @@ const ShopsPage = props => {
     filteredData.length === 0 ? (
       <Typography variant="h4">{t("dodgy_shops.no_result")}</Typography>
     ) : (
-      paginate(filteredData, PageSize, activeStep).map((node, index) => (
+      paginate(filteredData, pageSize, activeStep).map((node, index) => (
         <BasicCard
           alignItems="flex-start"
           key={index}
@@ -234,23 +239,6 @@ const ShopsPage = props => {
         </FabContainer>
         <Typography variant="h2">{t("dodgy_shops.list_text")}</Typography>
         <>
-          <MultiSelect
-            closeMenuOnSelect={false}
-            // components={(props) => props.type === "sub_district" ? <components.Option {...props} /> : <components.Option {...props} />}
-            components={animatedComponents}
-            isMulti
-            placeholder={t("dodgy_shops.filter_by_district_text")}
-            options={subDistrictOptionList}
-            // formatGroupLabel={SelectGroupLabel}
-            onChange={selectedArray => {
-              trackCustomEvent({
-                category: "dodgy_shop",
-                action: "multiselect_input",
-                label: (selectedArray && selectedArray.toString()) || "",
-              })
-              setFilter(selectedArray || "")
-            }}
-          />
           <SearchBox
             id="input-with-icon-textfield"
             placeholder={t("dodgy_shops.filter_text")}
@@ -270,9 +258,26 @@ const ShopsPage = props => {
               ),
             }}
           />
+          <MultiSelect
+            closeMenuOnSelect={false}
+            // components={(props) => props.type === "sub_district" ? <components.Option {...props} /> : <components.Option {...props} />}
+            components={animatedComponents}
+            isMulti
+            placeholder={t("dodgy_shops.filter_by_district_text")}
+            options={subDistrictOptionList}
+            // formatGroupLabel={SelectGroupLabel}
+            onChange={selectedArray => {
+              trackCustomEvent({
+                category: "dodgy_shop",
+                action: "multiselect_input",
+                label: (selectedArray && selectedArray.toString()) || "",
+              })
+              setFilter(selectedArray || "")
+            }}
+          />
         </>
         {mobileStepper}
-        {searchResult}
+        <ResponsiveWrapper>{searchResult}</ResponsiveWrapper>
         {mobileStepper}
       </Layout>
     </>

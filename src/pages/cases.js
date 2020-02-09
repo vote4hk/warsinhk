@@ -6,6 +6,7 @@ import Typography from "@material-ui/core/Typography"
 import { graphql } from "gatsby"
 import { WarsCaseCard } from "@components/organisms/CaseCard"
 import { isSSR } from "@/utils"
+import { ResponsiveWrapper } from "@components/atoms/ResponsiveWrapper"
 
 const ConfirmedCasePage = props => {
   const { data, location } = props
@@ -41,16 +42,18 @@ const ConfirmedCasePage = props => {
     <Layout>
       <SEO title="ConfirmedCasePage" />
       <Typography variant="h2">{t("cases.title")}</Typography>
-      {data.allWarsCase.edges.map(item => (
-        <WarsCaseCard
-          node={item.node}
-          i18n={i18n}
-          t={t}
-          key={item.node.case_no}
-          isSelected={selectedCase === item.node.case_no}
-          ref={selectedCase === item.node.case_no ? selectedCard : null}
-        />
-      ))}
+      <ResponsiveWrapper>
+        {data.allWarsCase.edges.map(item => (
+          <WarsCaseCard
+            node={item.node}
+            i18n={i18n}
+            t={t}
+            key={item.node.case_no}
+            isSelected={selectedCase === item.node.case_no}
+            ref={selectedCase === item.node.case_no ? selectedCard : null}
+          />
+        ))}
+      </ResponsiveWrapper>
     </Layout>
   )
 }

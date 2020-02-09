@@ -129,85 +129,82 @@ export const WarsCaseCard = React.forwardRef((props, ref) => {
   const { node, i18n, t, isSelected } = props
 
   return (
-    <div ref={ref}>
-      <WarsCaseContainer
-        key={`case-${node.case_no}`}
-        selected={isSelected}
-        statuscolor={mapColorForStatus(node.status).main}
-      >
-        <Row>
-          <Box>
-            {`#${node.case_no}`} ({withLanguage(i18n, node, "type")})
-          </Box>
-          <Box>
+    <WarsCaseContainer
+      key={`case-${node.case_no}`}
+      selected={isSelected}
+      statuscolor={mapColorForStatus(node.status).main}
+      ref={ref}
+    >
+      <Row>
+        <Box>
+          {`#${node.case_no}`} ({withLanguage(i18n, node, "type")})
+        </Box>
+        <Box>
+          <DefaultChip
+            textcolor={mapColorForStatus(node.status).main}
+            bordercolor={mapColorForStatus(node.status).main}
+            size="small"
+            fontsize={14}
+            label={t(`cases.status_${node.status}`)}
+          />
+        </Box>
+      </Row>
+      <Row>
+        <Box>
+          <Typography variant="h6">
+            {node.age && t("dashboard.patient_age_format", { age: node.age })}{" "}
+            {node.gender !== "-" && t(`dashboard.gender_${node.gender}`)}
+          </Typography>
+        </Box>
+      </Row>
+      <StatusRow>
+        <Box>
+          {node.classification && (
             <DefaultChip
-              textcolor={mapColorForStatus(node.status).main}
-              bordercolor={mapColorForStatus(node.status).main}
+              bordercolor={mapColorForClassification(node.classification).main}
+              backgroundcolor={
+                mapColorForClassification(node.classification).main
+              }
+              textcolor={
+                mapColorForClassification(node.classification).contrastText
+              }
               size="small"
               fontsize={14}
-              label={t(`cases.status_${node.status}`)}
+              label={t(`cases.classification_${node.classification}`)}
             />
-          </Box>
-        </Row>
-        <Row>
-          <Box>
-            <Typography variant="h6">
-              {node.age && t("dashboard.patient_age_format", { age: node.age })}{" "}
-              {node.gender !== "-" && t(`dashboard.gender_${node.gender}`)}
-            </Typography>
-          </Box>
-        </Row>
-        <StatusRow>
-          <Box>
-            {node.classification && (
-              <DefaultChip
-                bordercolor={
-                  mapColorForClassification(node.classification).main
-                }
-                backgroundcolor={
-                  mapColorForClassification(node.classification).main
-                }
-                textcolor={
-                  mapColorForClassification(node.classification).contrastText
-                }
-                size="small"
-                fontsize={14}
-                label={t(`cases.classification_${node.classification}`)}
-              />
-            )}
-          </Box>
-        </StatusRow>
-        <WarsRow>
-          {node.onset_date && (
-            <Box>
-              <Label>{t("dashboard.patient_onset_date")}</Label>
-              <b>{node.onset_date}</b>
-            </Box>
           )}
+        </Box>
+      </StatusRow>
+      <WarsRow>
+        {node.onset_date && (
           <Box>
-            <Label>{t("dashboard.patient_confirm_date")}</Label>
-            <b>{node.confirmation_date}</b>
+            <Label>{t("dashboard.patient_onset_date")}</Label>
+            <b>{node.onset_date}</b>
           </Box>
-        </WarsRow>
-        <WarsRow>
-          <Box>
-            <Label>{t("dashboard.patient_citizenship")}</Label>
-            <b>{withLanguage(i18n, node, "citizenship") || "-"}</b>
-          </Box>
-          <Box>
-            <Label>{t("dashboard.patient_hospital")}</Label>
-            <b>{withLanguage(i18n, node, "hospital") || "-"}</b>
-          </Box>
-        </WarsRow>
-        <Row>
-          <WarsCaseDetail>{withLanguage(i18n, node, "detail")}</WarsCaseDetail>
-        </Row>
-        <Row>
-          <WarsSource href={node.source_url} target="_blank">
-            {t("dashboard.source")}
-          </WarsSource>
-        </Row>
-      </WarsCaseContainer>
-    </div>
+        )}
+        <Box>
+          <Label>{t("dashboard.patient_confirm_date")}</Label>
+          <b>{node.confirmation_date}</b>
+        </Box>
+      </WarsRow>
+      <WarsRow>
+        <Box>
+          <Label>{t("dashboard.patient_citizenship")}</Label>
+          <b>{withLanguage(i18n, node, "citizenship") || "-"}</b>
+        </Box>
+        <Box>
+          <Label>{t("dashboard.patient_hospital")}</Label>
+          <b>{withLanguage(i18n, node, "hospital") || "-"}</b>
+        </Box>
+      </WarsRow>
+      <Row>
+        <WarsCaseDetail>{withLanguage(i18n, node, "detail")}</WarsCaseDetail>
+      </Row>
+      <Row>
+        <WarsSource href={node.source_url} target="_blank">
+          {t("dashboard.source")}
+        </WarsSource>
+      </Row>
+    </WarsCaseContainer>
   )
 })
