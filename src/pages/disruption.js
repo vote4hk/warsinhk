@@ -57,10 +57,12 @@ const DisruptionPage = props => {
   const selectRef = useRef(null)
 
   let pageSize = 10
-  if (window.innerWidth > bps.values.lg) {
-    pageSize = 21
-  } else if (window.innerWidth > bps.values.md) {
-    pageSize = 20
+  if (typeof window !== "undefined") {
+    if (window.innerWidth > bps.values.lg) {
+      pageSize = 21
+    } else if (window.innerWidth > bps.values.md) {
+      pageSize = 20
+    }
   }
 
   const disruptions = data.allDisruption.edges.filter(
