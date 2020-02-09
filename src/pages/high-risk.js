@@ -2,12 +2,7 @@ import React, { useState } from "react"
 import SEO from "@/components/templates/SEO"
 import Layout from "@components/templates/Layout"
 import { useTranslation } from "react-i18next"
-import {
-  Box,
-  Typography,
-  Tooltip,
-  ClickAwayListener,
-} from "@material-ui/core"
+import { Box, Typography, Tooltip, ClickAwayListener } from "@material-ui/core"
 import { graphql } from "gatsby"
 import styled from "styled-components"
 import MuiLink from "@material-ui/core/Link"
@@ -48,6 +43,7 @@ const HighRiskCardContent = styled(Box)`
 `
 
 const StyledToolTip = styled(Tooltip)`
+  cursor: pointer;
   .tooltip {
     background-color: papayawhip;
     color: #000;
@@ -92,7 +88,13 @@ const InfoToolTip = ({ t, title, className, color }) => {
         placement="top"
         title={title}
       >
-        <CaseLabel color={color} onClick={() => setOpen(true)}>
+        <CaseLabel
+          color={color}
+          onClick={e => {
+            e.stopPropagation()
+            setOpen(true)
+          }}
+        >
           {t("high_risk.detail")}
         </CaseLabel>
       </StyledToolTip>
@@ -226,7 +228,7 @@ const HighRiskPage = ({ data, pageContext }) => {
     .forEach(i => {
       if (realLocationByPoint[`${i.lat}${i.lng}`])
         return realLocationByPoint[`${i.lat}${i.lng}`].push(i)
-      realLocationByPoint[`${i.lat}${i.lng}`] = [i];
+      realLocationByPoint[`${i.lat}${i.lng}`] = [i]
     })
   const groupedLocations = Object.values(realLocationByPoint).map(cases => ({
     node: {
