@@ -68,6 +68,7 @@ function DatePicker(props) {
             dateRangeGridTemplateColumns: "1fr 24px 1fr",
             dateRangeStartDateInputPadding: "0 8px 0 32px",
             dateRangeEndDateInputPadding: "0 8px 0 32px",
+            datepickerCloseWrapperZIndex: "0",
           },
         }}
       >
