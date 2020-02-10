@@ -36,10 +36,12 @@ const HighRiskCardContainer = styled("div")`
   box-sizing: border-box;
   padding: 8px 16px;
 
-  background: ${props =>
-    props.isActive
-      ? Theme.palette.secondary.light
-      : props.theme.palette.background.paper};
+  border-left: 4px
+    ${props =>
+      props.isActive
+        ? Theme.palette.secondary.main
+        : props.theme.palette.background.paper}
+    solid;
 `
 
 const HighRiskCardTitle = styled(Box)``
@@ -204,6 +206,7 @@ const Item = ({ node, i18n, t }) => {
           {withLanguage(i18n, node, "location")}
         </Typography>
       </HighRiskCardTitle>
+      {console.log(node.cases)}
       {node.cases.map(c => (
         <CaseRow key={c.id} c={c} i18n={i18n} t={t}></CaseRow>
       ))}

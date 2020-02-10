@@ -17,8 +17,14 @@ import { withTheme } from "@material-ui/core/styles"
 import IconButton from "@material-ui/core/IconButton"
 import DateRangeIcon from "@material-ui/icons/DateRange"
 import { trackCustomEvent } from "gatsby-plugin-google-analytics"
+import styled from "styled-components"
 
 const limit = 1.5
+
+const DateButton = styled(IconButton)`
+  padding: 0;
+  margin-left: 8px;
+`
 
 class HighRiskMap extends Component {
   static propTypes = {
@@ -291,8 +297,8 @@ class HighRiskMap extends Component {
               ? {
                   position: "absolute",
                   top: theme.spacing(1),
-                  left: theme.spacing(3),
-                  right: theme.spacing(3),
+                  left: theme.spacing(2),
+                  right: theme.spacing(2),
                   opacity: 0.96,
                 }
               : {
@@ -301,10 +307,10 @@ class HighRiskMap extends Component {
                   left: 0,
                   width: 480,
                   height: 56,
-                  paddingTop: theme.spacing(1),
+                  paddingTop: theme.spacing(2),
                   paddingBottom: theme.spacing(1),
-                  paddingLeft: theme.spacing(3),
-                  paddingRight: theme.spacing(3),
+                  paddingLeft: "20px",
+                  paddingRight: "20px",
                   backgroundColor: theme.palette.background.paper,
                 }
           }
@@ -317,7 +323,7 @@ class HighRiskMap extends Component {
             }}
           >
             <div style={{ flex: 1 }}>{this.props.selectBar}</div>
-            <IconButton
+            <DateButton
               color={this.props.dateFilterEnabled ? "secondary" : "primary"}
               onClick={() => {
                 trackCustomEvent({
@@ -329,7 +335,7 @@ class HighRiskMap extends Component {
               }}
             >
               <DateRangeIcon />
-            </IconButton>
+            </DateButton>
           </div>
           {this.state.showDatePicker && this.props.datePicker}
         </div>
