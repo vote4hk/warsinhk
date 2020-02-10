@@ -63,6 +63,41 @@
       "icon": "collections",
       "sideMenu": true,
       "bottomNav": false
+    },
+    {
+      "title": "about_us.title",
+      "to": "/about-us",
+      "icon": "aboutus",
+      "sideMenu": true,
+      "bottomNav": false
     }
-  ]
+  ],
+  "credits": {
+    "contributors": [
+      "cswbrian",
+      "nandiheath",
+      "howawong",
+      "fionnachan",
+      "yshing",
+      "wingkwong",
+      "johnhorsema",
+      "tonyhhyip",
+      "khmak3",
+      "hosiukeung",
+      "himphen",
+      "dhoeric",
+      "csvke"
+    ],
+    "volunteers": [
+      "芝士病菌蘑菇Pizza",
+      "祝君健康",
+      "嘈",
+      "Dignified Work",
+      "我愛中大",
+      "海豚",
+      "Sabrina",
+      "laziboy",
+      "香港人"
+    ]
+  }
 }

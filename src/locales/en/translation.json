@@ -121,5 +121,8 @@
   "datepicker.endDateAriaLabel": "End Date",
   "datepicker.startDatePlaceholder": "Start Date",
   "datepicker.endDatePlaceholder": "End Date",
-  "datepicker.close": "Close"
+  "datepicker.close": "Close",
+  "about_us.title": "About Us",
+  "about_us.volunteers": "Volunteers",
+  "about_us.contributors": "Developers"
 }
