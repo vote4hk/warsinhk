@@ -16,6 +16,7 @@ import keyBy from "lodash/keyBy"
 import { withTheme } from "@material-ui/core/styles"
 import IconButton from "@material-ui/core/IconButton"
 import DateRangeIcon from "@material-ui/icons/DateRange"
+import { trackCustomEvent } from "gatsby-plugin-google-analytics"
 
 const limit = 1.5
 
@@ -81,6 +82,11 @@ class HighRiskMap extends Component {
 
   getActiveHandler = highRiskLocation => () => {
     const { id } = highRiskLocation
+    trackCustomEvent({
+      category: "high_risk_map",
+      action: "click_marker",
+      label: highRiskLocation,
+    })
     if (!this.state.activeDataPoint || this.state.activeDataPoint.id !== id) {
       this.setState(
         {
@@ -313,16 +319,16 @@ class HighRiskMap extends Component {
             <div style={{ flex: 1 }}>{this.props.selectBar}</div>
             <IconButton
               color={this.props.dateFilterEnabled ? "secondary" : "primary"}
-              onClick={() =>
+              onClick={() => {
+                trackCustomEvent({
+                  category: "high_risk_map",
+                  action: "click_date_filter",
+                  label: this.props.dateFilterEnabled ? "enable" : "disable",
+                })
                 this.setState({ showDatePicker: !this.state.showDatePicker })
-              }
+              }}
             >
               <DateRangeIcon />
-              {/* {this.props.dateFilterEnabled ? (
-                <DateRangeIcon />
-              ) : (
-                <CalendarTodayIcon />
-              )} */}
             </IconButton>
           </div>
           {this.state.showDatePicker && this.props.datePicker}

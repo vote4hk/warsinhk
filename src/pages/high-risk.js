@@ -18,6 +18,7 @@ import * as d3 from "d3"
 import groupyBy from "lodash/groupBy"
 import DatePicker from "@/components/organisms/DatePicker"
 import Theme from "@/ui/theme"
+import { trackCustomEvent } from "gatsby-plugin-google-analytics"
 
 import {
   createSubDistrictOptionList,
@@ -119,7 +120,16 @@ const InfoToolTip = ({ t, title, className, color }) => {
 }
 
 export const HighRiskCardItem = ({ node, i18n, t, isActive }) => (
-  <HighRiskCardContainer isActive={isActive}>
+  <HighRiskCardContainer
+    isActive={isActive}
+    onClick={() =>
+      trackCustomEvent({
+        category: "high_risk_list",
+        action: "click_item",
+        label: node.node,
+      })
+    }
+  >
     <Item node={node.node} i18n={i18n} t={t} />
   </HighRiskCardContainer>
 )
