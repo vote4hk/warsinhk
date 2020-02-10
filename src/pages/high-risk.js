@@ -33,9 +33,12 @@ const KEY_HISTORY_LOCAL_STORAGE = "high-risk-search-history"
 
 const HighRiskCardContainer = styled("div")`
   box-sizing: border-box;
-  background: ${props => props.theme.palette.background.paper};
   padding: 8px 16px;
-  border: 2px solid ${props => props.theme.palette.background.paper};
+
+  background: ${props =>
+    props.isActive
+      ? Theme.palette.secondary.light
+      : props.theme.palette.background.paper};
 `
 
 const HighRiskCardTitle = styled(Box)``
@@ -63,6 +66,7 @@ const CaseRowContainer = styled(Box)`
 
 const CaseLabel = styled(Box)`
   color: ${props => props.color};
+  background: white;
   border: ${props => props.color} 1px solid;
   padding: 2px 5px 2px;
   margin-right: 4px;
@@ -114,13 +118,8 @@ const InfoToolTip = ({ t, title, className, color }) => {
   )
 }
 
-export const HighRiskCardItem = ({ node, i18n, t, style, isActive }) => (
-  <HighRiskCardContainer
-    style={{
-      ...style,
-      borderColor: isActive ? Theme.palette.secondary.main : undefined,
-    }}
-  >
+export const HighRiskCardItem = ({ node, i18n, t, isActive }) => (
+  <HighRiskCardContainer isActive={isActive}>
     <Item node={node.node} i18n={i18n} t={t} />
   </HighRiskCardContainer>
 )
@@ -187,9 +186,9 @@ const formatDate = d => {
   return d
 }
 
-const Item = ({ node, i18n, t, style }) => {
+const Item = ({ node, i18n, t }) => {
   return (
-    <HighRiskCardContent style={style}>
+    <HighRiskCardContent>
       <HighRiskCardTitle>
         <Typography component="span" variant="h6" color="textPrimary">
           {withLanguage(i18n, node, "location")}
@@ -346,7 +345,6 @@ const HighRiskPage = ({ data, pageContext }) => {
                     node={{ node }}
                     i18n={i18n}
                     t={t}
-                    style={{ margin: 0 }}
                     isActive={isActive}
                   />
                 )
