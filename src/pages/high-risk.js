@@ -255,6 +255,8 @@ const HighRiskPage = ({ data, pageContext }) => {
   const groupedLocations = Object.values(realLocationByPoint).map(cases => ({
     node: {
       ...cases[0],
+      search_start_date: searchStartDate,
+      search_end_date: searchEndDate,
       cases,
     },
   }))
@@ -298,6 +300,8 @@ const HighRiskPage = ({ data, pageContext }) => {
               dateFilterEnabled={searchStartDate && searchEndDate}
               datePicker={
                 <DatePicker
+                  startDate={searchStartDate}
+                  endDate={searchEndDate}
                   setSearchStartDate={setSearchStartDate}
                   setSearchEndDate={setSearchEndDate}
                   setFilters={setFilters}
