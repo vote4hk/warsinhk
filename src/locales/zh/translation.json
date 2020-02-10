@@ -127,5 +127,8 @@
   "datepicker.endDateAriaLabel": "至",
   "datepicker.startDatePlaceholder": "由",
   "datepicker.endDatePlaceholder": "至",
-  "datepicker.close": "關閉"
+  "datepicker.close": "關閉",
+  "about_us.title": "關於我們",
+  "about_us.volunteers": "義工",
+  "about_us.contributors": "開發者"
 }
