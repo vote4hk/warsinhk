@@ -31,6 +31,8 @@
     "gatsby-transformer-sharp": "^2.3.7",
     "graphql-request": "^1.8.2",
     "i18next": "^19.0.3",
+    "leaflet": "^1.6.0",
+    "leaflet.markercluster": "^1.4.1",
     "lodash.flatten": "^4.4.0",
     "lodash.get": "^4.4.2",
     "lodash.groupby": "^4.6.0",
@@ -48,6 +50,7 @@
     "react-responsive": "^8.0.3",
     "react-select": "3.0.8",
     "react-share": "^4.0.1",
+    "react-virtualized": "^9.21.2",
     "rss-parser": "^3.7.4",
     "styled-components": "^5.0.1"
   },

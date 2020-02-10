@@ -2,26 +2,22 @@ import React, { useState } from "react"
 import SEO from "@/components/templates/SEO"
 import Layout from "@components/templates/Layout"
 import { useTranslation } from "react-i18next"
-import {
-  Box,
-  Button,
-  Typography,
-  Tooltip,
-  ClickAwayListener,
-} from "@material-ui/core"
+import { Box, Typography, Tooltip, ClickAwayListener } from "@material-ui/core"
 import { graphql } from "gatsby"
 import styled from "styled-components"
 import MuiLink from "@material-ui/core/Link"
 import { Link } from "gatsby"
 import { BasicCard } from "@components/atoms/Card"
 import { withLanguage, getLocalizedPath } from "@/utils/i18n"
-import { Row, UnstyledRow } from "@components/atoms/Row"
+import { UnstyledRow } from "@components/atoms/Row"
+import HighRiskMap from "@components/highRiskMap"
 import Grid from "@material-ui/core/Grid"
+import { makeStyles } from "@material-ui/core/styles"
 import AsyncSelect from "react-select/async"
+import AutoSizer from "react-virtualized/dist/es/AutoSizer"
 import * as d3 from "d3"
-import InfiniteScroll from "@/components/modecules/InfiniteScroll"
+import groupyBy from "lodash/groupBy"
 import DatePicker from "@/components/organisms/DatePicker"
-import { ResponsiveWrapper } from "@components/atoms/ResponsiveWrapper"
 
 import {
   createSubDistrictOptionList,
@@ -47,12 +43,8 @@ const HighRiskCardContent = styled(Box)`
   justify-content: space-between;
 `
 
-const MapContainer = styled.div`
-  width: 100%;
-  height: 70vh;
-`
-
 const StyledToolTip = styled(Tooltip)`
+  cursor: pointer;
   .tooltip {
     background-color: papayawhip;
     color: #000;
@@ -75,9 +67,17 @@ const CaseLabel = styled(Box)`
 `
 
 const LabelRow = styled(UnstyledRow)`
-  justify-content: flex-start;
+  justify-content: flex-end;
   margin: 0px;
   flex-wrap: wrap;
+`
+
+const CaseActionRow = styled(UnstyledRow)`
+  align-items: flex-start;
+
+  .case_action {
+    margin-right: 5px;
+  }
 `
 
 const InfoToolTip = ({ t, title, className, color }) => {
@@ -97,7 +97,13 @@ const InfoToolTip = ({ t, title, className, color }) => {
         placement="top"
         title={title}
       >
-        <CaseLabel color={color} onClick={() => setOpen(true)}>
+        <CaseLabel
+          color={color}
+          onClick={e => {
+            e.stopPropagation()
+            setOpen(true)
+          }}
+        >
           {t("high_risk.detail")}
         </CaseLabel>
       </StyledToolTip>
@@ -105,6 +111,62 @@ const InfoToolTip = ({ t, title, className, color }) => {
   )
 }
 
+export const HighRiskCardItem = ({ node, i18n, t, style }) => (
+  <HighRiskCardContainer alignItems="flex-start">
+    <Item node={node.node} i18n={i18n} t={t} style={style} />
+  </HighRiskCardContainer>
+)
+
+export const CaseRow = ({ c, i18n, t }) => (
+  <CaseRowContainer key={c.id}>
+    <Grid container spacing={1}>
+      <Grid item xs={4}>
+        <UnstyledRow>
+          <Typography component="span" variant="body2" color="textPrimary">
+            {c.start_date === c.end_date
+              ? c.end_date
+              : `${formatDate(c.start_date)} - ${formatDate(c.end_date)}`}
+          </Typography>
+        </UnstyledRow>
+      </Grid>
+      <Grid item xs>
+        <CaseActionRow>
+          <Typography component="div" variant="body2" color="textPrimary">
+            {withLanguage(i18n, c, "action")}
+          </Typography>
+          <LabelRow>
+            {withLanguage(i18n, c, "remarks") && (
+              <InfoToolTip
+                title={withLanguage(i18n, c, "remarks")}
+                t={t}
+                color={colors(0)}
+              />
+            )}
+            {c.case && (
+              <Link to={getLocalizedPath(i18n, `/cases/#${c.case_no} `)}>
+                <CaseLabel color={colors(1)}>{`#${c.case_no}`}</CaseLabel>
+              </Link>
+            )}
+            {c.source_url_1 && (
+              <MuiLink target="_blank" href={c.source_url_1}>
+                <CaseLabel color={colors(2)}>
+                  {t("high_risk.source_1")}
+                </CaseLabel>
+              </MuiLink>
+            )}
+            {c.source_url_2 && (
+              <MuiLink target="_blank" href={c.source_url_2}>
+                <CaseLabel color={colors(4)}>
+                  {t("high_risk.source_2")}
+                </CaseLabel>
+              </MuiLink>
+            )}
+          </LabelRow>
+        </CaseActionRow>
+      </Grid>
+    </Grid>
+  </CaseRowContainer>
+)
 const formatDate = d => {
   // Orignal formatString: "DD/M" cannot be parsed in DatePicker
   // formatString: "YYYY-MM-DD" for DatePicker
@@ -117,88 +179,44 @@ const formatDate = d => {
   return d
 }
 
-function item(props, i18n, t) {
-  const { node } = props
-
+const Item = ({ node, i18n, t, style }) => {
   return (
-    <HighRiskCard>
+    <HighRiskCard style={style}>
       <HighRiskCardContent>
         <HighRiskCardTitle>
           <Typography component="span" variant="h6" color="textPrimary">
             {withLanguage(i18n, node, "location")}
           </Typography>
         </HighRiskCardTitle>
-        {node.cases.map((c, index) => (
-          <CaseRowContainer>
-            <Grid key={index} container spacing={1}>
-              <Grid item xs={4}>
-                <UnstyledRow>
-                  <Typography
-                    component="span"
-                    variant="body2"
-                    color="textPrimary"
-                  >
-                    {c.start_date === c.end_date
-                      ? c.end_date
-                      : `${formatDate(c.start_date)} - ${formatDate(
-                          c.end_date
-                        )}`}
-                  </Typography>
-                </UnstyledRow>
-              </Grid>
-              <Grid item xs>
-                <UnstyledRow>
-                  <Typography
-                    component="div"
-                    variant="body2"
-                    color="textPrimary"
-                  >
-                    {withLanguage(i18n, c, "action")}
-                  </Typography>
-                  <LabelRow>
-                    {withLanguage(i18n, c, "remarks") && (
-                      <InfoToolTip
-                        title={withLanguage(i18n, c, "remarks")}
-                        t={t}
-                        color={colors(0)}
-                      />
-                    )}
-                    {c.case && (
-                      <Link
-                        to={getLocalizedPath(i18n, `/cases/#${c.case_no} `)}
-                      >
-                        <CaseLabel
-                          color={colors(1)}
-                        >{`#${c.case_no}`}</CaseLabel>
-                      </Link>
-                    )}
-                    {c.source_url_1 && (
-                      <MuiLink target="_blank" href={c.source_url_1}>
-                        <CaseLabel color={colors(2)}>
-                          {t("high_risk.source_1")}
-                        </CaseLabel>
-                      </MuiLink>
-                    )}
-                    {c.source_url_2 && (
-                      <MuiLink target="_blank" href={c.source_url_2}>
-                        <CaseLabel color={colors(4)}>
-                          {t("high_risk.source_2")}
-                        </CaseLabel>
-                      </MuiLink>
-                    )}
-                  </LabelRow>
-                </UnstyledRow>
-              </Grid>
-            </Grid>
-          </CaseRowContainer>
+        {node.cases.map(c => (
+          <CaseRow key={c.id} c={c} i18n={i18n} t={t}></CaseRow>
         ))}
       </HighRiskCardContent>
     </HighRiskCard>
   )
 }
+const useStyle = makeStyles(theme => {
+  return {
+    fullPageContent: {
+      position: "absolute",
+      // compensate AppBar (56px)
+      top: 56,
+      left: 0,
+      right: 0,
+      bottom: 60,
+      overflow: "hidden",
+    },
+    [`${theme.breakpoints.up("sm")}`]: {
+      fullPageContent: {
+        top: 64,
+        left: 240,
+        bottom: 0,
+      },
+    },
+  }
+})
 
 const HighRiskPage = ({ data, pageContext }) => {
-  const [mapMode, setMapMode] = useState(false)
   const [filters, setFilters] = useState([])
   const [histories, setHistories] = useState([])
   const [searchStartDate, setSearchStartDate] = useState(null)
@@ -216,37 +234,24 @@ const HighRiskPage = ({ data, pageContext }) => {
       setHistories(JSON.parse(v))
     }
   }, [])
-
-  const groupedLocations = data.allWarsCaseLocation.edges.reduce(
-    (a, { node }) => {
-      const locationPos = a.findIndex(
-        item =>
-          withLanguage(i18n, item.node, "location") ===
-          withLanguage(i18n, node, "location")
-      )
-      if (locationPos === -1) {
-        const newLocation = {
-          node: {
-            location_zh: node.location_zh,
-            location_en: node.location_en,
-            sub_district_zh: node.sub_district_zh,
-            sub_district_en: node.sub_district_en,
-            start_date: node.start_date,
-            end_date: node.end_date,
-            search_start_date: searchStartDate,
-            search_end_date: searchEndDate,
-            cases: [{ ...node }],
-          },
-        }
-        a.push(newLocation)
-        return a
-      }
-      a[locationPos].node.cases.push({ ...node })
-      return a
-    },
-    []
+  const dataPoint = data.allWarsCaseLocation.edges.map(i => i.node)
+  const realLocationByPoint = groupyBy(
+    dataPoint.filter(i => i.sub_district_zh !== "-"),
+    i => `${i.lat}${i.lng}`
   )
-
+  dataPoint
+    .filter(i => i.sub_district_zh === "-")
+    .forEach(i => {
+      if (realLocationByPoint[`${i.lat}${i.lng}`])
+        return realLocationByPoint[`${i.lat}${i.lng}`].push(i)
+      realLocationByPoint[`${i.lat}${i.lng}`] = [i]
+    })
+  const groupedLocations = Object.values(realLocationByPoint).map(cases => ({
+    node: {
+      ...cases[0],
+      cases,
+    },
+  }))
   const filteredLocations = filterValues(i18n, groupedLocations, filters)
 
   const allOptions = [
@@ -271,78 +276,72 @@ const HighRiskPage = ({ data, pageContext }) => {
       ),
     },
   ]
-
+  const { fullPageContent, virtualizedRowContainer } = useStyle()
   return (
     <Layout>
       <SEO title="HighRiskPage" />
-      <Row>
-        <Typography variant="h2">{t("high_risk.title")}</Typography>
-        <Button
-          size="small"
-          color="primary"
-          onClick={() => {
-            setMapMode(!mapMode)
-          }}
-        >
-          {mapMode ? t("high_risk.list_mode") : t("high_risk.map_mode")}
-        </Button>
-      </Row>
-
-      {mapMode ? (
-        <>
-          {/* Buy time component.. will get rid of this code once we have a nice map component */}
-          <MapContainer
-            dangerouslySetInnerHTML={{
-              __html: `<iframe title = "map" src = "https://www.google.com/maps/d/embed?mid=1VdE10fojNRAVr1omckkgKbINL12oj5Bm" width= "100%" height = "100%" ></iframe> `,
-            }}
-          />
-        </>
-      ) : (
-        <>
-          <AsyncSelect
-            closeMenuOnSelect={false}
-            loadOptions={(input, callback) =>
-              callback(filterSearchOptions(allOptions, input, 5))
-            }
-            isMulti
-            placeholder={t("search.placeholder")}
-            noOptionsMessage={() => t("text.not_found")}
-            defaultOptions={filterSearchOptions(allOptions, null, 10)}
-            onChange={selectedArray => {
-              // only append the history
-              if (selectedArray && selectedArray.length > filters.length) {
-                const historiesToSave = [
-                  ...histories,
-                  selectedArray[selectedArray.length - 1],
-                ].filter((_, i) => i < 10)
-                setHistories(historiesToSave)
-                saveToLocalStorage(
-                  KEY_HISTORY_LOCAL_STORAGE,
-                  JSON.stringify(historiesToSave)
-                )
+      <div className={fullPageContent}>
+        <AutoSizer>
+          {({ width, height }) => (
+            <HighRiskMap
+              t={t}
+              getTranslated={(node, key) => withLanguage(i18n, node, key)}
+              filteredLocations={filteredLocations.map(i => i.node)}
+              height={height}
+              width={width}
+              rowContainerClass={virtualizedRowContainer}
+              datePicker={
+                <DatePicker
+                  setSearchStartDate={setSearchStartDate}
+                  setSearchEndDate={setSearchEndDate}
+                  setFilters={setFilters}
+                  filters={filters}
+                />
               }
-              setFilters(selectedArray || "")
-            }}
-          />
-          <DatePicker
-            setSearchStartDate={setSearchStartDate}
-            setSearchEndDate={setSearchEndDate}
-            setFilters={setFilters}
-            filters={filters}
-          />
-          <ResponsiveWrapper>
-            <InfiniteScroll
-              list={filteredLocations}
-              step={{ mobile: 20 }}
-              onItem={(node, index) => (
-                <HighRiskCardContainer alignItems="flex-start" key={index}>
-                  {item(node, i18n, t)}
-                </HighRiskCardContainer>
+              selectBar={
+                <AsyncSelect
+                  closeMenuOnSelect={false}
+                  loadOptions={(input, callback) =>
+                    callback(filterSearchOptions(allOptions, input, 5))
+                  }
+                  isMulti
+                  placeholder={t("search.placeholder")}
+                  noOptionsMessage={() => t("text.not_found")}
+                  defaultOptions={filterSearchOptions(allOptions, null, 10)}
+                  value={filters}
+                  onChange={selectedArray => {
+                    // only append the history
+                    if (
+                      selectedArray &&
+                      selectedArray.length > filters.length
+                    ) {
+                      const historiesToSave = [
+                        ...histories,
+                        selectedArray[selectedArray.length - 1],
+                      ].filter((_, i) => i < 10)
+                      setHistories(historiesToSave)
+                      saveToLocalStorage(
+                        KEY_HISTORY_LOCAL_STORAGE,
+                        JSON.stringify(historiesToSave)
+                      )
+                    }
+                    setFilters(selectedArray || [])
+                  }}
+                />
+              }
+              renderCard={node => (
+                <HighRiskCardItem
+                  key={node.id}
+                  node={{ node }}
+                  i18n={i18n}
+                  t={t}
+                  style={{ margin: 0 }}
+                />
               )}
-            />
-          </ResponsiveWrapper>
-        </>
-      )}
+            ></HighRiskMap>
+          )}
+        </AutoSizer>
+      </div>
     </Layout>
   )
 }
@@ -370,6 +369,8 @@ export const HighRiskQuery = graphql`
           source_url_2
           start_date(formatString: "YYYY-MM-DD")
           end_date(formatString: "YYYY-MM-DD")
+          lat
+          lng
           type
           case_no
           case {

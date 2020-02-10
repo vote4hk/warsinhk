@@ -11,6 +11,6 @@ const StyledBox = styled(Box)`
 `
 
 export function BasicCard(props) {
-  const { children } = props
-  return <StyledBox>{children}</StyledBox>
+  const { children, ...others } = props
+  return <StyledBox {...others}>{children}</StyledBox>
 }
