@@ -189,6 +189,9 @@ class HighRiskMap extends Component {
       this.cache.clearAll()
       this.setState({ activeDataPoint: null, dataPointRendered: null })
     }
+    if (prevProps.dateFilterEnabled !== this.props.dateFilterEnabled) {
+      this.setState({ showDatePicker: false })
+    }
     return null
   }
 
