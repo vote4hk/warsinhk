@@ -68,7 +68,7 @@ export const COLORS = {
   main: {
     text: "#fff",
     primary: "#1a237e",
-    secondary: "#ef5350", // 2019-10-19 Hackathon - secondary color to voter bar chart
+    secondary: "#62adf0",
     background: "#f5f5f6",
   },
   mainText: "black",

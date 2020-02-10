@@ -116,5 +116,15 @@
   "cases.status_discharged": "出院",
   "cases.status_serious": "嚴重",
   "cases.status_critical": "危殆",
-  "cases.status_deceased": "死亡"
+  "cases.status_deceased": "死亡",
+  "datepicker.datepickerStartDatePlaceholder": "選擇",
+  "datepicker.datepickerStartDateLabel": "由",
+  "datepicker.datepickerEndDatePlaceholder": "選擇",
+  "datepicker.datepickerEndDateLabel": "至",
+  "datepicker.resetDates": "重設",
+  "datepicker.startDateAriaLabel": "由",
+  "datepicker.endDateAriaLabel": "至",
+  "datepicker.startDatePlaceholder": "由",
+  "datepicker.endDatePlaceholder": "至",
+  "datepicker.close": "關閉"
 }

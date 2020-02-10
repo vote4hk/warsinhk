@@ -109,5 +109,15 @@
   "cases.status_discharged": "Discharged",
   "cases.status_serious": "Serious",
   "cases.status_critical": "Critical",
-  "cases.status_deceased": "Deceased"
+  "cases.status_deceased": "Deceased",
+  "datepicker.datepickerStartDatePlaceholder": "Select",
+  "datepicker.datepickerStartDateLabel": "Start Date",
+  "datepicker.datepickerEndDatePlaceholder": "Select",
+  "datepicker.datepickerEndDateLabel": "End Date",
+  "datepicker.resetDates": "Reset Dates",
+  "datepicker.startDateAriaLabel": "Start Date",
+  "datepicker.endDateAriaLabel": "End Date",
+  "datepicker.startDatePlaceholder": "Start Date",
+  "datepicker.endDatePlaceholder": "End Date",
+  "datepicker.close": "Close"
 }
