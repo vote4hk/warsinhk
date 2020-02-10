@@ -20,6 +20,7 @@ import Grid from "@material-ui/core/Grid"
 import AsyncSelect from "react-select/async"
 import * as d3 from "d3"
 import InfiniteScroll from "@/components/modecules/InfiniteScroll"
+import DatePicker from "@/components/organisms/DatePicker"
 import { ResponsiveWrapper } from "@components/atoms/ResponsiveWrapper"
 
 import {
@@ -104,6 +105,18 @@ const InfoToolTip = ({ t, title, className, color }) => {
   )
 }
 
+const formatDate = d => {
+  // Orignal formatString: "DD/M" cannot be parsed in DatePicker
+  // formatString: "YYYY-MM-DD" for DatePicker
+  // Reformat for UI here
+  if (d) {
+    d = d.replace(/(\d{4})-(\d\d)-(\d\d)/, function(_, y, m, d) {
+      return [d, m].join("/")
+    })
+  }
+  return d
+}
+
 function item(props, i18n, t) {
   const { node } = props
 
@@ -127,7 +140,9 @@ function item(props, i18n, t) {
                   >
                     {c.start_date === c.end_date
                       ? c.end_date
-                      : `${c.start_date} - ${c.end_date}`}
+                      : `${formatDate(c.start_date)} - ${formatDate(
+                          c.end_date
+                        )}`}
                   </Typography>
                 </UnstyledRow>
               </Grid>
@@ -186,6 +201,8 @@ const HighRiskPage = ({ data, pageContext }) => {
   const [mapMode, setMapMode] = useState(false)
   const [filters, setFilters] = useState([])
   const [histories, setHistories] = useState([])
+  const [searchStartDate, setSearchStartDate] = useState(null)
+  const [searchEndDate, setSearchEndDate] = useState(null)
 
   const { i18n, t } = useTranslation()
   const subDistrictOptionList = createSubDistrictOptionList(
@@ -214,6 +231,10 @@ const HighRiskPage = ({ data, pageContext }) => {
             location_en: node.location_en,
             sub_district_zh: node.sub_district_zh,
             sub_district_en: node.sub_district_en,
+            start_date: node.start_date,
+            end_date: node.end_date,
+            search_start_date: searchStartDate,
+            search_end_date: searchEndDate,
             cases: [{ ...node }],
           },
         }
@@ -241,6 +262,10 @@ const HighRiskPage = ({ data, pageContext }) => {
           label: withLanguage(i18n, node, "location"),
           value: withLanguage(i18n, node, "location"),
           field: "location",
+          start_date: node.start_date,
+          end_date: node.end_date,
+          search_start_date: searchStartDate,
+          search_end_date: searchEndDate,
         })),
         histories
       ),
@@ -262,7 +287,7 @@ const HighRiskPage = ({ data, pageContext }) => {
           {mapMode ? t("high_risk.list_mode") : t("high_risk.map_mode")}
         </Button>
       </Row>
-      {/* Add Date-time picker for selecting ranges */}
+
       {mapMode ? (
         <>
           {/* Buy time component.. will get rid of this code once we have a nice map component */}
@@ -298,6 +323,12 @@ const HighRiskPage = ({ data, pageContext }) => {
               }
               setFilters(selectedArray || "")
             }}
+          />
+          <DatePicker
+            setSearchStartDate={setSearchStartDate}
+            setSearchEndDate={setSearchEndDate}
+            setFilters={setFilters}
+            filters={filters}
           />
           <ResponsiveWrapper>
             <InfiniteScroll
@@ -337,8 +368,8 @@ export const HighRiskQuery = graphql`
           remarks_zh
           source_url_1
           source_url_2
-          start_date(formatString: "DD/M")
-          end_date(formatString: "DD/M")
+          start_date(formatString: "YYYY-MM-DD")
+          end_date(formatString: "YYYY-MM-DD")
           type
           case_no
           case {
