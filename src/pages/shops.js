@@ -62,10 +62,12 @@ const SearchBox = styled(TextField)`
 `
 
 let pageSize = 10
-if (window.innerWidth > bps.values.lg) {
-  pageSize = 21
-} else if (window.innerWidth > bps.values.md) {
-  pageSize = 20
+if (typeof window !== "undefined") {
+  if (window.innerWidth > bps.values.lg) {
+    pageSize = 21
+  } else if (window.innerWidth > bps.values.md) {
+    pageSize = 20
+  }
 }
 
 const MultiSelect = styled(Select)`

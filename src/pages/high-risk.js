@@ -17,6 +17,7 @@ import AsyncSelect from "react-select/async"
 import AutoSizer from "react-virtualized/dist/es/AutoSizer"
 import * as d3 from "d3"
 import groupyBy from "lodash/groupBy"
+import DatePicker from "@/components/organisms/DatePicker"
 
 import {
   createSubDistrictOptionList,
@@ -117,25 +118,20 @@ export const HighRiskCardItem = ({ node, i18n, t, style }) => (
 )
 
 export const CaseRow = ({ c, i18n, t }) => (
-  <CaseRowContainer>
+  <CaseRowContainer key={c.id}>
     <Grid container spacing={1}>
       <Grid item xs={4}>
         <UnstyledRow>
           <Typography component="span" variant="body2" color="textPrimary">
             {c.start_date === c.end_date
               ? c.end_date
-              : `${c.start_date} - ${c.end_date}`}
+              : `${formatDate(c.start_date)} - ${formatDate(c.end_date)}`}
           </Typography>
         </UnstyledRow>
       </Grid>
       <Grid item xs>
         <CaseActionRow>
-          <Typography
-            className="case_action"
-            component="div"
-            variant="body2"
-            color="textPrimary"
-          >
+          <Typography component="div" variant="body2" color="textPrimary">
             {withLanguage(i18n, c, "action")}
           </Typography>
           <LabelRow>
@@ -171,6 +167,17 @@ export const CaseRow = ({ c, i18n, t }) => (
     </Grid>
   </CaseRowContainer>
 )
+const formatDate = d => {
+  // Orignal formatString: "DD/M" cannot be parsed in DatePicker
+  // formatString: "YYYY-MM-DD" for DatePicker
+  // Reformat for UI here
+  if (d) {
+    d = d.replace(/(\d{4})-(\d\d)-(\d\d)/, function(_, y, m, d) {
+      return [d, m].join("/")
+    })
+  }
+  return d
+}
 
 const Item = ({ node, i18n, t, style }) => {
   return (
@@ -212,6 +219,8 @@ const useStyle = makeStyles(theme => {
 const HighRiskPage = ({ data, pageContext }) => {
   const [filters, setFilters] = useState([])
   const [histories, setHistories] = useState([])
+  const [searchStartDate, setSearchStartDate] = useState(null)
+  const [searchEndDate, setSearchEndDate] = useState(null)
 
   const { i18n, t } = useTranslation()
   const subDistrictOptionList = createSubDistrictOptionList(
@@ -258,15 +267,16 @@ const HighRiskPage = ({ data, pageContext }) => {
           label: withLanguage(i18n, node, "location"),
           value: withLanguage(i18n, node, "location"),
           field: "location",
+          start_date: node.start_date,
+          end_date: node.end_date,
+          search_start_date: searchStartDate,
+          search_end_date: searchEndDate,
         })),
         histories
       ),
     },
   ]
-  const {
-    fullPageContent,
-    virtualizedRowContainer,
-  } = useStyle()
+  const { fullPageContent, virtualizedRowContainer } = useStyle()
   return (
     <Layout>
       <SEO title="HighRiskPage" />
@@ -280,6 +290,14 @@ const HighRiskPage = ({ data, pageContext }) => {
               height={height}
               width={width}
               rowContainerClass={virtualizedRowContainer}
+              datePicker={
+                <DatePicker
+                  setSearchStartDate={setSearchStartDate}
+                  setSearchEndDate={setSearchEndDate}
+                  setFilters={setFilters}
+                  filters={filters}
+                />
+              }
               selectBar={
                 <AsyncSelect
                   closeMenuOnSelect={false}
@@ -312,13 +330,13 @@ const HighRiskPage = ({ data, pageContext }) => {
                 />
               }
               renderCard={node => (
-                  <HighRiskCardItem
-                    key={node.id}
-                    node={{ node }}
-                    i18n={i18n}
-                    t={t}
-                    style={{ margin: 0 }}
-                  />
+                <HighRiskCardItem
+                  key={node.id}
+                  node={{ node }}
+                  i18n={i18n}
+                  t={t}
+                  style={{ margin: 0 }}
+                />
               )}
             ></HighRiskMap>
           )}
@@ -349,8 +367,8 @@ export const HighRiskQuery = graphql`
           remarks_zh
           source_url_1
           source_url_2
-          start_date(formatString: "DD/M")
-          end_date(formatString: "DD/M")
+          start_date(formatString: "YYYY-MM-DD")
+          end_date(formatString: "YYYY-MM-DD")
           lat
           lng
           type

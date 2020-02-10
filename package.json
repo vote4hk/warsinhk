@@ -5,6 +5,7 @@
   "version": "0.1.0",
   "author": "Kyle Mathews <mathews.kyle@gmail.com>",
   "dependencies": {
+    "@datepicker-react/styled": "^2.3.1",
     "@material-ui/core": "^4.8.3",
     "@material-ui/icons": "^4.5.1",
     "@material-ui/lab": "^4.0.0-alpha.40",
@@ -51,7 +52,7 @@
     "react-share": "^4.0.1",
     "react-virtualized": "^9.21.2",
     "rss-parser": "^3.7.4",
-    "styled-components": "^4.4.1"
+    "styled-components": "^5.0.1"
   },
   "devDependencies": {
     "@babel/core": "^7.8.0",
