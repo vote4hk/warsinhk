@@ -171,14 +171,14 @@ class HighRiskMap extends Component {
       "https://stamen-tiles-{s}.a.ssl.fastly.net/toner-lite/{z}/{x}/{y}{r}.{ext}",
       {
         subdomains: "abcd",
-        maxZoom: 20,
+        maxZoom: 16,
         minZoom: 9,
         ext: "png",
       }
     ).addTo(this.map)
     this.markerClusterGroup = L.markerClusterGroup({
       spiderfyOnMaxZoom: false,
-      disableClusteringAtZoom: 15,
+      disableClusteringAtZoom: 11,
     })
     this.markerClusterGroup.addTo(this.map)
     this.updateLocationMarkers(this.props.filteredLocations)
