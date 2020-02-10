@@ -206,7 +206,6 @@ const Item = ({ node, i18n, t }) => {
           {withLanguage(i18n, node, "location")}
         </Typography>
       </HighRiskCardTitle>
-      {console.log(node.cases)}
       {node.cases.map(c => (
         <CaseRow key={c.id} c={c} i18n={i18n} t={t}></CaseRow>
       ))}
@@ -254,7 +253,9 @@ const HighRiskPage = ({ data, pageContext }) => {
   }, [])
   const dataPoint = data.allWarsCaseLocation.edges.map(i => i.node)
   const realLocationByPoint = groupyBy(
-    dataPoint.filter(i => i.sub_district_zh !== "-"),
+    dataPoint.filter(
+      i => i.sub_district_zh !== "-" && i.sub_district_zh !== "境外"
+    ),
     i => `${i.lat}${i.lng}`
   )
   dataPoint
@@ -269,7 +270,11 @@ const HighRiskPage = ({ data, pageContext }) => {
       ...cases[0],
       search_start_date: searchStartDate,
       search_end_date: searchEndDate,
-      cases,
+      cases: cases.filter(
+        c =>
+          withLanguage(i18n, c, "location") ===
+          withLanguage(i18n, cases[0], "location")
+      ), // Quick fix for filtering locations
     },
   }))
   const filteredLocations = filterValues(i18n, groupedLocations, filters)
