@@ -13,8 +13,9 @@ import CellMeasurer, {
 } from "react-virtualized/dist/es/CellMeasurer"
 import mapMarker from "./icons/map-marker.png"
 import keyBy from "lodash/keyBy"
-import { COLORS } from "@/ui/theme"
 import { withTheme } from "@material-ui/core/styles"
+import IconButton from "@material-ui/core/IconButton"
+import DateRangeIcon from "@material-ui/icons/DateRange"
 
 const limit = 1.5
 
@@ -43,6 +44,7 @@ class HighRiskMap extends Component {
     this.state = {
       activeDataPoint: undefined,
       dataPointRendered: null,
+      showDatePicker: false,
     }
     this.cache = new CellMeasurerCache({
       defaultHeight: 50,
@@ -57,16 +59,19 @@ class HighRiskMap extends Component {
           parent={parent}
           rowIndex={index}
         >
-          <div
-            className={this.props.rowContainerClass}
-            style={{ ...style, paddingTop: index === 0 ? 16 : undefined }}
-          >
+          <div className={this.props.rowContainerClass} style={{ ...style }}>
             <div
               onClick={this.getActiveHandler(
                 this.props.filteredLocations[index]
               )}
             >
-              {this.props.renderCard(this.props.filteredLocations[index])}
+              {this.props.renderCard({
+                node: this.props.filteredLocations[index],
+                isActive: this.state.activeDataPoint
+                  ? this.props.filteredLocations[index].id ===
+                    this.state.activeDataPoint.id
+                  : false,
+              })}
             </div>
           </div>
         </CellMeasurer>
@@ -80,15 +85,6 @@ class HighRiskMap extends Component {
       this.setState(
         {
           activeDataPoint: highRiskLocation,
-          dataPointRendered: (
-            <div
-              className={this.props.rowContainerClass}
-              style={{ height: "100%", paddingTop: 16 }}
-              onClick={this.getActiveHandler(highRiskLocation)}
-            >
-              {this.props.renderCard(highRiskLocation)}
-            </div>
-          ),
         },
         () => {
           this.map.fitBounds(
@@ -257,57 +253,77 @@ class HighRiskMap extends Component {
         <div
           style={{
             position: "absolute",
-            top: useHorizontalLayout ? 0 : height / 2,
+            top: useHorizontalLayout ? 56 : height / 2,
             left: 0,
             width: useHorizontalLayout ? 480 : width,
-            height: useHorizontalLayout ? height : height / 2,
-            backgroundColor: COLORS.main.background,
+            height: useHorizontalLayout ? height - 56 : height / 2,
+            backgroundColor: theme.palette.background.paper,
           }}
         >
-          {useHorizontalLayout && (
-            <div
-              style={{
-                paddingLeft: theme.spacing(3),
-                paddingRight: theme.spacing(3),
-                paddingTop: 8,
-                paddingBottom: 8,
-              }}
-            >
-              {this.props.selectBar}
-            </div>
-          )}
-          {this.state.activeDataPoint ? (
-            this.state.dataPointRendered
-          ) : (
-            <AutoSizer>
-              {({ width, height }) => (
-                <List
-                  ref={el => (this.list = el)}
-                  height={height}
-                  overscanRowCount={8}
-                  rowCount={this.props.filteredLocations.length}
-                  rowHeight={this.cache.rowHeight}
-                  rowRenderer={this.rowRenderer}
-                  deferredMeasurementCache={this.cache}
-                  width={width}
-                />
-              )}
-            </AutoSizer>
-          )}
+          <AutoSizer>
+            {({ width, height }) => (
+              <List
+                ref={el => (this.list = el)}
+                height={height}
+                overscanRowCount={8}
+                rowCount={this.props.filteredLocations.length}
+                rowHeight={this.cache.rowHeight}
+                rowRenderer={this.rowRenderer}
+                deferredMeasurementCache={this.cache}
+                width={width}
+                activeDataPoint={this.state.activeDataPoint}
+              />
+            )}
+          </AutoSizer>
         </div>
-        {!useHorizontalLayout && (
+        <div
+          style={
+            !useHorizontalLayout
+              ? {
+                  position: "absolute",
+                  top: theme.spacing(1),
+                  left: theme.spacing(3),
+                  right: theme.spacing(3),
+                  opacity: 0.96,
+                }
+              : {
+                  position: "absolute",
+                  top: 0,
+                  left: 0,
+                  width: 480,
+                  height: 56,
+                  paddingTop: theme.spacing(1),
+                  paddingBottom: theme.spacing(1),
+                  paddingLeft: theme.spacing(3),
+                  paddingRight: theme.spacing(3),
+                  backgroundColor: theme.palette.background.paper,
+                }
+          }
+        >
           <div
             style={{
-              position: "absolute",
-              top: theme.spacing(1),
-              left: theme.spacing(3),
-              right: theme.spacing(3),
-              opacity: 0.96,
+              display: "flex",
+              flexDirection: "row",
+              alignItems: "center",
             }}
           >
-            {this.props.selectBar}
+            <div style={{ flex: 1 }}>{this.props.selectBar}</div>
+            <IconButton
+              color={this.props.dateFilterEnabled ? "secondary" : "primary"}
+              onClick={() =>
+                this.setState({ showDatePicker: !this.state.showDatePicker })
+              }
+            >
+              <DateRangeIcon />
+              {/* {this.props.dateFilterEnabled ? (
+                <DateRangeIcon />
+              ) : (
+                <CalendarTodayIcon />
+              )} */}
+            </IconButton>
           </div>
-        )}
+          {this.state.showDatePicker && this.props.datePicker}
+        </div>
       </div>
     )
   }

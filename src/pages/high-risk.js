@@ -7,7 +7,6 @@ import { graphql } from "gatsby"
 import styled from "styled-components"
 import MuiLink from "@material-ui/core/Link"
 import { Link } from "gatsby"
-import { BasicCard } from "@components/atoms/Card"
 import { withLanguage, getLocalizedPath } from "@/utils/i18n"
 import { UnstyledRow } from "@components/atoms/Row"
 import HighRiskMap from "@components/highRiskMap"
@@ -18,6 +17,7 @@ import AutoSizer from "react-virtualized/dist/es/AutoSizer"
 import * as d3 from "d3"
 import groupyBy from "lodash/groupBy"
 import DatePicker from "@/components/organisms/DatePicker"
+import Theme from "@/ui/theme"
 
 import {
   createSubDistrictOptionList,
@@ -31,9 +31,12 @@ import { saveToLocalStorage, loadFromLocalStorage } from "@/utils"
 const colors = d3.scaleOrdinal(d3.schemeDark2).domain([0, 1, 2, 3, 4])
 const KEY_HISTORY_LOCAL_STORAGE = "high-risk-search-history"
 
-const HighRiskCardContainer = styled(Box)``
-
-const HighRiskCard = styled(BasicCard)``
+const HighRiskCardContainer = styled("div")`
+  box-sizing: border-box;
+  background: ${props => props.theme.palette.background.paper};
+  padding: 8px 16px;
+  border: 2px solid ${props => props.theme.palette.background.paper};
+`
 
 const HighRiskCardTitle = styled(Box)``
 
@@ -111,9 +114,14 @@ const InfoToolTip = ({ t, title, className, color }) => {
   )
 }
 
-export const HighRiskCardItem = ({ node, i18n, t, style }) => (
-  <HighRiskCardContainer alignItems="flex-start">
-    <Item node={node.node} i18n={i18n} t={t} style={style} />
+export const HighRiskCardItem = ({ node, i18n, t, style, isActive }) => (
+  <HighRiskCardContainer
+    style={{
+      ...style,
+      borderColor: isActive ? Theme.palette.secondary.main : undefined,
+    }}
+  >
+    <Item node={node.node} i18n={i18n} t={t} />
   </HighRiskCardContainer>
 )
 
@@ -181,18 +189,16 @@ const formatDate = d => {
 
 const Item = ({ node, i18n, t, style }) => {
   return (
-    <HighRiskCard style={style}>
-      <HighRiskCardContent>
-        <HighRiskCardTitle>
-          <Typography component="span" variant="h6" color="textPrimary">
-            {withLanguage(i18n, node, "location")}
-          </Typography>
-        </HighRiskCardTitle>
-        {node.cases.map(c => (
-          <CaseRow key={c.id} c={c} i18n={i18n} t={t}></CaseRow>
-        ))}
-      </HighRiskCardContent>
-    </HighRiskCard>
+    <HighRiskCardContent style={style}>
+      <HighRiskCardTitle>
+        <Typography component="span" variant="h6" color="textPrimary">
+          {withLanguage(i18n, node, "location")}
+        </Typography>
+      </HighRiskCardTitle>
+      {node.cases.map(c => (
+        <CaseRow key={c.id} c={c} i18n={i18n} t={t}></CaseRow>
+      ))}
+    </HighRiskCardContent>
   )
 }
 const useStyle = makeStyles(theme => {
@@ -276,7 +282,7 @@ const HighRiskPage = ({ data, pageContext }) => {
       ),
     },
   ]
-  const { fullPageContent, virtualizedRowContainer } = useStyle()
+  const { fullPageContent } = useStyle()
   return (
     <Layout>
       <SEO title="HighRiskPage" />
@@ -289,7 +295,7 @@ const HighRiskPage = ({ data, pageContext }) => {
               filteredLocations={filteredLocations.map(i => i.node)}
               height={height}
               width={width}
-              rowContainerClass={virtualizedRowContainer}
+              dateFilterEnabled={searchStartDate && searchEndDate}
               datePicker={
                 <DatePicker
                   setSearchStartDate={setSearchStartDate}
@@ -329,15 +335,18 @@ const HighRiskPage = ({ data, pageContext }) => {
                   }}
                 />
               }
-              renderCard={node => (
-                <HighRiskCardItem
-                  key={node.id}
-                  node={{ node }}
-                  i18n={i18n}
-                  t={t}
-                  style={{ margin: 0 }}
-                />
-              )}
+              renderCard={({ node, isActive }) => {
+                return (
+                  <HighRiskCardItem
+                    key={node.id}
+                    node={{ node }}
+                    i18n={i18n}
+                    t={t}
+                    style={{ margin: 0 }}
+                    isActive={isActive}
+                  />
+                )
+              }}
             ></HighRiskMap>
           )}
         </AutoSizer>
