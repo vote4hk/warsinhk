@@ -16,8 +16,15 @@ import keyBy from "lodash/keyBy"
 import { withTheme } from "@material-ui/core/styles"
 import IconButton from "@material-ui/core/IconButton"
 import DateRangeIcon from "@material-ui/icons/DateRange"
+import { trackCustomEvent } from "gatsby-plugin-google-analytics"
+import styled from "styled-components"
 
 const limit = 1.5
+
+const DateButton = styled(IconButton)`
+  padding: 0;
+  margin-left: 8px;
+`
 
 class HighRiskMap extends Component {
   static propTypes = {
@@ -81,6 +88,11 @@ class HighRiskMap extends Component {
 
   getActiveHandler = highRiskLocation => () => {
     const { id } = highRiskLocation
+    trackCustomEvent({
+      category: "high_risk_map",
+      action: "click_marker",
+      label: highRiskLocation,
+    })
     if (!this.state.activeDataPoint || this.state.activeDataPoint.id !== id) {
       this.setState(
         {
@@ -122,7 +134,15 @@ class HighRiskMap extends Component {
       icon: this.icons.defaultMarker,
       id: highRiskLocation.id,
     })
-      .bindPopup(this.props.getTranslated(highRiskLocation, "location"))
+      .bindPopup(
+        `${this.props.getTranslated(
+          highRiskLocation,
+          "sub_district"
+        )}<br /><b style='font-weight:700'>${this.props.getTranslated(
+          highRiskLocation,
+          "location"
+        )}</b>`
+      )
       .on("click", activeHandler)
     return marker
   }
@@ -285,8 +305,8 @@ class HighRiskMap extends Component {
               ? {
                   position: "absolute",
                   top: theme.spacing(1),
-                  left: theme.spacing(3),
-                  right: theme.spacing(3),
+                  left: theme.spacing(2),
+                  right: theme.spacing(2),
                   opacity: 0.96,
                 }
               : {
@@ -295,10 +315,10 @@ class HighRiskMap extends Component {
                   left: 0,
                   width: 480,
                   height: 56,
-                  paddingTop: theme.spacing(1),
+                  paddingTop: theme.spacing(2),
                   paddingBottom: theme.spacing(1),
-                  paddingLeft: theme.spacing(3),
-                  paddingRight: theme.spacing(3),
+                  paddingLeft: "20px",
+                  paddingRight: "20px",
                   backgroundColor: theme.palette.background.paper,
                 }
           }
@@ -311,19 +331,19 @@ class HighRiskMap extends Component {
             }}
           >
             <div style={{ flex: 1 }}>{this.props.selectBar}</div>
-            <IconButton
+            <DateButton
               color={this.props.dateFilterEnabled ? "secondary" : "primary"}
-              onClick={() =>
+              onClick={() => {
+                trackCustomEvent({
+                  category: "high_risk_map",
+                  action: "click_date_filter",
+                  label: this.props.dateFilterEnabled ? "enable" : "disable",
+                })
                 this.setState({ showDatePicker: !this.state.showDatePicker })
-              }
+              }}
             >
               <DateRangeIcon />
-              {/* {this.props.dateFilterEnabled ? (
-                <DateRangeIcon />
-              ) : (
-                <CalendarTodayIcon />
-              )} */}
-            </IconButton>
+            </DateButton>
           </div>
           {this.state.showDatePicker && this.props.datePicker}
         </div>

@@ -18,6 +18,7 @@ import * as d3 from "d3"
 import groupyBy from "lodash/groupBy"
 import DatePicker from "@/components/organisms/DatePicker"
 import Theme from "@/ui/theme"
+import { trackCustomEvent } from "gatsby-plugin-google-analytics"
 
 import {
   createSubDistrictOptionList,
@@ -33,9 +34,14 @@ const KEY_HISTORY_LOCAL_STORAGE = "high-risk-search-history"
 
 const HighRiskCardContainer = styled("div")`
   box-sizing: border-box;
-  background: ${props => props.theme.palette.background.paper};
   padding: 8px 16px;
-  border: 2px solid ${props => props.theme.palette.background.paper};
+
+  border-left: 4px
+    ${props =>
+      props.isActive
+        ? Theme.palette.secondary.main
+        : props.theme.palette.background.paper}
+    solid;
 `
 
 const HighRiskCardTitle = styled(Box)``
@@ -63,6 +69,7 @@ const CaseRowContainer = styled(Box)`
 
 const CaseLabel = styled(Box)`
   color: ${props => props.color};
+  background: white;
   border: ${props => props.color} 1px solid;
   padding: 2px 5px 2px;
   margin-right: 4px;
@@ -114,12 +121,16 @@ const InfoToolTip = ({ t, title, className, color }) => {
   )
 }
 
-export const HighRiskCardItem = ({ node, i18n, t, style, isActive }) => (
+export const HighRiskCardItem = ({ node, i18n, t, isActive }) => (
   <HighRiskCardContainer
-    style={{
-      ...style,
-      borderColor: isActive ? Theme.palette.secondary.main : undefined,
-    }}
+    isActive={isActive}
+    onClick={() =>
+      trackCustomEvent({
+        category: "high_risk_list",
+        action: "click_item",
+        label: node.node,
+      })
+    }
   >
     <Item node={node.node} i18n={i18n} t={t} />
   </HighRiskCardContainer>
@@ -187,9 +198,9 @@ const formatDate = d => {
   return d
 }
 
-const Item = ({ node, i18n, t, style }) => {
+const Item = ({ node, i18n, t }) => {
   return (
-    <HighRiskCardContent style={style}>
+    <HighRiskCardContent>
       <HighRiskCardTitle>
         <Typography component="span" variant="h6" color="textPrimary">
           {withLanguage(i18n, node, "location")}
@@ -242,7 +253,9 @@ const HighRiskPage = ({ data, pageContext }) => {
   }, [])
   const dataPoint = data.allWarsCaseLocation.edges.map(i => i.node)
   const realLocationByPoint = groupyBy(
-    dataPoint.filter(i => i.sub_district_zh !== "-"),
+    dataPoint.filter(
+      i => i.sub_district_zh !== "-" && i.sub_district_zh !== "境外"
+    ),
     i => `${i.lat}${i.lng}`
   )
   dataPoint
@@ -257,7 +270,11 @@ const HighRiskPage = ({ data, pageContext }) => {
       ...cases[0],
       search_start_date: searchStartDate,
       search_end_date: searchEndDate,
-      cases,
+      cases: cases.filter(
+        c =>
+          withLanguage(i18n, c, "location") ===
+          withLanguage(i18n, cases[0], "location")
+      ), // Quick fix for filtering locations
     },
   }))
   const filteredLocations = filterValues(i18n, groupedLocations, filters)
@@ -346,7 +363,6 @@ const HighRiskPage = ({ data, pageContext }) => {
                     node={{ node }}
                     i18n={i18n}
                     t={t}
-                    style={{ margin: 0 }}
                     isActive={isActive}
                   />
                 )
