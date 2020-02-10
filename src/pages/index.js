@@ -419,8 +419,7 @@ export const WarsCaseQuery = graphql`
       }
     }
     allWarsCase(
-      sort: { order: DESC, fields: confirmation_date }
-      filter: { enabled: { eq: "Y" } }
+      sort: { order: [DESC, DESC], fields: [confirmation_date, case_no] }
       limit: 10
     ) {
       edges {
