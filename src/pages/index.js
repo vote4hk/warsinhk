@@ -100,7 +100,10 @@ function DailyStats({
     confirmed: Math.max(overridedata.confirmed, first.confirmed),
   }
 
-  if (overridedata.date > first.date) {
+  if (
+    overridedata.date > first.date &&
+    overridedata.confirmed > first.confirmed
+  ) {
     ytd = {
       ...first,
     }
