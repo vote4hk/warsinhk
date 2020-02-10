@@ -134,7 +134,15 @@ class HighRiskMap extends Component {
       icon: this.icons.defaultMarker,
       id: highRiskLocation.id,
     })
-      .bindPopup(this.props.getTranslated(highRiskLocation, "location"))
+      .bindPopup(
+        `${this.props.getTranslated(
+          highRiskLocation,
+          "sub_district"
+        )}<br /><b style='font-weight:700'>${this.props.getTranslated(
+          highRiskLocation,
+          "location"
+        )}</b>`
+      )
       .on("click", activeHandler)
     return marker
   }
