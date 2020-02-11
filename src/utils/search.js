@@ -16,12 +16,20 @@ export const createDedupOptions = (i18n, edges, field) => {
 export const containsText = (i18n, node, text, fields) => {
   if (typeof text === "string") {
     return fields
-      .map(
-        field =>
+      .map(field => {
+        console.log(
+          `compare ${withLanguage(
+            i18n,
+            node,
+            field
+          ).toLowerCase()} to ${text.toLowerCase()}`
+        )
+        return (
           withLanguage(i18n, node, field)
             .toLowerCase()
             .indexOf(text.toLowerCase()) >= 0
-      )
+        )
+      })
       .reduce((c, v) => c || v, false)
   } else {
     return false
@@ -74,11 +82,6 @@ export const filterByDate = (node, search_start_date, search_end_date) => {
 
 export const filterValues = (i18n, edges, filterArray) =>
   edges.filter(({ node }) => {
-    if (filterArray.length === 0) {
-      const { search_start_date, search_end_date } = node
-      return search_start_date && search_end_date ? filterByDate(node) : true
-    }
-
     return filterArray
       .map(
         option =>

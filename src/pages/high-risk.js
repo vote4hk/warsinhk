@@ -14,7 +14,7 @@ import Grid from "@material-ui/core/Grid"
 import { makeStyles } from "@material-ui/core/styles"
 import AutoSizer from "react-virtualized/dist/es/AutoSizer"
 import * as d3 from "d3"
-import groupBy from "lodash/groupBy"
+import _groupBy from "lodash/groupBy"
 import DatePicker from "@/components/organisms/DatePicker"
 import Theme from "@/ui/theme"
 import { trackCustomEvent } from "gatsby-plugin-google-analytics"
@@ -227,60 +227,37 @@ const useStyle = makeStyles(theme => {
 const HighRiskPage = ({ data }) => {
   const [searchStartDate, setSearchStartDate] = useState(null)
   const [searchEndDate, setSearchEndDate] = useState(null)
-
-  /**
-   * .map(({ node }) => ({
-          label: withLanguage(i18n, node, "location"),
-          value: withLanguage(i18n, node, "location"),
-          field: "location",
-          start_date: node.start_date,
-          end_date: node.end_date,
-          search_start_date: searchStartDate,
-          search_end_date: searchEndDate,
-        }),
-   */
   const { i18n, t } = useTranslation()
-  const isRealLocation = i =>
-    i.sub_district_zh !== "-" && i.sub_district_zh !== "境外"
-  const toGroupedLocations = cases => ({
+
+  const withinBoderFilter = ({ node }) => node.sub_district_zh !== "境外"
+
+  const groupedLocations = Object.values(
+    _groupBy(
+      data.allWarsCaseLocation.edges.filter(withinBoderFilter).map(e => e.node),
+      node => node.location_zh
+    )
+  ).map(cases => ({
     node: {
       ...cases[0],
-      search_start_date: searchStartDate,
-      search_end_date: searchEndDate,
       cases: cases.filter(
         c =>
           withLanguage(i18n, c, "location") ===
           withLanguage(i18n, cases[0], "location")
       ), // Quick fix for filtering locations
     },
-  })
-  const dataPoint = data.allWarsCaseLocation.edges.map(i => i.node)
-  const realLocation = dataPoint.filter(isRealLocation)
-  const otherLocation = dataPoint.filter(i => !isRealLocation(i))
-  const realLocationByPoint = groupBy(
-    realLocation,
-    i => `${i.lat}${i.lng}` || "-"
-  )
-  otherLocation.forEach(i => {
-    if (realLocationByPoint[`${i.lat}${i.lng}`])
-      return realLocationByPoint[`${i.lat}${i.lng}`].push(i)
-    realLocationByPoint[`${i.lat}${i.lng}`] = [i]
-  })
-  const groupedLocations = Object.values(realLocationByPoint).map(
-    toGroupedLocations
-  )
+  }))
+
   const [filteredLocations, setFilteredLocations] = useState(groupedLocations)
 
   const filteredOptionsWithDate = filteredLocations.filter(loc =>
     filterByDate(loc.node, searchStartDate, searchEndDate)
   )
-  console.log(filteredOptionsWithDate)
   const options = [
     {
       label: t("search.sub_district"),
       options: createDedupOptions(
         i18n,
-        data.allWarsCaseLocation.edges,
+        data.allWarsCaseLocation.edges.filter(withinBoderFilter),
         "sub_district"
       ),
     },
@@ -289,7 +266,7 @@ const HighRiskPage = ({ data }) => {
       label: t("search.location"),
       options: createDedupOptions(
         i18n,
-        data.allWarsCaseLocation.edges,
+        data.allWarsCaseLocation.edges.filter(withinBoderFilter),
         "location"
       ),
     },
