@@ -22,6 +22,7 @@ import { bps } from "@/ui/theme"
 import { BasicFab } from "@components/atoms/Fab"
 import { ResponsiveWrapper } from "@components/atoms/ResponsiveWrapper"
 import MultiPurposeSearch from "../components/modecules/MultiPurposeSearch"
+import { PageContent } from "../components/atoms/Container"
 
 const FabContainer = styled(Box)`
   && {
@@ -202,7 +203,7 @@ const ShopsPage = props => {
           </Link>
         </FabContainer>
         <Typography variant="h2">{t("dodgy_shops.list_text")}</Typography>
-        <>
+        <PageContent>
           <MultiPurposeSearch
             list={data.allDodgyShop.edges}
             placeholder={t("dodgy_shops.search_placeholder")}
@@ -229,7 +230,7 @@ const ShopsPage = props => {
               setFilteredData(list)
             }}
           />
-        </>
+        </PageContent>
         {mobileStepper}
         <ResponsiveWrapper>{searchResult}</ResponsiveWrapper>
         {mobileStepper}
