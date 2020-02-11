@@ -12,19 +12,13 @@ import { UnstyledRow } from "@components/atoms/Row"
 import HighRiskMap from "@components/highRiskMap"
 import Grid from "@material-ui/core/Grid"
 import { makeStyles } from "@material-ui/core/styles"
-import AsyncSelect from "react-select/async"
 import AutoSizer from "react-virtualized/dist/es/AutoSizer"
 import * as d3 from "d3"
 import groupBy from "lodash/groupBy"
 import DatePicker from "@/components/organisms/DatePicker"
 import Theme from "@/ui/theme"
 import { trackCustomEvent } from "gatsby-plugin-google-analytics"
-import { createDedupOptions } from "@/utils/search"
-import InfiniteScroll from "@/components/modecules/InfiniteScroll"
-
-
-
-
+import { createDedupOptions, filterByDate } from "@/utils/search"
 import MultiPurposeSearch from "../components/modecules/MultiPurposeSearch"
 
 const colors = d3.scaleOrdinal(d3.schemeDark2).domain([0, 1, 2, 3, 4])
@@ -35,9 +29,9 @@ const HighRiskCardContainer = styled("div")`
 
   border-left: 4px
     ${props =>
-    props.isActive
-      ? Theme.palette.secondary.main
-      : props.theme.palette.background.paper}
+      props.isActive
+        ? Theme.palette.secondary.main
+        : props.theme.palette.background.paper}
     solid;
 `
 
@@ -181,14 +175,14 @@ export const CaseRow = ({ c, i18n, t }) => (
         </CaseActionRow>
       </Grid>
     </Grid>
-  </CaseRowContainer >
+  </CaseRowContainer>
 )
 const formatDate = d => {
   // Orignal formatString: "DD/M" cannot be parsed in DatePicker
   // formatString: "YYYY-MM-DD" for DatePicker
   // Reformat for UI here
   if (d) {
-    d = d.replace(/(\d{4})-(\d\d)-(\d\d)/, function (_, y, m, d) {
+    d = d.replace(/(\d{4})-(\d\d)-(\d\d)/, function(_, y, m, d) {
       return [d, m].join("/")
     })
   }
@@ -207,7 +201,6 @@ const Item = ({ node, i18n, t }) => {
         <CaseRow key={c.id} c={c} i18n={i18n} t={t}></CaseRow>
       ))}
     </HighRiskCardContent>
-
   )
 }
 const useStyle = makeStyles(theme => {
@@ -231,24 +224,22 @@ const useStyle = makeStyles(theme => {
   }
 })
 
-const HighRiskPage = ({ data, pageContext }) => {
-  const [filters, setFilters] = useState([])
-  const [histories, setHistories] = useState([])
+const HighRiskPage = ({ data }) => {
   const [searchStartDate, setSearchStartDate] = useState(null)
   const [searchEndDate, setSearchEndDate] = useState(null)
 
+  /**
+   * .map(({ node }) => ({
+          label: withLanguage(i18n, node, "location"),
+          value: withLanguage(i18n, node, "location"),
+          field: "location",
+          start_date: node.start_date,
+          end_date: node.end_date,
+          search_start_date: searchStartDate,
+          search_end_date: searchEndDate,
+        }),
+   */
   const { i18n, t } = useTranslation()
-  const subDistrictOptionList = createSubDistrictOptionList(
-    i18n,
-    data.allWarsCaseLocation.edges
-  )
-
-  React.useEffect(() => {
-    const v = loadFromLocalStorage(KEY_HISTORY_LOCAL_STORAGE)
-    if (v) {
-      setHistories(JSON.parse(v))
-    }
-  }, [])
   const isRealLocation = i =>
     i.sub_district_zh !== "-" && i.sub_district_zh !== "境外"
   const toGroupedLocations = cases => ({
@@ -266,7 +257,10 @@ const HighRiskPage = ({ data, pageContext }) => {
   const dataPoint = data.allWarsCaseLocation.edges.map(i => i.node)
   const realLocation = dataPoint.filter(isRealLocation)
   const otherLocation = dataPoint.filter(i => !isRealLocation(i))
-  const realLocationByPoint = groupBy(realLocation, i => `${i.lat}${i.lng}` || "-")
+  const realLocationByPoint = groupBy(
+    realLocation,
+    i => `${i.lat}${i.lng}` || "-"
+  )
   otherLocation.forEach(i => {
     if (realLocationByPoint[`${i.lat}${i.lng}`])
       return realLocationByPoint[`${i.lat}${i.lng}`].push(i)
@@ -275,13 +269,12 @@ const HighRiskPage = ({ data, pageContext }) => {
   const groupedLocations = Object.values(realLocationByPoint).map(
     toGroupedLocations
   )
-  const filteredRealLocations = filterValues(i18n, groupedLocations, filters)
-  const filteredLocations =
-    filteredRealLocations.length === 0
-      ? filterValues(i18n, Object.values(groupBy(otherLocation, "location_zh")).map(toGroupedLocations), filters)
-      : filteredRealLocations
+  const [filteredLocations, setFilteredLocations] = useState(groupedLocations)
 
-
+  const filteredOptionsWithDate = filteredLocations.filter(loc =>
+    filterByDate(loc.node, searchStartDate, searchEndDate)
+  )
+  console.log(filteredOptionsWithDate)
   const options = [
     {
       label: t("search.sub_district"),
@@ -295,16 +288,9 @@ const HighRiskPage = ({ data, pageContext }) => {
       // For 班次 / 航班: Only ferry no, flight no, and train no are searchable, ignore building
       label: t("search.location"),
       options: createDedupOptions(
-        data.allWarsCaseLocation.edges.map(({ node }) => ({
-          label: withLanguage(i18n, node, "location"),
-          value: withLanguage(i18n, node, "location"),
-          field: "location",
-          start_date: node.start_date,
-          end_date: node.end_date,
-          search_start_date: searchStartDate,
-          search_end_date: searchEndDate,
-        }),
-          "location"),
+        i18n,
+        data.allWarsCaseLocation.edges,
+        "location"
       ),
     },
   ]
@@ -318,7 +304,7 @@ const HighRiskPage = ({ data, pageContext }) => {
             <HighRiskMap
               t={t}
               getTranslated={(node, key) => withLanguage(i18n, node, key)}
-              filteredLocations={filteredLocations.map(i => i.node)}
+              filteredLocations={filteredOptionsWithDate.map(i => i.node)}
               height={height}
               width={width}
               dateFilterEnabled={searchStartDate && searchEndDate}
@@ -328,8 +314,6 @@ const HighRiskPage = ({ data, pageContext }) => {
                   endDate={searchEndDate}
                   setSearchStartDate={setSearchStartDate}
                   setSearchEndDate={setSearchEndDate}
-                  setFilters={setFilters}
-                  filters={filters}
                 />
               }
               selectBar={
@@ -358,7 +342,7 @@ const HighRiskPage = ({ data, pageContext }) => {
           )}
         </AutoSizer>
       </div>
-    </Layout >
+    </Layout>
   )
 }
 

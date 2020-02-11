@@ -45,15 +45,7 @@ const DubiousShopLabel = styled(Box)`
   padding: 4px 6px 4px;
 `
 
-const animatedComponents = makeAnimated()
 const PageSize = 10
-
-const SearchBox = styled(TextField)`
-  && {
-    margin-top: 8px;
-    width: 100%;
-  }
-`
 
 let pageSize = 10
 if (typeof window !== "undefined") {
@@ -63,13 +55,6 @@ if (typeof window !== "undefined") {
     pageSize = 20
   }
 }
-
-const MultiSelect = styled(Select)`
-  && {
-    margin-top: 16px;
-    margin-bottom: 8px;
-  }
-`
 
 function item(props, i18n, t) {
   const { node } = props
@@ -172,40 +157,40 @@ const ShopsPage = props => {
     maxSteps < 2 ? (
       <div />
     ) : (
-        <MobileStepper
-          steps={maxSteps}
-          position="static"
-          variant="text"
-          activeStep={activeStep}
-          nextButton={
-            <Button
-              size="small"
-              onClick={handleNext}
-              disabled={activeStep === maxSteps - 1}
-            >
-              <KeyboardArrowRight />
-            </Button>
-          }
-          backButton={
-            <Button size="small" onClick={handleBack} disabled={activeStep === 0}>
-              <KeyboardArrowLeft />
-            </Button>
-          }
-        />
-      )
+      <MobileStepper
+        steps={maxSteps}
+        position="static"
+        variant="text"
+        activeStep={activeStep}
+        nextButton={
+          <Button
+            size="small"
+            onClick={handleNext}
+            disabled={activeStep === maxSteps - 1}
+          >
+            <KeyboardArrowRight />
+          </Button>
+        }
+        backButton={
+          <Button size="small" onClick={handleBack} disabled={activeStep === 0}>
+            <KeyboardArrowLeft />
+          </Button>
+        }
+      />
+    )
 
   const searchResult =
     filteredData.length === 0 ? (
       <Typography variant="h4">{t("dodgy_shops.no_result")}</Typography>
     ) : (
-        paginate(filteredData, pageSize, activeStep).map((node, index) => (
-          <BasicCard
-            alignItems="flex-start"
-            key={index}
-            children={item(node, i18n, t)}
-          />
-        ))
-      )
+      paginate(filteredData, pageSize, activeStep).map((node, index) => (
+        <BasicCard
+          alignItems="flex-start"
+          key={index}
+          children={item(node, i18n, t)}
+        />
+      ))
+    )
 
   return (
     <>
