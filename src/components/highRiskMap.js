@@ -13,6 +13,7 @@ import CellMeasurer, {
 } from "react-virtualized/dist/es/CellMeasurer"
 import mapMarker from "./icons/map-marker.png"
 import keyBy from "lodash/keyBy"
+import findIndex from "lodash/findIndex"
 import { withTheme } from "@material-ui/core/styles"
 import IconButton from "@material-ui/core/IconButton"
 import DateRangeIcon from "@material-ui/icons/DateRange"
@@ -99,7 +100,7 @@ class HighRiskMap extends Component {
           activeDataPoint: highRiskLocation,
         },
         () => {
-          this.map.fitBounds(
+          if (highRiskLocation.lat && highRiskLocation.lng) this.map.fitBounds(
             [
               [highRiskLocation.lat, highRiskLocation.lng],
               [highRiskLocation.lat, highRiskLocation.lng],
@@ -200,8 +201,10 @@ class HighRiskMap extends Component {
     this.updateLocationMarkers(this.props.filteredLocations)
   }
 
-  static getDerivedStateFromProps(props) {
-    return { useHorizontalLayout: props.width - props.height > 480 }
+  static getDerivedStateFromProps(props, state) {
+    const {activeDataPoint} = state;
+    const scrollToIndex = activeDataPoint && findIndex(props.filteredLocations, i=>i.id === activeDataPoint.id)
+    return { useHorizontalLayout: props.width - props.height > 480, scrollToIndex }
   }
 
   getSnapshotBeforeUpdate(prevProps) {
@@ -294,6 +297,8 @@ class HighRiskMap extends Component {
                 rowRenderer={this.rowRenderer}
                 deferredMeasurementCache={this.cache}
                 width={width}
+                scrollToIndex={this.state.scrollToIndex}
+                scrollToAlignment="auto"
                 activeDataPoint={this.state.activeDataPoint}
               />
             )}

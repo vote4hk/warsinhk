@@ -15,11 +15,10 @@ import { makeStyles } from "@material-ui/core/styles"
 import AsyncSelect from "react-select/async"
 import AutoSizer from "react-virtualized/dist/es/AutoSizer"
 import * as d3 from "d3"
-import groupyBy from "lodash/groupBy"
+import groupBy from "lodash/groupBy"
 import DatePicker from "@/components/organisms/DatePicker"
 import Theme from "@/ui/theme"
 import { trackCustomEvent } from "gatsby-plugin-google-analytics"
-
 import {
   createSubDistrictOptionList,
   filterSearchOptions,
@@ -251,21 +250,9 @@ const HighRiskPage = ({ data, pageContext }) => {
       setHistories(JSON.parse(v))
     }
   }, [])
-  const dataPoint = data.allWarsCaseLocation.edges.map(i => i.node)
-  const realLocationByPoint = groupyBy(
-    dataPoint.filter(
-      i => i.sub_district_zh !== "-" && i.sub_district_zh !== "境外"
-    ),
-    i => `${i.lat}${i.lng}`
-  )
-  dataPoint
-    .filter(i => i.sub_district_zh === "-")
-    .forEach(i => {
-      if (realLocationByPoint[`${i.lat}${i.lng}`])
-        return realLocationByPoint[`${i.lat}${i.lng}`].push(i)
-      realLocationByPoint[`${i.lat}${i.lng}`] = [i]
-    })
-  const groupedLocations = Object.values(realLocationByPoint).map(cases => ({
+  const isRealLocation = i =>
+    i.sub_district_zh !== "-" && i.sub_district_zh !== "境外"
+  const toGroupedLocations = cases => ({
     node: {
       ...cases[0],
       search_start_date: searchStartDate,
@@ -276,8 +263,24 @@ const HighRiskPage = ({ data, pageContext }) => {
           withLanguage(i18n, cases[0], "location")
       ), // Quick fix for filtering locations
     },
-  }))
-  const filteredLocations = filterValues(i18n, groupedLocations, filters)
+  })
+  const dataPoint = data.allWarsCaseLocation.edges.map(i => i.node)
+  const realLocation = dataPoint.filter(isRealLocation)
+  const otherLocation = dataPoint.filter(i => !isRealLocation(i))
+  const realLocationByPoint = groupBy(realLocation, i => `${i.lat}${i.lng}` || "-")
+  otherLocation.forEach(i => {
+    if (realLocationByPoint[`${i.lat}${i.lng}`])
+      return realLocationByPoint[`${i.lat}${i.lng}`].push(i)
+    realLocationByPoint[`${i.lat}${i.lng}`] = [i]
+  })
+  const groupedLocations = Object.values(realLocationByPoint).map(
+    toGroupedLocations
+  )
+  const filteredRealLocations = filterValues(i18n, groupedLocations, filters)
+  const filteredLocations =
+    filteredRealLocations.length === 0
+      ? filterValues(i18n, Object.values(groupBy(otherLocation, "location_zh")).map(toGroupedLocations), filters)
+      : filteredRealLocations
 
   const allOptions = [
     {
