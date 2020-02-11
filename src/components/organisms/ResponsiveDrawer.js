@@ -177,6 +177,7 @@ function ResponsiveDrawer(props) {
             variant="temporary"
             anchor={theme.direction === "rtl" ? "right" : "left"}
             open={mobileOpen}
+            onOpen={() => {}}
             onClose={handleDrawerToggle}
             classes={{
               paper: classes.drawerPaper,
@@ -191,6 +192,8 @@ function ResponsiveDrawer(props) {
         </Hidden>
         <Hidden xsDown implementation="css">
           <SwipeableDrawer
+            onOpen={() => {}}
+            onClose={() => {}}
             classes={{
               paper: classes.drawerPaper,
             }}

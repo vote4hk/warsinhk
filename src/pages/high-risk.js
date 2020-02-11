@@ -12,24 +12,16 @@ import { UnstyledRow } from "@components/atoms/Row"
 import HighRiskMap from "@components/highRiskMap"
 import Grid from "@material-ui/core/Grid"
 import { makeStyles } from "@material-ui/core/styles"
-import AsyncSelect from "react-select/async"
 import AutoSizer from "react-virtualized/dist/es/AutoSizer"
 import * as d3 from "d3"
-import groupBy from "lodash/groupBy"
+import _groupBy from "lodash/groupBy"
 import DatePicker from "@/components/organisms/DatePicker"
 import Theme from "@/ui/theme"
 import { trackCustomEvent } from "gatsby-plugin-google-analytics"
-import {
-  createSubDistrictOptionList,
-  filterSearchOptions,
-  filterValues,
-  sortOptionsWithHistories,
-} from "@/utils/search"
-
-import { saveToLocalStorage, loadFromLocalStorage } from "@/utils"
+import { createDedupOptions, filterByDate } from "@/utils/search"
+import MultiPurposeSearch from "../components/modecules/MultiPurposeSearch"
 
 const colors = d3.scaleOrdinal(d3.schemeDark2).domain([0, 1, 2, 3, 4])
-const KEY_HISTORY_LOCAL_STORAGE = "high-risk-search-history"
 
 const HighRiskCardContainer = styled("div")`
   box-sizing: border-box;
@@ -232,75 +224,50 @@ const useStyle = makeStyles(theme => {
   }
 })
 
-const HighRiskPage = ({ data, pageContext }) => {
-  const [filters, setFilters] = useState([])
-  const [histories, setHistories] = useState([])
+const HighRiskPage = ({ data }) => {
   const [searchStartDate, setSearchStartDate] = useState(null)
   const [searchEndDate, setSearchEndDate] = useState(null)
-
   const { i18n, t } = useTranslation()
-  const subDistrictOptionList = createSubDistrictOptionList(
-    i18n,
-    data.allWarsCaseLocation.edges
-  )
 
-  React.useEffect(() => {
-    const v = loadFromLocalStorage(KEY_HISTORY_LOCAL_STORAGE)
-    if (v) {
-      setHistories(JSON.parse(v))
-    }
-  }, [])
-  const isRealLocation = i =>
-    i.sub_district_zh !== "-" && i.sub_district_zh !== "境外"
-  const toGroupedLocations = cases => ({
+  const withinBoderFilter = ({ node }) => node.sub_district_zh !== "境外"
+
+  const groupedLocations = Object.values(
+    _groupBy(
+      data.allWarsCaseLocation.edges.filter(withinBoderFilter).map(e => e.node),
+      node => node.location_zh
+    )
+  ).map(cases => ({
     node: {
       ...cases[0],
-      search_start_date: searchStartDate,
-      search_end_date: searchEndDate,
       cases: cases.filter(
         c =>
           withLanguage(i18n, c, "location") ===
           withLanguage(i18n, cases[0], "location")
       ), // Quick fix for filtering locations
     },
-  })
-  const dataPoint = data.allWarsCaseLocation.edges.map(i => i.node)
-  const realLocation = dataPoint.filter(isRealLocation)
-  const otherLocation = dataPoint.filter(i => !isRealLocation(i))
-  const realLocationByPoint = groupBy(realLocation, i => `${i.lat}${i.lng}` || "-")
-  otherLocation.forEach(i => {
-    if (realLocationByPoint[`${i.lat}${i.lng}`])
-      return realLocationByPoint[`${i.lat}${i.lng}`].push(i)
-    realLocationByPoint[`${i.lat}${i.lng}`] = [i]
-  })
-  const groupedLocations = Object.values(realLocationByPoint).map(
-    toGroupedLocations
-  )
-  const filteredRealLocations = filterValues(i18n, groupedLocations, filters)
-  const filteredLocations =
-    filteredRealLocations.length === 0
-      ? filterValues(i18n, Object.values(groupBy(otherLocation, "location_zh")).map(toGroupedLocations), filters)
-      : filteredRealLocations
+  }))
 
-  const allOptions = [
+  const [filteredLocations, setFilteredLocations] = useState(groupedLocations)
+
+  const filteredOptionsWithDate = filteredLocations.filter(loc =>
+    filterByDate(loc.node, searchStartDate, searchEndDate)
+  )
+  const options = [
     {
       label: t("search.sub_district"),
-      options: sortOptionsWithHistories(subDistrictOptionList, histories),
+      options: createDedupOptions(
+        i18n,
+        data.allWarsCaseLocation.edges.filter(withinBoderFilter),
+        "sub_district"
+      ),
     },
     {
       // For 班次 / 航班: Only ferry no, flight no, and train no are searchable, ignore building
       label: t("search.location"),
-      options: sortOptionsWithHistories(
-        data.allWarsCaseLocation.edges.map(({ node }) => ({
-          label: withLanguage(i18n, node, "location"),
-          value: withLanguage(i18n, node, "location"),
-          field: "location",
-          start_date: node.start_date,
-          end_date: node.end_date,
-          search_start_date: searchStartDate,
-          search_end_date: searchEndDate,
-        })),
-        histories
+      options: createDedupOptions(
+        i18n,
+        data.allWarsCaseLocation.edges.filter(withinBoderFilter),
+        "location"
       ),
     },
   ]
@@ -314,7 +281,7 @@ const HighRiskPage = ({ data, pageContext }) => {
             <HighRiskMap
               t={t}
               getTranslated={(node, key) => withLanguage(i18n, node, key)}
-              filteredLocations={filteredLocations.map(i => i.node)}
+              filteredLocations={filteredOptionsWithDate.map(i => i.node)}
               height={height}
               width={width}
               dateFilterEnabled={searchStartDate && searchEndDate}
@@ -324,38 +291,16 @@ const HighRiskPage = ({ data, pageContext }) => {
                   endDate={searchEndDate}
                   setSearchStartDate={setSearchStartDate}
                   setSearchEndDate={setSearchEndDate}
-                  setFilters={setFilters}
-                  filters={filters}
                 />
               }
               selectBar={
-                <AsyncSelect
-                  closeMenuOnSelect={false}
-                  loadOptions={(input, callback) =>
-                    callback(filterSearchOptions(allOptions, input, 5))
-                  }
-                  isMulti
+                <MultiPurposeSearch
+                  list={groupedLocations}
                   placeholder={t("search.placeholder")}
-                  noOptionsMessage={() => t("text.not_found")}
-                  defaultOptions={filterSearchOptions(allOptions, null, 10)}
-                  value={filters}
-                  onChange={selectedArray => {
-                    // only append the history
-                    if (
-                      selectedArray &&
-                      selectedArray.length > filters.length
-                    ) {
-                      const historiesToSave = [
-                        ...histories,
-                        selectedArray[selectedArray.length - 1],
-                      ].filter((_, i) => i < 10)
-                      setHistories(historiesToSave)
-                      saveToLocalStorage(
-                        KEY_HISTORY_LOCAL_STORAGE,
-                        JSON.stringify(historiesToSave)
-                      )
-                    }
-                    setFilters(selectedArray || [])
+                  options={options}
+                  searchKey="high_risk"
+                  onListFiltered={list => {
+                    setFilteredLocations(list)
                   }}
                 />
               }

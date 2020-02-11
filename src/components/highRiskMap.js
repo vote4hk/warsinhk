@@ -100,15 +100,16 @@ class HighRiskMap extends Component {
           activeDataPoint: highRiskLocation,
         },
         () => {
-          if (highRiskLocation.lat && highRiskLocation.lng) this.map.fitBounds(
-            [
-              [highRiskLocation.lat, highRiskLocation.lng],
-              [highRiskLocation.lat, highRiskLocation.lng],
-            ],
-            {
-              maxZoom: Math.max(this.map.getZoom(), 15),
-            }
-          )
+          if (highRiskLocation.lat && highRiskLocation.lng)
+            this.map.fitBounds(
+              [
+                [highRiskLocation.lat, highRiskLocation.lng],
+                [highRiskLocation.lat, highRiskLocation.lng],
+              ],
+              {
+                maxZoom: Math.max(this.map.getZoom(), 15),
+              }
+            )
           const marker = this.markersById[id]
           if (marker && !marker.isPopupOpen())
             this.map.openPopup(marker._popup, marker._latlng, {
@@ -202,9 +203,14 @@ class HighRiskMap extends Component {
   }
 
   static getDerivedStateFromProps(props, state) {
-    const {activeDataPoint} = state;
-    const scrollToIndex = activeDataPoint && findIndex(props.filteredLocations, i=>i.id === activeDataPoint.id)
-    return { useHorizontalLayout: props.width - props.height > 480, scrollToIndex }
+    const { activeDataPoint } = state
+    const scrollToIndex =
+      activeDataPoint &&
+      findIndex(props.filteredLocations, i => i.id === activeDataPoint.id)
+    return {
+      useHorizontalLayout: props.width - props.height > 480,
+      scrollToIndex,
+    }
   }
 
   getSnapshotBeforeUpdate(prevProps) {
@@ -297,7 +303,7 @@ class HighRiskMap extends Component {
                 rowRenderer={this.rowRenderer}
                 deferredMeasurementCache={this.cache}
                 width={width}
-                scrollToIndex={this.state.scrollToIndex}
+                scrollToIndex={0}
                 scrollToAlignment="auto"
                 activeDataPoint={this.state.activeDataPoint}
               />
