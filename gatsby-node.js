@@ -16,6 +16,7 @@ const SHEET_LATEST_FIGURES_OVERIDE_MASTER = "latest_figures_overide"
 const LANGUAGES = ["zh", "en"]
 const { request } = require("graphql-request")
 const { getPath, getWarTipPath } = require("./src/utils/urlHelper")
+const isDebug = process.env.DEBUG_MODE === "true"
 
 const PUBLISHED_SPREADSHEET_HIGH_RISK_URL =
   "https://docs.google.com/spreadsheets/d/e/2PACX-1vRbmRntCQ1cNkKd5eL3ZVBfgqX_lvQIdJIWxTTQdvSHd_3oIj_6yXOp48qAKdi-Pp-HqXdrrz1gysUr/pub?gid=0"
@@ -214,7 +215,9 @@ const createPublishedGoogleSpreadsheetNode = async (
   const data = await result.text()
   const records = await csv2json().fromString(data)
   records
-    .filter(r => alwaysEnabled || r.enabled === "Y")
+    .filter(
+      r => alwaysEnabled || (isDebug && r.enabled === "N") || r.enabled === "Y"
+    )
     .forEach((p, i) => {
       // create node for build time data example in the docs
       const meta = {
@@ -256,19 +259,16 @@ exports.onCreatePage = async ({ page, actions }) => {
 
 exports.onCreateWebpackConfig = ({ stage, loaders, actions }) => {
   if (stage === "build-html") {
-    const regex = [
-      /node_modules\/leaflet/,
-      /node_modules\\leaflet/
-    ]
+    const regex = [/node_modules\/leaflet/, /node_modules\\leaflet/]
     actions.setWebpackConfig({
       module: {
         rules: [
           {
             test: regex,
-            use: loaders.null()
-          }
-        ]
-      }
+            use: loaders.null(),
+          },
+        ],
+      },
     })
   }
 }
