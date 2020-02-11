@@ -267,7 +267,7 @@ const HighRiskPage = ({ data, pageContext }) => {
   const dataPoint = data.allWarsCaseLocation.edges.map(i => i.node)
   const realLocation = dataPoint.filter(isRealLocation)
   const otherLocation = dataPoint.filter(i => !isRealLocation(i))
-  const realLocationByPoint = groupBy(realLocation, i => `${i.lat}${i.lng}`)
+  const realLocationByPoint = groupBy(realLocation, i => `${i.lat}${i.lng}` || "-")
   otherLocation.forEach(i => {
     if (realLocationByPoint[`${i.lat}${i.lng}`])
       return realLocationByPoint[`${i.lat}${i.lng}`].push(i)
