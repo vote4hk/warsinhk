@@ -128,7 +128,7 @@ export const HighRiskCardItem = ({ node, i18n, t, isActive }) => (
       trackCustomEvent({
         category: "high_risk_list",
         action: "click_item",
-        label: node.node,
+        label: `${node.node.sub_district_zh} | ${node.node.location_zh}`,
       })
     }
   >
