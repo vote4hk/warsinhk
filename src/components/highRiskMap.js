@@ -92,7 +92,7 @@ class HighRiskMap extends Component {
     trackCustomEvent({
       category: "high_risk_map",
       action: "click_marker",
-      label: highRiskLocation,
+      label: `${highRiskLocation.sub_district_zh} | ${highRiskLocation.location_zh}`,
     })
     if (!this.state.activeDataPoint || this.state.activeDataPoint.id !== id) {
       this.setState(
