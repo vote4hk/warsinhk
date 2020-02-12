@@ -64,9 +64,12 @@ const DailyStat = styled(Box)`
   flex-direction: column;
   align-items: center;
 `
+const DailyStatFigureLabel = styled(Typography)`
+  font-size: 12px;
+`
 
 const DailyStatFigure = styled(Typography)`
-  font-size: 30px;
+  font-size: 25px;
   font-weight: 700;
 `
 
@@ -98,11 +101,13 @@ function DailyStats({
   today = {
     ...first,
     confirmed: Math.max(overridedata.confirmed, first.confirmed),
+    discharged: Math.max(overridedata.discharged, first.discharged),
   }
 
   if (
     overridedata.date > first.date &&
-    overridedata.confirmed > first.confirmed
+    (overridedata.confirmed > first.confirmed ||
+      overridedata.discharged > first.discharged)
   ) {
     ytd = {
       ...first,
@@ -118,6 +123,11 @@ function DailyStats({
       label: t("dashboard.death"),
       today_stat: today.death || 0,
       diff: today.death - ytd.death,
+    },
+    {
+      label: t("dashboard.discharged"),
+      today_stat: today.discharged || 0,
+      diff: today.discharged - ytd.discharged,
     },
     {
       label: t("dashboard.confirmed"),
@@ -140,11 +150,11 @@ function DailyStats({
     <DailyStatsContainer>
       {dataArray.map((d, i) => (
         <DailyStat key={i}>
-          <Typography component="span" variant="body2" color="textPrimary">
-            {d.label}
-          </Typography>
+          <DailyStatFigureLabel>{d.label}</DailyStatFigureLabel>
           <DailyStatFigure>{formatNumber(d.today_stat)}</DailyStatFigure>
-          <DailyChange badSign={d.diff > 0}>
+          <DailyChange
+            badSign={d.label === t("dashboard.discharged") ? false : d.diff > 0}
+          >
             {d.diff > 0
               ? `▲ ${formatNumber(d.diff)}`
               : d.diff < 0
