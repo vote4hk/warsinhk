@@ -65,7 +65,12 @@ const DailyStat = styled(Box)`
   align-items: center;
 `
 const DailyStatFigureLabel = styled(Typography)`
+  text-align: center;
   font-size: 12px;
+
+  ${bps.down("sm")} {
+    font-size: 11px;
+  }
 `
 
 const DailyStatFigure = styled(Typography)`
@@ -74,7 +79,7 @@ const DailyStatFigure = styled(Typography)`
 `
 
 const PassengerDailyStatFigure = styled(Typography)`
-  font-size: 25px;
+  font-size: 20px;
   font-weight: 700;
 `
 
@@ -177,23 +182,23 @@ function PassengerStats({
   const dataArray = [
     {
       label: t("dashboard.airport"),
-      today_stat: airport_today.arrival_mainland,
-      diff: airport_today.arrival_mainland - airport_ytd.arrival_mainland,
+      today_stat: airport_today.arrival_total,
+      diff: airport_today.arrival_total - airport_ytd.arrival_total,
     },
     {
       label: t("dashboard.bay"),
-      today_stat: bay_today.arrival_mainland || 0,
-      diff: bay_today.arrival_mainland - bay_ytd.arrival_mainland,
+      today_stat: bay_today.arrival_total || 0,
+      diff: bay_today.arrival_total - bay_ytd.arrival_total,
     },
     {
       label: t("dashboard.bridge"),
-      today_stat: bridge_today.arrival_mainland,
-      diff: bridge_today.arrival_mainland - bridge_ytd.arrival_mainland,
+      today_stat: bridge_today.arrival_total,
+      diff: bridge_today.arrival_total - bridge_ytd.arrival_total,
     },
     {
       label: t("dashboard.total"),
-      today_stat: total_today.arrival_mainland,
-      diff: total_today.arrival_mainland - total_ytd.arrival_mainland,
+      today_stat: total_today.arrival_total,
+      diff: total_today.arrival_total - total_ytd.arrival_total,
     },
   ]
 
@@ -201,9 +206,7 @@ function PassengerStats({
     <DailyStatsContainer>
       {dataArray.map((d, i) => (
         <DailyStat key={i}>
-          <Typography component="span" variant="body2" color="textPrimary">
-            {d.label}
-          </Typography>
+          <DailyStatFigureLabel>{d.label}</DailyStatFigureLabel>
           <PassengerDailyStatFigure>
             {formatNumber(d.today_stat)}
           </PassengerDailyStatFigure>
@@ -281,7 +284,7 @@ export default function IndexPage({ data }) {
             )}
             <Typography variant="h2">{t("dashboard.passenger")}</Typography>
 
-            <Paragraph>{t("dashboard.mainland_only")}</Paragraph>
+            <Paragraph>{t("dashboard.reference_only")}</Paragraph>
             <Typography variant="body2">
               <Link
                 href="https://www.immd.gov.hk/hkt/message_from_us/stat_menu.html"

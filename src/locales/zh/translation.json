@@ -74,7 +74,7 @@
   "dashboard.patient_status": "患者狀況",
   "dashboard.source": "資料來源",
   "dashboard.passenger": "入境旅客人次",
-  "dashboard.mainland_only": "以下數字只計算內地訪客，僅供參考之用，由於未有顯示部分低流量口岸人次，故下圖左方三個數字之和不等於右方之總計。",
+  "dashboard.reference_only": "以下數字僅供參考之用，由於未有顯示部分低流量口岸人次，故下圖左方三個數字之和不等於右方之總計。",
   "dashboard.source_immd": "資料來源：香港入境事務處",
   "dashboard.bay": "深圳灣",
   "dashboard.bridge": "港珠澳大橋",

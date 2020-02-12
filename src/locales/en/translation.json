@@ -74,7 +74,7 @@
   "dashboard.patient_status": "Status",
   "dashboard.source": "Source",
   "dashboard.passenger": "Arriving Passenger Traffic",
-  "dashboard.mainland_only": "The below figures only take into account mainland Chinese visitors and are for reference only. Since this chart does not show the passenger traffic recorded at low-traffic ports, the aggregate of the first three columns does not equal to the total shown on the last column.",
+  "dashboard.reference_only": "The below figures are for reference only. Since this chart does not show the passenger traffic recorded at low-traffic ports, the aggregate of the first three columns does not equal to the total shown on the last column.",
   "dashboard.source_immd": "Source: Hong Kong Immigration Department",
   "dashboard.bay": "Shenzhen Bay",
   "dashboard.bridge": "HZM Bridge",
