@@ -65,7 +65,7 @@ export const filterSearchOptions = (options, text, size) =>
     options: _uniqBy(
       option.options.filter(opt => searchText(opt.label, text)),
       "label"
-    ).slice(0, size),
+    ).slice(0, option.defaultSize || size),
   }))
 
 export const filterByDate = (node, search_start_date, search_end_date) => {

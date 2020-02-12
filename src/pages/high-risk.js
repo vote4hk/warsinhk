@@ -260,6 +260,7 @@ const HighRiskPage = ({ data }) => {
         data.allWarsCaseLocation.edges.filter(withinBoderFilter),
         "sub_district"
       ),
+      defaultSize: 100,
     },
     {
       // For 班次 / 航班: Only ferry no, flight no, and train no are searchable, ignore building

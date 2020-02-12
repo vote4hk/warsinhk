@@ -67,7 +67,7 @@ const ConfirmedCasePage = props => {
           list={data.allWarsCase.edges}
           placeholder={t("search.case_placeholder")}
           options={options}
-          searchKey="high_risk"
+          searchKey="case"
           onListFiltered={list => {
             setFilteredCases(list)
           }}
