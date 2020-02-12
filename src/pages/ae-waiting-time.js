@@ -22,7 +22,11 @@ const HospiName = styled(Typography)`
   font-weight: 600;
 `
 
-const HourLabel = styled(Typography)`
+const HourLabel = styled(({ variant, className, children }) => (
+  <Typography variant={variant} className={className}>
+    {children}
+  </Typography>
+))`
   color: ${props => props.theme.palette.trafficLight[props.color]};
 `
 
