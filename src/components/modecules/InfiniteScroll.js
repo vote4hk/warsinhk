@@ -4,9 +4,9 @@ import { bps } from "@/ui/theme"
 import PropTypes from "prop-types"
 
 const InfiniteScroll = ({ list, onItem, step }) => {
-  const { mobile = 5, desktop = 20 } = step
+  const { mobile = 5, desktop = 20, preload = 5 } = step
   const isMobile = useMediaQuery(bps.down("md"))
-  const [itemSize, setItemSize] = useState(mobile)
+  const [itemSize, setItemSize] = useState(preload)
   const [loadMore, setLoadMore] = useState(false)
   useEffect(() => {
     if (!loadMore) return
