@@ -199,18 +199,10 @@ const formatDate = d => {
 }
 
 const Item = ({ node, i18n, t }) => {
-  const casesPass14daysArray = [...new Set(node.cases.map(c => c.pass14days))]
   return (
     <HighRiskCardContent>
       <HighRiskCardTitle>
-        <CaseText
-          component="span"
-          variant="h6"
-          pass14days={
-            casesPass14daysArray.length === 1 &&
-            casesPass14daysArray.pop() === true
-          }
-        >
+        <CaseText component="span" variant="h6" pass14days={node.allPass14days}>
           {withLanguage(i18n, node, "location")}
         </CaseText>
       </HighRiskCardTitle>
@@ -220,7 +212,7 @@ const Item = ({ node, i18n, t }) => {
           c={c}
           i18n={i18n}
           t={t}
-          pass14days={node.pass14days}
+          pass14days={c.pass14days}
         ></CaseRow>
       ))}
     </HighRiskCardContent>
@@ -273,16 +265,22 @@ const HighRiskPage = ({ data }) => {
       }),
       node => node.location_zh
     )
-  ).map(cases => ({
-    node: {
-      ...cases[0],
-      cases: cases.filter(
-        c =>
-          withLanguage(i18n, c, "location") ===
-          withLanguage(i18n, cases[0], "location")
-      ), // Quick fix for filtering locations
-    },
-  }))
+  ).map(cases => {
+    const casesPass14daysArray = [...new Set(cases.map(c => c.pass14days))]
+    return {
+      node: {
+        ...cases[0],
+        cases: cases.filter(
+          c =>
+            withLanguage(i18n, c, "location") ===
+            withLanguage(i18n, cases[0], "location")
+        ), // Quick fix for filtering locations
+        allPass14days:
+          casesPass14daysArray.length === 1 &&
+          casesPass14daysArray.pop() === true,
+      },
+    }
+  })
 
   const [filteredLocations, setFilteredLocations] = useState(groupedLocations)
 
