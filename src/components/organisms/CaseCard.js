@@ -170,7 +170,7 @@ export const WarsCaseCard = React.forwardRef((props, ref) => {
               }
               size="small"
               fontSize={14}
-              label={t(`cases.classification_${node.classification}`)}
+              label={withLanguage(i18n, node, "classification")}
             />
           )}
         </Box>

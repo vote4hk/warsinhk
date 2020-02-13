@@ -45,16 +45,20 @@ const ConfirmedCasePage = props => {
 
   const options = [
     {
+      label: t("search.classification"),
+      options: createDedupOptions(
+        i18n,
+        data.allWarsCase.edges,
+        "classification"
+      ),
+    },
+    {
       label: t("search.citizenship"),
       options: createDedupOptions(i18n, data.allWarsCase.edges, "citizenship"),
     },
     {
       label: t("search.case_status"),
       options: createDedupOptions(i18n, data.allWarsCase.edges, "status"),
-    },
-    {
-      label: t("search.hospital"),
-      options: createDedupOptions(i18n, data.allWarsCase.edges, "hospital"),
     },
   ]
 
@@ -128,6 +132,8 @@ export const ConfirmedCaseQuery = graphql`
           detail_zh
           detail_en
           classification
+          classification_zh
+          classification_en
           source_url
         }
       }
