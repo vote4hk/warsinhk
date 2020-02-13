@@ -34,6 +34,8 @@ function DatePicker(props) {
   const { focusedInput } = state
   const { t } = useTranslation()
   const isMobile = useMediaQuery(bps.down("md"))
+  const isSmallScreen = useMediaQuery('(max-height:569px)') // iphone SE or smaller
+  const isMidScreen = useMediaQuery('(max-height:732px)') // Pixel 2 or smaller
 
   const phrasesProp = {
     datepickerStartDatePlaceholder: t(
@@ -82,6 +84,8 @@ function DatePicker(props) {
           onFocusChange={focusedInput =>
             dispatch({ type: "focusChange", payload: focusedInput })
           }
+          showSelectedDates={isMidScreen ? false : true}
+          showClose={isSmallScreen ? false : true}
           startDate={startDate}
           endDate={endDate}
           focusedInput={focusedInput}
