@@ -30,7 +30,7 @@ function reducer(state, action) {
 function DatePicker(props) {
   const { setSearchStartDate, setSearchEndDate } = props
   const [state, dispatch] = useReducer(reducer, initialState)
-  const { startDate, endDate,} = props
+  const { startDate, endDate } = props
   const { focusedInput } = state
   const { t } = useTranslation()
   const isMobile = useMediaQuery(bps.down("md"))
@@ -88,6 +88,7 @@ function DatePicker(props) {
           phrases={phrasesProp}
           vertical={isMobile ? true : false}
           displayFormat="dd/MM/yyyy"
+          firstDayOfWeek="7"
         />
       </ThemeProvider>
     </DateRangeInputContainer>
