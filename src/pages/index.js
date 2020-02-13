@@ -459,6 +459,8 @@ export const WarsCaseQuery = graphql`
           detail_zh
           detail_en
           classification
+          classification_zh
+          classification_en
           source_url
         }
       }
