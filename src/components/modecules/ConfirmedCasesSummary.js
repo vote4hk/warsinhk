@@ -30,9 +30,12 @@ const ConfirmedCasesSummary = props => {
 
   return (
     <React.Fragment>
-      <BoldLabel display="inline">患者狀態摘要：</BoldLabel>
+      <BoldLabel display="inline">
+        {t("confirmed_case_summary.status_summary")}：
+      </BoldLabel>
       <Label display="inline">
         {status
+          .sort((a, b) => b.totalCount - a.totalCount)
           .map(v => t(`cases.status_${v.fieldValue}`) + "：" + v.totalCount)
           .join("　")}
       </Label>
