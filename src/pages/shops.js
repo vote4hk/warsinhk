@@ -23,6 +23,7 @@ import { BasicFab } from "@components/atoms/Fab"
 import { ResponsiveWrapper } from "@components/atoms/ResponsiveWrapper"
 import MultiPurposeSearch from "../components/modecules/MultiPurposeSearch"
 import { PageContent } from "../components/atoms/Container"
+import { Paragraph } from "@components/atoms/Text"
 
 const FabContainer = styled(Box)`
   && {
@@ -204,6 +205,7 @@ const ShopsPage = props => {
         </FabContainer>
         <Typography variant="h2">{t("dodgy_shops.list_text")}</Typography>
         <PageContent>
+          <Paragraph>{t("dodgy_shops.disclaimer")}</Paragraph>
           <MultiPurposeSearch
             list={data.allDodgyShop.edges}
             placeholder={t("dodgy_shops.search_placeholder")}

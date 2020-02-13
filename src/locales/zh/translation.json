@@ -15,6 +15,7 @@
   "dodgy_shops.category_dubious": "可疑",
   "dodgy_shops.last_updated": "最後更新：{{date}}",
   "dodgy_shops.find_mask": "揾口罩",
+  "dodgy_shops.disclaimer": "以下商鋪資訊綜合網民報料，由於事態瞬息萬變，或未及跟貼最新情況，如有不足，歡迎提供更多資料。",
   "high_risk.title": "高危地區",
   "high_risk.source": "資料來源：{{source}}",
   "high_risk.confirmed_case": "個案",

@@ -8,7 +8,7 @@ export const Label = styled(Typography)`
 `
 
 export const Paragraph = styled(Typography)`
-  margin-top: 8px;
+  margin-bottom: 8px;
   font-size: 14px;
 
   && b {
