@@ -83,14 +83,18 @@ const PassengerDailyStatFigure = styled(Typography)`
   font-weight: 700;
 `
 
-const DailyChange = styled(Typography)`
+const DailyChange = styled(({ badSign, children, ...props }) => (
+  <Typography {...props}>{children}</Typography>
+))`
   font-size: 14px;
   font-weight: 700;
-  color: ${props =>
-    props.badSign
+  color: ${props => {
+    return props.badSign
       ? props.theme.palette.secondary.dark
-      : props.theme.palette.trafficLight.green};
+      : props.theme.palette.trafficLight.green
+  }};
 `
+
 const FullWidthButton = styled(Button)`
   width: 100%;
   padding: 6px 10px;
