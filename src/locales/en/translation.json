@@ -15,7 +15,7 @@
   "dodgy_shops.last_updated": "Last update: {{date}}",
   "dodgy_shops.category_dubious": "Dubious",
   "dodgy_shops.find_mask": "Find mask",
-  "dodgy_shops.disclaimer": "The following information on shops is an integration of netizens’ reports. Due to volatility of the situation, it may not be the most updated. We welcome your provision of information.",
+  "dodgy_shops.disclaimer": "The following information on dubious pharmacies is an integration of netizens’ reports. Due to volatility of the situation, it may not be the most updated. We welcome your provision of information.",
   "high_risk.title": "High Risk Areas",
   "high_risk.source": "Source: {{source}}",
   "high_risk.list_mode": "List",
