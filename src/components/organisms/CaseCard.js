@@ -144,7 +144,7 @@ export const WarsCaseCard = React.forwardRef((props, ref) => {
             textcolor={mapColorForStatus(node.status).main}
             bordercolor={mapColorForStatus(node.status).main}
             size="small"
-            fontsize={14}
+            fontSize={14}
             label={t(`cases.status_${node.status}`)}
           />
         </Box>
@@ -169,7 +169,7 @@ export const WarsCaseCard = React.forwardRef((props, ref) => {
                 mapColorForClassification(node.classification).contrastText
               }
               size="small"
-              fontsize={14}
+              fontSize={14}
               label={t(`cases.classification_${node.classification}`)}
             />
           )}

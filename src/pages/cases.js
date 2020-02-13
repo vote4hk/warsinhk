@@ -45,10 +45,6 @@ const ConfirmedCasePage = props => {
 
   const options = [
     {
-      label: t("search.hospital"),
-      options: createDedupOptions(i18n, data.allWarsCase.edges, "hospital"),
-    },
-    {
       label: t("search.citizenship"),
       options: createDedupOptions(i18n, data.allWarsCase.edges, "citizenship"),
     },
@@ -56,7 +52,18 @@ const ConfirmedCasePage = props => {
       label: t("search.case_status"),
       options: createDedupOptions(i18n, data.allWarsCase.edges, "status"),
     },
+    {
+      label: t("search.hospital"),
+      options: createDedupOptions(i18n, data.allWarsCase.edges, "hospital"),
+    },
   ]
+
+  // Calculate how much cards we should preload in order to scorll to that position
+  let preloadedCases =
+    data.allWarsCase.edges.length - parseInt(selectedCase) + 1
+  if (isNaN(preloadedCases)) {
+    preloadedCases = 15
+  }
 
   return (
     <Layout>
@@ -77,7 +84,7 @@ const ConfirmedCasePage = props => {
       <ResponsiveWrapper>
         <InfiniteScroll
           list={filteredCases}
-          step={{ mobile: 5, preload: 15 }}
+          step={{ mobile: 5, preload: preloadedCases }}
           onItem={(item, index) => (
             <WarsCaseCard
               node={item.node}
