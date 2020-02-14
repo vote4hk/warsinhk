@@ -22,6 +22,7 @@ import { createDedupOptions, filterByDate } from "@/utils/search"
 import MultiPurposeSearch from "../components/modecules/MultiPurposeSearch"
 import moment from "moment"
 import { grey } from "@material-ui/core/colors"
+import { formatDateDDMM } from "@/utils"
 
 const colors = d3.scaleOrdinal(d3.schemeDark2).domain([0, 1, 2, 3, 4])
 
@@ -144,7 +145,9 @@ export const CaseRow = ({ c, i18n, t, pass14days }) => (
           <CaseText component="div" variant="body2" pass14days={pass14days}>
             {c.start_date === c.end_date
               ? c.end_date
-              : `${formatDate(c.start_date)} - ${formatDate(c.end_date)}`}
+              : `${formatDateDDMM(c.start_date)} - ${formatDateDDMM(
+                  c.end_date
+                )}`}
           </CaseText>
         </UnstyledRow>
       </Grid>
@@ -186,17 +189,6 @@ export const CaseRow = ({ c, i18n, t, pass14days }) => (
     </Grid>
   </CaseRowContainer>
 )
-const formatDate = d => {
-  // Orignal formatString: "DD/M" cannot be parsed in DatePicker
-  // formatString: "YYYY-MM-DD" for DatePicker
-  // Reformat for UI here
-  if (d) {
-    d = d.replace(/(\d{4})-(\d\d)-(\d\d)/, function(_, y, m, d) {
-      return [d, m].join("/")
-    })
-  }
-  return d
-}
 
 const Item = ({ node, i18n, t }) => {
   return (

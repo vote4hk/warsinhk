@@ -97,6 +97,9 @@ const ConfirmedCasePage = props => {
               key={item.node.case_no}
               isSelected={selectedCase === item.node.case_no}
               ref={selectedCase === item.node.case_no ? selectedCard : null}
+              patientTrack={data.patient_track.group.filter(
+                t => t.fieldValue === item.node.case_no
+              )}
             />
           )}
         />
@@ -135,6 +138,26 @@ export const ConfirmedCaseQuery = graphql`
           classification_zh
           classification_en
           source_url
+        }
+      }
+    }
+    patient_track: allWarsCaseLocation(
+      sort: { order: DESC, fields: end_date }
+    ) {
+      group(field: case___case_no) {
+        fieldValue
+        edges {
+          node {
+            case_no
+            start_date
+            end_date
+            location_zh
+            location_en
+            action_zh
+            action_en
+            remarks_zh
+            remarks_en
+          }
         }
       }
     }

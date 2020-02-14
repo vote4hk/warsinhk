@@ -16,6 +16,7 @@ import {
   amber,
   grey,
 } from "@material-ui/core/colors"
+import { formatDateDDMM } from "@/utils"
 
 const mapColorForClassification = classification => {
   const mapping = {
@@ -124,9 +125,52 @@ const WarsRow = styled(Row)`
 const StatusRow = styled(Row)`
   margin: 8px 0 10px;
 `
+const WarsCaseTrackContainer = styled(Box)`
+  margin-top: 16px;
+`
+
+const WarsCaseTrackRow = styled(Box)`
+  border-top: 1px #ddd solid;
+  padding: 8px 0 8px;
+`
+
+const WarsCaseTrack = ({ i18n, track }) => {
+  return (
+    <WarsCaseTrackContainer>
+      {track.map(t => {
+        const remarksText = withLanguage(i18n, t.node, "remarks")
+        return (
+          <WarsCaseTrackRow>
+            <WarsRow>
+              <Box>
+                {t.node.start_date === t.node.end_date
+                  ? t.node.end_date
+                  : `${formatDateDDMM(t.node.start_date)} - ${formatDateDDMM(
+                      t.node.end_date
+                    )}`}
+              </Box>
+              <Box>
+                <b>{withLanguage(i18n, t.node, "action")}</b>
+              </Box>
+            </WarsRow>
+            <WarsRow>
+              <b>{withLanguage(i18n, t.node, "location")}</b>
+            </WarsRow>
+            {remarksText && (
+              <WarsRow>
+                <Typography variant="body2">{remarksText}</Typography>
+              </WarsRow>
+            )}
+          </WarsCaseTrackRow>
+        )
+      })}
+    </WarsCaseTrackContainer>
+  )
+}
 
 export const WarsCaseCard = React.forwardRef((props, ref) => {
-  const { node, i18n, t, isSelected } = props
+  const { node, i18n, t, isSelected, patientTrack } = props
+  const track = patientTrack && patientTrack[0] && patientTrack[0].edges
 
   return (
     <WarsCaseContainer
@@ -205,6 +249,7 @@ export const WarsCaseCard = React.forwardRef((props, ref) => {
           {t("dashboard.source")}
         </WarsSource>
       </Row>
+      {track && <WarsCaseTrack i18n={i18n} track={track} />}
     </WarsCaseContainer>
   )
 })
