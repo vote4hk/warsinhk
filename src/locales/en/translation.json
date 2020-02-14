@@ -121,5 +121,9 @@
   "datepicker.endDateAriaLabel": "End Date",
   "datepicker.startDatePlaceholder": "Start Date",
   "datepicker.endDatePlaceholder": "End Date",
-  "datepicker.close": "Close"
+  "datepicker.close": "Close",
+  "epidemic_chart.key_imported": "輸入個案",
+  "epidemic_chart.key_possibly_local": "懷疑本地",
+  "epidemic_chart.key_local": "本地感染",
+  "epidemic_chart.key_close_contact_of_imported_case": "輸入有關"
 }

@@ -327,12 +327,14 @@ exports.sourceNodes = async props => {
       "BotWarsLatestFigures",
       { skipFirstLine: true, alwaysEnabled: true }
     ),
-    createPublishedGoogleSpreadsheetNode(
+	createPublishedGoogleSpreadsheetNode(
       props,
       PUBLISHED_SPREADSHEET_FRIENDLY_LINK_URL,
       "FriendlyLink",
       { skipFirstLine: true }
     ),
+    createPublishedGoogleSpreadsheetNode(
+      props,      
       PUBLISHED_SPREADSHEET_EPIDEMIC_CURVE_URL,
       "EpidemicData",
       { skipFirstLine: true, alwaysEnabled: true }
