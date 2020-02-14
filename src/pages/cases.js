@@ -157,6 +157,8 @@ export const ConfirmedCaseQuery = graphql`
             action_en
             remarks_zh
             remarks_en
+            source_url_1
+            source_url_2
           }
         }
       }
