@@ -18,9 +18,18 @@ import { withTheme } from "@material-ui/core/styles"
 import IconButton from "@material-ui/core/IconButton"
 import DateRangeIcon from "@material-ui/icons/DateRange"
 import { trackCustomEvent } from "gatsby-plugin-google-analytics"
-import styled from "styled-components"
+import styled, { createGlobalStyle } from "styled-components"
+import { bps } from "@/ui/theme"
 
 const limit = 1.5
+
+const LeafletStyleOverride = createGlobalStyle`
+.leaflet-popup-content {
+${bps.down("sm")} {
+    margin: 5px 7px;
+  }
+}
+`
 
 const DateButton = styled(IconButton)`
   padding: 0;
@@ -101,13 +110,15 @@ class HighRiskMap extends Component {
         },
         () => {
           if (highRiskLocation.lat && highRiskLocation.lng)
-            this.map.fitBounds(
+            this.map.flyToBounds(
               [
                 [highRiskLocation.lat, highRiskLocation.lng],
                 [highRiskLocation.lat, highRiskLocation.lng],
               ],
               {
-                maxZoom: Math.max(this.map.getZoom(), 15),
+                maxZoom: 15,
+                paddingTopLeft: [0, 60],
+                duration: 1.5,
               }
             )
           const marker = this.markersById[id]
@@ -271,6 +282,7 @@ class HighRiskMap extends Component {
           width,
         }}
       >
+        <LeafletStyleOverride />
         <div
           ref={el => (this.mapContainer = el)}
           style={{
@@ -303,7 +315,7 @@ class HighRiskMap extends Component {
                 rowRenderer={this.rowRenderer}
                 deferredMeasurementCache={this.cache}
                 width={width}
-                scrollToIndex={0}
+                scrollToIndex={this.state.scrollToIndex || 0}
                 scrollToAlignment="auto"
                 activeDataPoint={this.state.activeDataPoint}
               />
