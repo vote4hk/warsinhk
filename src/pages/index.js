@@ -16,6 +16,7 @@ import { BasicCard } from "@components/atoms/Card"
 import { WarsCaseCard } from "@components/organisms/CaseCard"
 import AlertMessage from "@components/organisms/AlertMessage"
 import { Paragraph } from "@components/atoms/Text"
+import Grid from "@material-ui/core/Grid"
 
 import { formatNumber } from "@/utils"
 
@@ -97,6 +98,10 @@ const DailyChange = styled(({ badSign, children, ...props }) => (
 const FullWidthButton = styled(Button)`
   width: 100%;
   padding: 6px 10px;
+`
+
+const FriendlyLinksContainer = styled(Box)`
+  margin-bottom: 16px;
 `
 
 function DailyStats({
@@ -252,7 +257,7 @@ export default function IndexPage({ data }) {
         c.node.confirmation_date ===
         data.allWarsCase.edges[0].node.confirmation_date
     )
-
+  console.log(data.allFriendlyLink)
   return (
     <>
       <SEO title="Home" />
@@ -324,6 +329,23 @@ export default function IndexPage({ data }) {
             )}
           </SessiontWrapper>
           <SessiontWrapper>
+            <FriendlyLinksContainer>
+              <Grid container spacing={1}>
+                {data.allFriendlyLink.edges.map((item, index) => (
+                  <Grid item xs={12} md={6}>
+                    <FullWidthButton
+                      index={index}
+                      component={Link}
+                      href={item.node.source_url}
+                      target="_blank"
+                      variant="outlined"
+                    >
+                      {item.node.title}
+                    </FullWidthButton>
+                  </Grid>
+                ))}
+              </Grid>
+            </FriendlyLinksContainer>
             <Typography variant="h2">{t("index.latest_case")}</Typography>
             {latestCases.map((item, index) => (
               <WarsCaseCard key={index} node={item.node} i18n={i18n} t={t} />
@@ -343,7 +365,7 @@ export default function IndexPage({ data }) {
 }
 
 export const WarsCaseQuery = graphql`
-  query {
+  query($locale: String) {
     allImmdHongKongZhuhaiMacaoBridge(sort: { order: DESC, fields: date }) {
       edges {
         node {
@@ -462,6 +484,19 @@ export const WarsCaseQuery = graphql`
           classification_zh
           classification_en
           source_url
+        }
+      }
+    }
+    allFriendlyLink(
+      sort: { fields: sort_order, order: DESC }
+      filter: { language: { eq: $locale } }
+    ) {
+      edges {
+        node {
+          language
+          title
+          source_url
+          sort_order
         }
       }
     }
