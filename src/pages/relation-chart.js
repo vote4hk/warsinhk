@@ -4,7 +4,7 @@ import Layout from "@components/templates/Layout"
 import { useTranslation } from "react-i18next"
 import { Typography } from "@material-ui/core"
 import { graphql } from "gatsby"
-import ZoomableCirclePackingChart from "@/components/charts/ZoomableCirclePackingChart"
+import NetworkGraph from "@/components/charts/NetworkGraph"
 // import _groupBy from "lodash.groupby"
 // import { withLanguage } from "@/utils/i18n"
 
@@ -71,9 +71,7 @@ const ChartsPage = ({ data, location }) => {
     <Layout noPadding={true}>
       <SEO title="Charts" />
       <Typography variant="h2">{t("charts.title")}</Typography>
-      <ZoomableCirclePackingChart
-        data={getDataForChart(data.allWarsCase.edges)}
-      />
+      <NetworkGraph data={getDataForChart(data.allWarsCase.edges)} />
     </Layout>
   )
 }
