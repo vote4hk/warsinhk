@@ -1,8 +1,11 @@
 import React, { useRef, useState, useEffect, useLayoutEffect } from "react"
 import * as d3 from "d3"
+import { getPath } from "@/utils/urlHelper"
+import { useTranslation } from "react-i18next"
 
 export default props => {
   const [dimensions, setDimensions] = useState({ width: 0, height: 0 })
+  const { i18n } = useTranslation()
 
   const d3Container = useRef(null)
 
@@ -37,7 +40,6 @@ export default props => {
     let focus = root
     let view
 
-    console.log(root)
     const svg = d3
       .select(d3Container.current)
       .attr("viewBox", `-${width / 2} -${height / 2} ${width} ${height}`)
@@ -60,11 +62,20 @@ export default props => {
       .on("mouseout", function() {
         d3.select(this).attr("stroke", null)
       })
-      .on("click", d => focus !== d && (zoom(d), d3.event.stopPropagation()))
+      .on("click", d => {
+        if (d.children) {
+          if (focus !== d) {
+            zoom(d)
+            d3.event.stopPropagation()
+          }
+        } else {
+          window.location = getPath(i18n.language, `/cases/${d.data.name}`)
+        }
+      })
 
     const label = svg
       .append("g")
-      .style("font", "10px sans-serif")
+      .style("font", "20px sans-serif")
       .attr("pointer-events", "none")
       .attr("text-anchor", "middle")
       .selectAll("text")
@@ -115,6 +126,19 @@ export default props => {
         .on("end", function(d) {
           if (d.parent !== focus) this.style.display = "none"
         })
+
+      // disable the click event when zoom
+      node
+        .filter(function(d) {
+          return d.parent === focus
+        })
+        .attr("pointer-events", null)
+
+      node
+        .filter(function(d) {
+          return d.parent !== focus
+        })
+        .attr("pointer-events", d => (!d.children ? "none" : null))
     }
   }
 
