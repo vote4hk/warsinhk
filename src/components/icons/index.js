@@ -17,6 +17,7 @@ import CloseIcon from "@material-ui/icons/Close"
 import NotInterestedIcon from "@material-ui/icons/NotInterested"
 import SearchRoundedIcon from "@material-ui/icons/SearchRounded"
 import HotelRoundedIcon from "@material-ui/icons/HotelRounded"
+import SentimentSatisfiedRoundedIcon from "@material-ui/icons/SentimentSatisfiedRounded"
 
 export function mapIcon(name) {
   switch (name) {
@@ -56,6 +57,8 @@ export function mapIcon(name) {
       return <SearchRoundedIcon />
     case "hotel":
       return <HotelRoundedIcon />
+    case "sentiment_satisfied":
+      return <SentimentSatisfiedRoundedIcon />
     default:
       return null
   }

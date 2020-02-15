@@ -63,13 +63,6 @@
       "icon": "collections",
       "sideMenu": true,
       "bottomNav": false
-    },
-    {
-      "title": "about_us.title",
-      "to": "/about-us",
-      "icon": "aboutus",
-      "sideMenu": true,
-      "bottomNav": false
     }
   ],
   "credits": {
