@@ -5,45 +5,61 @@ import { useTranslation } from "react-i18next"
 import { Typography } from "@material-ui/core"
 import { graphql } from "gatsby"
 import ZoomableCirclePackingChart from "@/components/charts/ZoomableCirclePackingChart"
-import _groupBy from "lodash.groupby"
-import { withLanguage } from "@/utils/i18n"
+// import _groupBy from "lodash.groupby"
+// import { withLanguage } from "@/utils/i18n"
 
 const ChartsPage = ({ data, location }) => {
-  const { t, i18n } = useTranslation()
+  const { t } = useTranslation()
 
-  const constructTreeByParentCase = edges => {
-    return edges.map(({ node }) => ({
-      name: node.case_no,
-      value: 1,
-    }))
+  const constructTreeByParentCase = (edges, parent) => {
+    return edges
+      .filter(({ node }) => node.parent_case === parent)
+      .map(({ node }) => {
+        // construct the children with recursion
+        const children = constructTreeByParentCase(edges, node.case_no)
+        // include the parent itself inside the group
+        if (children.length > 0) {
+          children.push({
+            name: `#${node.case_no}`,
+            value: 1,
+          })
+        }
+        return {
+          name: `#${node.case_no}`,
+          value: 1,
+          children,
+        }
+      })
   }
 
-  const constructTreeByClassification = edges => {
-    const groupedByClassification = _groupBy(edges, ({ node }) =>
-      withLanguage(i18n, node, "classification")
-    )
-    return Object.keys(groupedByClassification).map(classification => ({
-      name: classification,
-      children: constructTreeByParentCase(
-        groupedByClassification[classification]
-      ),
-    }))
-  }
+  // const constructTreeByClassification = edges => {
+  //   const groupedByClassification = _groupBy(edges, ({ node }) =>
+  //     withLanguage(i18n, node, "classification")
+  //   )
+  //   return Object.keys(groupedByClassification).map(classification => ({
+  //     name: classification,
+  //     children: constructTreeByParentCase(
+  //       groupedByClassification[classification], '-'
+  //     ),
+  //   }))
+  // }
 
   const getDataForChart = edges => {
     return {
       name: "confirmed_cases",
       children: [
         {
-          name: "本地個案",
-          children: constructTreeByClassification(
-            edges.filter(({ node }) => node.classification !== "imported")
+          name: t("relation_chart.key_local"),
+          children: constructTreeByParentCase(
+            edges.filter(({ node }) => node.classification !== "imported"),
+            "-"
           ),
         },
         {
-          name: "輸入個案",
+          name: t("relation_chart.key_imported"),
           children: constructTreeByParentCase(
-            edges.filter(({ node }) => node.classification === "imported")
+            edges.filter(({ node }) => node.classification === "imported"),
+            "-"
           ),
         },
       ],

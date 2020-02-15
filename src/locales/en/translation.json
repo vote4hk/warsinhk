@@ -125,5 +125,7 @@
   "epidemic_chart.key_imported": "輸入個案",
   "epidemic_chart.key_possibly_local": "懷疑本地",
   "epidemic_chart.key_local": "本地感染",
-  "epidemic_chart.key_close_contact_of_imported_case": "輸入有關"
+  "epidemic_chart.key_close_contact_of_imported_case": "輸入有關",
+  "relation_chart.key_local": "Local Cases",
+  "relation_chart.key_imported": "Imported Cases"
 }
