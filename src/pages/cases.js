@@ -46,16 +46,20 @@ const ConfirmedCasePage = props => {
 
   const options = [
     {
+      label: t("search.classification"),
+      options: createDedupOptions(
+        i18n,
+        data.allWarsCase.edges,
+        "classification"
+      ),
+    },
+    {
       label: t("search.citizenship"),
       options: createDedupOptions(i18n, data.allWarsCase.edges, "citizenship"),
     },
     {
       label: t("search.case_status"),
       options: createDedupOptions(i18n, data.allWarsCase.edges, "status"),
-    },
-    {
-      label: t("search.hospital"),
-      options: createDedupOptions(i18n, data.allWarsCase.edges, "hospital"),
     },
   ]
 
@@ -95,6 +99,9 @@ const ConfirmedCasePage = props => {
               key={item.node.case_no}
               isSelected={selectedCase === item.node.case_no}
               ref={selectedCase === item.node.case_no ? selectedCard : null}
+              patientTrack={data.patient_track.group.filter(
+                t => t.fieldValue === item.node.case_no
+              )}
             />
           )}
         />
@@ -130,7 +137,31 @@ export const ConfirmedCaseQuery = graphql`
           detail_zh
           detail_en
           classification
+          classification_zh
+          classification_en
           source_url
+        }
+      }
+    }
+    patient_track: allWarsCaseLocation(
+      sort: { order: DESC, fields: end_date }
+    ) {
+      group(field: case___case_no) {
+        fieldValue
+        edges {
+          node {
+            case_no
+            start_date
+            end_date
+            location_zh
+            location_en
+            action_zh
+            action_en
+            remarks_zh
+            remarks_en
+            source_url_1
+            source_url_2
+          }
         }
       }
     }

@@ -16,6 +16,10 @@ import {
   amber,
   grey,
 } from "@material-ui/core/colors"
+import { formatDateDDMM } from "@/utils"
+import MuiLink from "@material-ui/core/Link"
+import * as d3 from "d3"
+const colors = d3.scaleOrdinal(d3.schemeDark2).domain([0, 1, 2, 3, 4])
 
 const mapColorForClassification = classification => {
   const mapping = {
@@ -124,9 +128,81 @@ const WarsRow = styled(Row)`
 const StatusRow = styled(Row)`
   margin: 8px 0 10px;
 `
+const WarsCaseTrackContainer = styled(Box)`
+  margin-top: 16px;
+`
+
+const WarsCaseTrackRow = styled(Box)`
+  border-top: 1px #ddd solid;
+  padding: 8px 0 8px;
+`
+const CaseLabel = styled(Box)`
+  color: ${props => props.color};
+  background: white;
+  border: ${props => props.color} 1px solid;
+  padding: 2px 5px 2px;
+  margin-right: 4px;
+  border-radius: 2px;
+`
+const SourceRow = styled(Box)`
+  display: flex;
+  justify-content: flex-start;
+  font-size: 14px;
+`
+const WarsCaseTrack = ({ i18n, t, track }) => {
+  return (
+    <WarsCaseTrackContainer>
+      {track.map(tr => {
+        const remarksText = withLanguage(i18n, tr.node, "remarks")
+        return (
+          <WarsCaseTrackRow>
+            <WarsRow>
+              <Box>
+                {tr.node.start_date === tr.node.end_date
+                  ? tr.node.end_date
+                  : `${formatDateDDMM(tr.node.start_date)} - ${formatDateDDMM(
+                      tr.node.end_date
+                    )}`}
+              </Box>
+              <Box>
+                <b>{withLanguage(i18n, tr.node, "action")}</b>
+              </Box>
+            </WarsRow>
+            <WarsRow>
+              <b>{withLanguage(i18n, tr.node, "location")}</b>
+            </WarsRow>
+            {remarksText && (
+              <WarsRow>
+                <Typography variant="body2">{remarksText}</Typography>
+              </WarsRow>
+            )}
+
+            <SourceRow>
+              {tr.node.source_url_1 && (
+                <MuiLink target="_blank" href={tr.node.source_url_1}>
+                  <CaseLabel color={colors(2)}>
+                    {t("high_risk.source_1")}
+                  </CaseLabel>
+                </MuiLink>
+              )}
+              {tr.node.source_url_2 && (
+                <MuiLink target="_blank" href={tr.node.source_url_2}>
+                  <CaseLabel color={colors(4)}>
+                    {t("high_risk.source_2")}
+                  </CaseLabel>
+                </MuiLink>
+              )}
+            </SourceRow>
+          </WarsCaseTrackRow>
+        )
+      })}
+    </WarsCaseTrackContainer>
+  )
+}
 
 export const WarsCaseCard = React.forwardRef((props, ref) => {
-  const { node, i18n, t, isSelected } = props
+  const { node, i18n, t, isSelected, patientTrack } = props
+  const track = patientTrack && patientTrack[0] && patientTrack[0].edges
 
   return (
     <WarsCaseContainer
@@ -170,7 +246,7 @@ export const WarsCaseCard = React.forwardRef((props, ref) => {
               }
               size="small"
               fontSize={14}
-              label={t(`cases.classification_${node.classification}`)}
+              label={withLanguage(i18n, node, "classification")}
             />
           )}
         </Box>
@@ -205,6 +281,7 @@ export const WarsCaseCard = React.forwardRef((props, ref) => {
           {t("dashboard.source")}
         </WarsSource>
       </Row>
+      {track && <WarsCaseTrack t={t} i18n={i18n} track={track} />}
     </WarsCaseContainer>
   )
 })
