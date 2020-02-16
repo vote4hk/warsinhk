@@ -6,7 +6,7 @@ import _get from "lodash.get"
 // Arrows: https://stackoverflow.com/questions/55612043/d3-force-layout-change-links-into-paths-and-place-arrows-on-node-edge-instead-of
 // Data Hull with 2 poitns: https://stackoverflow.com/questions/30655950/d3-js-convex-hull-with-2-data-points/32574853
 
-const FORCE_FACTOR = 10
+const FORCE_FACTOR = 6
 
 export default props => {
   const [dimensions, setDimensions] = useState({ width: 0, height: 0 })
@@ -163,12 +163,25 @@ export default props => {
         d3
           .forceLink()
           .id(link => link.id)
-          .strength(link => link.strength)
-          .distance(link => link.distance || 50)
+          .strength(link => 1)
+          .distance(link => {
+            const n1 = link.source
+            const n2 = link.target
+            return (
+              50 +
+              (n1.group
+                ? n1.group !== n2.group
+                  ? 100
+                  : 50
+                : link.relationships
+                ? 50
+                : 100)
+            )
+          })
       )
       .force(
         "charge",
-        d3.forceManyBody().strength(d => (-d.replusion * width) / FORCE_FACTOR)
+        d3.forceManyBody().strength(d => -width / FORCE_FACTOR)
       )
       .force("center", d3.forceCenter(width / 2, height / 2))
 
