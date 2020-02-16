@@ -20,6 +20,7 @@ import Link from "@material-ui/core/Link"
 import { UnstyledLink } from "@components/atoms/UnstyledLink"
 import { getLocalizedPath } from "@/utils/i18n"
 import LanguageSwitcher from "@/components/organisms/LanguageSwitcher"
+import { bps } from "@/ui/theme"
 
 const drawerWidth = 240
 
@@ -68,6 +69,12 @@ const AppTitle = styled(Typography)`
     text-align: center;
   }
 `
+const LanguageSwitcherContainer = styled(ListItem)`
+  min-height: 56px;
+  ${bps.up("sm")} {
+    min-height: 64px;
+  }
+`
 
 function ResponsiveDrawer(props) {
   const { container, pages, children, className } = props
@@ -83,15 +90,19 @@ function ResponsiveDrawer(props) {
   const drawer = pages => {
     return (
       <div>
-        <div className={classes.toolbar} />
-        <UnstyledLink to={getLocalizedPath(i18n, "/")}>
-          <ListItem>
-            <ListItemIcon>{mapIcon("home")}</ListItemIcon>
-            <ListItemText primary={t("text.homepage")} />
-          </ListItem>
-        </UnstyledLink>
+        <div />
+        <LanguageSwitcherContainer>
+          <ListItemIcon>{mapIcon("translate")}</ListItemIcon>
+          <LanguageSwitcher />
+        </LanguageSwitcherContainer>
         <Divider />
         <List>
+          <UnstyledLink to={getLocalizedPath(i18n, "/")}>
+            <ListItem>
+              <ListItemIcon>{mapIcon("home")}</ListItemIcon>
+              <ListItemText primary={t("text.homepage")} />
+            </ListItem>
+          </UnstyledLink>
           {pages.map((page, index) => (
             <UnstyledLink
               to={getLocalizedPath(i18n, page.to)}
@@ -105,11 +116,6 @@ function ResponsiveDrawer(props) {
             </UnstyledLink>
           ))}
         </List>
-        <Divider />
-        <ListItem>
-          <ListItemIcon>{mapIcon("translate")}</ListItemIcon>
-          <LanguageSwitcher />
-        </ListItem>
         <Divider />
         {/* Only show the forms in chinese as we do not have english form.. */}
         {i18n.language === "zh" && (
