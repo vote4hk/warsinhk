@@ -18,9 +18,12 @@ const ChartsPage = ({ data, location }) => {
     )
 
     const groupMap = {}
+    const groupSizeMap = {}
     relations.forEach(({ node }) => {
-      groupMap[node.from_case_no] = withLanguage(i18n, node, "group")
-      groupMap[node.to_case_no] = withLanguage(i18n, node, "group")
+      const group = withLanguage(i18n, node, "group")
+      groupMap[node.from_case_no] = group
+      groupMap[node.to_case_no] = group
+      groupSizeMap[group] = (groupSizeMap[group] || 0) + 1
     })
 
     return {
@@ -30,39 +33,50 @@ const ChartsPage = ({ data, location }) => {
           name: `#${node.case_no}`,
           level: 3,
           group: groupMap[node.case_no],
+          replusion: groupMap[node.case_no] ? 0.5 : 1.4,
           size: 20,
         })),
         ...Object.keys(groupedByClassification).map(classification => ({
           id: classification,
           name: classification,
           level: 2,
+          replusion: 1.2,
           size: 20,
         })),
         {
           id: "local",
           name: t("relation_chart.key_local"),
           level: 1,
+          replusion: 1,
           size: 25,
         },
         {
           id: "imported",
           name: t("relation_chart.key_imported"),
           level: 1,
+          replusion: 1,
           size: 30,
         },
       ],
       // Prepare the links
       links: [
         // Get classification first
-        ...Object.keys(groupedByClassification).map(classification => ({
-          source: "local",
-          target: classification,
-          strength: 0.09,
-        })),
+        // ...Object.keys(groupedByClassification).map(classification => ({
+        //   source: "local",
+        //   target: classification,
+        //   strength: 0.09,
+        //   type: "dotted",
+        //   distance: 500,
+        // })),
         ...relations.map(({ node }) => ({
           source: node.from_case_no,
           target: node.to_case_no,
-          strength: 0.2,
+          relationships: withLanguage(i18n, node, "relationship").split("/"),
+          strength: 0.05,
+          distance: Math.max(
+            200 / (groupSizeMap[withLanguage(i18n, node, "group")] || 1),
+            50
+          ),
         })),
         ...cases
           // only case with no group has link to big circle
@@ -72,6 +86,7 @@ const ChartsPage = ({ data, location }) => {
               node.classification === "imported"
                 ? "imported"
                 : withLanguage(i18n, node, "classification"),
+            type: "dotted",
             target: node.case_no,
             strength: node.classification === "imported" ? 0.05 : 0.1,
           })),
