@@ -29,6 +29,9 @@ ${bps.down("sm")} {
     margin: 5px 7px;
   }
 }
+.opacity50 {
+  opacity: .5 !important;
+}
 `
 
 const DateButton = styled(IconButton)`
@@ -144,7 +147,9 @@ class HighRiskMap extends Component {
     const { lat, lng } = highRiskLocation
     const activeHandler = this.getActiveHandler(highRiskLocation)
     const marker = L.marker([+lat, +lng], {
-      icon: this.icons.defaultMarker,
+      icon: highRiskLocation.allPass14days
+        ? this.icons.pass14days
+        : this.icons.defaultMarker,
       id: highRiskLocation.id,
     })
       .bindPopup(
@@ -168,13 +173,15 @@ class HighRiskMap extends Component {
   }
 
   initialIcons() {
+    const defaultMarkerOptions = {
+      iconUrl: mapMarker,
+      iconSize: [30, 30],
+      iconAnchor: [15, 30],
+      popupAnchor: [0, -30],
+    }
     this.icons = {
-      defaultMarker: L.icon({
-        iconUrl: mapMarker,
-        iconSize: [30, 30],
-        iconAnchor: [15, 30],
-        popupAnchor: [0, -30],
-      }),
+      defaultMarker: L.icon({ ...defaultMarkerOptions }),
+      pass14days: L.icon({ ...defaultMarkerOptions, className: "opacity50" }),
     }
   }
 
