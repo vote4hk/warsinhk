@@ -106,7 +106,6 @@ export const ChartsQuery = graphql`
           classification_zh
           classification_en
           source_url
-          parent_case
         }
       }
     }

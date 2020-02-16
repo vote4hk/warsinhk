@@ -15,6 +15,14 @@ export default props => {
 
     const color = d3.scaleSequential(d3.interpolateReds).domain([0, 10])
 
+    const groupIds = d3.set(nodes.map(n => n.group)).values()
+
+    const valueline = d3
+      .line()
+      .x(d => d[0])
+      .y(d => d[1])
+      .curve(d3.curveCatmullRomClosed)
+
     const margin = { top: 0, right: 0, bottom: 0, left: 0 }
 
     const width = dimensions.width - margin.left - margin.right
@@ -35,12 +43,26 @@ export default props => {
           .call(zoom.transform, initialTransform)
       })
 
-    var zoom = d3
+    // add the arrow
+    svg
+      .append("defs")
+      .append("marker")
+      .attr("id", "arrow")
+      .attr("viewBox", "0 -5 10 10")
+      .attr("refX", 0) // here i was placed 0
+      .attr("refY", 0)
+      .attr("markerWidth", 4)
+      .attr("markerHeight", 4)
+      .attr("orient", "auto")
+      .append("svg:path")
+      .attr("d", "M0,-5L10,0L0,5")
+
+    const zoom = d3
       .zoom()
       .scaleExtent([INITIAL_SCALE, 10])
       .translateExtent([
         [-width, -height],
-        [width * 4, height * 4],
+        [width * 2, height * 2],
       ])
       .on("zoom", onZoom)
 
@@ -57,15 +79,62 @@ export default props => {
       root.attr("transform", d3.event.transform)
     }
 
+    // select nodes of the group, retrieve its positions
+    // and return the convex hull of the specified points
+    // (3 points as minimum, otherwise returns null)
+    var polygonGenerator = function(groupId) {
+      const nodeCoords = nodeElements
+        .filter(d => d.group && d.group === groupId)
+        .data()
+        .map(d => [d.x, d.y])
+
+      // fake points
+      if (nodeCoords && nodeCoords.length <= 2) {
+        console.log(nodeCoords)
+        for (let i = 0; i < 3 - nodeCoords.length; i++) {
+          const lastCoord = nodeCoords[nodeCoords.length - 1]
+          nodeCoords.push([lastCoord.x + 0.001, lastCoord.y])
+        }
+      }
+      return d3.polygonHull(nodeCoords)
+    }
+
+    function updateGroups() {
+      groupIds.forEach(function(groupId) {
+        let centroid // potential memory leak
+        paths
+          .filter(d => d.group && d.group === groupId)
+          .attr("transform", "scale(1) translate(0,0)")
+          .attr("d", function(d) {
+            const polygon = polygonGenerator(d)
+            centroid = d3.polygonCentroid(polygon)
+
+            // to scale the shape properly around its points:
+            // move the 'g' element to the centroid point, translate
+            // all the path around the center of the 'g' and then
+            // we can scale the 'g' element properly
+            return valueline(
+              polygon.map(function(point) {
+                return [point[0] - centroid[0], point[1] - centroid[1]]
+              })
+            )
+          })
+
+        // d3.select(path.node().parentNode).attr('transform', 'translate(' + centroid[0] + ',' + (centroid[1]) + ') scale(' + 1.2 + ')');
+      })
+    }
+
     const linkElements = root
       .append("g")
-      .attr("class", "links")
+      // .attr("class", "links")
+      .attr("stroke-width", 1)
+      .attr("stroke", "rgba(50, 50, 50, 0.3)")
       .selectAll("line")
       .data(links)
       .enter()
       .append("line")
-      .attr("stroke-width", 1)
-      .attr("stroke", "rgba(50, 50, 50, 0.3)")
+      .attr("class", "edgepath")
+      .style("marker-end", "url(#arrow)")
 
     const simulation = d3
       .forceSimulation()
@@ -76,8 +145,18 @@ export default props => {
           .id(link => link.id)
           .strength(link => link.strength)
       )
-      .force("charge", d3.forceManyBody().strength(-50))
+      .force("charge", d3.forceManyBody().strength(-width / 5))
       .force("center", d3.forceCenter(width / 2, height / 2))
+
+    function offsetForArrow(d) {
+      var t_radius = d.target.size + 4 // size is custom variables
+      var dx = d.target.x - d.source.x
+      var dy = d.target.y - d.source.y
+      var gamma = Math.atan2(dy, dx) // Math.atan2 returns the angle in the correct quadrant as opposed to Math.atan
+      var tx = d.target.x - Math.cos(gamma) * t_radius
+      var ty = d.target.y - Math.sin(gamma) * t_radius
+      return [tx, ty]
+    }
 
     simulation.nodes(nodes).on("tick", () => {
       nodeElements.attr("cx", node => node.x).attr("cy", node => node.y)
@@ -85,8 +164,10 @@ export default props => {
       linkElements
         .attr("x1", link => link.source.x)
         .attr("y1", link => link.source.y)
-        .attr("x2", link => link.target.x)
-        .attr("y2", link => link.target.y)
+        .attr("x2", link => offsetForArrow(link)[0])
+        .attr("y2", link => offsetForArrow(link)[1])
+
+      updateGroups()
     })
 
     const nodeElements = root
@@ -95,7 +176,7 @@ export default props => {
       .data(nodes)
       .enter()
       .append("circle")
-      .attr("r", 20)
+      .attr("r", d => d.size)
       .attr("fill", d => color(d.level))
       .attr("pointer-events", null)
       .on("mouseover", function() {
@@ -127,11 +208,29 @@ export default props => {
       .attr("dominant-baseline", "central")
       .attr("text-anchor", "middle")
       .attr("pointer-events", "none")
+    // Render the groups
+    const groups = svg.append("g").attr("class", "groups")
+    const paths = groups
+      .selectAll(".path_placeholder")
+      .data(groupIds)
+      .enter()
+      .append("g")
+      .attr("class", "path_placeholder")
+      .append("path")
+      .attr("stroke", "1")
+      .attr("fill", "red")
+      .attr("opacity", 0)
 
+    paths.transition().duration(2000)
+
+    // Add the force
     simulation.force("link").links(links)
-    svg.call(zoom.transform, initialTransform)
 
+    // Add the zooms
+    svg.call(zoom.transform, initialTransform)
     svg.call(zoom)
+
+    updateGroups()
   }
 
   useEffect(() => {
