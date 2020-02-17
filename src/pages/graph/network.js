@@ -6,7 +6,9 @@ import { Typography } from "@material-ui/core"
 import { graphql } from "gatsby"
 import NetworkGraph from "@/components/charts/NetworkGraph"
 import _groupBy from "lodash.groupby"
+import _get from "lodash.get"
 import { withLanguage } from "@/utils/i18n"
+import _flatten from "lodash.flatten"
 
 const ChartsPage = ({ data, location }) => {
   const { t, i18n } = useTranslation()
@@ -25,6 +27,35 @@ const ChartsPage = ({ data, location }) => {
       groupMap[node.to_case_no] = group
       groupSizeMap[group] = (groupSizeMap[group] || 0) + 1
     })
+
+    const caseShouldHaveCategoryLink = case_no => {
+      const group = groupMap[case_no]
+      if (group) {
+        const groupFirstCase =
+          cases
+            .filter(
+              ({ node }) => _get(groupMap, `[${node.case_no}]`, "") === group
+            )
+            .map(({ node }) => parseInt(node.case_no))
+            .reduce((c, v) => Math.min(c, v), 10000) + ""
+        return case_no === groupFirstCase
+      } else {
+        const relationFirstCase =
+          _flatten(
+            relations
+              .filter(
+                ({ node }) =>
+                  node.from_case_no === case_no || node.to_case_no === case_no
+              )
+              .map(({ node }) => [
+                parseInt(node.from_case_no),
+                parseInt(node.to_case_no),
+              ])
+          ).reduce((c, v) => Math.min(c, v), 10000) + ""
+
+        return relationFirstCase === "10000" || case_no === relationFirstCase
+      }
+    }
 
     return {
       nodes: [
@@ -64,7 +95,7 @@ const ChartsPage = ({ data, location }) => {
         // ...Object.keys(groupedByClassification).map(classification => ({
         //   source: "local",
         //   target: classification,
-        //   strength: 0.09,
+        //   strength: 2,
         //   type: "dotted",
         //   distance: 500,
         // })),
@@ -80,7 +111,7 @@ const ChartsPage = ({ data, location }) => {
         })),
         ...cases
           // only case with no group has link to big circle
-          .filter(({ node }) => !groupMap[node.case_no])
+          .filter(({ node }) => caseShouldHaveCategoryLink(node.case_no))
           .map(({ node }) => ({
             source:
               node.classification === "imported"
@@ -88,7 +119,8 @@ const ChartsPage = ({ data, location }) => {
                 : withLanguage(i18n, node, "classification"),
             type: "dotted",
             target: node.case_no,
-            strength: node.classification === "imported" ? 0.5 : 0.1,
+            strength: node.classification === "imported" ? 1.5 : 2,
+            distance: 300,
           })),
       ],
     }
