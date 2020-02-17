@@ -72,7 +72,7 @@ const ChartsPage = ({ data, location }) => {
           source: node.from_case_no,
           target: node.to_case_no,
           relationships: withLanguage(i18n, node, "relationship").split("/"),
-          strength: 0.05,
+          strength: 2,
           distance: Math.max(
             200 / (groupSizeMap[withLanguage(i18n, node, "group")] || 1),
             50
@@ -88,7 +88,7 @@ const ChartsPage = ({ data, location }) => {
                 : withLanguage(i18n, node, "classification"),
             type: "dotted",
             target: node.case_no,
-            strength: node.classification === "imported" ? 0.05 : 0.1,
+            strength: node.classification === "imported" ? 0.5 : 0.1,
           })),
       ],
     }

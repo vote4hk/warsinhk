@@ -7,7 +7,6 @@ import _get from "lodash.get"
 // Data Hull with 2 poitns: https://stackoverflow.com/questions/30655950/d3-js-convex-hull-with-2-data-points/32574853
 
 const FORCE_FACTOR = 6
-
 export default props => {
   const [dimensions, setDimensions] = useState({ width: 0, height: 0 })
 
@@ -163,7 +162,7 @@ export default props => {
         d3
           .forceLink()
           .id(link => link.id)
-          .strength(link => 1)
+          .strength(link => link.strength)
           .distance(link => {
             const n1 = link.source
             const n2 = link.target
@@ -185,19 +184,38 @@ export default props => {
       )
       .force("center", d3.forceCenter(width / 2, height / 2))
 
-    // Function for offset the arrow
-    // function offsetForArrow(d) {
-    //   var t_radius = d.target.size + 4 // size is custom variables
-    //   var dx = d.target.x - d.source.x
-    //   var dy = d.target.y - d.source.y
-    //   var gamma = Math.atan2(dy, dx) // Math.atan2 returns the angle in the correct quadrant as opposed to Math.atan
-    //   var tx = d.target.x - Math.cos(gamma) * t_radius
-    //   var ty = d.target.y - Math.sin(gamma) * t_radius
-    //   return [tx, ty]
-    // }
+    const dragDrop = d3
+      .drag()
+      .on("start", node => {
+        node.fx = node.x
+        node.fy = node.y
+      })
+      .on("drag", node => {
+        simulation.alphaTarget(0.7).restart()
+        node.fx = d3.event.x
+        node.fy = d3.event.y
+      })
+      .on("end", node => {
+        if (!d3.event.active) {
+          simulation.alphaTarget(0)
+        }
+        node.fx = null
+        node.fy = null
+      })
 
+    // on-tick function
     simulation.nodes(nodes).on("tick", () => {
-      nodeElements.attr("cx", node => node.x).attr("cy", node => node.y)
+      nodeElements
+        .attr(
+          "cx",
+          node =>
+            (node.x = Math.max(-width + 20, Math.min(width * 2 - 20, node.x)))
+        )
+        .attr(
+          "cy",
+          node =>
+            (node.y = Math.max(-height + 20, Math.min(height * 2 - 20, node.y)))
+        )
       textElements.attr("x", node => node.x).attr("y", node => node.y)
       linkElements.attr(
         "d",
@@ -265,7 +283,7 @@ export default props => {
       .attr("text-anchor", "middle")
       .attr("pointer-events", "none")
       .attr("startOffset", d =>
-        _get(d, "relationships.length", 0) > 1 ? "20%" : "50%"
+        _get(d, "relationships.length", 0) > 1 ? "30%" : "50%"
       )
       .text(d => _get(d, "relationships[0]", ""))
 
@@ -275,7 +293,7 @@ export default props => {
       // .attr("display", d => _get(d, 'relationships.length', 0) <= 1 ? "none" : null)
       .attr("text-anchor", "middle")
       .attr("pointer-events", "none")
-      .attr("startOffset", "80%")
+      .attr("startOffset", "70%")
       .text(d => _get(d, "relationships[1]", ""))
 
     // Render the groups
@@ -291,7 +309,7 @@ export default props => {
       .attr("stroke-width", 2)
       .attr("stroke-opacity", 1)
       .attr("fill", d => groupColor(groupTexts.indexOf(d)))
-      .attr("fill-opacity", 0.1)
+      .attr("fill-opacity", 0.2)
       .attr("opacity", 0)
 
     paths
@@ -325,6 +343,7 @@ export default props => {
           .call(zoom.transform, transform)
         d3.event.stopPropagation()
       })
+      .call(dragDrop)
 
     const textElements = root
       .append("g")
