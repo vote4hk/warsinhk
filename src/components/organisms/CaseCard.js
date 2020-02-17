@@ -10,7 +10,7 @@ import { DefaultChip } from "@components/atoms/Chip"
 import {
   mapColorForClassification,
   mapColorForStatus,
-} from "../../utils/colorHelper"
+} from "@/utils/colorHelper"
 import { formatDateDDMM } from "@/utils"
 import MuiLink from "@material-ui/core/Link"
 import * as d3 from "d3"
