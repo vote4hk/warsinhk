@@ -11,6 +11,7 @@ import InfiniteScroll from "@/components/modecules/InfiniteScroll"
 import MultiPurposeSearch from "@/components/modecules/MultiPurposeSearch"
 import { createDedupOptions } from "@/utils/search"
 import { PageContent } from "../components/atoms/Container"
+import ConfirmedCasesSummary from "@/components/modecules/ConfirmedCasesSummary"
 
 const ConfirmedCasePage = props => {
   const { data, location } = props
@@ -74,6 +75,7 @@ const ConfirmedCasePage = props => {
       <SEO title="ConfirmedCasePage" />
       <Typography variant="h2">{t("cases.title")}</Typography>
       <PageContent>
+        <ConfirmedCasesSummary />
         <MultiPurposeSearch
           list={data.allWarsCase.edges}
           placeholder={t("search.case_placeholder")}

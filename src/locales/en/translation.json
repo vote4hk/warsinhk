@@ -96,6 +96,7 @@
   "cases_visual.age_range": "{{min}}-{{max}}",
   "cases_visual.age_range_mobile": "Range: {{min}} - {{max}}",
   "cases_visual.age_range_title": "Range",
+  "confirmed_case_summary.status_summary": "Status Summary",
   "disruption.title": "Service Disruption",
   "disruption.list_text": "Service Disruption",
   "disruption.filter_by_category_text": "Search by category",
