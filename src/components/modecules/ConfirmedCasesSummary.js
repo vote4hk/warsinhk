@@ -1,10 +1,9 @@
 import React from "react"
 import { useStaticQuery, graphql } from "gatsby"
 import { useTranslation } from "react-i18next"
-import { Label } from "../atoms/Text"
-import { Box } from "@material-ui/core"
+import { Box, Typography } from "@material-ui/core"
 import styled from "styled-components"
-import { mapColorForStatus } from "../../utils/colorHelper"
+import { mapColorForStatus } from "@/utils/colorHelper"
 
 const SummaryBox = styled(Box)`
    {
@@ -45,12 +44,16 @@ const ConfirmedCasesSummary = props => {
           (a, b) => statusOrdering[a.fieldValue] - statusOrdering[b.fieldValue]
         )
         .map(v => (
-          <Label
+          <Typography
             display="inline"
-            style={{ color: mapColorForStatus(v.fieldValue).main }}
+            variant="body2"
+            style={{
+              color: mapColorForStatus(v.fieldValue).main,
+              fontWeight: 600,
+            }}
           >
             {t(`cases.status_${v.fieldValue}`)}：{v.totalCount}　
-          </Label>
+          </Typography>
         ))}
     </SummaryBox>
   )
