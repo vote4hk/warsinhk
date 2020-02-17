@@ -103,6 +103,7 @@
   "confirmed_case_visual.others": "其他",
   "confirmed_case_visual.median_age": "平均年齡",
   "confirmed_case_visual.age_unit": "歲",
+  "confirmed_case_summary.status_summary": "患者狀態摘要",
   "disruption.title": "服務影響",
   "disruption.list_text": "服務影響",
   "disruption.filter_by_category_text": "按類別搜尋",
