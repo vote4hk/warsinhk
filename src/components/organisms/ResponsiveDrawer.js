@@ -146,8 +146,13 @@ function ResponsiveDrawer(props) {
         activeClassName={"active"}
       >
         <ListItem>
-          <ListItemIcon>{mapIcon("sentiment_satisfied")}</ListItemIcon>
-          <ListItemText primary={t("about_us.title")} />
+          <ListItemIcon>
+            {mapIcon("sentiment_satisfied", { color: "secondary" })}
+          </ListItemIcon>
+          <ListItemText
+            primaryTypographyProps={{ color: "secondary" }}
+            primary={t("about_us.title")}
+          />
         </ListItem>
       </UnstyledLink>
     </div>
