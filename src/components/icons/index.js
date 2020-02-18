@@ -17,8 +17,11 @@ import CloseIcon from "@material-ui/icons/Close"
 import NotInterestedIcon from "@material-ui/icons/NotInterested"
 import SearchRoundedIcon from "@material-ui/icons/SearchRounded"
 import HotelRoundedIcon from "@material-ui/icons/HotelRounded"
+import SentimentSatisfiedRoundedIcon from "@material-ui/icons/SentimentSatisfiedRounded"
+import AttachMoneyRoundedIcon from "@material-ui/icons/AttachMoneyRounded"
+import InsertDriveFileRoundedIcon from "@material-ui/icons/InsertDriveFileRounded"
 
-export function mapIcon(name) {
+export function mapIcon(name, style) {
   switch (name) {
     case "remove_shopping_cart":
       return <RemoveShoppingCartRoundedIcon />
@@ -56,6 +59,12 @@ export function mapIcon(name) {
       return <SearchRoundedIcon />
     case "hotel":
       return <HotelRoundedIcon />
+    case "sentiment_satisfied":
+      return <SentimentSatisfiedRoundedIcon color={style.color} />
+    case "attach_money":
+      return <AttachMoneyRoundedIcon />
+    case "insert_drive_file":
+      return <InsertDriveFileRoundedIcon />
     default:
       return null
   }

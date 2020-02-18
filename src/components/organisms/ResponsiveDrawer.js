@@ -141,15 +141,20 @@ function ResponsiveDrawer(props) {
 
   const drawerFooter = () => (
     <div>
-      <Link
-        target="_blank"
-        href={`https://www.collaction.hk/s/g0vhk/fund?lang=${i18n.language}`}
+      <UnstyledLink
+        to={getLocalizedPath(i18n, "/about-us")}
+        activeClassName={"active"}
       >
         <ListItem>
-          <ListItemIcon>{mapIcon("thumb_up")}</ListItemIcon>
-          <ListItemText primary={t("text.support_us")} />
+          <ListItemIcon>
+            {mapIcon("sentiment_satisfied", { color: "secondary" })}
+          </ListItemIcon>
+          <ListItemText
+            primaryTypographyProps={{ color: "secondary" }}
+            primary={t("about_us.title")}
+          />
         </ListItem>
-      </Link>
+      </UnstyledLink>
     </div>
   )
 
