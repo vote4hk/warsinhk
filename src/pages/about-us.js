@@ -5,7 +5,6 @@ import Layout from "@components/templates/Layout"
 import { Typography, Link } from "@material-ui/core"
 import { graphql } from "gatsby"
 import styled from "styled-components"
-import * as md5 from "md5"
 import { PageContent } from "../components/atoms/Container"
 import Grid from "@material-ui/core/Grid"
 import { bps } from "@/ui/theme"
@@ -39,8 +38,8 @@ const Contributor = ({ githubId }) => {
   )
 }
 
-const Volunteer = ({ name }) => {
-  const url = `https://avatars.moe/Default/${md5(name)}/120.png`
+const Volunteer = ({ siteUrl, item: { id, name } }) => {
+  const url = `${siteUrl}/images/avatars/${id}.jpg`
   return (
     <Row>
       <Image src={url} />
@@ -61,10 +60,14 @@ const AboutUsPage = props => {
         <Typography variant="h3">{t("about_us.volunteers")}</Typography>
         <Grid container spacing={1}>
           {data.configJson.credits.volunteers
-            .sort((a, b) => (a > b ? 1 : -1))
+            .sort((a, b) => (a.name > b.name ? 1 : -1))
             .map(item => (
               <Grid item xs={6} md={4} lg={3}>
-                <Volunteer name={item} key={item} />
+                <Volunteer
+                  item={item}
+                  siteUrl={data.site.siteMetadata.siteUrl}
+                  key={item.id}
+                />
               </Grid>
             ))}
         </Grid>
@@ -90,8 +93,16 @@ export const AboutUsQuery = graphql`
   query {
     configJson {
       credits {
-        volunteers
+        volunteers {
+          id
+          name
+        }
         contributors
+      }
+    }
+    site {
+      siteMetadata {
+        siteUrl
       }
     }
   }

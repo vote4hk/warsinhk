@@ -82,15 +82,54 @@
       "csvke"
     ],
     "volunteers": [
-      "芝士病菌蘑菇Pizza",
-      "祝君健康",
-      "嘈",
-      "Dignified Work",
-      "我愛中大",
-      "海豚",
-      "Sabrina",
-      "laziboy",
-      "香港人"
+      {
+        "id": "hehahohoho",
+        "name": "日日開心"
+      },
+      {
+        "id": "on9_6ou",
+        "name": "瑞士山區廢中"
+      },
+      {
+        "id": "quaileggsiumai",
+        "name": "罷買 nike"
+      },
+      {
+        "id": "Pizzax2thx",
+        "name": "中毒的 Pizza"
+      },
+      {
+        "id": "ehatever",
+        "name": "祝君健康"
+      },
+      {
+        "id": "abbynnn",
+        "name": "嘈"
+      },
+      {
+        "id": "dignified_work",
+        "name": "Dignified Work"
+      },
+      {
+        "id": "angelinacarbonara",
+        "name": "我愛中大"
+      },
+      {
+        "id": "LunaLovegooduk",
+        "name": "海豚"
+      },
+      {
+        "id": "cosabrina",
+        "name": "Sabrina"
+      },
+      {
+        "id": "laziboy0616",
+        "name": "laziboy"
+      },
+      {
+        "id": "z6tm9",
+        "name": "香港人"
+      }
     ]
   }
 }
