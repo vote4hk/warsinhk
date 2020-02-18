@@ -250,7 +250,7 @@ const HighRiskPage = ({ data }) => {
           end_date: item.end_date === "Invalid date" ? "" : item.end_date,
           pass14days:
             item.end_date !== "Invalid date" &&
-            today.diff(moment(item.end_date), "d") > 14
+            today.diff(moment(item.end_date), "d") > 0
               ? true
               : false,
         }
