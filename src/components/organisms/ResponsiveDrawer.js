@@ -150,15 +150,6 @@ function ResponsiveDrawer(props) {
           <ListItemText primary={t("about_us.title")} />
         </ListItem>
       </UnstyledLink>
-      <Link
-        target="_blank"
-        href={`https://www.collaction.hk/s/g0vhk/fund?lang=${i18n.language}`}
-      >
-        <ListItem>
-          <ListItemIcon>{mapIcon("thumb_up")}</ListItemIcon>
-          <ListItemText primary={t("text.support_us")} />
-        </ListItem>
-      </Link>
     </div>
   )
 
