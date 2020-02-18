@@ -19,6 +19,7 @@ import { Paragraph } from "@components/atoms/Text"
 import Grid from "@material-ui/core/Grid"
 
 import { formatNumber } from "@/utils"
+import { SessionWrapper, SplitWrapper } from "@components/atoms/Container"
 
 // lazy-load the chart to avoid SSR
 const ConfirmedCaseVisual = React.lazy(() =>
@@ -32,25 +33,6 @@ const IndexAlertMessage = styled(AlertMessage)`
     > * {
       flex: 1 0 100%;
       margin-right: 0;
-    }
-  }
-`
-const SessiontWrapper = styled(Box)`
-  margin-bottom: 16px;
-`
-const SplitWrapper = styled.div`
-  ${bps.up("lg")} {
-    display: flex;
-    align-items: flex-start;
-
-    ${SessiontWrapper} {
-      flex: 1 0 calc(50% - 12px);
-
-      &:nth-of-type(2) {
-        max-width: 600px;
-        flex: 0 0 calc(50% - 12px);
-        margin-left: 24px;
-      }
     }
   }
 `
@@ -263,7 +245,7 @@ export default function IndexPage({ data }) {
       <SEO title="Home" />
       <Layout hideAlerts={true}>
         <SplitWrapper>
-          <SessiontWrapper>
+          <SessionWrapper>
             <IndexAlertMessage />
             <Typography variant="h2">{t("index.title")}</Typography>
             <Typography variant="body2">
@@ -327,8 +309,8 @@ export default function IndexPage({ data }) {
                 <ConfirmedCaseVisual />
               </React.Suspense>
             )}
-          </SessiontWrapper>
-          <SessiontWrapper>
+          </SessionWrapper>
+          <SessionWrapper>
             <FriendlyLinksContainer>
               <Grid container spacing={1}>
                 {data.allFriendlyLink.edges.map((item, index) => (
@@ -357,7 +339,7 @@ export default function IndexPage({ data }) {
             >
               {t("index.see_more")}
             </FullWidthButton>
-          </SessiontWrapper>
+          </SessionWrapper>
         </SplitWrapper>
       </Layout>
     </>
