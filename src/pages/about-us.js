@@ -10,6 +10,7 @@ import { Paragraph } from "@components/atoms/Text"
 import { SessionWrapper, SplitWrapper } from "@components/atoms/Container"
 import { mapIcon } from "@components/icons"
 import { FaFacebookF, FaGithubAlt } from "react-icons/fa"
+import Box from "@material-ui/core/Box"
 
 const Image = styled.img`
   width: 64px;
@@ -19,19 +20,25 @@ const Image = styled.img`
   border-radius: 50px;
 `
 
-const Row = styled.div`
+const CentreRow = styled.div`
   display: flex;
   align-items: center;
 `
 
+const LinkBox = styled(Box)`
+  button {
+    margin-right: 16px;
+    margin-top: 8px;
+  }
+`
 const Contributor = ({ githubId }) => {
   const url = `https://avatars.githubusercontent.com/${githubId}?v=4&s=${120}`
   return (
     <Link href={`https://github.com/${githubId}`} target="_blank">
-      <Row>
+      <CentreRow>
         <Image src={url} />
         <Typography variant="h5">{githubId}</Typography>
-      </Row>
+      </CentreRow>
     </Link>
   )
 }
@@ -39,13 +46,13 @@ const Contributor = ({ githubId }) => {
 const Volunteer = ({ siteUrl, item: { id, name } }) => {
   const baseUrl = `${siteUrl}/images/avatars`
   return (
-    <Row>
+    <CentreRow>
       <Image
         src={`${baseUrl}/${id}.jpg`}
         onError={e => (e.target.src = `${baseUrl}/default.jpg`)}
       />
       <Typography variant="h5">{name}</Typography>
-    </Row>
+    </CentreRow>
   )
 }
 
@@ -137,17 +144,45 @@ const AboutUsPage = props => {
             dangerouslySetInnerHTML={{ __html: t("about_us.citation") }}
             style={{ marginTop: 16 }}
           />
-          <Button
-            variant="outlined"
-            color="primary"
-            size="small"
-            startIcon={<FaGithubAlt />}
-            onClick={() =>
-              window.open("https://github.com/nandiheath/warsinhk")
-            }
-          >
-            {t("about_us.github")}
-          </Button>
+          <LinkBox>
+            <Button
+              variant="outlined"
+              color="primary"
+              size="small"
+              startIcon={<FaGithubAlt />}
+              onClick={() =>
+                window.open("https://github.com/nandiheath/warsinhk")
+              }
+            >
+              {t("about_us.github")}
+            </Button>
+            <Button
+              variant="outlined"
+              color="secondary"
+              size="small"
+              startIcon={mapIcon("insert_drive_file")}
+              onClick={() =>
+                window.open(
+                  "https://docs.google.com/spreadsheets/d/e/2PACX-1vT6aoKk3iHmotqb5_iHggKc_3uAA901xVzwsllmNoOpGgRZ8VAA3TSxK6XreKzg_AUQXIkVX5rqb0Mo/pub?gid=0&range=A2:ZZ"
+                )
+              }
+            >
+              {t("about_us.high_risk")}
+            </Button>
+            <Button
+              variant="outlined"
+              color="secondary"
+              size="small"
+              startIcon={mapIcon("insert_drive_file")}
+              onClick={() =>
+                window.open(
+                  "https://docs.google.com/spreadsheets/d/e/2PACX-1vSr2xYotDgnAq6bqm5Nkjq9voHBKzKNWH2zvTRx5LU0jnpccWykvEF8iB_0g7Tzo2pwzkTuM3ETlr_h/pub?gid=0&range=A2:ZZ"
+                )
+              }
+            >
+              {t("about_us.wars_cases")}
+            </Button>
+          </LinkBox>
         </SessionWrapper>
         <SessionWrapper>
           <Typography variant="h2">{t("about_us.volunteers")}</Typography>
