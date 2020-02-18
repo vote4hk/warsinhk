@@ -196,7 +196,7 @@ const ShopsPage = props => {
 
   return (
     <>
-      <SEO title="Home" />
+      <SEO title="ShopsPage" />
       <Layout>
         <FabContainer>
           <Link href="https://t.me/findmasks" target="_blank">
