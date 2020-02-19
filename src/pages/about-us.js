@@ -11,6 +11,7 @@ import { SessionWrapper, SplitWrapper } from "@components/atoms/Container"
 import { mapIcon } from "@components/icons"
 import { FaFacebookF, FaGithubAlt } from "react-icons/fa"
 import Box from "@material-ui/core/Box"
+import { trackCustomEvent } from "gatsby-plugin-google-analytics"
 
 const Image = styled.img`
   width: 64px;
@@ -89,9 +90,14 @@ const AboutUsPage = props => {
             color="primary"
             size="small"
             startIcon={<FaFacebookF size="0.8rem" />}
-            onClick={() =>
+            onClick={() => {
+              trackCustomEvent({
+                category: "about_us",
+                action: "click",
+                label: "https://www.facebook.com/vote4hongkong/",
+              })
               window.open("https://www.facebook.com/vote4hongkong/")
-            }
+            }}
           >
             {t("about_us.vote4hk_fb")}
           </Button>
@@ -109,9 +115,14 @@ const AboutUsPage = props => {
                 color="primary"
                 size="small"
                 startIcon={mapIcon("attach_money")}
-                onClick={() =>
+                onClick={() => {
+                  trackCustomEvent({
+                    category: "about_us",
+                    action: "click",
+                    label: "https://www.collaction.hk/s/g0vhk/fund",
+                  })
                   window.open("https://www.collaction.hk/s/g0vhk/fund")
-                }
+                }}
               >
                 {t("about_us.donate_g0vhk")}
               </Button>
@@ -128,9 +139,14 @@ const AboutUsPage = props => {
                 color="primary"
                 size="small"
                 startIcon={mapIcon("attach_money")}
-                onClick={() =>
+                onClick={() => {
+                  trackCustomEvent({
+                    category: "about_us",
+                    action: "click",
+                    label: "https://www.collaction.hk/s/station",
+                  })
                   window.open("https://www.collaction.hk/s/station")
-                }
+                }}
               >
                 {t("about_us.donate_sooc")}
               </Button>
@@ -150,9 +166,14 @@ const AboutUsPage = props => {
               color="primary"
               size="small"
               startIcon={<FaGithubAlt />}
-              onClick={() =>
+              onClick={() => {
+                trackCustomEvent({
+                  category: "about_us",
+                  action: "click",
+                  label: "https://github.com/nandiheath/warsinhk",
+                })
                 window.open("https://github.com/nandiheath/warsinhk")
-              }
+              }}
             >
               {t("about_us.github")}
             </Button>
@@ -161,11 +182,16 @@ const AboutUsPage = props => {
               color="secondary"
               size="small"
               startIcon={mapIcon("insert_drive_file")}
-              onClick={() =>
+              onClick={() => {
+                trackCustomEvent({
+                  category: "about_us",
+                  action: "click",
+                  label: "high_risk_source_data",
+                })
                 window.open(
                   "https://docs.google.com/spreadsheets/d/e/2PACX-1vT6aoKk3iHmotqb5_iHggKc_3uAA901xVzwsllmNoOpGgRZ8VAA3TSxK6XreKzg_AUQXIkVX5rqb0Mo/pub?gid=0&range=A2:ZZ"
                 )
-              }
+              }}
             >
               {t("about_us.high_risk")}
             </Button>
@@ -174,11 +200,16 @@ const AboutUsPage = props => {
               color="secondary"
               size="small"
               startIcon={mapIcon("insert_drive_file")}
-              onClick={() =>
+              onClick={() => {
+                trackCustomEvent({
+                  category: "about_us",
+                  action: "click",
+                  label: "wars_cases_source_data",
+                })
                 window.open(
                   "https://docs.google.com/spreadsheets/d/e/2PACX-1vSr2xYotDgnAq6bqm5Nkjq9voHBKzKNWH2zvTRx5LU0jnpccWykvEF8iB_0g7Tzo2pwzkTuM3ETlr_h/pub?gid=0&range=A2:ZZ"
                 )
-              }
+              }}
             >
               {t("about_us.wars_cases")}
             </Button>
