@@ -97,12 +97,14 @@ function DailyStats({
     ...first,
     confirmed: Math.max(overridedata.confirmed, first.confirmed),
     discharged: Math.max(overridedata.discharged, first.discharged),
+    death: Math.max(overridedata.death, first.death),
   }
 
   if (
     overridedata.date > first.date &&
     (overridedata.confirmed > first.confirmed ||
-      overridedata.discharged > first.discharged)
+      overridedata.discharged > first.discharged ||
+      overridedata.death > first.death)
   ) {
     ytd = {
       ...first,
