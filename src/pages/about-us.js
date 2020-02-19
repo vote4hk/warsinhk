@@ -143,9 +143,9 @@ const AboutUsPage = props => {
                   trackCustomEvent({
                     category: "about_us",
                     action: "click",
-                    label: "https://www.collaction.hk/s/station",
+                    label: "https://www.collaction.hk/s/station/fund",
                   })
-                  window.open("https://www.collaction.hk/s/station")
+                  window.open("https://www.collaction.hk/s/station/fund")
                 }}
               >
                 {t("about_us.donate_sooc")}
