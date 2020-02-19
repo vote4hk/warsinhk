@@ -29,8 +29,8 @@ ${bps.down("sm")} {
     margin: 5px 7px;
   }
 }
-.opacity50 {
-  opacity: .5 !important;
+.opacity20 {
+  opacity: .2 !important;
 }
 `
 
@@ -181,7 +181,7 @@ class HighRiskMap extends Component {
     }
     this.icons = {
       defaultMarker: L.icon({ ...defaultMarkerOptions }),
-      pass14days: L.icon({ ...defaultMarkerOptions, className: "opacity50" }),
+      pass14days: L.icon({ ...defaultMarkerOptions, className: "opacity20" }),
     }
   }
 
