@@ -11,7 +11,11 @@ import List from "react-virtualized/dist/es/List"
 import CellMeasurer, {
   CellMeasurerCache,
 } from "react-virtualized/dist/es/CellMeasurer"
-import mapMarker from "./icons/map-marker.png"
+import ConfirmedCaseMarker from "./icons/confirmed_case.png"
+import HomeConfineesMarker from "./icons/home_confinees.png"
+import ClinicMarker from "./icons/clinic.png"
+import QuarantineMarker from "./icons/quarantine.png"
+import DefaultMarker from "./icons/default.png"
 import keyBy from "lodash/keyBy"
 import findIndex from "lodash/findIndex"
 import { withTheme } from "@material-ui/core/styles"
@@ -29,8 +33,8 @@ ${bps.down("sm")} {
     margin: 5px 7px;
   }
 }
-.opacity20 {
-  opacity: .2 !important;
+.faded {
+  opacity: .15 !important;
 }
 `
 
@@ -143,13 +147,31 @@ class HighRiskMap extends Component {
     }
   }
 
+  mapPinTypeToMarker = (pinType, allPass14days) => {
+    const mapping = allPass14days
+      ? {
+          home_confinees: this.icons.fadedHomeConfineesMarker,
+          confirmed_case: this.icons.fadedConfirmedCaseMarker,
+        }
+      : {
+          home_confinees: this.icons.homeConfineesMarker,
+          confirmed_case: this.icons.confirmedCaseMarker,
+          clinic: this.icons.clinicMarker,
+          quarantine: this.icons.quarantineMarker,
+        }
+
+    if (!mapping[pinType]) return this.icons.defaultMarker
+    return mapping[pinType]
+  }
+
   dataPointToMarker = highRiskLocation => {
     const { lat, lng } = highRiskLocation
     const activeHandler = this.getActiveHandler(highRiskLocation)
     const marker = L.marker([+lat, +lng], {
-      icon: highRiskLocation.allPass14days
-        ? this.icons.pass14days
-        : this.icons.defaultMarker,
+      icon: this.mapPinTypeToMarker(
+        highRiskLocation.pinType,
+        highRiskLocation.allPass14days
+      ),
       id: highRiskLocation.id,
     })
       .bindPopup(
@@ -174,14 +196,37 @@ class HighRiskMap extends Component {
 
   initialIcons() {
     const defaultMarkerOptions = {
-      iconUrl: mapMarker,
+      iconUrl: DefaultMarker,
       iconSize: [30, 30],
       iconAnchor: [15, 30],
       popupAnchor: [0, -30],
     }
     this.icons = {
       defaultMarker: L.icon({ ...defaultMarkerOptions }),
-      pass14days: L.icon({ ...defaultMarkerOptions, className: "opacity20" }),
+      confirmedCaseMarker: L.icon({
+        ...defaultMarkerOptions,
+        iconUrl: ConfirmedCaseMarker,
+      }),
+      homeConfineesMarker: L.icon({
+        ...defaultMarkerOptions,
+        iconUrl: HomeConfineesMarker,
+      }),
+      clinicMarker: L.icon({ ...defaultMarkerOptions, iconUrl: ClinicMarker }),
+      quarantineMarker: L.icon({
+        ...defaultMarkerOptions,
+        iconUrl: QuarantineMarker,
+      }),
+      fadedConfirmedCaseMarker: L.icon({
+        ...defaultMarkerOptions,
+        iconUrl: ConfirmedCaseMarker,
+        className: "faded",
+      }),
+      fadedHomeConfineesMarker: L.icon({
+        ...defaultMarkerOptions,
+        iconUrl: HomeConfineesMarker,
+        className: "faded",
+      }),
+      pass14days: L.icon({ ...defaultMarkerOptions, className: "faded" }),
     }
   }
 

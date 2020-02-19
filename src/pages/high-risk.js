@@ -240,6 +240,30 @@ const HighRiskPage = ({ data }) => {
 
   const today = moment()
 
+  const calculatePass14day = item => {
+    if (item.case_no !== "-") {
+      // Confirmed csases should be faded after 14 days
+      return item.end_date !== "Invalid date" &&
+        today.diff(moment(item.end_date), "d") > 14
+        ? true
+        : false
+    }
+    return item.end_date !== "Invalid date" &&
+      today.diff(moment(item.end_date), "d") > 0
+      ? true
+      : false
+  }
+
+  const mapPinType = item => {
+    switch (item.type) {
+      case "self":
+      case "relatives":
+        return "confirmed_case"
+      default:
+        return item.type
+    }
+  }
+
   const groupedLocations = Object.values(
     _groupBy(
       data.allWarsCaseLocation.edges.filter(withinBoderFilter).map(e => {
@@ -248,11 +272,8 @@ const HighRiskPage = ({ data }) => {
           ...item,
           start_date: item.start_date === "Invalid date" ? "" : item.start_date,
           end_date: item.end_date === "Invalid date" ? "" : item.end_date,
-          pass14days:
-            item.end_date !== "Invalid date" &&
-            today.diff(moment(item.end_date), "d") > 0
-              ? true
-              : false,
+          pass14days: calculatePass14day(item),
+          pinType: mapPinType(item),
         }
       }),
       node => node.location_zh
@@ -275,10 +296,20 @@ const HighRiskPage = ({ data }) => {
   })
 
   const [filteredLocations, setFilteredLocations] = useState(groupedLocations)
+  const filteredOptionsWithDate = filteredLocations
+    .filter(loc => filterByDate(loc.node, searchStartDate, searchEndDate))
+    .sort((a, b) => {
+      // Active cards on top
+      if (a.node.allPass14days > b.node.allPass14days) return 1
+      if (a.node.allPass14days < b.node.allPass14days) return -1
 
-  const filteredOptionsWithDate = filteredLocations.filter(loc =>
-    filterByDate(loc.node, searchStartDate, searchEndDate)
-  )
+      if (a.node.end_date > b.node.end_date) return -1
+      if (a.node.end_date < b.node.end_date) return 1
+
+      if (a.node.start_date > b.node.start_date) return -1
+      if (a.node.start_date < b.node.start_date) return 1
+      return 0
+    })
   const options = [
     {
       label: t("search.sub_district"),
@@ -355,10 +386,7 @@ export default HighRiskPage
 
 export const HighRiskQuery = graphql`
   query {
-    allWarsCaseLocation(
-      filter: { enabled: { eq: "Y" } }
-      sort: { order: DESC, fields: end_date }
-    ) {
+    allWarsCaseLocation(sort: { order: DESC, fields: end_date }) {
       edges {
         node {
           id
