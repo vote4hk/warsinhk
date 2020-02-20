@@ -83,6 +83,14 @@ const LanguageSwitcherContainer = styled(ListItem)`
 
 const StyledIconButton = styled(IconButton)`
   padding: 0 16px 0 0;
+  &:hover {
+    background-color: transparent;
+  }
+
+  svg:hover {
+    fill: ${props => props.theme.palette.primary.main};
+  }
+}
 `
 
 function ResponsiveDrawer(props) {
