@@ -64,6 +64,10 @@ const DistrictGridsWrapper = styled.div`
   display: grid;
   grid-template-columns: repeat(5, auto);
   gap: 6px;
+
+  ${bps.between("md", "lg")} {
+    grid-template-columns: repeat(4, auto);
+  }
 `
 
 const DistrictGrid = styled.div`
@@ -76,6 +80,10 @@ const DistrictGrid = styled.div`
   border-top: 3px solid ${props => props.color};
   box-shadow: 0px 2px 1px -1px rgba(0, 0, 0, 0.2),
     0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 1px 3px 0px rgba(0, 0, 0, 0.12);
+
+  ${bps.between("md", "lg")} {
+    padding: 0.5em 0.1em;
+  }
 `
 
 export default function ConfirmedCaseVisual(props) {
@@ -210,7 +218,7 @@ export default function ConfirmedCaseVisual(props) {
     return COLOR_LIST[randomIndex]
   }
 
-  const citizenPlot = isMobile ? (
+  const citizenPlot = useMediaQuery({ maxWidth: 1024 }) ? ( // cater iPad
     <DistrictGridsWrapper>
       {sortedCitizenshipData.map(c => (
         <DistrictGrid color={getRandomColor()}>
