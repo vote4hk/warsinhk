@@ -63,6 +63,13 @@
       "icon": "collections",
       "sideMenu": true,
       "bottomNav": false
+    },
+    {
+      "title": "about-us.title",
+      "to": "/about-us",
+      "icon": "hotel",
+      "sideMenu": false,
+      "bottomNav": false
     }
   ],
   "credits": {

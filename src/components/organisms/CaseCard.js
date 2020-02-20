@@ -73,10 +73,10 @@ const SourceRow = styled(Box)`
 const WarsCaseTrack = ({ i18n, t, track }) => {
   return (
     <WarsCaseTrackContainer>
-      {track.map(tr => {
+      {track.map((tr, i) => {
         const remarksText = withLanguage(i18n, tr.node, "remarks")
         return (
-          <WarsCaseTrackRow>
+          <WarsCaseTrackRow key={i}>
             <WarsRow>
               <Box>
                 {tr.node.start_date === tr.node.end_date

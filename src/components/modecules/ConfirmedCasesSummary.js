@@ -6,9 +6,7 @@ import styled from "styled-components"
 import { mapColorForStatus } from "@/utils/colorHelper"
 
 const SummaryBox = styled(Box)`
-   {
-    margin: 10px 0px;
-  }
+  margin: 10px 0px;
 `
 
 const ConfirmedCasesSummary = props => {
@@ -43,8 +41,9 @@ const ConfirmedCasesSummary = props => {
         .sort(
           (a, b) => statusOrdering[a.fieldValue] - statusOrdering[b.fieldValue]
         )
-        .map(v => (
+        .map((v, i) => (
           <Typography
+            key={i}
             display="inline"
             variant="body2"
             style={{
@@ -52,7 +51,7 @@ const ConfirmedCasesSummary = props => {
               fontWeight: 600,
             }}
           >
-            {t(`cases.status_${v.fieldValue}`)}：{v.totalCount}　
+            {t(`cases.status_${v.fieldValue}`)}：{v.totalCount}
           </Typography>
         ))}
     </SummaryBox>

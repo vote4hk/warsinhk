@@ -281,8 +281,8 @@ export default function ConfirmedCaseVisual(props) {
 
   const citizenPlot = ( // cater iPad
     <DistrictGridsWrapper i18n={i18n.language}>
-      {sortedCitizenshipData.map(c => (
-        <DistrictGrid color={getRandomColor()}>
+      {sortedCitizenshipData.map((c, i) => (
+        <DistrictGrid key={i} color={getRandomColor()}>
           <Typography variant="h4">{c.totalCount}</Typography>
           <p>{c.fieldValue}</p>
         </DistrictGrid>

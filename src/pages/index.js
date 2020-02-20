@@ -241,7 +241,6 @@ export default function IndexPage({ data }) {
         c.node.confirmation_date ===
         data.allWarsCase.edges[0].node.confirmation_date
     )
-  console.log(data.allFriendlyLink)
   return (
     <>
       <SEO title="Home" />
@@ -316,7 +315,7 @@ export default function IndexPage({ data }) {
             <FriendlyLinksContainer>
               <Grid container spacing={1}>
                 {data.allFriendlyLink.edges.map((item, index) => (
-                  <Grid item xs={12} md={6}>
+                  <Grid item xs={12} md={6} key={index}>
                     <FullWidthButton
                       index={index}
                       component={Link}
