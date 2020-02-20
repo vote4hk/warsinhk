@@ -33,15 +33,20 @@ const AgeGrid = styled(Grid)`
 `
 
 const AgeWrapper = styled(Row)`
-  ${bps.up("md")} {
+  flex-direction: row;
+
+  ${bps.between("md", "lg")} {
     flex-direction: column;
+  }
+
+  ${bps.up("lg")} {
+    flex-direction: row;
   }
 `
 
 const AgeBox = styled(Box)`
   ${bps.up("md")} {
     text-align: center;
-    margin: 0 0 3em;
   }
 `
 
@@ -62,11 +67,17 @@ const DataValue = styled.span`
 
 const DistrictGridsWrapper = styled.div`
   display: grid;
-  grid-template-columns: repeat(5, auto);
+  grid-template-columns: repeat(
+    ${props => (props.i18n === "zh" ? 4 : 3)},
+    auto
+  );
   gap: 6px;
 
   ${bps.between("md", "lg")} {
-    grid-template-columns: repeat(4, auto);
+    grid-template-columns: repeat(
+      ${props => (props.i18n === "zh" ? 4 : 3)},
+      auto
+    );
   }
 `
 
@@ -268,8 +279,8 @@ export default function ConfirmedCaseVisual(props) {
     return COLOR_LIST[randomIndex]
   }
 
-  const citizenPlot = useMediaQuery({ maxWidth: 1024 }) ? ( // cater iPad
-    <DistrictGridsWrapper>
+  const citizenPlot = ( // cater iPad
+    <DistrictGridsWrapper i18n={i18n.language}>
       {sortedCitizenshipData.map(c => (
         <DistrictGrid color={getRandomColor()}>
           <Typography variant="h4">{c.totalCount}</Typography>
@@ -277,26 +288,26 @@ export default function ConfirmedCaseVisual(props) {
         </DistrictGrid>
       ))}
     </DistrictGridsWrapper>
-  ) : (
-    <BasicCard>
-      <Typography variant="h6">{t("cases_visual.citizen")}</Typography>
-      <Chart
-        data={{
-          columns: sortedCitizenshipData.map(c => [c.fieldValue, c.totalCount]),
-          type: "donut",
-          labels: true,
-        }}
-        color={{ pattern: COLOR_LIST }}
-        tooltip={{
-          grouped: false,
-          format: {
-            title: () => t("cases_visual.citizen"),
-          },
-        }}
-        bar={bar}
-        axis={axis}
-      />
-    </BasicCard>
+    // ) : (
+    //   <BasicCard>
+    //     <Typography variant="h6">{t("cases_visual.citizen")}</Typography>
+    //     <Chart
+    //       data={{
+    //         columns: sortedCitizenshipData.map(c => [c.fieldValue, c.totalCount]),
+    //         type: "donut",
+    //         labels: true,
+    //       }}
+    //       color={{ pattern: COLOR_LIST }}
+    //       tooltip={{
+    //         grouped: false,
+    //         format: {
+    //           title: () => t("cases_visual.citizen"),
+    //         },
+    //       }}
+    //       bar={bar}
+    //       axis={axis}
+    //     />
+    //   </BasicCard>
   )
 
   const agePlot = (
