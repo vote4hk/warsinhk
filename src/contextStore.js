@@ -14,6 +14,7 @@ export const routeInitialState = {
 
 export const pageOptionsInitialState = {
   closedAlerts: [],
+  fontZoom: 1.0,
 }
 
 const ContextStore = React.createContext({
@@ -35,13 +36,13 @@ export const ContextStoreProvider = props => {
     ...initialStore.route,
   })
 
-  const [
-    pageOptionsState,
-    pageOptionsDispatch,
-  ] = React.useReducer(pageOptionsReducer, {
-    ...pageOptionsInitialState,
-    ...initialStore.pageOptions,
-  })
+  const [pageOptionsState, pageOptionsDispatch] = React.useReducer(
+    pageOptionsReducer,
+    {
+      ...pageOptionsInitialState,
+      ...initialStore.pageOptions,
+    }
+  )
 
   return (
     <ContextStore.Provider

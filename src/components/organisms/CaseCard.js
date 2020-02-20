@@ -30,8 +30,6 @@ const WarsCaseContainer = styled(Box)`
 
 const WarsCaseDetail = styled(Typography)`
   margin-top: 20px;
-  font-size: 14px;
-  line-height: 1.33rem;
 `
 
 const WarsSource = styled(Link)`
@@ -70,7 +68,7 @@ const CaseLabel = styled(Box)`
 const SourceRow = styled(Box)`
   display: flex;
   justify-content: flex-start;
-  font-size: 14px;
+  font-size: ${props => props.theme.typography.smallFontSize};
 `
 const WarsCaseTrack = ({ i18n, t, track }) => {
   return (

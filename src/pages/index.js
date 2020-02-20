@@ -48,7 +48,7 @@ const DailyStat = styled(Box)`
 `
 const DailyStatFigureLabel = styled(Typography)`
   text-align: center;
-  font-size: 12px;
+  font-size: ${props => props.theme.typography.xsmallFontSize};
 
   ${bps.down("sm")} {
     font-size: 11px;

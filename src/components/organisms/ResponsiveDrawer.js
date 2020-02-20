@@ -10,6 +10,9 @@ import ListItem from "@material-ui/core/ListItem"
 import ListItemIcon from "@material-ui/core/ListItemIcon"
 import ListItemText from "@material-ui/core/ListItemText"
 import { mapIcon } from "@components/icons"
+import ZoomInIcon from "@material-ui/icons/ZoomIn"
+import ZoomOutIcon from "@material-ui/icons/ZoomOut"
+import FormatSizeIcon from "@material-ui/icons/FormatSize"
 import Toolbar from "@material-ui/core/Toolbar"
 import Typography from "@material-ui/core/Typography"
 import { makeStyles, useTheme } from "@material-ui/core/styles"
@@ -21,6 +24,8 @@ import { UnstyledLink } from "@components/atoms/UnstyledLink"
 import { getLocalizedPath } from "@/utils/i18n"
 import LanguageSwitcher from "@/components/organisms/LanguageSwitcher"
 import { bps } from "@/ui/theme"
+import ContextStore from "@/contextStore"
+import { FONT_ZOOMOUT, FONT_ZOOMIN } from "@/reducers/pageOptions"
 
 const drawerWidth = 240
 
@@ -82,6 +87,9 @@ function ResponsiveDrawer(props) {
   const theme = useTheme()
   const [mobileOpen, setMobileOpen] = React.useState(false)
   const { t, i18n } = useTranslation()
+  const {
+    pageOptions: { dispatch },
+  } = React.useContext(ContextStore)
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen)
@@ -95,6 +103,26 @@ function ResponsiveDrawer(props) {
           <ListItemIcon>{mapIcon("translate")}</ListItemIcon>
           <LanguageSwitcher />
         </LanguageSwitcherContainer>
+        <LanguageSwitcherContainer>
+          <ListItemIcon>
+            <FormatSizeIcon />
+          </ListItemIcon>
+          <IconButton
+            onClick={() => {
+              dispatch({ type: FONT_ZOOMIN })
+            }}
+          >
+            <ZoomInIcon />
+          </IconButton>
+          <IconButton
+            onClick={() => {
+              dispatch({ type: FONT_ZOOMOUT })
+            }}
+          >
+            <ZoomOutIcon />
+          </IconButton>
+        </LanguageSwitcherContainer>
+
         <Divider />
         <List>
           <UnstyledLink to={getLocalizedPath(i18n, "/")}>

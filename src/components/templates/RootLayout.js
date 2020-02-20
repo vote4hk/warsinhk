@@ -1,9 +1,24 @@
 import React from "react"
 import { MuiThemeProvider } from "@material-ui/core/styles/"
 import { ThemeProvider } from "styled-components"
-import theme from "@/ui/theme"
+import { createThemeWithFontZoom } from "@/ui/theme"
 import { ResetStyle, GlobalStyle } from "@components/globalStyle"
-import { ContextStoreProvider } from "@/contextStore"
+import ContextStore, { ContextStoreProvider } from "@/contextStore"
+
+const ThemeProviderWrapper = ({ children }) => {
+  const {
+    pageOptions: { state },
+  } = React.useContext(ContextStore)
+
+  const theme = createThemeWithFontZoom(state.fontZoom)
+
+  return (
+    <MuiThemeProvider theme={theme}>
+      <ThemeProvider theme={theme}>{children}</ThemeProvider>
+    </MuiThemeProvider>
+  )
+}
+
 export default ({ children, initialStore }) => {
   return (
     <>
@@ -11,9 +26,7 @@ export default ({ children, initialStore }) => {
       <GlobalStyle />
       {/* TODO: should stick to single theme provider? */}
       <ContextStoreProvider initialStore={initialStore}>
-        <MuiThemeProvider theme={theme}>
-          <ThemeProvider theme={theme}>{children}</ThemeProvider>
-        </MuiThemeProvider>
+        <ThemeProviderWrapper>{children}</ThemeProviderWrapper>
       </ContextStoreProvider>
     </>
   )

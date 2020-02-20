@@ -2,7 +2,7 @@ import styled from "styled-components"
 import Box from "@material-ui/core/Box"
 
 export const UnstyledRow = styled(Box)`
-  font-size: 14px;
+  font-size: ${props => props.theme.typography.smallFontSize};
   margin: 0;
   padding: 0;
   display: flex;
