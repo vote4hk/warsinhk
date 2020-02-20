@@ -60,6 +60,32 @@ const DataValue = styled.span`
   }
 `
 
+const DistrictGridsWrapper = styled.div`
+  display: grid;
+  grid-template-columns: repeat(5, auto);
+  gap: 6px;
+
+  ${bps.between("md", "lg")} {
+    grid-template-columns: repeat(4, auto);
+  }
+`
+
+const DistrictGrid = styled.div`
+  position: relative;
+  background-color: white;
+  font-weight: bold;
+  text-align: center;
+  padding: 0.6em 0.3em;
+  margin-top: 0.25em;
+  border-top: 3px solid ${props => props.color};
+  box-shadow: 0px 2px 1px -1px rgba(0, 0, 0, 0.2),
+    0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 1px 3px 0px rgba(0, 0, 0, 0.12);
+
+  ${bps.between("md", "lg")} {
+    padding: 0.5em 0.1em;
+  }
+`
+
 export default function ConfirmedCaseVisual(props) {
   const { i18n, t } = useTranslation()
 
@@ -232,16 +258,33 @@ export default function ConfirmedCaseVisual(props) {
       />
     </BasicCard>
   )
-  const citizenPlot = (
+
+  const sortedCitizenshipData = citizenshipData.sort(
+    (a, b) => b.totalCount - a.totalCount
+  )
+
+  function getRandomColor() {
+    const randomIndex = Math.floor(Math.random() * COLOR_LIST.length)
+    return COLOR_LIST[randomIndex]
+  }
+
+  const citizenPlot = useMediaQuery({ maxWidth: 1024 }) ? ( // cater iPad
+    <DistrictGridsWrapper>
+      {sortedCitizenshipData.map(c => (
+        <DistrictGrid color={getRandomColor()}>
+          <Typography variant="h4">{c.totalCount}</Typography>
+          <p>{c.fieldValue}</p>
+        </DistrictGrid>
+      ))}
+    </DistrictGridsWrapper>
+  ) : (
     <BasicCard>
       <Typography variant="h6">{t("cases_visual.citizen")}</Typography>
       <Chart
         data={{
-          columns: citizenshipData
-            .sort((a, b) => b.totalCount - a.totalCount)
-            .map(c => [c.fieldValue, c.totalCount]),
-          type: isMobile ? "bar" : "donut",
-          labels: isMobile,
+          columns: sortedCitizenshipData.map(c => [c.fieldValue, c.totalCount]),
+          type: "donut",
+          labels: true,
         }}
         color={{ pattern: COLOR_LIST }}
         tooltip={{
@@ -251,9 +294,6 @@ export default function ConfirmedCaseVisual(props) {
           },
         }}
         bar={bar}
-        size={
-          isMobile ? { height: 40 + 30 * citizenshipData.length } : undefined
-        }
         axis={axis}
       />
     </BasicCard>
