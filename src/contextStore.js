@@ -1,7 +1,10 @@
 import React from "react"
 import drawerReducer from "@/reducers/drawer"
 import routeReducer from "@/reducers/route"
-import pageOptionsReducer from "@/reducers/pageOptions"
+import pageOptionsReducer, {
+  FONT_ZOOM_LOCALSTORAGE_KEY,
+} from "@/reducers/pageOptions"
+import { loadFromLocalStorage } from "@/utils"
 
 export const drawerInitialState = {
   open: false,
@@ -14,7 +17,9 @@ export const routeInitialState = {
 
 export const pageOptionsInitialState = {
   closedAlerts: [],
-  fontZoom: 1.0,
+  fontZoom: parseFloat(
+    loadFromLocalStorage(FONT_ZOOM_LOCALSTORAGE_KEY) || "1.0"
+  ),
 }
 
 const ContextStore = React.createContext({
