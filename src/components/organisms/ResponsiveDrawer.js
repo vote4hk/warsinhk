@@ -81,6 +81,10 @@ const LanguageSwitcherContainer = styled(ListItem)`
   }
 `
 
+const StyledIconButton = styled(IconButton)`
+  padding: 0 16px 0 0;
+`
+
 function ResponsiveDrawer(props) {
   const { container, pages, children, className } = props
   const classes = useStyles()
@@ -102,25 +106,6 @@ function ResponsiveDrawer(props) {
         <LanguageSwitcherContainer>
           <ListItemIcon>{mapIcon("translate")}</ListItemIcon>
           <LanguageSwitcher />
-        </LanguageSwitcherContainer>
-        <LanguageSwitcherContainer>
-          <ListItemIcon>
-            <FormatSizeIcon />
-          </ListItemIcon>
-          <IconButton
-            onClick={() => {
-              dispatch({ type: FONT_ZOOMIN })
-            }}
-          >
-            <ZoomInIcon />
-          </IconButton>
-          <IconButton
-            onClick={() => {
-              dispatch({ type: FONT_ZOOMOUT })
-            }}
-          >
-            <ZoomOutIcon />
-          </IconButton>
         </LanguageSwitcherContainer>
 
         <Divider />
@@ -145,6 +130,25 @@ function ResponsiveDrawer(props) {
           ))}
         </List>
         <Divider />
+        <LanguageSwitcherContainer>
+          <ListItemIcon>
+            <FormatSizeIcon />
+          </ListItemIcon>
+          <StyledIconButton
+            onClick={() => {
+              dispatch({ type: FONT_ZOOMIN })
+            }}
+          >
+            <ZoomInIcon />
+          </StyledIconButton>
+          <StyledIconButton
+            onClick={() => {
+              dispatch({ type: FONT_ZOOMOUT })
+            }}
+          >
+            <ZoomOutIcon />
+          </StyledIconButton>
+        </LanguageSwitcherContainer>
         {/* Only show the forms in chinese as we do not have english form.. */}
         {i18n.language === "zh" && (
           <Link target="_blank" href="https://forms.gle/gK477bmq8cG57ELv8">
