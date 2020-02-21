@@ -65,7 +65,7 @@
       "bottomNav": false
     },
     {
-      "title": "about-us.title",
+      "title": "about_us.title",
       "to": "/about-us",
       "icon": "hotel",
       "sideMenu": false,
