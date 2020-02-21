@@ -2,6 +2,7 @@ import React from "react"
 import { useTranslation } from "react-i18next"
 import { graphql, Link as InternalLink } from "gatsby"
 import styled from "styled-components"
+import { useMediaQuery } from "react-responsive"
 
 import { bps } from "@/ui/theme"
 import Box from "@material-ui/core/Box"
@@ -218,6 +219,7 @@ function PassengerStats({
 export default function IndexPage({ data }) {
   const { i18n, t } = useTranslation()
   const isSSR = typeof window === "undefined"
+  const isMobile = useMediaQuery({ maxWidth: 960 })
 
   const latestFigures = React.useMemo(
     () => data.allBotWarsLatestFigures.edges[0].node,
@@ -276,6 +278,16 @@ export default function IndexPage({ data }) {
                 {remarksText}
               </Typography>
             )}
+
+            {isMobile && (
+              <Typography variant="h2">{t("index.highlight")}</Typography>
+            )}
+            {isMobile && !isSSR && (
+              <React.Suspense fallback={<div />}>
+                <ConfirmedCaseVisual />
+              </React.Suspense>
+            )}
+
             <Typography variant="h2">{t("dashboard.passenger")}</Typography>
 
             <Paragraph>{t("dashboard.reference_only")}</Paragraph>
@@ -304,8 +316,10 @@ export default function IndexPage({ data }) {
               />
             </BasicCard>
 
-            <Typography variant="h2">{t("index.highlight")}</Typography>
-            {!isSSR && (
+            {!isMobile && (
+              <Typography variant="h2">{t("index.highlight")}</Typography>
+            )}
+            {!isMobile && !isSSR && (
               <React.Suspense fallback={<div />}>
                 <ConfirmedCaseVisual />
               </React.Suspense>

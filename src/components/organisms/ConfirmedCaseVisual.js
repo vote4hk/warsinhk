@@ -13,7 +13,7 @@ import { Hidden } from "@material-ui/core"
 import { bps } from "@/ui/theme"
 import { median } from "@/utils"
 import DistrictsChart from "@/components/charts/18Districts"
-import capitalize from 'lodash/capitalize'
+import capitalize from "lodash/capitalize"
 
 const PlotsWrapper = styled(Grid)`
   ${bps.up("lg")} {
@@ -65,7 +65,7 @@ const DataValue = styled.span`
     line-height: 1.4;
   }
 `
-
+const MapCard = styled.div``
 export default function ConfirmedCaseVisual(props) {
   const { i18n, t } = useTranslation()
 
@@ -191,7 +191,7 @@ export default function ConfirmedCaseVisual(props) {
   )
 
   const citizenPlot = (
-    <BasicCard>
+    <MapCard>
       <Typography variant="h6">{t("cases_visual.distribution")}</Typography>
       <DistrictsChart
         scale={[
@@ -207,7 +207,10 @@ export default function ConfirmedCaseVisual(props) {
             i => tcName.indexOf(i.fieldValue) === 0
           )
           const value = node ? node.totalCount : 0
-          const name = i18n.language !== "zh" ? enName.split` `.map(capitalize).join` ` : tcName
+          const name =
+            i18n.language !== "zh"
+              ? enName.split` `.map(capitalize).join` `
+              : tcName
           return `${name}: ${value}`
         }}
         getDataByDistrictName={tcName => {
@@ -218,7 +221,7 @@ export default function ConfirmedCaseVisual(props) {
           return value
         }}
       />
-    </BasicCard>
+    </MapCard>
   )
 
   const agePlot = (
@@ -269,9 +272,9 @@ export default function ConfirmedCaseVisual(props) {
   if (isMobile) {
     return (
       <>
+        {citizenPlot}
         {genderPlot}
         {agePlot}
-        {citizenPlot}
       </>
     )
   }

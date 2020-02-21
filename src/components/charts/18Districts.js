@@ -14,6 +14,9 @@ const colorList = [
   "#9e2527",
   "#5c0608",
 ]
+
+const dimension = (window && window.innerWidth) || 500
+
 export class HK18DistrictChart extends React.Component {
   static defaultProps = {
     districtNodeDrawer: () => undefined,
@@ -26,7 +29,7 @@ export class HK18DistrictChart extends React.Component {
     const projection = d3.geoMercator().fitExtent(
       [
         [0, 0],
-        [300, 300],
+        [dimension, dimension],
       ],
       hk18DistrictGeoJson
     )
@@ -52,7 +55,7 @@ export class HK18DistrictChart extends React.Component {
           )
         )
       )
-      .attr("stroke", "#e6e6e6")
+      .attr("stroke", "#d6d6d6")
       .attr("stroke-width", "1px")
       .attr("d", geoGenerator)
       .on("mouseover", function mouseoverHandler(datum) {
@@ -72,7 +75,7 @@ export class HK18DistrictChart extends React.Component {
           .style("left", event.pageX + 10 + "px")
       })
       .on("mouseout", function mouseoutHandler() {
-        d3.select(this).attr("stroke", "#e6e6e6")
+        d3.select(this).attr("stroke", "#d6d6d6")
         tooltip.style("visibility", "hidden")
       })
 
@@ -105,7 +108,7 @@ export class HK18DistrictChart extends React.Component {
     return (
       <svg
         ref={el => (this.svgContainer = el)}
-        viewBox="0 0 300 300"
+        viewBox={`0 0 ${dimension} ${dimension}`}
         xmlns="http://www.w3.org/2000/svg"
       ></svg>
     )
