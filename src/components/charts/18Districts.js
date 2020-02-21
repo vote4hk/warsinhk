@@ -2,12 +2,25 @@ import React from "react"
 import * as d3 from "d3"
 import hk18DistrictGeoJson from "./hk18districts.json"
 
+const colorList = [
+  "#FFFFFF",
+  "#f7f0f0",
+  "#edd4cc",
+  "#ffad91",
+  "#ec7d58",
+  "#b53232",
+  "#b53232",
+  "#ec7d58",
+  "#9e2527",
+  "#5c0608",
+]
 export class HK18DistrictChart extends React.Component {
   static defaultProps = {
     districtNodeDrawer: () => undefined,
     getDescriptionByDistrictName: () => "",
-    getColorer: ele => d3.scaleQuantize(ele.props.scale, d3.schemeReds[6]),
+    getColorer: ele => d3.scaleQuantize(ele.props.scale, colorList),
   }
+
   updateGraph() {
     const svg = d3.select(this.svgContainer)
     const projection = d3.geoMercator().fitExtent(
@@ -39,9 +52,11 @@ export class HK18DistrictChart extends React.Component {
           )
         )
       )
+      .attr("stroke", "#e6e6e6")
+      .attr("stroke-width", "1px")
       .attr("d", geoGenerator)
       .on("mouseover", function mouseoverHandler(datum) {
-        d3.select(this).attr("stroke", "yellow")
+        d3.select(this).attr("stroke", "#b5b5b5")
         tooltip.style("visibility", "visible")
         tooltip.text(
           getDescriptionByDistrictName(
@@ -57,7 +72,7 @@ export class HK18DistrictChart extends React.Component {
           .style("left", event.pageX + 10 + "px")
       })
       .on("mouseout", function mouseoutHandler() {
-        d3.select(this).attr("stroke", "")
+        d3.select(this).attr("stroke", "#e6e6e6")
         tooltip.style("visibility", "hidden")
       })
 
@@ -71,8 +86,8 @@ export class HK18DistrictChart extends React.Component {
       .style("position", "absolute")
       .style("z-index", "10")
       .style("visibility", "hidden")
-      .style("background", "white")
-      .style("border", "1px solid black")
+      .style("background", "#333")
+      .style("color", "white")
       .style("padding", "10px")
   }
   componentDidMount() {
