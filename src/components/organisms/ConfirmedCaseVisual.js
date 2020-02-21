@@ -4,7 +4,6 @@ import Typography from "@material-ui/core/Typography"
 import Grid from "@material-ui/core/Grid"
 import { useMediaQuery } from "react-responsive"
 import { useStaticQuery, graphql } from "gatsby"
-import { withLanguage } from "../../utils/i18n"
 import Chart from "@components/atoms/Chart"
 import styled from "styled-components"
 import { BasicCard } from "@components/atoms/Card"
@@ -14,6 +13,7 @@ import { Hidden } from "@material-ui/core"
 import { bps } from "@/ui/theme"
 import { median } from "@/utils"
 import DistrictsChart from "@/components/charts/18Districts"
+import capitalize from 'lodash/capitalize'
 
 const PlotsWrapper = styled(Grid)`
   ${bps.up("lg")} {
@@ -207,8 +207,8 @@ export default function ConfirmedCaseVisual(props) {
             i => tcName.indexOf(i.fieldValue) === 0
           )
           const value = node ? node.totalCount : 0
-          const name = i18n.language !== "zh" ? enName : tcName
-          return `${name} ${value}`
+          const name = i18n.language !== "zh" ? enName.split` `.map(capitalize).join` ` : tcName
+          return `${name}: ${value}`
         }}
         getDataByDistrictName={tcName => {
           const node = citizenshipDistrict.find(
