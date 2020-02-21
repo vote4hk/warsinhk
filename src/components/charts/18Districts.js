@@ -74,7 +74,6 @@ export class HK18DistrictChart extends React.Component {
       .style("background", "white")
       .style("border", "1px solid black")
       .style("padding", "10px")
-      .text("a simple tooltip")
   }
   componentDidMount() {
     this.initSimpleTooltip()

@@ -13,7 +13,7 @@ import Box from "@material-ui/core/Box"
 import { Hidden } from "@material-ui/core"
 import { bps } from "@/ui/theme"
 import { median } from "@/utils"
-import DistrictsChart from '@/components/charts/18Districts'
+import DistrictsChart from "@/components/charts/18Districts"
 
 const PlotsWrapper = styled(Grid)`
   ${bps.up("lg")} {
@@ -97,7 +97,9 @@ export default function ConfirmedCaseVisual(props) {
             fieldValue
           }
         }
-        citizenshipDistrict: allWarsCase(filter: { type_en: { eq: "Confirmed" } }) {
+        citizenshipDistrict: allWarsCase(
+          filter: { type_en: { eq: "Confirmed" } }
+        ) {
           group(field: citizenship_district_zh) {
             totalCount
             fieldValue
@@ -192,21 +194,30 @@ export default function ConfirmedCaseVisual(props) {
     <BasicCard>
       <Typography variant="h6">{t("cases_visual.distribution")}</Typography>
       <DistrictsChart
-        scale={[0, Math.max.apply(null,citizenshipDistrict.map(i=>i.totalCount) )]}
-        values={citizenshipDistrict.map(i=>i.totalCount)}
-        getDescriptionByDistrictName={
-          (tcDistrictName)=> {
-            const node = citizenshipDistrict.find(i=>tcDistrictName.indexOf(i.fieldValue) === 0)
-            const value = node ? node.totalCount : 0;
-            return `${tcDistrictName} ${value}`
-          }
-        }
-        getDataByDistrictName={(tcDistrictName)=> {
-          const node = citizenshipDistrict.find(i=>tcDistrictName.indexOf(i.fieldValue) === 0)
-          const value = node ? node.totalCount : 0;
+        scale={[
+          0,
+          Math.max.apply(
+            null,
+            citizenshipDistrict.map(i => i.totalCount)
+          ),
+        ]}
+        values={citizenshipDistrict.map(i => i.totalCount)}
+        getDescriptionByDistrictName={(tcName, enName) => {
+          const node = citizenshipDistrict.find(
+            i => tcName.indexOf(i.fieldValue) === 0
+          )
+          const value = node ? node.totalCount : 0
+          const name = i18n.language !== "zh" ? enName : tcName
+          return `${name} ${value}`
+        }}
+        getDataByDistrictName={tcName => {
+          const node = citizenshipDistrict.find(
+            i => tcName.indexOf(i.fieldValue) === 0
+          )
+          const value = node ? node.totalCount : 0
           return value
         }}
-        />
+      />
     </BasicCard>
   )
 
