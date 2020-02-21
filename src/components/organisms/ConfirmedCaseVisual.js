@@ -13,6 +13,7 @@ import Box from "@material-ui/core/Box"
 import { Hidden } from "@material-ui/core"
 import { bps } from "@/ui/theme"
 import { median } from "@/utils"
+import DistrictsChart from '@/components/charts/18Districts'
 
 const PlotsWrapper = styled(Grid)`
   ${bps.up("lg")} {
@@ -65,38 +66,6 @@ const DataValue = styled.span`
   }
 `
 
-const DistrictGridsWrapper = styled.div`
-  display: grid;
-  grid-template-columns: repeat(
-    ${props => (props.i18n === "zh" ? 4 : 3)},
-    auto
-  );
-  gap: 6px;
-
-  ${bps.between("md", "lg")} {
-    grid-template-columns: repeat(
-      ${props => (props.i18n === "zh" ? 4 : 3)},
-      auto
-    );
-  }
-`
-
-const DistrictGrid = styled.div`
-  position: relative;
-  background-color: white;
-  font-weight: bold;
-  text-align: center;
-  padding: 0.6em 0.3em;
-  margin-top: 0.25em;
-  border-top: 3px solid ${props => props.color};
-  box-shadow: 0px 2px 1px -1px rgba(0, 0, 0, 0.2),
-    0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 1px 3px 0px rgba(0, 0, 0, 0.12);
-
-  ${bps.between("md", "lg")} {
-    padding: 0.5em 0.1em;
-  }
-`
-
 export default function ConfirmedCaseVisual(props) {
   const { i18n, t } = useTranslation()
 
@@ -105,6 +74,7 @@ export default function ConfirmedCaseVisual(props) {
     genderAge: { group: genderAge },
     citizenshipZh: { group: citizenship_zh },
     citizenshipEn: { group: citizenship_en },
+    citizenshipDistrict: { group: citizenshipDistrict },
   } = useStaticQuery(
     graphql`
       query {
@@ -125,6 +95,18 @@ export default function ConfirmedCaseVisual(props) {
             }
             totalCount
             fieldValue
+          }
+        }
+        citizenshipDistrict: allWarsCase(filter: { type_en: { eq: "Confirmed" } }) {
+          group(field: citizenship_district_zh) {
+            totalCount
+            fieldValue
+            edges {
+              node {
+                citizenship_district_zh
+                citizenship_district_en
+              }
+            }
           }
         }
         citizenshipZh: allWarsCase(filter: { type_en: { eq: "Confirmed" } }) {
@@ -149,76 +131,12 @@ export default function ConfirmedCaseVisual(props) {
     citizenship_en,
     female: genderAge.find(age => age.fieldValue === "F"),
     male: genderAge.find(age => age.fieldValue === "M"),
+    citizenshipDistrict,
   }
-
-  const citizenshipData = withLanguage(i18n, WarsCaseData, "citizenship")
 
   const isMobile = useMediaQuery({ maxWidth: 960 })
 
   const GENDER_COLOR_LIST = ["#006266", "#ED4C67"]
-
-  const COLOR_LIST = [
-    "#45CF8F",
-    "#005ECD",
-    "#FF5D55",
-    "#424559",
-    "#F49600",
-    "#F3966F",
-    "#06C7BA",
-    "#004427",
-    "#BEB4D3",
-    "#FCC457",
-    "#FF6633",
-    "#FFB399",
-    "#FF33FF",
-    "#FFFF99",
-    "#00B3E6",
-    "#E6B333",
-    "#3366E6",
-    "#999966",
-    "#99FF99",
-    "#B34D4D",
-    "#80B300",
-    "#809900",
-    "#E6B3B3",
-    "#6680B3",
-    "#66991A",
-    "#FF99E6",
-    "#CCFF1A",
-    "#FF1A66",
-    "#E6331A",
-    "#33FFCC",
-    "#66994D",
-    "#B366CC",
-    "#4D8000",
-    "#B33300",
-    "#CC80CC",
-    "#66664D",
-    "#991AFF",
-    "#E666FF",
-    "#4DB3FF",
-    "#1AB399",
-    "#E666B3",
-    "#33991A",
-    "#CC9999",
-    "#B3B31A",
-    "#00E680",
-    "#4D8066",
-    "#809980",
-    "#E6FF80",
-    "#1AFF33",
-    "#999933",
-    "#FF3380",
-    "#CCCC00",
-    "#66E64D",
-    "#4D80CC",
-    "#9900B3",
-    "#E64D66",
-    "#4DB380",
-    "#FF4D4D",
-    "#99E6E6",
-    "#6666FF",
-  ]
 
   const axis = isMobile
     ? {
@@ -270,44 +188,26 @@ export default function ConfirmedCaseVisual(props) {
     </BasicCard>
   )
 
-  const sortedCitizenshipData = citizenshipData.sort(
-    (a, b) => b.totalCount - a.totalCount
-  )
-
-  function getRandomColor() {
-    const randomIndex = Math.floor(Math.random() * COLOR_LIST.length)
-    return COLOR_LIST[randomIndex]
-  }
-
-  const citizenPlot = ( // cater iPad
-    <DistrictGridsWrapper i18n={i18n.language}>
-      {sortedCitizenshipData.map((c, i) => (
-        <DistrictGrid key={i} color={getRandomColor()}>
-          <Typography variant="h4">{c.totalCount}</Typography>
-          <p>{c.fieldValue}</p>
-        </DistrictGrid>
-      ))}
-    </DistrictGridsWrapper>
-    // ) : (
-    //   <BasicCard>
-    //     <Typography variant="h6">{t("cases_visual.citizen")}</Typography>
-    //     <Chart
-    //       data={{
-    //         columns: sortedCitizenshipData.map(c => [c.fieldValue, c.totalCount]),
-    //         type: "donut",
-    //         labels: true,
-    //       }}
-    //       color={{ pattern: COLOR_LIST }}
-    //       tooltip={{
-    //         grouped: false,
-    //         format: {
-    //           title: () => t("cases_visual.citizen"),
-    //         },
-    //       }}
-    //       bar={bar}
-    //       axis={axis}
-    //     />
-    //   </BasicCard>
+  const citizenPlot = (
+    <BasicCard>
+      <Typography variant="h6">{t("cases_visual.distribution")}</Typography>
+      <DistrictsChart
+        scale={[0, Math.max.apply(null,citizenshipDistrict.map(i=>i.totalCount) )]}
+        values={citizenshipDistrict.map(i=>i.totalCount)}
+        getDescriptionByDistrictName={
+          (tcDistrictName)=> {
+            const node = citizenshipDistrict.find(i=>tcDistrictName.indexOf(i.fieldValue) === 0)
+            const value = node ? node.totalCount : 0;
+            return `${tcDistrictName} ${value}`
+          }
+        }
+        getDataByDistrictName={(tcDistrictName)=> {
+          const node = citizenshipDistrict.find(i=>tcDistrictName.indexOf(i.fieldValue) === 0)
+          const value = node ? node.totalCount : 0;
+          return value
+        }}
+        />
+    </BasicCard>
   )
 
   const agePlot = (
