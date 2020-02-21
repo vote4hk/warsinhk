@@ -7,6 +7,9 @@ import { mapColorForStatus } from "@/utils/colorHelper"
 
 const SummaryBox = styled(Box)`
   margin: 10px 0px;
+  p {
+    margin-right: 8px;
+  }
 `
 
 const ConfirmedCasesSummary = props => {
