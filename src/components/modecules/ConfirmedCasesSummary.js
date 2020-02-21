@@ -49,6 +49,7 @@ const ConfirmedCasesSummary = props => {
             style={{
               color: mapColorForStatus(v.fieldValue).main,
               fontWeight: 600,
+              marginRight: "0.5rem",
             }}
           >
             {t(`cases.status_${v.fieldValue}`)}：{v.totalCount}
