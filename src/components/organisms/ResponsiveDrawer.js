@@ -144,17 +144,17 @@ function ResponsiveDrawer(props) {
           </ListItemIcon>
           <StyledIconButton
             onClick={() => {
-              dispatch({ type: FONT_ZOOMIN })
-            }}
-          >
-            <ZoomInIcon />
-          </StyledIconButton>
-          <StyledIconButton
-            onClick={() => {
               dispatch({ type: FONT_ZOOMOUT })
             }}
           >
             <ZoomOutIcon />
+          </StyledIconButton>
+          <StyledIconButton
+            onClick={() => {
+              dispatch({ type: FONT_ZOOMIN })
+            }}
+          >
+            <ZoomInIcon />
           </StyledIconButton>
         </LanguageSwitcherContainer>
         {/* Only show the forms in chinese as we do not have english form.. */}
