@@ -16,9 +16,10 @@ const InfiniteScroll = ({ list, onItem, step }) => {
   }, [loadMore, itemSize, isMobile])
 
   const onScroll = () => {
+    const scrolledHeight = document.scrollingElement || document.documentElement
     const diff =
       document.documentElement.offsetHeight -
-      (window.innerHeight + document.documentElement.scrollTop)
+      (window.innerHeight + scrolledHeight.scrollTop)
     if (diff > 10) return
     setLoadMore(true)
   }
