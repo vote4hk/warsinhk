@@ -3,7 +3,6 @@ import * as d3 from "d3"
 import hk18DistrictGeoJson from "./hk18districts.json"
 
 const colorList = [
-  "#FFFFFF",
   "#f7f0f0",
   "#edd4cc",
   "#ffad91",
@@ -47,14 +46,13 @@ export class HK18DistrictChart extends React.Component {
       .attr("class", "hk-district-map-district")
       .attr("data-district-name-tc", datum => datum.properties.TCNAME)
       .append("path")
-      .attr("fill", datum =>
-        color(
-          this.props.getDataByDistrictName(
-            datum.properties.TCNAME,
-            datum.properties.ENAME
-          )
+      .attr("fill", datum => {
+        const count = this.props.getDataByDistrictName(
+          datum.properties.TCNAME,
+          datum.properties.ENAME
         )
-      )
+        return count === 0 ? "#FFFFFF" : color(count)
+      })
       .attr("stroke", "#d6d6d6")
       .attr("stroke-width", "1px")
       .attr("d", geoGenerator)
