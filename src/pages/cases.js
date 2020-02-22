@@ -61,6 +61,10 @@ const ConfirmedCasePage = props => {
       label: t("search.case_status"),
       options: createDedupOptions(i18n, data.allWarsCase.edges, "status"),
     },
+    {
+      label: t("search.hospital"),
+      options: createDedupOptions(i18n, data.allWarsCase.edges, "hospital"),
+    },
   ]
 
   // Calculate how much cards we should preload in order to scorll to that position
