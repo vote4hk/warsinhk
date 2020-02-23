@@ -30,14 +30,18 @@ const InfiniteScroll = ({ list, onItem, step }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  return (
-    <>
-      {list &&
-        list
-          .filter((_, i) => i < itemSize)
-          .map((item, i) => <Fragment key={i}>{onItem(item, i)}</Fragment>)}
-    </>
+  // this is a perf fix for re-rendering
+  // if no more re-rendering can remove the useMemo here
+  const elements = React.useMemo(
+    () =>
+      list &&
+      list
+        .filter((_, i) => i < itemSize)
+        .map((item, i) => <Fragment key={i}>{onItem(item, i)}</Fragment>),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [list]
   )
+  return <>{elements}</>
 }
 
 InfiniteScroll.propTypes = {

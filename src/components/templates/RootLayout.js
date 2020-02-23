@@ -10,7 +10,9 @@ const ThemeProviderWrapper = ({ children }) => {
     pageOptions: { state },
   } = React.useContext(ContextStore)
 
-  const theme = createThemeWithFontZoom(state.fontZoom)
+  const theme = React.useMemo(() => createThemeWithFontZoom(state.fontZoom), [
+    state.fontZoom,
+  ])
 
   return (
     <MuiThemeProvider theme={theme}>

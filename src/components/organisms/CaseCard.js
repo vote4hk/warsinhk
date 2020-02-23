@@ -14,6 +14,8 @@ import {
 import { formatDateDDMM } from "@/utils"
 import MuiLink from "@material-ui/core/Link"
 import * as d3 from "d3"
+import _get from "lodash.get"
+
 const colors = d3.scaleOrdinal(d3.schemeDark2).domain([0, 1, 2, 3, 4])
 
 const WarsCaseContainer = styled(Box)`
@@ -26,6 +28,21 @@ const WarsCaseContainer = styled(Box)`
   box-shadow: 0px 2px 1px -1px rgba(0, 0, 0, 0.2),
     0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 1px 3px 0px rgba(0, 0, 0, 0.12);
   border-top: 3px ${props => props.statuscolor} solid;
+
+  .track-row {
+    border-top: 1px #ddd solid;
+    padding: 8px 0 8px;
+  }
+
+  .wars-row {
+    margin-bottom: 8px;
+    div:not(:first-child):last-child {
+      text-align: right;
+    }
+    b {
+      font-weight: 700;
+    }
+  }
 `
 
 const WarsCaseDetail = styled(Typography)`
@@ -53,10 +70,6 @@ const WarsCaseTrackContainer = styled(Box)`
   margin-top: 16px;
 `
 
-const WarsCaseTrackRow = styled(Box)`
-  border-top: 1px #ddd solid;
-  padding: 8px 0 8px;
-`
 const CaseLabel = styled(Box)`
   color: ${props => props.color};
   background: white;
@@ -76,8 +89,8 @@ const WarsCaseTrack = ({ i18n, t, track }) => {
       {track.map((tr, i) => {
         const remarksText = withLanguage(i18n, tr.node, "remarks")
         return (
-          <WarsCaseTrackRow key={i}>
-            <WarsRow>
+          <div key={i} className="track-row">
+            <div className="wars-row">
               <Box>
                 {tr.node.start_date === tr.node.end_date
                   ? tr.node.end_date
@@ -88,14 +101,14 @@ const WarsCaseTrack = ({ i18n, t, track }) => {
               <Box>
                 <b>{withLanguage(i18n, tr.node, "action")}</b>
               </Box>
-            </WarsRow>
-            <WarsRow>
+            </div>
+            <div className="wars-row">
               <b>{withLanguage(i18n, tr.node, "location")}</b>
-            </WarsRow>
+            </div>
             {remarksText && (
-              <WarsRow>
+              <div className="wars-row">
                 <Typography variant="body2">{remarksText}</Typography>
-              </WarsRow>
+              </div>
             )}
 
             <SourceRow>
@@ -114,7 +127,7 @@ const WarsCaseTrack = ({ i18n, t, track }) => {
                 </MuiLink>
               )}
             </SourceRow>
-          </WarsCaseTrackRow>
+          </div>
         )
       })}
     </WarsCaseTrackContainer>
@@ -123,8 +136,13 @@ const WarsCaseTrack = ({ i18n, t, track }) => {
 
 export const WarsCaseCard = React.forwardRef((props, ref) => {
   const { node, i18n, t, isSelected, patientTrack } = props
-  const track = patientTrack && patientTrack[0] && patientTrack[0].edges
+  const trackData = _get(patientTrack, "[0].edges", null)
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const track = React.useMemo(
+    () => trackData && <WarsCaseTrack i18n={i18n} t={t} track={trackData} />,
+    [i18n, t, trackData]
+  )
   return (
     <WarsCaseContainer
       key={`case-${node.case_no}`}
@@ -202,7 +220,7 @@ export const WarsCaseCard = React.forwardRef((props, ref) => {
           {t("dashboard.source")}
         </WarsSource>
       </Row>
-      {track && <WarsCaseTrack t={t} i18n={i18n} track={track} />}
+      {track}
     </WarsCaseContainer>
   )
 })

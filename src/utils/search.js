@@ -17,13 +17,6 @@ export const containsText = (i18n, node, text, fields) => {
   if (typeof text === "string") {
     return fields
       .map(field => {
-        console.log(
-          `compare ${withLanguage(
-            i18n,
-            node,
-            field
-          ).toLowerCase()} to ${text.toLowerCase()}`
-        )
         return (
           withLanguage(i18n, node, field)
             .toLowerCase()

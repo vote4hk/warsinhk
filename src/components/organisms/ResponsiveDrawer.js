@@ -3,8 +3,8 @@ import AppBar from "@material-ui/core/AppBar"
 import CssBaseline from "@material-ui/core/CssBaseline"
 import Divider from "@material-ui/core/Divider"
 import SwipeableDrawer from "@material-ui/core/SwipeableDrawer"
-import Hidden from "@material-ui/core/Hidden"
 import IconButton from "@material-ui/core/IconButton"
+import { useMediaQuery } from "@material-ui/core"
 import List from "@material-ui/core/List"
 import ListItem from "@material-ui/core/ListItem"
 import ListItemIcon from "@material-ui/core/ListItemIcon"
@@ -96,6 +96,7 @@ const StyledIconButton = styled(IconButton)`
 function ResponsiveDrawer(props) {
   const { container, pages, children, className } = props
   const classes = useStyles()
+  const isDesktop = useMediaQuery(bps.up("md"))
   const theme = useTheme()
   const [mobileOpen, setMobileOpen] = React.useState(false)
   const { t, i18n } = useTranslation()
@@ -198,6 +199,45 @@ function ResponsiveDrawer(props) {
     </div>
   )
 
+  // don't render the drawer frequently
+  const menu = React.useMemo(
+    () =>
+      isDesktop ? (
+        <SwipeableDrawer
+          onOpen={() => {}}
+          onClose={() => {}}
+          classes={{
+            paper: classes.drawerPaper,
+          }}
+          variant="permanent"
+          open
+        >
+          {drawer(pages)}
+          {drawerFooter()}
+        </SwipeableDrawer>
+      ) : (
+        <SwipeableDrawer
+          container={container}
+          variant="temporary"
+          anchor={theme.direction === "rtl" ? "right" : "left"}
+          open={mobileOpen}
+          onOpen={() => {}}
+          onClose={handleDrawerToggle}
+          classes={{
+            paper: classes.drawerPaper,
+          }}
+          ModalProps={{
+            keepMounted: true, // Better open performance on mobile.
+          }}
+        >
+          {drawer(pages)}
+          {drawerFooter()}
+        </SwipeableDrawer>
+      ),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [isDesktop, mobileOpen]
+  )
+
   return (
     <div className={`${classes.root} ${className}`}>
       <CssBaseline />
@@ -222,39 +262,7 @@ function ResponsiveDrawer(props) {
       </AppBar>
       <nav className={classes.drawer} aria-label="mailbox folders">
         {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
-        <Hidden smUp implementation="css">
-          <SwipeableDrawer
-            container={container}
-            variant="temporary"
-            anchor={theme.direction === "rtl" ? "right" : "left"}
-            open={mobileOpen}
-            onOpen={() => {}}
-            onClose={handleDrawerToggle}
-            classes={{
-              paper: classes.drawerPaper,
-            }}
-            ModalProps={{
-              keepMounted: true, // Better open performance on mobile.
-            }}
-          >
-            {drawer(pages)}
-            {drawerFooter()}
-          </SwipeableDrawer>
-        </Hidden>
-        <Hidden xsDown implementation="css">
-          <SwipeableDrawer
-            onOpen={() => {}}
-            onClose={() => {}}
-            classes={{
-              paper: classes.drawerPaper,
-            }}
-            variant="permanent"
-            open
-          >
-            {drawer(pages)}
-            {drawerFooter()}
-          </SwipeableDrawer>
-        </Hidden>
+        {menu}
       </nav>
       <main className={classes.content}>
         <div className={classes.toolbar} />
