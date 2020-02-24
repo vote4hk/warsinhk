@@ -1,6 +1,5 @@
 import React from "react"
 import AppBar from "@material-ui/core/AppBar"
-import CssBaseline from "@material-ui/core/CssBaseline"
 import Divider from "@material-ui/core/Divider"
 import SwipeableDrawer from "@material-ui/core/SwipeableDrawer"
 import IconButton from "@material-ui/core/IconButton"
@@ -96,7 +95,7 @@ const StyledIconButton = styled(IconButton)`
 function ResponsiveDrawer(props) {
   const { container, pages, children, className } = props
   const classes = useStyles()
-  const isDesktop = useMediaQuery(bps.up("md"))
+  const isDesktop = useMediaQuery(bps.up("sm"))
   const theme = useTheme()
   const [mobileOpen, setMobileOpen] = React.useState(false)
   const { t, i18n } = useTranslation()
@@ -240,7 +239,6 @@ function ResponsiveDrawer(props) {
 
   return (
     <div className={`${classes.root} ${className}`}>
-      <CssBaseline />
       <AppBar position="fixed" className={classes.appBar}>
         <Toolbar className={classes.appToolBar}>
           <IconButton
