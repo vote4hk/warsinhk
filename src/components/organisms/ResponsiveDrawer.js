@@ -96,7 +96,7 @@ const StyledIconButton = styled(IconButton)`
 function ResponsiveDrawer(props) {
   const { container, pages, children, className } = props
   const classes = useStyles()
-  const isDesktop = useMediaQuery(bps.up("md"))
+  const isDesktop = useMediaQuery(bps.up("sm"))
   const theme = useTheme()
   const [mobileOpen, setMobileOpen] = React.useState(false)
   const { t, i18n } = useTranslation()
