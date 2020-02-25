@@ -39,7 +39,7 @@ const InfiniteScroll = ({ list, onItem, step }) => {
         .filter((_, i) => i < itemSize)
         .map((item, i) => <Fragment key={i}>{onItem(item, i)}</Fragment>),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [list]
+    [list, itemSize]
   )
   return <>{elements}</>
 }
