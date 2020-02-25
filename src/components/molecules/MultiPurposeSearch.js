@@ -73,6 +73,8 @@ const MultiPurposeSearch = props => {
           setHistories(historiesToSave)
           saveToLocalStorage(searchKey, JSON.stringify(historiesToSave))
           onListFiltered(filterValues(i18n, list, selectedArray, filterWithOr))
+        } else if (selectedArray && selectedArray.length > 0) {
+          onListFiltered(filterValues(i18n, list, selectedArray, filterWithOr))
         } else {
           // return whole list if input is empty
           onListFiltered(list)
