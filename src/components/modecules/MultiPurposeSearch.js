@@ -13,7 +13,14 @@ import {
 import { saveToLocalStorage, loadFromLocalStorage } from "@/utils"
 
 const MultiPurposeSearch = props => {
-  const { options, list, placeholder, onListFiltered, searchKey } = props
+  const {
+    options,
+    list,
+    placeholder,
+    onListFiltered,
+    searchKey,
+    filterWithOr = true,
+  } = props
 
   const [filters, setFilters] = useState([])
   const [histories, setHistories] = useState([])
@@ -65,7 +72,7 @@ const MultiPurposeSearch = props => {
           }
           setHistories(historiesToSave)
           saveToLocalStorage(searchKey, JSON.stringify(historiesToSave))
-          onListFiltered(filterValues(i18n, list, selectedArray))
+          onListFiltered(filterValues(i18n, list, selectedArray, filterWithOr))
         } else {
           // return whole list if input is empty
           onListFiltered(list)

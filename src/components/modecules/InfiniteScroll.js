@@ -10,6 +10,7 @@ const InfiniteScroll = ({ list, onItem, step }) => {
   const isMobile = useMediaQuery(bps.down("md"))
   const [itemSize, setItemSize] = useState(preload)
   const [loadMore, setLoadMore] = useState(false)
+
   useEffect(() => {
     if (!loadMore) return
     setItemSize(itemSize + (isMobile ? mobile : desktop))
