@@ -12,21 +12,18 @@ export function PageContent(props) {
   return <Container {...others}>{children}</Container>
 }
 
-const StyledSessionWrapper = styled(Box)`
+export const SessionWrapper = styled(({ children, ...others }) => (
+  <Box {...others}>{children}</Box>
+))`
   margin-bottom: 16px;
 `
-
-export function SessionWrapper(props) {
-  const { children, ...others } = props
-  return <StyledSessionWrapper {...others}>{children}</StyledSessionWrapper>
-}
 
 const StyledSplitWrapper = styled.div`
   ${bps.up("lg")} {
     display: flex;
     align-items: flex-start;
 
-    ${StyledSessionWrapper} {
+    ${SessionWrapper} {
       flex: 1 0 calc(50% - 12px);
 
       &:nth-of-type(2) {

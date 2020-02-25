@@ -246,7 +246,7 @@ export default function IndexPage({ data }) {
   return (
     <>
       <SEO title="Home" />
-      <Layout hideAlerts={true}>
+      <Layout>
         <SplitWrapper>
           <SessionWrapper>
             <IndexAlertMessage />

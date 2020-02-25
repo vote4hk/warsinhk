@@ -1,6 +1,5 @@
 import React from "react"
 import AppBar from "@material-ui/core/AppBar"
-import CssBaseline from "@material-ui/core/CssBaseline"
 import Divider from "@material-ui/core/Divider"
 import SwipeableDrawer from "@material-ui/core/SwipeableDrawer"
 import IconButton from "@material-ui/core/IconButton"
@@ -240,7 +239,6 @@ function ResponsiveDrawer(props) {
 
   return (
     <div className={`${classes.root} ${className}`}>
-      <CssBaseline />
       <AppBar position="fixed" className={classes.appBar}>
         <Toolbar className={classes.appToolBar}>
           <IconButton

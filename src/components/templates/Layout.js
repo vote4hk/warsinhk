@@ -46,10 +46,15 @@ const Layout = props => {
       }
     `
   )
+
+  const pageList = configJson.pages.filter(p => p.sideMenu)
+
+  const tabList = configJson.pages.filter(p => p.bottomNav)
+
   return (
     <>
       <StyledResponsiveDrawer
-        pages={configJson.pages.filter(p => p.sideMenu)}
+        pages={pageList}
         children={
           <Container>
             {/* Alert is shown in index page only */}
@@ -59,7 +64,7 @@ const Layout = props => {
         }
       />
       <footer>
-        <BottomNav tabs={configJson.pages.filter(p => p.bottomNav)} />
+        <BottomNav tabs={tabList} />
       </footer>
     </>
   )

@@ -74,6 +74,24 @@ const ConfirmedCasePage = props => {
     preloadedCases = 15
   }
 
+  const listFilteredHandler = list => {
+    setFilteredCases(list)
+  }
+
+  const infiniteScrollOnItem = item => (
+    <WarsCaseCard
+      node={item.node}
+      i18n={i18n}
+      t={t}
+      key={item.node.case_no}
+      isSelected={selectedCase === item.node.case_no}
+      ref={selectedCase === item.node.case_no ? selectedCard : null}
+      patientTrack={data.patient_track.group.filter(
+        t => t.fieldValue === item.node.case_no
+      )}
+    />
+  )
+
   return (
     <Layout>
       <SEO title="ConfirmedCasePage" />
@@ -85,9 +103,7 @@ const ConfirmedCasePage = props => {
           placeholder={t("search.case_placeholder")}
           options={options}
           searchKey="case"
-          onListFiltered={list => {
-            setFilteredCases(list)
-          }}
+          onListFiltered={listFilteredHandler}
         />
       </PageContent>
 
@@ -95,19 +111,7 @@ const ConfirmedCasePage = props => {
         <InfiniteScroll
           list={filteredCases}
           step={{ mobile: 5, preload: preloadedCases }}
-          onItem={(item, index) => (
-            <WarsCaseCard
-              node={item.node}
-              i18n={i18n}
-              t={t}
-              key={item.node.case_no}
-              isSelected={selectedCase === item.node.case_no}
-              ref={selectedCase === item.node.case_no ? selectedCard : null}
-              patientTrack={data.patient_track.group.filter(
-                t => t.fieldValue === item.node.case_no
-              )}
-            />
-          )}
+          onItem={infiniteScrollOnItem}
         />
       </ResponsiveWrapper>
     </Layout>
