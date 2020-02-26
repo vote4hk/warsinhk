@@ -7,9 +7,9 @@ import {
 } from "@/utils/colorHelper"
 
 const StyledContainer = styled(Box)`
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: flex-start;
+  display: grid;
+  grid-template-columns: repeat(8, calc(12.5% - 14px));
+  gap: 16px;
 `
 
 const StyledBox = styled(Box)`
@@ -18,7 +18,6 @@ const StyledBox = styled(Box)`
   height: 32px;
   font-size: 12px;
   font-weight: 900;
-  margin: 0 16px 10px 0;
   display: flex;
   justify-content: center;
   align-items: center;
