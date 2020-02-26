@@ -5,10 +5,10 @@ import Layout from "@components/templates/Layout"
 import Typography from "@material-ui/core/Typography"
 import { graphql } from "gatsby"
 import { ResponsiveWrapper } from "@components/atoms/ResponsiveWrapper"
-import InfiniteScroll from "@/components/modecules/InfiniteScroll"
 import MultiPurposeSearch from "@/components/modecules/MultiPurposeSearch"
 import { createDedupOptions, createDedupArrayOptions } from "@/utils/search"
 import { PageContent } from "../components/atoms/Container"
+import { WarsCaseBoxContainer } from "@/components/organisms/CaseBoxContainer"
 import _uniqby from "lodash.uniqby"
 import _get from "lodash.get"
 
@@ -75,8 +75,6 @@ const RelationPage = props => {
     setFilteredCases(list)
   }
 
-  const infiniteScrollOnItem = ({ node }) => <div>{node.case_no}</div>
-
   return (
     <Layout>
       <SEO />
@@ -93,11 +91,7 @@ const RelationPage = props => {
       </PageContent>
 
       <ResponsiveWrapper>
-        <InfiniteScroll
-          list={filteredCases}
-          step={{ mobile: 200, preload: 100, desktop: 200 }}
-          onItem={infiniteScrollOnItem}
-        />
+        <WarsCaseBoxContainer filteredCases={filteredCases} />
       </ResponsiveWrapper>
     </Layout>
   )
