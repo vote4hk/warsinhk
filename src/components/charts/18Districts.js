@@ -32,12 +32,13 @@ const legendColumn = container => scale => {
     })
 
   const svg = d3.select(container)
-  svg
-    .append("g")
-    .attr("class", "legend")
+  svg.append("g").attr("class", "legend")
 
   svg.select(".legend").call(legend)
-  const {width,height} = svg.select('.legend').node().getBBox();
+  const { width, height } = svg
+    .select(".legend")
+    .node()
+    .getBBox()
   svg.attr("width", width)
   svg.attr("height", height)
 }
@@ -49,9 +50,36 @@ export class HK18DistrictChart extends React.Component {
     districtNodeDrawer: () => undefined,
     getDescriptionByDistrictName: () => "",
     legendTitle: null,
+    legendShapeSize: 12,
     getColorer: ele => d3.scaleQuantize(ele.props.scale, colorList),
   }
 
+  appendLegend = scale => {
+    const legendMaker = legendColor
+      .apply(d3)
+      .labelFormat(d3.format("d"))
+      .labelDelimiter("-")
+      .scale(scale)
+      .shapeWidth(this.props.legendShapeSize)
+      .shapeHeight(this.props.legendShapeSize)
+      .labels(({ i, generatedLabels, range }) => {
+        const oriLabel = generatedLabels[i]
+        const [start, end] = oriLabel.match(/\d+/g)
+        return `${i === 0 ? +start + 1 : start} - ${
+          i < generatedLabels.length - 1 ? +end - 1 : end
+        }`
+      })
+    const svg = d3.select(this.legendContainer)
+    svg.append("g").attr("class", "legend")
+
+    svg.select(".legend").call(legendMaker)
+    const { width, height } = svg
+      .select(".legend")
+      .node()
+      .getBBox()
+    svg.attr("width", width)
+    svg.attr("height", height)
+  }
   updateGraph() {
     const svg = d3.select(this.svgContainer)
     const projection = d3.geoMercator().fitExtent(
@@ -122,7 +150,6 @@ export class HK18DistrictChart extends React.Component {
       .style("padding", "10px")
   }
   componentDidMount() {
-    this.appendLegend = legendColumn(this.legendContainer)
     this.initSimpleTooltip()
     this.updateGraph()
   }
@@ -149,10 +176,10 @@ export class HK18DistrictChart extends React.Component {
             position: "absolute",
             pointerEvents: "none",
             fontSize: 12,
-            top: 15,
-            left: 0,
-            backgroundColor: 'rgba(255,255,255,0.3)',
-            padding: '5px 5px 0px'
+            bottom: "5%",
+            right: 0,
+            backgroundColor: "rgba(255,255,255,0.3)",
+            padding: "5px 5px 0px",
           }}
         >
           {this.props.legendTitle}
