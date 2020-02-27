@@ -170,9 +170,9 @@ export default function ConfirmedCaseVisual(props) {
           type: isMobile ? "bar" : "donut",
           groups: isMobile
             ? [
-                ["male", "female"].map(gender =>
-                  t(`dashboard.gender_${WarsCaseData[gender].fieldValue}`)
-                ),
+                ["male", "female"].map(gender => [
+                  t(`dashboard.gender_${WarsCaseData[gender].fieldValue}`),
+                ]),
               ]
             : undefined,
         }}
