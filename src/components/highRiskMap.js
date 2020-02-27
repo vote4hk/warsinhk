@@ -21,7 +21,7 @@ import findIndex from "lodash/findIndex"
 import { withTheme } from "@material-ui/core/styles"
 import IconButton from "@material-ui/core/IconButton"
 import DateRangeIcon from "@material-ui/icons/DateRange"
-import BarChartIcon from "@material-ui/icons/BarChart"
+import NotListedLocationIcon from "@material-ui/icons/NotListedLocationRounded"
 import { trackCustomEvent } from "gatsby-plugin-google-analytics"
 import styled, { createGlobalStyle } from "styled-components"
 import { bps } from "@/ui/theme"
@@ -42,6 +42,13 @@ ${bps.down("sm")} {
 const DateButton = styled(IconButton)`
   padding: 0;
   margin-left: 8px;
+`
+
+const LegendContainer = styled.table`
+  margin: 8px 10px;
+  td:first-child {
+    padding-right: 8px;
+  }
 `
 
 class HighRiskMap extends Component {
@@ -152,18 +159,18 @@ class HighRiskMap extends Component {
 
   initMarkerMappings() {
     this.iconMappings = {
-      home_confinees: this.icons.homeConfineesMarker,
-      home_confinees_pass14days: this.icons.fadedHomeConfineesMarker,
       confirmed_case: this.icons.confirmedCaseMarker,
-      confirmed_case_pass14days: this.icons.fadedConfirmedCaseMarker,
-      clinic: this.icons.clinicMarker,
+      home_confinees: this.icons.homeConfineesMarker,
       quarantine: this.icons.quarantineMarker,
+      // home_confinees_pass14days: this.icons.fadedHomeConfineesMarker,
+      // confirmed_case_pass14days: this.icons.fadedConfirmedCaseMarker,
+      // clinic: this.icons.clinicMarker,
     }
   }
 
   renderLegend() {
     return (
-      <table>
+      <LegendContainer>
         <tbody>
           {Object.keys(this.iconMappings)
             .map(k => [k, this.iconMappings[k]])
@@ -195,7 +202,7 @@ class HighRiskMap extends Component {
               )
             )}
         </tbody>
-      </table>
+      </LegendContainer>
     )
   }
 
@@ -403,9 +410,9 @@ class HighRiskMap extends Component {
             <div
               style={{
                 position: "absolute",
-                background: "rgba(255,255,255,0.3)",
-                bottom: 18,
-                left: 10,
+                background: "rgba(255,255,255,0.8)",
+                bottom: "64px",
+                right: 0,
                 zIndex: 500,
                 pointerEvents: "none",
               }}
@@ -416,8 +423,8 @@ class HighRiskMap extends Component {
           <div
             style={{
               position: "absolute",
-              top: "calc(50% - 25px)",
-              right: 10,
+              bottom: "16px",
+              right: 0,
               zIndex: 501,
             }}
           >
@@ -432,7 +439,7 @@ class HighRiskMap extends Component {
                 this.setState({ showLegend: !this.state.showLegend })
               }}
             >
-              <BarChartIcon />
+              <NotListedLocationIcon />
             </IconButton>
           </div>
         </div>
