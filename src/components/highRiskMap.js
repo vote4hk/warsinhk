@@ -160,10 +160,10 @@ class HighRiskMap extends Component {
   initMarkerMappings() {
     this.iconMappings = {
       confirmed_case: this.icons.confirmedCaseMarker,
+      confirmed_case_pass14days: this.icons.fadedConfirmedCaseMarker,
       home_confinees: this.icons.homeConfineesMarker,
+      home_confinees_pass14days: this.icons.fadedHomeConfineesMarker,
       quarantine: this.icons.quarantineMarker,
-      // home_confinees_pass14days: this.icons.fadedHomeConfineesMarker,
-      // confirmed_case_pass14days: this.icons.fadedConfirmedCaseMarker,
       // clinic: this.icons.clinicMarker,
     }
   }
@@ -410,7 +410,7 @@ class HighRiskMap extends Component {
             <div
               style={{
                 position: "absolute",
-                background: "rgba(255,255,255,0.8)",
+                background: "rgba(255,255,255,0.9)",
                 bottom: "64px",
                 right: 0,
                 zIndex: 500,
