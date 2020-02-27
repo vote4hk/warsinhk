@@ -21,6 +21,7 @@ import findIndex from "lodash/findIndex"
 import { withTheme } from "@material-ui/core/styles"
 import IconButton from "@material-ui/core/IconButton"
 import DateRangeIcon from "@material-ui/icons/DateRange"
+import BarChartIcon from "@material-ui/icons/BarChart"
 import { trackCustomEvent } from "gatsby-plugin-google-analytics"
 import styled, { createGlobalStyle } from "styled-components"
 import { bps } from "@/ui/theme"
@@ -69,6 +70,8 @@ class HighRiskMap extends Component {
       activeDataPoint: undefined,
       dataPointRendered: null,
       showDatePicker: false,
+      legend: null,
+      showLegend: true,
     }
     this.cache = new CellMeasurerCache({
       defaultHeight: 50,
@@ -147,21 +150,62 @@ class HighRiskMap extends Component {
     }
   }
 
-  mapPinTypeToMarker = (pinType, allPass14days) => {
-    const mapping = allPass14days
-      ? {
-          home_confinees: this.icons.fadedHomeConfineesMarker,
-          confirmed_case: this.icons.fadedConfirmedCaseMarker,
-        }
-      : {
-          home_confinees: this.icons.homeConfineesMarker,
-          confirmed_case: this.icons.confirmedCaseMarker,
-          clinic: this.icons.clinicMarker,
-          quarantine: this.icons.quarantineMarker,
-        }
+  initMarkerMappings() {
+    this.iconMappings = {
+      home_confinees: this.icons.homeConfineesMarker,
+      home_confinees_pass14days: this.icons.fadedHomeConfineesMarker,
+      confirmed_case: this.icons.confirmedCaseMarker,
+      confirmed_case_pass14days: this.icons.fadedConfirmedCaseMarker,
+      clinic: this.icons.clinicMarker,
+      quarantine: this.icons.quarantineMarker,
+    }
+  }
 
-    if (!mapping[pinType]) return this.icons.defaultMarker
-    return mapping[pinType]
+  renderLegend() {
+    return (
+      <table>
+        <tbody>
+          {Object.keys(this.iconMappings)
+            .map(k => [k, this.iconMappings[k]])
+            .map(
+              ([
+                key,
+                {
+                  options: {
+                    className,
+                    iconUrl,
+                    iconSize: [width, height],
+                  },
+                },
+              ]) => (
+                <tr key={key}>
+                  <td>
+                    {
+                      <img
+                        className={className}
+                        src={iconUrl}
+                        width={width / 2}
+                        height={height / 2}
+                        alt={key}
+                      />
+                    }
+                  </td>
+                  <td>{this.props.t(`high_risk_map_legend.${key}`)}</td>
+                </tr>
+              )
+            )}
+        </tbody>
+      </table>
+    )
+  }
+
+  mapPinTypeToMarker = (pinType, allPass14days) => {
+    const type = allPass14days ? `${pinType}_pass14days` : pinType
+    if (!this.iconMappings[type]) {
+      console.log(type)
+      return this.icons.defaultMarker
+    }
+    return this.iconMappings[type]
   }
 
   dataPointToMarker = highRiskLocation => {
@@ -233,6 +277,8 @@ class HighRiskMap extends Component {
   // Leaflet related Initializations need to be wrapped inside CDM (Leaflet requires window to be rendered)
   componentDidMount() {
     this.initialIcons()
+    this.initMarkerMappings()
+    this.setState({ legend: this.renderLegend() })
     this.popupContainer = document.createElement("div")
     this.PopUpContent = ({ children }) =>
       ReactDom.createPortal(children, this.popupContainer)
@@ -336,7 +382,6 @@ class HighRiskMap extends Component {
       >
         <LeafletStyleOverride />
         <div
-          ref={el => (this.mapContainer = el)}
           style={{
             position: "absolute",
             top: 0,
@@ -345,7 +390,43 @@ class HighRiskMap extends Component {
             right: 0,
             zIndex: 0,
           }}
-        ></div>
+        >
+          <div
+            ref={el => (this.mapContainer = el)}
+            style={{ width: "100%", height: "100%" }}
+          />
+
+          {this.state.showLegend && (
+            <div
+              style={{
+                position: "absolute",
+                bottom: 30,
+                right: 10,
+                zIndex: 500,
+                pointerEvents: "auto",
+              }}
+            >
+              {this.state.legend}
+            </div>
+          )}
+          <div
+            style={{ position: "absolute", top: "calc(50% - 25px)", right: 10, zIndex: 501 }}
+          >
+            <IconButton
+              color={this.state.showLegend ? "secondary" : "primary"}
+              onClick={() => {
+                trackCustomEvent({
+                  category: "high_risk_map",
+                  action: "toggle_legend",
+                  label: this.state.showLegend ? "enable" : "disable",
+                })
+                this.setState({ showLegend: !this.state.showLegend })
+              }}
+            >
+              <BarChartIcon />
+            </IconButton>
+          </div>
+        </div>
         <div
           style={{
             position: "absolute",
