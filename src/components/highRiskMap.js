@@ -406,7 +406,7 @@ class HighRiskMap extends Component {
                 bottom: 30,
                 right: 10,
                 zIndex: 500,
-                pointerEvents: "auto",
+                pointerEvents: "none",
               }}
             >
               {this.state.legend}
