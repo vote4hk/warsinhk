@@ -344,6 +344,9 @@ class HighRiskMap extends Component {
       this.updateLocationMarkers(this.props.filteredLocations)
       this.resetMapViewPort()
     }
+    if (prevProps.language !== this.props.language) {
+      this.setState({ legend: this.renderLegend() })
+    }
   }
   resetMapViewPort = () => {
     const bounds = this.props.filteredLocations
@@ -410,7 +413,12 @@ class HighRiskMap extends Component {
             </div>
           )}
           <div
-            style={{ position: "absolute", top: "calc(50% - 25px)", right: 10, zIndex: 501 }}
+            style={{
+              position: "absolute",
+              top: "calc(50% - 25px)",
+              right: 10,
+              zIndex: 501,
+            }}
           >
             <IconButton
               color={this.state.showLegend ? "secondary" : "primary"}

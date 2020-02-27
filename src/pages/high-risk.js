@@ -339,6 +339,7 @@ const HighRiskPage = ({ data }) => {
           {({ width, height }) => (
             <HighRiskMap
               t={t}
+              language={i18n.language}
               getTranslated={(node, key) => withLanguage(i18n, node, key)}
               filteredLocations={filteredOptionsWithDate.map(i => i.node)}
               height={height}
