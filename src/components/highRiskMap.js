@@ -403,8 +403,9 @@ class HighRiskMap extends Component {
             <div
               style={{
                 position: "absolute",
-                bottom: 30,
-                right: 10,
+                background: "rgba(255,255,255,0.3)",
+                bottom: 18,
+                left: 10,
                 zIndex: 500,
                 pointerEvents: "none",
               }}
