@@ -1,5 +1,6 @@
 import React from "react"
 import * as d3 from "d3"
+import { legendColor } from "d3-svg-legend"
 import hk18DistrictGeoJson from "./hk18districts.json"
 
 const colorList = [
@@ -8,11 +9,39 @@ const colorList = [
   "#ffad91",
   "#ec7d58",
   "#b53232",
-  "#b53232",
-  "#ec7d58",
-  "#9e2527",
-  "#5c0608",
+  // "#b53232",
+  // "#ec7d58",
+  // "#9e2527",
+  // "#5c0608",
 ]
+
+const legendColumn = container => scale => {
+  const legend = legendColor
+    .apply(d3)
+    .labelFormat(d3.format("d"))
+    .labelDelimiter("-")
+    .scale(scale)
+    .shapeWidth(12)
+    .shapeHeight(12)
+    .labels(({ i, generatedLabels, range }) => {
+      const oriLabel = generatedLabels[i]
+      const [start, end] = oriLabel.match(/\d+/g)
+      return `${i === 0 ? +start + 1 : start} - ${
+        i < generatedLabels.length - 1 ? +end - 1 : end
+      }`
+    })
+
+  const svg = d3.select(container)
+  svg.append("g").attr("class", "legend")
+
+  svg.select(".legend").call(legend)
+  const { width, height } = svg
+    .select(".legend")
+    .node()
+    .getBBox()
+  svg.attr("width", width)
+  svg.attr("height", height)
+}
 
 const dimension = (window && window.innerWidth) || 500
 
@@ -20,9 +49,37 @@ export class HK18DistrictChart extends React.Component {
   static defaultProps = {
     districtNodeDrawer: () => undefined,
     getDescriptionByDistrictName: () => "",
+    legendTitle: null,
+    legendShapeSize: 12,
     getColorer: ele => d3.scaleQuantize(ele.props.scale, colorList),
   }
 
+  appendLegend = scale => {
+    const legendMaker = legendColor
+      .apply(d3)
+      .labelFormat(d3.format("d"))
+      .labelDelimiter("-")
+      .scale(scale)
+      .shapeWidth(this.props.legendShapeSize)
+      .shapeHeight(this.props.legendShapeSize)
+      .labels(({ i, generatedLabels, range }) => {
+        const oriLabel = generatedLabels[i]
+        const [start, end] = oriLabel.match(/\d+/g)
+        return `${i === 0 ? +start + 1 : start} - ${
+          i < generatedLabels.length - 1 ? +end - 1 : end
+        }`
+      })
+    const svg = d3.select(this.legendContainer)
+    svg.append("g").attr("class", "legend")
+
+    svg.select(".legend").call(legendMaker)
+    const { width, height } = svg
+      .select(".legend")
+      .node()
+      .getBBox()
+    svg.attr("width", width)
+    svg.attr("height", height)
+  }
   updateGraph() {
     const svg = d3.select(this.svgContainer)
     const projection = d3.geoMercator().fitExtent(
@@ -78,6 +135,7 @@ export class HK18DistrictChart extends React.Component {
       })
 
     this.props.districtNodeDrawer(d3DistrictPathNode)
+    this.appendLegend(color)
   }
   initSimpleTooltip() {
     this.tooltip = d3
@@ -104,11 +162,34 @@ export class HK18DistrictChart extends React.Component {
   }
   render() {
     return (
-      <svg
-        ref={el => (this.svgContainer = el)}
-        viewBox={`0 0 ${dimension} ${dimension}`}
-        xmlns="http://www.w3.org/2000/svg"
-      ></svg>
+      <div
+        ref={el => (this.graphContainer = el)}
+        style={{ position: "relative" }}
+      >
+        <svg
+          ref={el => (this.svgContainer = el)}
+          viewBox={`0 0 ${dimension} ${dimension}`}
+          xmlns="http://www.w3.org/2000/svg"
+        ></svg>
+        <div
+          style={{
+            position: "absolute",
+            pointerEvents: "none",
+            fontSize: 12,
+            bottom: "5%",
+            right: 0,
+            backgroundColor: "rgba(255,255,255,0.3)",
+            padding: "5px 5px 0px",
+          }}
+        >
+          {this.props.legendTitle}
+          <svg
+            ref={el => (this.legendContainer = el)}
+            xmlns="http://www.w3.org/2000/svg"
+            width="100"
+          ></svg>
+        </div>
+      </div>
     )
   }
 }
