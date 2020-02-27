@@ -84,7 +84,7 @@ const SourceRow = styled(Box)`
   display: flex;
   justify-content: flex-start;
   margin-top: 8px;
-  font-size: ${props => props.theme.typography.smallFontSize};
+  font-size: ${props => props.theme.typography.smallFontSize}px;
 `
 const WarsCaseTrack = ({ i18n, t, track }) => {
   return (
