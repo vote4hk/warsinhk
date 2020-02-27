@@ -88,6 +88,7 @@
   "dashboard.total": "Total",
   "dashboard.immd_remark": "Last update: {{to}}（Compared to {{from}})",
   "cases.title": "Cases",
+  "cases_visual.legendTitle": "No. cases",
   "cases_visual.distribution": "Confirmed cases in 18 districts",
   "cases_visual.gender": "Gender",
   "cases_visual.citizen": "Place of residence",
