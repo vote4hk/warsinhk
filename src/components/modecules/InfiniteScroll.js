@@ -2,9 +2,11 @@ import React, { useState, useEffect, Fragment } from "react"
 import { useMediaQuery } from "@material-ui/core"
 import { bps } from "@/ui/theme"
 import PropTypes from "prop-types"
+import { useTranslation } from "react-i18next"
 
 const InfiniteScroll = ({ list, onItem, step }) => {
   const { mobile = 5, desktop = 20, preload = 5 } = step
+  const { i18n } = useTranslation()
   const isMobile = useMediaQuery(bps.down("md"))
   const [itemSize, setItemSize] = useState(preload)
   const [loadMore, setLoadMore] = useState(false)
@@ -39,7 +41,7 @@ const InfiniteScroll = ({ list, onItem, step }) => {
         .filter((_, i) => i < itemSize)
         .map((item, i) => <Fragment key={i}>{onItem(item, i)}</Fragment>),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [list, itemSize]
+    [list, itemSize, i18n.language]
   )
   return <>{elements}</>
 }
