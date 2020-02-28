@@ -27,17 +27,20 @@ const CentreRow = styled.div`
 `
 
 const LinkBox = styled(Box)`
-  button {
+  button,
+  a {
     margin-right: 16px;
     margin-top: 8px;
   }
 `
 const Contributor = ({ githubId }) => {
-  const url = `https://avatars.githubusercontent.com/${githubId}?v=4&s=${120}`
   return (
     <Link href={`https://github.com/${githubId}`} target="_blank">
       <CentreRow>
-        <Image src={url} />
+        <Image
+          src={`https://avatars.githubusercontent.com/${githubId}?v=4&s=120`}
+          loading="lazy"
+        />
         <Typography variant="h5">{githubId}</Typography>
       </CentreRow>
     </Link>
@@ -49,6 +52,7 @@ const Volunteer = ({ siteUrl, item: { id, name } }) => {
   return (
     <CentreRow>
       <Image
+        loading="lazy"
         src={`${baseUrl}/${id}.jpg`}
         onError={e => (e.target.src = `${baseUrl}/default.jpg`)}
       />
@@ -60,6 +64,22 @@ const Volunteer = ({ siteUrl, item: { id, name } }) => {
 const AboutUsPage = props => {
   const { data } = props
   const { t } = useTranslation()
+
+  const contributors = React.useMemo(
+    () =>
+      []
+        .concat(data.configJson.credits.contributors)
+        .sort((a, b) => (a > b ? 1 : -1)),
+    [data.configJson.credits]
+  )
+
+  const volunteers = React.useMemo(
+    () =>
+      []
+        .concat(data.configJson.credits.volunteers)
+        .sort((a, b) => (a.name > b.name ? 1 : -1)),
+    [data.configJson.credits.volunteers]
+  )
 
   return (
     <Layout>
@@ -90,13 +110,15 @@ const AboutUsPage = props => {
             color="primary"
             size="small"
             startIcon={<FaFacebookF size="0.8rem" />}
+            href="https://www.facebook.com/vote4hongkong/"
+            target="_blank"
+            rel="noopener noreferer"
             onClick={() => {
               trackCustomEvent({
                 category: "about_us",
                 action: "click",
                 label: "https://www.facebook.com/vote4hongkong/",
               })
-              window.open("https://www.facebook.com/vote4hongkong/")
             }}
           >
             {t("about_us.vote4hk_fb")}
@@ -115,13 +137,15 @@ const AboutUsPage = props => {
                 color="primary"
                 size="small"
                 startIcon={mapIcon("attach_money")}
+                href="https://www.collaction.hk/s/g0vhk/fund"
+                target="_blank"
+                rel="noopener noreferer"
                 onClick={() => {
                   trackCustomEvent({
                     category: "about_us",
                     action: "click",
                     label: "https://www.collaction.hk/s/g0vhk/fund",
                   })
-                  window.open("https://www.collaction.hk/s/g0vhk/fund")
                 }}
               >
                 {t("about_us.donate_g0vhk")}
@@ -139,13 +163,15 @@ const AboutUsPage = props => {
                 color="primary"
                 size="small"
                 startIcon={mapIcon("attach_money")}
+                href="https://www.collaction.hk/s/station/fund"
+                target="_blank"
+                rel="noopener noreferer"
                 onClick={() => {
                   trackCustomEvent({
                     category: "about_us",
                     action: "click",
                     label: "https://www.collaction.hk/s/station/fund",
                   })
-                  window.open("https://www.collaction.hk/s/station/fund")
                 }}
               >
                 {t("about_us.donate_sooc")}
@@ -174,13 +200,15 @@ const AboutUsPage = props => {
               color="primary"
               size="small"
               startIcon={<FaGithubAlt />}
+              href="https://github.com/nandiheath/warsinhk"
+              target="_blank"
+              rel="noopener noreferer"
               onClick={() => {
                 trackCustomEvent({
                   category: "about_us",
                   action: "click",
                   label: "https://github.com/nandiheath/warsinhk",
                 })
-                window.open("https://github.com/nandiheath/warsinhk")
               }}
             >
               {t("about_us.github")}
@@ -190,15 +218,15 @@ const AboutUsPage = props => {
               color="secondary"
               size="small"
               startIcon={mapIcon("insert_drive_file")}
+              href="https://docs.google.com/spreadsheets/d/e/2PACX-1vT6aoKk3iHmotqb5_iHggKc_3uAA901xVzwsllmNoOpGgRZ8VAA3TSxK6XreKzg_AUQXIkVX5rqb0Mo/pub?gid=0&range=A2:ZZ"
+              target="_blank"
+              rel="noopener noreferer"
               onClick={() => {
                 trackCustomEvent({
                   category: "about_us",
                   action: "click",
                   label: "high_risk_source_data",
                 })
-                window.open(
-                  "https://docs.google.com/spreadsheets/d/e/2PACX-1vT6aoKk3iHmotqb5_iHggKc_3uAA901xVzwsllmNoOpGgRZ8VAA3TSxK6XreKzg_AUQXIkVX5rqb0Mo/pub?gid=0&range=A2:ZZ"
-                )
               }}
             >
               {t("about_us.high_risk")}
@@ -208,15 +236,15 @@ const AboutUsPage = props => {
               color="secondary"
               size="small"
               startIcon={mapIcon("insert_drive_file")}
+              href="https://docs.google.com/spreadsheets/d/e/2PACX-1vSr2xYotDgnAq6bqm5Nkjq9voHBKzKNWH2zvTRx5LU0jnpccWykvEF8iB_0g7Tzo2pwzkTuM3ETlr_h/pub?gid=0&range=A2:ZZ"
+              target="_blank"
+              rel="noopener noreferer"
               onClick={() => {
                 trackCustomEvent({
                   category: "about_us",
                   action: "click",
                   label: "wars_cases_source_data",
                 })
-                window.open(
-                  "https://docs.google.com/spreadsheets/d/e/2PACX-1vSr2xYotDgnAq6bqm5Nkjq9voHBKzKNWH2zvTRx5LU0jnpccWykvEF8iB_0g7Tzo2pwzkTuM3ETlr_h/pub?gid=0&range=A2:ZZ"
-                )
               }}
             >
               {t("about_us.wars_cases")}
@@ -226,28 +254,24 @@ const AboutUsPage = props => {
         <SessionWrapper>
           <Typography variant="h2">{t("about_us.volunteers")}</Typography>
           <Grid container spacing={1} style={{ marginTop: 8 }}>
-            {data.configJson.credits.volunteers
-              .sort((a, b) => (a.name > b.name ? 1 : -1))
-              .map(item => (
-                <Grid item key={item.id} xs={6} md={4}>
-                  <Volunteer
-                    item={item}
-                    siteUrl={data.site.siteMetadata.siteUrl}
-                  />
-                </Grid>
-              ))}
+            {volunteers.map(item => (
+              <Grid item key={item.id} xs={6} md={4}>
+                <Volunteer
+                  item={item}
+                  siteUrl={data.site.siteMetadata.siteUrl}
+                />
+              </Grid>
+            ))}
           </Grid>
           <Typography variant="h2" style={{ marginTop: 16 }}>
             {t("about_us.contributors")}
           </Typography>
           <Grid container spacing={1} style={{ marginTop: 8 }}>
-            {data.configJson.credits.contributors
-              .sort((a, b) => (a > b ? 1 : -1))
-              .map(item => (
-                <Grid item xs={6} md={4} key={item}>
-                  <Contributor githubId={item} />
-                </Grid>
-              ))}
+            {contributors.map(item => (
+              <Grid item xs={6} md={4} key={item}>
+                <Contributor githubId={item} />
+              </Grid>
+            ))}
           </Grid>
         </SessionWrapper>
       </SplitWrapper>

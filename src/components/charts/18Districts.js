@@ -15,6 +15,7 @@ const colorList = [
   // "#5c0608",
 ]
 
+// eslint-disable-next-line no-unused-vars
 const legendColumn = container => scale => {
   const legend = legendColor
     .apply(d3)
