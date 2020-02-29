@@ -257,6 +257,7 @@ class HighRiskMap extends Component {
     const markers = dataPoints.map(this.dataPointToMarker)
     this.markersById = keyBy(markers, "options.id")
     this.pixiContainer.removeChildren()
+    let x,y,target;
     markers.forEach(marker => {
       if (!this.textureResources[marker.options.pinType]) {
         console.log(marker.options.pinType, "resource not found")
@@ -269,8 +270,17 @@ class HighRiskMap extends Component {
       sprite.anchor.set(0.5, 1)
       sprite.interactive = true
       if (marker.options.fade) sprite.alpha = 0.5
-      sprite.on("pointerdown", e => {
-        setTimeout(marker.options.activeHandler, 16)
+      sprite.on("pointerdown", (e) => {
+        x=e.data.global.x;
+        y=e.data.global.y;
+        target = e.target;
+      })
+
+      sprite.on("pointerup", e => {
+        if (e.target === target && e.data.global.x === x && e.data.global.y===y) {
+          debugger;
+          setTimeout(marker.options.activeHandler, 16)
+        }
       })
       this.pixiContainer.addChild(sprite)
     })
