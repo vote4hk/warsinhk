@@ -5,12 +5,7 @@ import {
   mapColorForClassification,
   mapColorForStatus,
 } from "@/utils/colorHelper"
-
-const StyledContainer = styled(Box)`
-  display: grid;
-  grid-template-columns: repeat(8, calc(12.5% - 14px));
-  gap: 16px;
-`
+import _groupBy from "lodash/groupBy"
 
 const StyledBox = styled(Box)`
   position: relative;
@@ -49,6 +44,19 @@ const StyledBox = styled(Box)`
     border-bottom-color: #f5f5f6;
   }
 `
+const WarsGroupContainer = styled(Box)`
+  margin-bottom: 16px;
+`
+
+const GroupHeader = styled(Box)`
+  margin-bottom: 4px;
+`
+
+const StyledContainer = styled(Box)`
+  display: grid;
+  grid-template-columns: repeat(8, calc(12.5% - 14px));
+  gap: 16px;
+`
 
 export const WarsCaseBox = React.forwardRef((props, ref) => {
   const {
@@ -66,11 +74,23 @@ export const WarsCaseBox = React.forwardRef((props, ref) => {
 
 export const WarsCaseBoxContainer = React.forwardRef((props, ref) => {
   const { filteredCases } = props
+
+  const groupedCases = _groupBy(filteredCases, "node.confirmation_date")
+
   return (
-    <StyledContainer>
-      {filteredCases.map(filteredCase => (
-        <WarsCaseBox cases={filteredCase} />
-      ))}
-    </StyledContainer>
+    <>
+      {Object.keys(groupedCases).map(key => {
+        return (
+          <WarsGroupContainer>
+            <GroupHeader>{key}</GroupHeader>
+            <StyledContainer>
+              {groupedCases[key].map(cases => (
+                <WarsCaseBox cases={cases} />
+              ))}
+            </StyledContainer>
+          </WarsGroupContainer>
+        )
+      })}
+    </>
   )
 })
