@@ -9,7 +9,6 @@ import MuiLink from "@material-ui/core/Link"
 import { Link } from "gatsby"
 import { withLanguage, getLocalizedPath } from "@/utils/i18n"
 import { UnstyledRow } from "@components/atoms/Row"
-import HighRiskMap from "@components/highRiskMap"
 import Grid from "@material-ui/core/Grid"
 import { makeStyles } from "@material-ui/core/styles"
 import AutoSizer from "react-virtualized/dist/es/AutoSizer"
@@ -21,7 +20,11 @@ import { trackCustomEvent } from "gatsby-plugin-google-analytics"
 import { createDedupOptions, filterByDate } from "@/utils/search"
 import MultiPurposeSearch from "../components/modecules/MultiPurposeSearch"
 import { grey } from "@material-ui/core/colors"
-import { formatDateDDMM } from "@/utils"
+import { formatDateDDMM, isSSR } from "@/utils"
+
+const HighRiskMap = React.lazy(() =>
+  import(/* webpackPrefetch: true */ "@components/highRiskMap")
+)
 
 const colors = d3.scaleOrdinal(d3.schemeDark2).domain([0, 1, 2, 3, 4])
 
@@ -327,49 +330,54 @@ const HighRiskPage = ({ data }) => {
     <Layout>
       <SEO title="HighRiskPage" />
       <div className={fullPageContent}>
-        <AutoSizer>
-          {({ width, height }) => (
-            <HighRiskMap
-              t={t}
-              language={i18n.language}
-              getTranslated={(node, key) => withLanguage(i18n, node, key)}
-              filteredLocations={filteredOptionsWithDate.map(i => i.node)}
-              height={height}
-              width={width}
-              dateFilterEnabled={searchStartDate && searchEndDate}
-              datePicker={
-                <DatePicker
-                  startDate={searchStartDate}
-                  endDate={searchEndDate}
-                  setSearchStartDate={setSearchStartDate}
-                  setSearchEndDate={setSearchEndDate}
-                />
-              }
-              selectBar={
-                <MultiPurposeSearch
-                  list={groupedLocations}
-                  placeholder={t("search.placeholder")}
-                  options={options}
-                  searchKey="high_risk"
-                  onListFiltered={list => {
-                    setFilteredLocations(list)
+        {/* SSR do not show the map */}
+        {!isSSR() && (
+          <AutoSizer>
+            {({ width, height }) => (
+              <React.Suspense fallback={<div />}>
+                <HighRiskMap
+                  t={t}
+                  language={i18n.language}
+                  getTranslated={(node, key) => withLanguage(i18n, node, key)}
+                  filteredLocations={filteredOptionsWithDate.map(i => i.node)}
+                  height={height}
+                  width={width}
+                  dateFilterEnabled={searchStartDate && searchEndDate}
+                  datePicker={
+                    <DatePicker
+                      startDate={searchStartDate}
+                      endDate={searchEndDate}
+                      setSearchStartDate={setSearchStartDate}
+                      setSearchEndDate={setSearchEndDate}
+                    />
+                  }
+                  selectBar={
+                    <MultiPurposeSearch
+                      list={groupedLocations}
+                      placeholder={t("search.placeholder")}
+                      options={options}
+                      searchKey="high_risk"
+                      onListFiltered={list => {
+                        setFilteredLocations(list)
+                      }}
+                    />
+                  }
+                  renderCard={({ node, isActive }) => {
+                    return (
+                      <HighRiskCardItem
+                        key={node.id}
+                        node={{ node }}
+                        i18n={i18n}
+                        t={t}
+                        isActive={isActive}
+                      />
+                    )
                   }}
-                />
-              }
-              renderCard={({ node, isActive }) => {
-                return (
-                  <HighRiskCardItem
-                    key={node.id}
-                    node={{ node }}
-                    i18n={i18n}
-                    t={t}
-                    isActive={isActive}
-                  />
-                )
-              }}
-            ></HighRiskMap>
-          )}
-        </AutoSizer>
+                ></HighRiskMap>
+              </React.Suspense>
+            )}
+          </AutoSizer>
+        )}
       </div>
     </Layout>
   )
