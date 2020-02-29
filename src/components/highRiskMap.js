@@ -148,7 +148,6 @@ class HighRiskMap extends Component {
                 closeOnClick: false,
                 closeButton: false,
                 closeOnEscapeKey: false,
-              })
             this.pixiLayer.redraw()
           })
         }
@@ -268,7 +267,6 @@ class HighRiskMap extends Component {
       sprite._latlng = marker._latlng
       sprite.anchor.set(0.5, 1)
       sprite.interactive = true
-
       if (marker.options.fade) sprite.alpha = 0.5
       sprite.on("pointerdown", e => {
         setTimeout(marker.options.activeHandler, 16)
