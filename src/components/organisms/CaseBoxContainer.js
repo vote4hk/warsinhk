@@ -5,7 +5,9 @@ import {
   mapColorForClassification,
   mapColorForStatus,
 } from "@/utils/colorHelper"
-import _groupBy from "lodash/groupBy"
+import _get from "lodash/get"
+import _uniq from "lodash/uniq"
+import * as moment from "moment"
 
 const StyledBox = styled(Box)`
   position: relative;
@@ -75,22 +77,56 @@ export const WarsCaseBox = React.forwardRef((props, ref) => {
 export const WarsCaseBoxContainer = React.forwardRef((props, ref) => {
   const { filteredCases } = props
 
-  const groupedCases = _groupBy(filteredCases, "node.confirmation_date")
+  // Grouping Logic:
+  // 1. descending chronological order
+  // 2. First row: Most recent date's case
+  // 3. Other rows: Every 7 days a row eg. Feb 22- Feb 28, Feb 15 - Feb 21 etc
+  const lastConfirmedDate = _get(
+    filteredCases,
+    "[0].node.confirmation_date",
+    ""
+  )
+  const caseStartDate = moment("2020-01-21")
+
+  const dateMap = {
+    [lastConfirmedDate]: lastConfirmedDate,
+  }
+  let date = moment(lastConfirmedDate).add(-1, "day")
+  let count = 0
+  let dateLabel = ""
+  while (date.isAfter(caseStartDate)) {
+    if (count % 7 === 0) {
+      dateLabel = `${date.format("YYYY-MM-DD")} - ${moment(date)
+        .add(-7, "days")
+        .format("YYYY-MM-DD")}`
+    }
+    dateMap[date.format("YYYY-MM-DD")] = dateLabel
+    count++
+    date = date.add(-1, "day")
+  }
+  const dates = _uniq(Object.values(dateMap))
 
   return (
     <>
-      {Object.keys(groupedCases).map(key => {
-        return (
-          <WarsGroupContainer>
-            <GroupHeader>{key}</GroupHeader>
-            <StyledContainer>
-              {groupedCases[key].map(cases => (
-                <WarsCaseBox cases={cases} />
-              ))}
-            </StyledContainer>
-          </WarsGroupContainer>
-        )
-      })}
+      {dates.map(
+        (dateKey, index) =>
+          filteredCases.filter(
+            ({ node }) => dateMap[node.confirmation_date] === dateKey
+          ).length > 0 && (
+            <WarsGroupContainer>
+              <GroupHeader>{dateKey}</GroupHeader>
+              <StyledContainer>
+                {filteredCases
+                  .filter(
+                    ({ node }) => dateMap[node.confirmation_date] === dateKey
+                  )
+                  .map(cases => (
+                    <WarsCaseBox cases={cases} />
+                  ))}
+              </StyledContainer>
+            </WarsGroupContainer>
+          )
+      )}
     </>
   )
 })
