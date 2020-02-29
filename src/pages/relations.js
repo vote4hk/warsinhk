@@ -14,10 +14,16 @@ import _get from "lodash.get"
 
 const RelationPage = props => {
   const { data } = props
-  const cases = data.allWarsCase.edges.sort(
-    (edge1, edge2) =>
-      parseInt(edge1.node.case_no) - parseInt(edge2.node.case_no)
-  )
+  // Do the sorting here since case_no is string instead of int
+  const cases = data.allWarsCase.edges.sort((edge1, edge2) => {
+    const res = edge2.node.confirmation_date.localeCompare(
+      edge1.node.confirmation_date
+    )
+    if (res === 0) {
+      return parseInt(edge2.node.case_no) - parseInt(edge1.node.case_no)
+    }
+    return res
+  })
   const groupMap = {}
   data.allWarsCaseRelation.edges.forEach(({ node }) => {
     groupMap[node.from_case_no] = {
@@ -69,9 +75,8 @@ const RelationPage = props => {
       options: createDedupOptions(i18n, filteredCases, "hospital"),
     },
   ]
-  console.log(options[0])
+
   const listFilteredHandler = list => {
-    console.log(list.length)
     setFilteredCases(list)
   }
 
@@ -101,10 +106,7 @@ export default RelationPage
 
 export const RelationPageQuery = graphql`
   query {
-    allWarsCase(
-      sort: { order: DESC, fields: case_no }
-      filter: { enabled: { eq: "Y" } }
-    ) {
+    allWarsCase {
       edges {
         node {
           case_no
