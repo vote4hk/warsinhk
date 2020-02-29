@@ -238,20 +238,12 @@ const HighRiskPage = ({ data }) => {
 
   const withinBoderFilter = ({ node }) => node.sub_district_zh !== "境外"
 
-  const today = moment()
-
-  const calculatePass14day = item => {
-    if (item.case_no !== "-") {
-      // Confirmed csases should be faded after 14 days
-      return item.end_date !== "Invalid date" &&
-        today.diff(moment(item.end_date), "d") > 14
-        ? true
-        : false
-    }
-    return item.end_date !== "Invalid date" &&
-      today.diff(moment(item.end_date), "d") > 0
-      ? true
-      : false
+  const nowTimeStamp = new Date();
+  const calculatePass14day = ({case_code, end_date}) => {
+    const endDateTimeStamp = +new Date(end_date);
+    const daysToExpire = case_code === "_" ? 14 : 0;
+    if (Number.isNaN(endDateTimeStamp)) return false;
+    return nowTimeStamp - endDateTimeStamp > 86400 * 1000 * daysToExpire
   }
 
   const mapPinType = item => {
@@ -263,15 +255,16 @@ const HighRiskPage = ({ data }) => {
         return item.type
     }
   }
-
+  
   const groupedLocations = Object.values(
     _groupBy(
       data.allWarsCaseLocation.edges.filter(withinBoderFilter).map(e => {
         const item = e.node
+        const end_date = item.end_date === "Invalid date" ? "" : item.end_date; 
         return {
           ...item,
           start_date: item.start_date === "Invalid date" ? "" : item.start_date,
-          end_date: item.end_date === "Invalid date" ? "" : item.end_date,
+          end_date,
           pass14days: calculatePass14day(item),
           pinType: mapPinType(item),
         }

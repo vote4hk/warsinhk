@@ -2,9 +2,10 @@ import React, { Component } from "react"
 import ReactDom from "react-dom"
 import PropTypes from "prop-types"
 import L from "leaflet"
-import "leaflet.markercluster"
-import "leaflet.markercluster/dist/MarkerCluster.css"
-import "leaflet.markercluster/dist/MarkerCluster.Default.css"
+import "leaflet-pixi-overlay"
+// import "leaflet.markercluster"
+// import "leaflet.markercluster/dist/MarkerCluster.css"
+// import "leaflet.markercluster/dist/MarkerCluster.Default.css"
 import "leaflet/dist/leaflet.css"
 import AutoSizer from "react-virtualized/dist/es/AutoSizer"
 import List from "react-virtualized/dist/es/List"
@@ -25,6 +26,7 @@ import NotListedLocationIcon from "@material-ui/icons/NotListedLocationRounded"
 import { trackCustomEvent } from "gatsby-plugin-google-analytics"
 import styled, { createGlobalStyle } from "styled-components"
 import { bps } from "@/ui/theme"
+import { Loader, Sprite, Container } from "pixi.js"
 
 const limit = 1.5
 
@@ -80,6 +82,7 @@ class HighRiskMap extends Component {
       legend: null,
       showLegend: true,
     }
+    this.loader = new Loader()
     this.cache = new CellMeasurerCache({
       defaultHeight: 50,
       fixedWidth: true,
@@ -139,13 +142,16 @@ class HighRiskMap extends Component {
               }
             )
           const marker = this.markersById[id]
-          if (marker && !marker.isPopupOpen())
+          this.map.once("zoomend", () => {
+            if (marker && !marker.isPopupOpen())
             this.map.openPopup(marker._popup, marker._latlng, {
               autoClose: false,
               closeOnClick: false,
               closeButton: false,
               closeOnEscapeKey: false,
             })
+            this.pixiLayer.redraw()
+          })
         }
       )
     } else {
@@ -166,6 +172,16 @@ class HighRiskMap extends Component {
       quarantine: this.icons.quarantineMarker,
       // clinic: this.icons.clinicMarker,
     }
+    Object.entries(this.iconMappings).forEach(([key, marker]) =>
+      this.loader.add(key, marker.options.iconUrl)
+    )
+    // Load images into GL texture
+    this.textureReady = new Promise(resolve =>
+      this.loader.load((loader, resources) => {
+        this.textureResources = resources
+        resolve()
+      })
+    )
   }
 
   renderLegend() {
@@ -216,36 +232,55 @@ class HighRiskMap extends Component {
   }
 
   dataPointToMarker = highRiskLocation => {
-    const { lat, lng } = highRiskLocation
+    const { lat, lng, pinType, allPass14days } = highRiskLocation
     const activeHandler = this.getActiveHandler(highRiskLocation)
     const marker = L.marker([+lat, +lng], {
-      icon: this.mapPinTypeToMarker(
-        highRiskLocation.pinType,
-        highRiskLocation.allPass14days
-      ),
+      icon: this.mapPinTypeToMarker(pinType, allPass14days),
+      pinType: allPass14days ? `${pinType}_pass14days` : pinType,
       id: highRiskLocation.id,
-    })
-      .bindPopup(
-        `${this.props.getTranslated(
-          highRiskLocation,
-          "sub_district"
-        )}<br /><b style='font-weight:700'>${this.props.getTranslated(
-          highRiskLocation,
-          "location"
-        )}</b>`
-      )
-      .on("click", activeHandler)
+      fade: allPass14days,
+      activeHandler,
+    }).bindPopup(
+      `${this.props.getTranslated(
+        highRiskLocation,
+        "sub_district"
+      )}<br /><b style='font-weight:700'>${this.props.getTranslated(
+        highRiskLocation,
+        "location"
+      )}</b>`
+    )
     return marker
   }
-  updateLocationMarkers(filteredLocations) {
+  async updateLocationMarkers(filteredLocations) {
+    await this.textureReady
     const dataPoints = filteredLocations.filter(i => i.lat && i.lng)
-    this.markerClusterGroup.clearLayers()
+    // this.markerClusterGroup.clearLayers()
     const markers = dataPoints.map(this.dataPointToMarker)
     this.markersById = keyBy(markers, "options.id")
-    this.markerClusterGroup.addLayers(dataPoints.map(this.dataPointToMarker))
+    this.pixiContainer.removeChildren()
+    markers.forEach(marker => {
+      if (!this.textureResources[marker.options.pinType]) {
+        console.log(marker.options.pinType, "resource not found")
+        return
+      }
+      const sprite = new Sprite(
+        this.textureResources[marker.options.pinType].texture
+      )
+      sprite._latlng = marker._latlng
+      sprite.anchor.set(0.5, 1)
+      sprite.interactive = true
+        
+      if (marker.options.fade) sprite.alpha = 0.5
+      sprite.on("pointerdown", e => {
+        setTimeout(marker.options.activeHandler, 16)
+      })
+      this.pixiContainer.addChild(sprite)
+    })
+
+    this.pixiLayer.redraw()
   }
 
-  initialIcons() {
+  initIcons() {
     const defaultMarkerOptions = {
       iconUrl: DefaultMarker,
       iconSize: [30, 30],
@@ -280,15 +315,40 @@ class HighRiskMap extends Component {
       pass14days: L.icon({ ...defaultMarkerOptions, className: "faded" }),
     }
   }
+  initPixiOverlay() {
+    const pixiContainer = new Container()
+    pixiContainer.interactive = true
+    pixiContainer.interactiveChildren = true
+    pixiContainer.buttonMode = true
+    this.pixiContainer = pixiContainer
 
-  // Leaflet related Initializations need to be wrapped inside CDM (Leaflet requires window to be rendered)
-  componentDidMount() {
-    this.initialIcons()
-    this.initMarkerMappings()
-    this.setState({ legend: this.renderLegend() })
-    this.popupContainer = document.createElement("div")
-    this.PopUpContent = ({ children }) =>
-      ReactDom.createPortal(children, this.popupContainer)
+    return L.pixiOverlay(
+      utils => {
+        var zoom = utils.getMap().getZoom()
+        var container = utils.getContainer()
+        var renderer = utils.getRenderer()
+        var project = utils.latLngToLayerPoint
+        var scale = utils.getScale()
+
+        container.children.forEach(item => {
+          const { x, y } = project(item._latlng)
+          item.x = x
+          item.y = y
+          item.scale.set(zoom > 12 ? 1 / scale : 1)
+        })
+        renderer.render(container)
+      },
+      pixiContainer,
+      {
+        padding: 0,
+        clearBeforeRender: false,
+        doubleBuffering:
+          /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream,
+        shouldRedrawOnMove: e => e.flyTo || e.pinch,
+      }
+    )
+  }
+  initMap() {
     this.map = L.map(this.mapContainer, {
       zoomControl: false,
       attributionControl: false,
@@ -310,11 +370,25 @@ class HighRiskMap extends Component {
         ext: "png",
       }
     ).addTo(this.map)
-    this.markerClusterGroup = L.markerClusterGroup({
-      spiderfyOnMaxZoom: false,
-      disableClusteringAtZoom: 11,
-    })
-    this.markerClusterGroup.addTo(this.map)
+    // this.markerClusterGroup = L.markerClusterGroup({
+    //   spiderfyOnMaxZoom: false,
+    //   disableClusteringAtZoom: 11,
+    // })
+    // this.markerClusterGroup.addTo(this.map)
+  }
+  // Leaflet related Initializations need to be wrapped inside CDM (Leaflet requires window to be rendered)
+  componentDidMount() {
+    this.initIcons()
+    this.initMarkerMappings()
+    this.initMap()
+    const pixiLayer = this.initPixiOverlay()
+    pixiLayer.addTo(this.map)
+    this.pixiLayer = pixiLayer
+    this.setState({ legend: this.renderLegend() })
+    this.popupContainer = document.createElement("div")
+    this.PopUpContent = ({ children }) =>
+      ReactDom.createPortal(children, this.popupContainer)
+
     this.updateLocationMarkers(this.props.filteredLocations)
   }
 
