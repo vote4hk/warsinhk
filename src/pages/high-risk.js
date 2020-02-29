@@ -20,7 +20,6 @@ import Theme from "@/ui/theme"
 import { trackCustomEvent } from "gatsby-plugin-google-analytics"
 import { createDedupOptions, filterByDate } from "@/utils/search"
 import MultiPurposeSearch from "../components/modecules/MultiPurposeSearch"
-import moment from "moment"
 import { grey } from "@material-ui/core/colors"
 import { formatDateDDMM } from "@/utils"
 
@@ -238,11 +237,11 @@ const HighRiskPage = ({ data }) => {
 
   const withinBoderFilter = ({ node }) => node.sub_district_zh !== "境外"
 
-  const nowTimeStamp = new Date();
-  const calculatePass14day = ({case_code, end_date}) => {
-    const endDateTimeStamp = +new Date(end_date);
-    const daysToExpire = case_code === "_" ? 14 : 0;
-    if (Number.isNaN(endDateTimeStamp)) return false;
+  const nowTimeStamp = new Date()
+  const calculatePass14day = ({ case_code, end_date }) => {
+    const endDateTimeStamp = +new Date(end_date)
+    const daysToExpire = case_code === "_" ? 14 : 0
+    if (Number.isNaN(endDateTimeStamp)) return false
     return nowTimeStamp - endDateTimeStamp > 86400 * 1000 * daysToExpire
   }
 
@@ -255,12 +254,12 @@ const HighRiskPage = ({ data }) => {
         return item.type
     }
   }
-  
+
   const groupedLocations = Object.values(
     _groupBy(
       data.allWarsCaseLocation.edges.filter(withinBoderFilter).map(e => {
         const item = e.node
-        const end_date = item.end_date === "Invalid date" ? "" : item.end_date; 
+        const end_date = item.end_date === "Invalid date" ? "" : item.end_date
         return {
           ...item,
           start_date: item.start_date === "Invalid date" ? "" : item.start_date,

@@ -36,6 +36,8 @@ const PUBLISHED_SPREADSHEET_BOT_WARS_LATEST_FIGURES_URL =
   "https://docs.google.com/spreadsheets/d/e/2PACX-1vTiCndDnXu6l5ZKq2aAVgU2xM3WGGW68XF-pEbLAloRbOzA1QwglLGJ6gTKjFbLQGhbH6GR2TsJKrO7/pub?gid=0"
 const PUBLISHED_SPREADSHEET_FRIENDLY_LINK_URL =
   "https://docs.google.com/spreadsheets/d/e/2PACX-1vRrwN4gNtogizNkYKGzMXpa7GTNJhE_vkZuYiFraU7f-N7ZKiT-araG-0jb586kczxc9Ua6oht8SVcE/pub?gid=0"
+const PUBLISHED_SPREADSHEET_WARS_CASES_LOCATION_599C_URL =
+  "https://docs.google.com/spreadsheets/d/e/2PACX-1vQcfO-bjeNxNSJ2AFQdv-a855leMyzgO7Q7QXwgCGGmCAx7PwUxgrfcuJM8BLDCQL-nwnt123OZ4_mT/pub?gid=456240224"
 
 const GRAPHQL_URL = "https://api2.vote4.hk/v1/graphql"
 
@@ -206,7 +208,7 @@ const createPublishedGoogleSpreadsheetNode = async (
   { actions: { createNode }, createNodeId, createContentDigest },
   publishedURL,
   type,
-  { skipFirstLine = false, alwaysEnabled = false }
+  { skipFirstLine = false, alwaysEnabled = false, subtype = null }
 ) => {
   // All table has first row reserved
   const result = await fetch(
@@ -224,7 +226,9 @@ const createPublishedGoogleSpreadsheetNode = async (
       // create node for build time data example in the docs
       const meta = {
         // required fields
-        id: createNodeId(`${type.toLowerCase()}-${i}`),
+        id: createNodeId(
+          `${type.toLowerCase()}${subtype ? `-${subtype}` : ""}-${i}`
+        ),
         parent: null,
         children: [],
         internal: {
@@ -232,7 +236,7 @@ const createPublishedGoogleSpreadsheetNode = async (
           contentDigest: createContentDigest(p),
         },
       }
-      const node = Object.assign({}, p, meta)
+      const node = Object.assign({}, { ...p, subtype }, meta)
       createNode(node)
     })
 }
@@ -293,7 +297,19 @@ exports.sourceNodes = async props => {
       props,
       PUBLISHED_SPREADSHEET_WARS_CASES_LOCATION_URL,
       "WarsCaseLocation",
-      { skipFirstLine: true }
+      {
+        skipFirstLine: true,
+        subtype: "default",
+      }
+    ),
+    createPublishedGoogleSpreadsheetNode(
+      props,
+      PUBLISHED_SPREADSHEET_WARS_CASES_LOCATION_599C_URL,
+      "WarsCaseLocation",
+      {
+        skipFirstLine: true,
+        subtype: "599c",
+      }
     ),
     createPublishedGoogleSpreadsheetNode(
       props,
