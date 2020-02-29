@@ -82,7 +82,6 @@ class HighRiskMap extends Component {
       legend: null,
       showLegend: true,
     }
-    this.loader = new Loader()
     this.cache = new CellMeasurerCache({
       defaultHeight: 50,
       fixedWidth: true,
@@ -377,6 +376,7 @@ class HighRiskMap extends Component {
   }
   // Leaflet related Initializations need to be wrapped inside CDM (Leaflet requires window to be rendered)
   componentDidMount() {
+    this.loader = new Loader()
     this.initIcons()
     this.initMarkerMappings()
     this.initMap()

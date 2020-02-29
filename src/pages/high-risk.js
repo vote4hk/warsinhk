@@ -20,7 +20,6 @@ import Theme from "@/ui/theme"
 import { trackCustomEvent } from "gatsby-plugin-google-analytics"
 import { createDedupOptions, filterByDate } from "@/utils/search"
 import MultiPurposeSearch from "../components/modecules/MultiPurposeSearch"
-import moment from "moment"
 import { grey } from "@material-ui/core/colors"
 import { formatDateDDMM } from "@/utils"
 
@@ -328,7 +327,7 @@ const HighRiskPage = ({ data }) => {
     <Layout>
       <SEO title="HighRiskPage" />
       <div className={fullPageContent}>
-        <AutoSizer>
+        <AutoSizer defaultWidth={800} defaultHeight={600}>
           {({ width, height }) => (
             <HighRiskMap
               t={t}

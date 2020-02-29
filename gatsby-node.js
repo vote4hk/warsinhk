@@ -261,7 +261,12 @@ exports.onCreatePage = async ({ page, actions }) => {
 
 exports.onCreateWebpackConfig = ({ stage, loaders, actions }) => {
   if (stage === "build-html") {
-    const regex = [/node_modules\/leaflet/, /node_modules\\leaflet/]
+    const regex = [
+      /node_modules\/leaflet/,
+      /node_modules\\leaflet/,
+      /node_modules\/pixi.js/,
+      /node_modules\\pixi.js/,
+    ]
     actions.setWebpackConfig({
       module: {
         rules: [
