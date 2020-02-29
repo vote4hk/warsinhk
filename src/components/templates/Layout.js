@@ -29,7 +29,7 @@ const StyledResponsiveDrawer = styled(ResponsiveDrawer)`
 `
 
 const Layout = props => {
-  const { children } = props // const { children, hideAlerts } = props
+  const { children, ...rest } = props // const { children, hideAlerts } = props
 
   const { configJson } = useStaticQuery(
     graphql`
@@ -56,7 +56,7 @@ const Layout = props => {
       <StyledResponsiveDrawer
         pages={pageList}
         children={
-          <Container>
+          <Container {...rest}>
             {/* Alert is shown in index page only */}
             {/* {!hideAlerts && <AlertMessage />} */}
             {children}
