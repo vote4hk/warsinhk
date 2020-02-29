@@ -148,6 +148,7 @@ class HighRiskMap extends Component {
                 closeOnClick: false,
                 closeButton: false,
                 closeOnEscapeKey: false,
+              })
             this.pixiLayer.redraw()
           })
         }
