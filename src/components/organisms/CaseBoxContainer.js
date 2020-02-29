@@ -63,11 +63,14 @@ const StyledContainer = styled(Box)`
 export const WarsCaseBox = React.forwardRef((props, ref) => {
   const {
     cases: { node },
+    handleBoxClick,
   } = props
   return (
     <StyledBox
+      className={`wars_box_${node.case_no}`}
       classificationcolor={mapColorForClassification(node.classification).main}
       statuscolor={mapColorForStatus(node.status).main}
+      onClick={e => handleBoxClick(node)}
     >
       {node.case_no}
     </StyledBox>
@@ -75,7 +78,7 @@ export const WarsCaseBox = React.forwardRef((props, ref) => {
 })
 
 export const WarsCaseBoxContainer = React.forwardRef((props, ref) => {
-  const { filteredCases } = props
+  const { filteredCases, handleBoxClick } = props
 
   // Grouping Logic:
   // 1. descending chronological order
@@ -121,7 +124,10 @@ export const WarsCaseBoxContainer = React.forwardRef((props, ref) => {
                     ({ node }) => dateMap[node.confirmation_date] === dateKey
                   )
                   .map(cases => (
-                    <WarsCaseBox cases={cases} />
+                    <WarsCaseBox
+                      cases={cases}
+                      handleBoxClick={handleBoxClick}
+                    />
                   ))}
               </StyledContainer>
             </WarsGroupContainer>
