@@ -9,6 +9,7 @@ import MenuItem from "@material-ui/core/MenuItem"
 
 import { bps } from "@/ui/theme"
 import SEO from "@/components/templates/SEO"
+import styled from "styled-components"
 import Layout from "@components/templates/Layout"
 import { graphql } from "gatsby"
 import MultiPurposeSearch from "@/components/molecules/MultiPurposeSearch"
@@ -59,6 +60,15 @@ const SortedSelect = styled(Select)`
   }
 `
 
+const SelectedCardContainer = styled.div`
+  position: fixed;
+  position: fixed;
+  width: 100%;
+  left: 0;
+  right: 0;
+  bottom: 60px;
+  padding: 0 16px 0;
+`
 const RelationPage = props => {
   const { data } = props
   const {
@@ -332,6 +342,28 @@ export const RelationPageQuery = graphql`
           name_en
           description_zh
           description_en
+        }
+      }
+    }
+    patient_track: allWarsCaseLocation(
+      sort: { order: DESC, fields: end_date }
+    ) {
+      group(field: case___case_no) {
+        fieldValue
+        edges {
+          node {
+            case_no
+            start_date
+            end_date
+            location_zh
+            location_en
+            action_zh
+            action_en
+            remarks_zh
+            remarks_en
+            source_url_1
+            source_url_2
+          }
         }
       }
     }
