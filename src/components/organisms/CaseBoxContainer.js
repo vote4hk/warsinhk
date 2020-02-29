@@ -77,9 +77,8 @@ const GroupHeader = styled(Box)`
 `
 
 const StyledContainer = styled(Box)`
-  display: grid;
-  grid-template-columns: repeat(8, calc(12.5% - 14px));
-  gap: 16px;
+  display: flex;
+  flex-wrap: wrap;
 `
 
 export const WarsCaseBox = React.forwardRef((props, ref) => {
