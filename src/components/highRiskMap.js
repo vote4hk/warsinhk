@@ -82,7 +82,6 @@ class HighRiskMap extends Component {
       legend: null,
       showLegend: true,
     }
-    this.loader = new Loader()
     this.cache = new CellMeasurerCache({
       defaultHeight: 50,
       fixedWidth: true,
@@ -144,12 +143,12 @@ class HighRiskMap extends Component {
           const marker = this.markersById[id]
           this.map.once("zoomend", () => {
             if (marker && !marker.isPopupOpen())
-            this.map.openPopup(marker._popup, marker._latlng, {
-              autoClose: false,
-              closeOnClick: false,
-              closeButton: false,
-              closeOnEscapeKey: false,
-            })
+              this.map.openPopup(marker._popup, marker._latlng, {
+                autoClose: false,
+                closeOnClick: false,
+                closeButton: false,
+                closeOnEscapeKey: false,
+              })
             this.pixiLayer.redraw()
           })
         }
@@ -269,7 +268,6 @@ class HighRiskMap extends Component {
       sprite._latlng = marker._latlng
       sprite.anchor.set(0.5, 1)
       sprite.interactive = true
-        
       if (marker.options.fade) sprite.alpha = 0.5
       sprite.on("pointerdown", e => {
         setTimeout(marker.options.activeHandler, 16)
@@ -341,10 +339,9 @@ class HighRiskMap extends Component {
       pixiContainer,
       {
         padding: 0,
-        clearBeforeRender: false,
+        clearBeforeRender: true,
         doubleBuffering:
           /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream,
-        shouldRedrawOnMove: e => e.flyTo || e.pinch,
       }
     )
   }
@@ -378,11 +375,13 @@ class HighRiskMap extends Component {
   }
   // Leaflet related Initializations need to be wrapped inside CDM (Leaflet requires window to be rendered)
   componentDidMount() {
+    this.loader = new Loader()
     this.initIcons()
     this.initMarkerMappings()
     this.initMap()
     const pixiLayer = this.initPixiOverlay()
     pixiLayer.addTo(this.map)
+    this.map.on("moveend", () => this.pixiLayer.redraw())
     this.pixiLayer = pixiLayer
     this.setState({ legend: this.renderLegend() })
     this.popupContainer = document.createElement("div")
@@ -539,7 +538,7 @@ class HighRiskMap extends Component {
                 deferredMeasurementCache={this.cache}
                 width={width}
                 scrollToIndex={this.state.scrollToIndex || 0}
-                scrollToAlignment="auto"
+                scrollToAlignment="start"
                 activeDataPoint={this.state.activeDataPoint}
               />
             )}

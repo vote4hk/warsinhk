@@ -332,7 +332,7 @@ const HighRiskPage = ({ data }) => {
       <div className={fullPageContent}>
         {/* SSR do not show the map */}
         {!isSSR() && (
-          <AutoSizer>
+          <AutoSizer defaultWidth={800} defaultHeight={600}>
             {({ width, height }) => (
               <React.Suspense fallback={<div />}>
                 <HighRiskMap
