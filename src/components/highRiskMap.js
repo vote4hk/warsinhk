@@ -150,6 +150,7 @@ class HighRiskMap extends Component {
               closeButton: false,
               closeOnEscapeKey: false,
             })
+            this.pixiLayer.redraw()
           })
         }
       )
@@ -315,9 +316,6 @@ class HighRiskMap extends Component {
     }
   }
   initPixiOverlay() {
-    let frame = null
-    let firstDraw = true
-    let prevZoom
     const pixiContainer = new Container()
     pixiContainer.interactive = true
     pixiContainer.interactiveChildren = true
@@ -326,10 +324,6 @@ class HighRiskMap extends Component {
 
     return L.pixiOverlay(
       utils => {
-        if (frame) {
-          cancelAnimationFrame(frame)
-          frame = null
-        }
         var zoom = utils.getMap().getZoom()
         var container = utils.getContainer()
         var renderer = utils.getRenderer()
@@ -340,12 +334,8 @@ class HighRiskMap extends Component {
           const { x, y } = project(item._latlng)
           item.x = x
           item.y = y
-          item.currentScale = item.scale.x
-          item.targetScale = zoom > 12 ? 1 / scale : 1
-          item.scale.set(item.targetScale)
+          item.scale.set(zoom > 12 ? 1 / scale : 1)
         })
-        firstDraw = false
-        prevZoom = zoom
         renderer.render(container)
       },
       pixiContainer,
