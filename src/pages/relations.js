@@ -1,6 +1,7 @@
 import React, { useState } from "react"
 import { useTranslation } from "react-i18next"
 import SEO from "@/components/templates/SEO"
+import styled from "styled-components"
 import Layout from "@components/templates/Layout"
 import Typography from "@material-ui/core/Typography"
 import { graphql } from "gatsby"
@@ -9,9 +10,19 @@ import MultiPurposeSearch from "@/components/modecules/MultiPurposeSearch"
 import { createDedupOptions, createDedupArrayOptions } from "@/utils/search"
 import { PageContent } from "../components/atoms/Container"
 import { WarsCaseBoxContainer } from "@/components/organisms/CaseBoxContainer"
+import { WarsCaseCard } from "@components/organisms/CaseCard"
 import _uniqby from "lodash.uniqby"
 import _get from "lodash.get"
 
+const SelectedCardContainer = styled.div`
+  position: fixed;
+  position: fixed;
+  width: 100%;
+  left: 0;
+  right: 0;
+  bottom: 60px;
+  padding: 0 16px 0;
+`
 const RelationPage = props => {
   const { data } = props
   // Do the sorting here since case_no is string instead of int
@@ -52,6 +63,7 @@ const RelationPage = props => {
     node.group_en = _get(groupMap, `[${node.case_no}].en`, [])
   })
   const [filteredCases, setFilteredCases] = useState(cases)
+  const [selectedCase, setSelectedCase] = useState(null)
   const { i18n, t } = useTranslation()
   const options = [
     {
@@ -80,8 +92,28 @@ const RelationPage = props => {
     setFilteredCases(list)
   }
 
+  const renderCaseCard = node => (
+    <WarsCaseCard
+      node={node}
+      i18n={i18n}
+      t={t}
+      key={node.case_no}
+      // isSelected={selectedCase === item.node.case_no}
+      // ref={selectedCase === item.node.case_no ? selectedCard : null}
+      // patientTrack={data.patient_track.group.filter(
+      //   t => t.fieldValue === node.case_no
+      // )}
+    />
+  )
+
+  const handleBoxClick = item => setSelectedCase(item)
+
   return (
-    <Layout>
+    <Layout
+      onClick={e =>
+        !e.target.className.includes("wars_box") && setSelectedCase(null)
+      }
+    >
       <SEO />
       <Typography variant="h2">{t("cases.title")}</Typography>
       <PageContent>
@@ -96,7 +128,15 @@ const RelationPage = props => {
       </PageContent>
 
       <ResponsiveWrapper>
-        <WarsCaseBoxContainer filteredCases={filteredCases} />
+        <WarsCaseBoxContainer
+          filteredCases={filteredCases}
+          handleBoxClick={handleBoxClick}
+        />
+        {selectedCase && (
+          <SelectedCardContainer>
+            {renderCaseCard(selectedCase)}
+          </SelectedCardContainer>
+        )}
       </ResponsiveWrapper>
     </Layout>
   )
@@ -141,6 +181,28 @@ export const RelationPageQuery = graphql`
           relationship_en
           group_zh
           group_en
+        }
+      }
+    }
+    patient_track: allWarsCaseLocation(
+      sort: { order: DESC, fields: end_date }
+    ) {
+      group(field: case___case_no) {
+        fieldValue
+        edges {
+          node {
+            case_no
+            start_date
+            end_date
+            location_zh
+            location_en
+            action_zh
+            action_en
+            remarks_zh
+            remarks_en
+            source_url_1
+            source_url_2
+          }
         }
       }
     }
