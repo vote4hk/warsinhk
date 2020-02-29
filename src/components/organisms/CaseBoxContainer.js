@@ -89,16 +89,16 @@ export const WarsCaseBoxContainer = React.forwardRef((props, ref) => {
   const caseStartDate = moment("2020-01-21")
 
   const dateMap = {
-    [lastConfirmedDate]: lastConfirmedDate,
+    [lastConfirmedDate]: moment(lastConfirmedDate).format("MMM DD"),
   }
   let date = moment(lastConfirmedDate).add(-1, "day")
   let count = 0
   let dateLabel = ""
   while (date.isAfter(caseStartDate)) {
     if (count % 7 === 0) {
-      dateLabel = `${date.format("YYYY-MM-DD")} - ${moment(date)
+      dateLabel = `${moment(date)
         .add(-7, "days")
-        .format("YYYY-MM-DD")}`
+        .format("MMM DD")} - ${date.format("MMM DD")}`
     }
     dateMap[date.format("YYYY-MM-DD")] = dateLabel
     count++
