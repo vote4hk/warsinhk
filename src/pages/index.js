@@ -16,6 +16,7 @@ import FormGroup from "@material-ui/core/FormGroup"
 import FormControlLabel from "@material-ui/core/FormControlLabel"
 import Checkbox from "@material-ui/core/Checkbox"
 import AlertMessage from "@components/organisms/AlertMessage"
+import _get from "lodash.get"
 
 const ModuleContainer = styled(Card)`
   padding: 8px;
@@ -59,6 +60,7 @@ export default function IndexPage({ data }) {
   const [modules, setModules] = React.useState([])
   const [showSettings, setShowSettings] = React.useState(false)
 
+  // TODO: useMemo to cache the components
   const components = {}
   const registerComponent = (
     key,
@@ -89,51 +91,63 @@ export default function IndexPage({ data }) {
     return <></>
   }
 
-  registerComponent(
-    "daily_stat",
-    "dashboard.latest_figures",
-    React.lazy(() =>
-      import(
-        /* webpackPrefetch: true */ "@/components/molecules/dashboard/DailyStats.js"
+  const registerComponents = () => {
+    registerComponent(
+      "daily_stat",
+      "dashboard.latest_figures",
+      React.lazy(() =>
+        import(
+          /* webpackPrefetch: true */ "@/components/molecules/dashboard/DailyStats.js"
+        )
       )
     )
-  )
 
-  registerComponent(
-    "confirmed_chart",
-    "dashboard.case_highlights_area",
-    React.lazy(() =>
-      import(
-        /* webpackPrefetch: true */ "@/components/molecules/dashboard/ConfirmedCaseVisual"
-      )
-    ),
-    {
-      rowSpan: 4,
-    }
-  )
+    registerComponent(
+      "confirmed_chart",
+      "dashboard.case_highlights_area",
+      React.lazy(() =>
+        import(
+          /* webpackPrefetch: true */ "@/components/molecules/dashboard/ConfirmedCaseVisual"
+        )
+      ),
+      {
+        rowSpan: 4,
+      }
+    )
 
-  registerComponent(
-    "confirmed_digest_gender",
-    "dashboard.case_highlights_gender",
-    React.lazy(() =>
-      import(
-        /* webpackPrefetch: true */ "@/components/molecules/dashboard/ConfirmedCaseDigestGender"
-      )
-    ),
-    {
-      rowSpan: 2,
-    }
-  )
+    registerComponent(
+      "confirmed_digest_gender",
+      "dashboard.case_highlights_gender",
+      React.lazy(() =>
+        import(
+          /* webpackPrefetch: true */ "@/components/molecules/dashboard/ConfirmedCaseDigestGender"
+        )
+      ),
+      {
+        rowSpan: 2,
+      }
+    )
 
-  registerComponent(
-    "confirmed_digest_age",
-    "dashboard.case_highlights_age",
-    React.lazy(() =>
-      import(
-        /* webpackPrefetch: true */ "@/components/molecules/dashboard/ConfirmedCaseDigestAge"
+    registerComponent(
+      "passenger_daily",
+      "dashboard.daily_passengers",
+      React.lazy(() =>
+        import(
+          /* webpackPrefetch: true */ "@/components/molecules/dashboard/PassengerDailyFigure"
+        )
       )
     )
-  )
+
+    registerComponent(
+      "confirmed_digest_age",
+      "dashboard.case_highlights_age",
+      React.lazy(() =>
+        import(
+          /* webpackPrefetch: true */ "@/components/molecules/dashboard/ConfirmedCaseDigestAge"
+        )
+      )
+    )
+  }
 
   const handleModuleChange = id => {
     const index = modules.indexOf(id)
@@ -147,8 +161,8 @@ export default function IndexPage({ data }) {
   }
 
   // load the settings from localStorage
-
   const LOCAL_STORAGE_KEY_DASHBOARD = "index-dashboard-module"
+  registerComponents()
 
   React.useEffect(() => {
     const moduleString = loadFromLocalStorage(LOCAL_STORAGE_KEY_DASHBOARD)
@@ -167,10 +181,10 @@ export default function IndexPage({ data }) {
   for (let i = 0; i < modules.length; i++) {
     const m = components[modules[i]]
     if (right >= left) {
-      left += m.rowSpan
+      left += _get(m, "rowSpan", 1)
       columnMap.push("left")
     } else {
-      right += m.rowSpan
+      right += _get(m, "rowSpan", 1)
       columnMap.push("right")
     }
   }

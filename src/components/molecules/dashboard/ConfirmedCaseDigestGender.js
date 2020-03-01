@@ -4,7 +4,7 @@ import { useMediaQuery } from "react-responsive"
 import { useStaticQuery, graphql } from "gatsby"
 import Chart from "@components/atoms/Chart"
 
-export default function ConfirmedCaseVisual(props) {
+export default props => {
   const { t } = useTranslation()
 
   const {
