@@ -2,7 +2,6 @@ import React from "react"
 import { useTranslation } from "react-i18next"
 import { graphql, Link as InternalLink } from "gatsby"
 import styled from "styled-components"
-import { useMediaQuery } from "react-responsive"
 
 import { bps } from "@/ui/theme"
 import Box from "@material-ui/core/Box"
@@ -22,12 +21,32 @@ import Grid from "@material-ui/core/Grid"
 import { formatNumber } from "@/utils"
 import { SessionWrapper, SplitWrapper } from "@components/atoms/Container"
 
+import "./index.css"
+
 // lazy-load the chart to avoid SSR
 const ConfirmedCaseVisual = React.lazy(() =>
   import(
     /* webpackPrefetch: true */ "@/components/organisms/ConfirmedCaseVisual"
   )
 )
+
+const ConfirmedCase = ({ t, showOnMobile, isSSR }) => {
+  const className = showOnMobile ? "show-on-mobile" : "hide-on-mobile"
+  return (
+    <>
+      <Typography variant="h2" className={className}>
+        {t("index.highlight")}
+      </Typography>
+      {!isSSR && (
+        <React.Suspense fallback={<div className={className} />}>
+          <div className={className}>
+            <ConfirmedCaseVisual />
+          </div>
+        </React.Suspense>
+      )}
+    </>
+  )
+}
 
 const IndexAlertMessage = styled(AlertMessage)`
   ${bps.up("lg")} {
@@ -92,9 +111,9 @@ function DailyStats({
   botdata: [{ node: first }, { node: second }],
   overridedata,
 }) {
-  let today, ytd
+  let ytd
 
-  today = {
+  const today = {
     ...first,
     confirmed: Math.max(overridedata.confirmed, first.confirmed),
     discharged: Math.max(overridedata.discharged, first.discharged),
@@ -219,7 +238,6 @@ function PassengerStats({
 export default function IndexPage({ data }) {
   const { i18n, t } = useTranslation()
   const isSSR = typeof window === "undefined"
-  const isMobile = useMediaQuery({ maxWidth: 960 })
 
   const latestFigures = React.useMemo(
     () => data.allBotWarsLatestFigures.edges[0].node,
@@ -279,14 +297,7 @@ export default function IndexPage({ data }) {
               </Typography>
             )}
 
-            {isMobile && (
-              <Typography variant="h2">{t("index.highlight")}</Typography>
-            )}
-            {isMobile && !isSSR && (
-              <React.Suspense fallback={<div />}>
-                <ConfirmedCaseVisual />
-              </React.Suspense>
-            )}
+            <ConfirmedCase t={t} showOnMobile={true} isSSR={isSSR} />
 
             <Typography variant="h2">{t("dashboard.passenger")}</Typography>
 
@@ -316,14 +327,7 @@ export default function IndexPage({ data }) {
               />
             </BasicCard>
 
-            {!isMobile && (
-              <Typography variant="h2">{t("index.highlight")}</Typography>
-            )}
-            {!isMobile && !isSSR && (
-              <React.Suspense fallback={<div />}>
-                <ConfirmedCaseVisual />
-              </React.Suspense>
-            )}
+            <ConfirmedCase t={t} showOnMobile={false} isSSR={isSSR} />
           </SessionWrapper>
           <SessionWrapper>
             <FriendlyLinksContainer>
