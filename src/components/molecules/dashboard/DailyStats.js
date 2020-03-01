@@ -6,7 +6,7 @@ import Typography from "@material-ui/core/Typography"
 import { bps } from "@/ui/theme"
 import { formatNumber } from "@/utils"
 import Link from "@material-ui/core/Link"
-import { Paragraph } from "@components/atoms/Text"
+import { useStaticQuery, graphql } from "gatsby"
 
 const DailyChange = styled(({ badSign, children, ...props }) => (
   <Typography {...props}>{children}</Typography>
@@ -45,13 +45,49 @@ const DailyStatFigure = styled(Typography)`
 `
 
 export default props => {
-  console.log(props)
+  const data = useStaticQuery(
+    graphql`
+      query {
+        allBotWarsLatestFigures(sort: { order: DESC, fields: date }) {
+          edges {
+            node {
+              date
+              time
+              confirmed
+              ruled_out
+              investigating
+              reported
+              death
+              discharged
+            }
+          }
+        }
+        allWarsLatestFiguresOverride(sort: { order: DESC, fields: date }) {
+          edges {
+            node {
+              date
+              time
+              confirmed
+              ruled_out
+              investigating
+              reported
+              death
+              discharged
+              remarks_zh
+              remarks_en
+            }
+          }
+        }
+      }
+    `
+  )
   const { t } = useTranslation()
 
-  const { data } = props
   let today, ytd
 
   const [{ node: first }, { node: second }] = data.allBotWarsLatestFigures.edges
+  const latestFiguresOverride = data.allWarsLatestFiguresOverride.edges[0].node
+  const latestFigures = data.allBotWarsLatestFigures.edges[0].node
   const overridedata = data.allWarsLatestFiguresOverride.edges[0].node
 
   today = {
@@ -106,14 +142,20 @@ export default props => {
 
   return (
     <>
-      <Paragraph>{t("dashboard.reference_only")}</Paragraph>
       <Typography variant="body2">
         <Link
-          href="https://www.immd.gov.hk/hkt/message_from_us/stat_menu.html"
+          href="https://www.chp.gov.hk/tc/features/102465.html"
           target="_blank"
         >
-          {t("dashboard.source_immd")}
+          {t("dashboard.source_chpgovhk")}
         </Link>
+      </Typography>
+      <Typography variant="body2" color="textPrimary">
+        {`${t("dashboard.last_updated")}${
+          latestFiguresOverride.date > latestFigures.date
+            ? latestFiguresOverride.date
+            : latestFigures.date
+        }`}
       </Typography>
       <DailyStatsContainer>
         {dataArray.map((d, i) => (

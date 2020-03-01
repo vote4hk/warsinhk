@@ -25,7 +25,7 @@ import { SessionWrapper, SplitWrapper } from "@components/atoms/Container"
 // lazy-load the chart to avoid SSR
 const ConfirmedCaseVisual = React.lazy(() =>
   import(
-    /* webpackPrefetch: true */ "@/components/organisms/ConfirmedCaseVisual"
+    /* webpackPrefetch: true */ "@/components/molecules/ConfirmedCaseVisual"
   )
 )
 
@@ -156,8 +156,8 @@ function DailyStats({
             {d.diff > 0
               ? `▲ ${formatNumber(d.diff)}`
               : d.diff < 0
-              ? `▼ ${formatNumber(Math.abs(d.diff))}`
-              : `-`}
+                ? `▼ ${formatNumber(Math.abs(d.diff))}`
+                : `-`}
           </DailyChange>
         </DailyStat>
       ))}
@@ -207,8 +207,8 @@ function PassengerStats({
             {d.diff > 0
               ? `▲ ${formatNumber(d.diff)}`
               : d.diff < 0
-              ? `▼ ${formatNumber(Math.abs(d.diff))}`
-              : `-`}
+                ? `▼ ${formatNumber(Math.abs(d.diff))}`
+                : `-`}
           </DailyChange>
         </DailyStat>
       ))}
@@ -264,7 +264,7 @@ export default function IndexPage({ data }) {
                 latestFiguresOverride.date > latestFigures.date
                   ? latestFiguresOverride.date
                   : latestFigures.date
-              }`}
+                }`}
             </Typography>
             <BasicCard>
               <DailyStats

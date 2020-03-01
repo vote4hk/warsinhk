@@ -1,24 +1,34 @@
 import React, { Suspense } from "react"
 import { useTranslation } from "react-i18next"
-import { graphql } from "gatsby"
 import styled from "styled-components"
 import Fab from "@material-ui/core/Fab"
 import Card from "@material-ui/core/Card"
+import Typography from "@material-ui/core/Typography"
 import SettingIcon from "@material-ui/icons/Settings"
 import SEO from "@components/templates/SEO"
 import Layout from "@components/templates/Layout"
 import { bps } from "@/ui/theme"
-import { loadFromLocalStorage } from "@/utils"
-import { SplitWrapper } from "@components/atoms/Container"
+import { loadFromLocalStorage, saveToLocalStorage } from "@/utils"
+import { SplitWrapper, SessionWrapper } from "@components/atoms/Container"
 import FormLabel from "@material-ui/core/FormLabel"
 import FormControl from "@material-ui/core/FormControl"
 import FormGroup from "@material-ui/core/FormGroup"
 import FormControlLabel from "@material-ui/core/FormControlLabel"
 import Checkbox from "@material-ui/core/Checkbox"
+import AlertMessage from "@components/organisms/AlertMessage"
 
 const ModuleContainer = styled(Card)`
   padding: 8px;
   margin-bottom: 8px;
+`
+
+const IndexAlertMessage = styled(AlertMessage)`
+  ${bps.up("lg")} {
+    > * {
+      flex: 1 0 100%;
+      margin-right: 0;
+    }
+  }
 `
 
 const IndexContainer = styled.div`
@@ -34,8 +44,12 @@ const IndexContainer = styled.div`
   }
 
   .settingContainer {
-    height: 200px;
     background-color: white;
+  }
+
+  h2 {
+    margin-top: 4px;
+    margin-bottom: 4px;
   }
 `
 
@@ -46,11 +60,17 @@ export default function IndexPage({ data }) {
   const [showSettings, setShowSettings] = React.useState(false)
 
   const components = {}
-  const registerComponent = (key, titleKey, component) => {
+  const registerComponent = (
+    key,
+    titleKey,
+    component,
+    { rowSpan = 1 } = {}
+  ) => {
     components[key] = {
       id: key,
       title: t(titleKey),
       component,
+      rowSpan,
     }
   }
 
@@ -59,6 +79,7 @@ export default function IndexPage({ data }) {
       const Component = components[key].component
       return (
         <ModuleContainer>
+          <Typography variant="h2">{components[key].title}</Typography>
           <Suspense fallback={<div>Loading...</div>}>
             <Component data={data} />
           </Suspense>
@@ -83,20 +104,46 @@ export default function IndexPage({ data }) {
     "dashboard.case_highlights_area",
     React.lazy(() =>
       import(
-        /* webpackPrefetch: true */ "@/components/organisms/ConfirmedCaseVisual"
+        /* webpackPrefetch: true */ "@/components/molecules/dashboard/ConfirmedCaseVisual"
+      )
+    ),
+    {
+      rowSpan: 4,
+    }
+  )
+
+  registerComponent(
+    "confirmed_digest_gender",
+    "dashboard.case_highlights_gender",
+    React.lazy(() =>
+      import(
+        /* webpackPrefetch: true */ "@/components/molecules/dashboard/ConfirmedCaseDigestGender"
+      )
+    ),
+    {
+      rowSpan: 2,
+    }
+  )
+
+  registerComponent(
+    "confirmed_digest_age",
+    "dashboard.case_highlights_age",
+    React.lazy(() =>
+      import(
+        /* webpackPrefetch: true */ "@/components/molecules/dashboard/ConfirmedCaseDigestAge"
       )
     )
   )
 
   const handleModuleChange = id => {
     const index = modules.indexOf(id)
-    console.log(index)
     if (index >= 0) {
       modules.splice(index, 1)
     } else {
       modules.push(id)
     }
     setModules([...modules])
+    saveToLocalStorage(LOCAL_STORAGE_KEY_DASHBOARD, [...modules])
   }
 
   // load the settings from localStorage
@@ -106,14 +153,28 @@ export default function IndexPage({ data }) {
   React.useEffect(() => {
     const moduleString = loadFromLocalStorage(LOCAL_STORAGE_KEY_DASHBOARD)
     if (moduleString) {
-      // setModules(moduleString.split(","))
-      setModules(["daily_stat"])
+      setModules(moduleString.split(","))
+    } else {
+      setModules(["daily_stat", "confirmed_chart"])
     }
-    setModules(["daily_stat", "confirmed_chart"])
     // eslint-disable-line
   }, [])
 
-  console.log(modules)
+  // store the information of which module on left/right (only for desktop)
+  const columnMap = []
+  let left = 0
+  let right = 0
+  for (let i = 0; i < modules.length; i++) {
+    const m = components[modules[i]]
+    if (right >= left) {
+      left += m.rowSpan
+      columnMap.push("left")
+    } else {
+      right += m.rowSpan
+      columnMap.push("right")
+    }
+  }
+
   return (
     <>
       <SEO title="Home" />
@@ -122,8 +183,9 @@ export default function IndexPage({ data }) {
           {showSettings && (
             <ModuleContainer className="settingContainer">
               <FormControl component="fieldset">
-                <FormLabel component="legend">Assign responsibility</FormLabel>
-
+                <FormLabel component="legend">
+                  {t("dashboard.settings")}
+                </FormLabel>
                 {Object.values(components).map(component => (
                   <FormGroup>
                     <FormControlLabel
@@ -142,11 +204,25 @@ export default function IndexPage({ data }) {
             </ModuleContainer>
           )}
           <SplitWrapper>
-            {modules.map((m, i) => (
-              <React.Fragment key={i}>
-                {renderComponent(m, data)}
-              </React.Fragment>
-            ))}
+            <SessionWrapper>
+              <IndexAlertMessage />
+              {modules
+                .filter((_, i) => columnMap[i] === "left")
+                .map((m, i) => (
+                  <React.Fragment key={i}>
+                    {renderComponent(m, data)}
+                  </React.Fragment>
+                ))}
+            </SessionWrapper>
+            <SessionWrapper>
+              {modules
+                .filter((_, i) => columnMap[i] === "right")
+                .map((m, i) => (
+                  <React.Fragment key={i}>
+                    {renderComponent(m, data)}
+                  </React.Fragment>
+                ))}
+            </SessionWrapper>
           </SplitWrapper>
           <Fab
             color="primary"
