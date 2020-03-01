@@ -2,28 +2,53 @@ import React, { Suspense } from "react"
 import { useTranslation } from "react-i18next"
 import { graphql } from "gatsby"
 import styled from "styled-components"
-
+import Fab from "@material-ui/core/Fab"
 import Card from "@material-ui/core/Card"
-
+import SettingIcon from "@material-ui/icons/Settings"
 import SEO from "@components/templates/SEO"
 import Layout from "@components/templates/Layout"
-
+import { bps } from "@/ui/theme"
 import { loadFromLocalStorage } from "@/utils"
 import { SplitWrapper } from "@components/atoms/Container"
+import FormLabel from "@material-ui/core/FormLabel"
+import FormControl from "@material-ui/core/FormControl"
+import FormGroup from "@material-ui/core/FormGroup"
+import FormControlLabel from "@material-ui/core/FormControlLabel"
+import Checkbox from "@material-ui/core/Checkbox"
 
 const ModuleContainer = styled(Card)`
   padding: 8px;
   margin-bottom: 8px;
 `
 
+const IndexContainer = styled.div`
+  .fab {
+    position: fixed;
+    bottom: 80px;
+    right: 20px;
+
+    ${bps.up("md")} {
+      bottom: 40px;
+      right: 40px;
+    }
+  }
+
+  .settingContainer {
+    height: 200px;
+    background-color: white;
+  }
+`
+
 export default function IndexPage({ data }) {
   const { t } = useTranslation()
 
   const [modules, setModules] = React.useState([])
+  const [showSettings, setShowSettings] = React.useState(false)
 
   const components = {}
   const registerComponent = (key, titleKey, component) => {
     components[key] = {
+      id: key,
       title: t(titleKey),
       component,
     }
@@ -45,7 +70,7 @@ export default function IndexPage({ data }) {
 
   registerComponent(
     "daily_stat",
-    "",
+    "dashboard.latest_figures",
     React.lazy(() =>
       import(
         /* webpackPrefetch: true */ "@/components/molecules/dashboard/DailyStats.js"
@@ -55,13 +80,24 @@ export default function IndexPage({ data }) {
 
   registerComponent(
     "confirmed_chart",
-    "",
+    "dashboard.case_highlights_area",
     React.lazy(() =>
       import(
         /* webpackPrefetch: true */ "@/components/organisms/ConfirmedCaseVisual"
       )
     )
   )
+
+  const handleModuleChange = id => {
+    const index = modules.indexOf(id)
+    console.log(index)
+    if (index >= 0) {
+      modules.splice(index, 1)
+    } else {
+      modules.push(id)
+    }
+    setModules([...modules])
+  }
 
   // load the settings from localStorage
 
@@ -77,15 +113,49 @@ export default function IndexPage({ data }) {
     // eslint-disable-line
   }, [])
 
+  console.log(modules)
   return (
     <>
       <SEO title="Home" />
       <Layout>
-        <SplitWrapper>
-          {modules.map((m, i) => (
-            <React.Fragment key={i}>{renderComponent(m, data)}</React.Fragment>
-          ))}
-        </SplitWrapper>
+        <IndexContainer>
+          {showSettings && (
+            <ModuleContainer className="settingContainer">
+              <FormControl component="fieldset">
+                <FormLabel component="legend">Assign responsibility</FormLabel>
+
+                {Object.values(components).map(component => (
+                  <FormGroup>
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          color="primary"
+                          checked={modules.indexOf(component.id) >= 0}
+                          onChange={() => handleModuleChange(component.id)}
+                        />
+                      }
+                      label={component.title}
+                    />
+                  </FormGroup>
+                ))}
+              </FormControl>
+            </ModuleContainer>
+          )}
+          <SplitWrapper>
+            {modules.map((m, i) => (
+              <React.Fragment key={i}>
+                {renderComponent(m, data)}
+              </React.Fragment>
+            ))}
+          </SplitWrapper>
+          <Fab
+            color="primary"
+            className="fab"
+            onClick={() => setShowSettings(!showSettings)}
+          >
+            <SettingIcon />
+          </Fab>
+        </IndexContainer>
       </Layout>
     </>
   )

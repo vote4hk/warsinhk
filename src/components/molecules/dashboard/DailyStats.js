@@ -5,6 +5,8 @@ import Box from "@material-ui/core/Box"
 import Typography from "@material-ui/core/Typography"
 import { bps } from "@/ui/theme"
 import { formatNumber } from "@/utils"
+import Link from "@material-ui/core/Link"
+import { Paragraph } from "@components/atoms/Text"
 
 const DailyChange = styled(({ badSign, children, ...props }) => (
   <Typography {...props}>{children}</Typography>
@@ -103,22 +105,35 @@ export default props => {
   ]
 
   return (
-    <DailyStatsContainer>
-      {dataArray.map((d, i) => (
-        <DailyStat key={i}>
-          <DailyStatFigureLabel>{d.label}</DailyStatFigureLabel>
-          <DailyStatFigure>{formatNumber(d.today_stat)}</DailyStatFigure>
-          <DailyChange
-            badSign={d.label === t("dashboard.discharged") ? false : d.diff > 0}
-          >
-            {d.diff > 0
-              ? `▲ ${formatNumber(d.diff)}`
-              : d.diff < 0
-              ? `▼ ${formatNumber(Math.abs(d.diff))}`
-              : `-`}
-          </DailyChange>
-        </DailyStat>
-      ))}
-    </DailyStatsContainer>
+    <>
+      <Paragraph>{t("dashboard.reference_only")}</Paragraph>
+      <Typography variant="body2">
+        <Link
+          href="https://www.immd.gov.hk/hkt/message_from_us/stat_menu.html"
+          target="_blank"
+        >
+          {t("dashboard.source_immd")}
+        </Link>
+      </Typography>
+      <DailyStatsContainer>
+        {dataArray.map((d, i) => (
+          <DailyStat key={i}>
+            <DailyStatFigureLabel>{d.label}</DailyStatFigureLabel>
+            <DailyStatFigure>{formatNumber(d.today_stat)}</DailyStatFigure>
+            <DailyChange
+              badSign={
+                d.label === t("dashboard.discharged") ? false : d.diff > 0
+              }
+            >
+              {d.diff > 0
+                ? `▲ ${formatNumber(d.diff)}`
+                : d.diff < 0
+                ? `▼ ${formatNumber(Math.abs(d.diff))}`
+                : `-`}
+            </DailyChange>
+          </DailyStat>
+        ))}
+      </DailyStatsContainer>
+    </>
   )
 }
