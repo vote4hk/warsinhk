@@ -20,6 +20,7 @@ import HotelRoundedIcon from "@material-ui/icons/HotelRounded"
 import SentimentSatisfiedRoundedIcon from "@material-ui/icons/SentimentSatisfiedRounded"
 import AttachMoneyRoundedIcon from "@material-ui/icons/AttachMoneyRounded"
 import InsertDriveFileRoundedIcon from "@material-ui/icons/InsertDriveFileRounded"
+import PublicIcon from "@material-ui/icons/Public"
 
 export function mapIcon(name, style) {
   switch (name) {
@@ -65,6 +66,8 @@ export function mapIcon(name, style) {
       return <AttachMoneyRoundedIcon />
     case "insert_drive_file":
       return <InsertDriveFileRoundedIcon />
+    case "public":
+      return <PublicIcon />
     default:
       return null
   }

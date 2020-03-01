@@ -65,6 +65,13 @@
       "bottomNav": false
     },
     {
+      "title": "world.title",
+      "to": "/world",
+      "icon": "public",
+      "sideMenu": true,
+      "bottomNav": false
+    },
+    {
       "title": "about_us.title",
       "to": "/about-us",
       "icon": "hotel",

@@ -82,6 +82,48 @@ const createIMMDNode = async ({
   addNodeByGate("Total")
 }
 
+const createWorldCasesNode = async ({
+  actions: { createNode },
+  createNodeId,
+  createContentDigest,
+}) => {
+  const type = "BaiduInternationalData"
+
+  const query = `{
+    wars_BaiduInternationalData (
+      distinct_on: [date, area]
+      order_by: [
+        {date: desc},
+        {area: desc},
+        {time: desc},
+      ]
+    ) {
+      area
+      date
+      time
+      confirmed
+      died
+      crued
+    }
+  }`
+
+  const data = await request(GRAPHQL_URL, query)
+
+  data.wars_BaiduInternationalData.forEach((p, i) => {
+    const meta = {
+      id: createNodeId(`${type}-${i}`),
+      parent: null,
+      children: [],
+      internal: {
+        type,
+        contentDigest: createContentDigest(p),
+      },
+    }
+    const node = Object.assign({}, p, meta)
+    createNode(node)
+  })
+}
+
 const createAENode = async ({
   actions: { createNode },
   createNodeId,
@@ -237,7 +279,7 @@ const createPublishedGoogleSpreadsheetNode = async (
     })
 }
 
-/* 
+/*
   =============== Gatsby API starts =================
 */
 
@@ -342,6 +384,7 @@ exports.sourceNodes = async props => {
     createGNNode(props),
     createGovNewsNode(props),
     createPosterNode(props),
+    createWorldCasesNode(props),
   ])
 }
 
