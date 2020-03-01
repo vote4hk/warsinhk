@@ -184,7 +184,7 @@ const WorldBoard = props => {
             />
             <Grid container>
               <Grid item>
-                {metric.delta > 0 ? <IncreaseIcon /> : <DecreaseIcon />}
+                {metric.delta < 0 ? <DecreaseIcon /> : <IncreaseIcon />}
               </Grid>
               <Grid item>
                 <Typography
@@ -192,7 +192,7 @@ const WorldBoard = props => {
                     paddingLeft: 8,
                     paddingRight: 4,
                     fontSize: 16,
-                    color: metric.delta > 0 ? "#1d946d" : "#f55543",
+                    color: metric.delta < 0 ? "#f55543" : "#1d946d",
                   }}
                   children={metric.delta}
                 />

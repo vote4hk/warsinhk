@@ -109,7 +109,28 @@ const createWorldCasesNode = async ({
     }
   }`
 
+  const baiduChinaQuery = `{
+    wars_BaiduChinaData (
+      distinct_on: [date, area, city]
+        order_by: [
+          {date: desc},
+          {area: desc},
+          {city: desc},
+          {time: desc},
+        ]
+      ) {
+        area
+        city
+        date
+        time
+        confirmed
+        died
+        crued
+      }
+  }`
+
   const data = await request(GRAPHQL_URL, query)
+  const baiduChinaData = await request(GRAPHQL_URL, baiduChinaQuery)
 
   data.wars_BaiduInternationalData.forEach((p, i) => {
     const meta = {
@@ -123,6 +144,73 @@ const createWorldCasesNode = async ({
     }
     const node = Object.assign({}, p, meta)
     createNode(node)
+  })
+
+  let count = data.wars_BaiduInternationalData.length
+  let china_cured = {}
+  let china_died = {}
+  let china_confirmed = {}
+  let available_date = []
+  let date_time_mapping = {}
+
+  baiduChinaData.wars_BaiduChinaData.forEach(p => {
+    if (p.area === "香港" || p.area === "颱灣" || p.area === "台灣") {
+      const node_data = {
+        area: p.area === "台灣" ? "颱灣" : p.area,
+        date: p.date,
+        time: p.time,
+        confirmed: p.confirmed,
+        died: p.died,
+        crued: p.crued,
+      }
+      const meta = {
+        id: createNodeId(`${type}-${count}`),
+        parent: null,
+        children: [],
+        internal: {
+          type,
+          contentDigest: createContentDigest(node_data),
+        },
+      }
+      const node = Object.assign({}, node_data, meta)
+      createNode(node)
+      count += 1
+    } else if (p.city === "") {
+      if (available_date.includes(p.date)) {
+        china_cured[p.date] += p.crued
+        china_died[p.date] += p.died
+        china_confirmed[p.date] += p.confirmed
+      } else {
+        available_date.push(p.date)
+        date_time_mapping[p.date] = p.time
+        china_cured[p.date] = p.crued
+        china_died[p.date] = p.died
+        china_confirmed[p.date] = p.confirmed
+      }
+    }
+  })
+
+  available_date.forEach(date => {
+    const node_data = {
+      area: "中国",
+      date: date,
+      time: date_time_mapping[date],
+      confirmed: china_confirmed[date],
+      died: china_died[date],
+      crued: china_cured[date],
+    }
+    const meta = {
+      id: createNodeId(`${type}-${count}`),
+      parent: null,
+      children: [],
+      internal: {
+        type,
+        contentDigest: createContentDigest(node_data),
+      },
+    }
+    const node = Object.assign({}, node_data, meta)
+    createNode(node)
+    count += 1
   })
 }
 

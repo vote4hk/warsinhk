@@ -1423,7 +1423,7 @@
     "country_emoji": "🇹🇼",
     "baidu_country_name": "颱灣",
     "country_en": "Taiwan",
-    "country_zh": "中華民國",
+    "country_zh": "台灣",
     "topo_country_names": "Taiwan",
     "iso_code": 158,
     "latitude": 23.5,
@@ -1863,7 +1863,7 @@
     "country_emoji": "🇦🇪",
     "baidu_country_name": "阿联酋",
     "country_en": "The United Arab Emirates",
-    "country_zh": "阿拉伯聯合酋長國",
+    "country_zh": "阿聯酋",
     "topo_country_names": "United Arab Emirates",
     "iso_code": 784,
     "latitude": 24,
@@ -1988,6 +1988,16 @@
     "iso_code": 716,
     "latitude": -20,
     "longitude": 30
+  },
+  {
+    "country_emoji": "🇭🇰",
+    "baidu_country_name": "香港",
+    "country_en": "Hong Kong",
+    "country_zh": "香港",
+    "topo_country_names": "",
+    "iso_code": 344,
+    "latitude": 22.25,
+    "longitude": 114.1667
   },
   {
     "country_emoji": "",
