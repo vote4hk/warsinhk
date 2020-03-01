@@ -35,7 +35,9 @@ const WarsCaseContainer = styled(Box)`
   }
 
   .wars-row {
-    margin-bottom: 8px;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 4px;
     div:not(:first-child):last-child {
       text-align: right;
     }
@@ -81,7 +83,8 @@ const CaseLabel = styled(Box)`
 const SourceRow = styled(Box)`
   display: flex;
   justify-content: flex-start;
-  font-size: ${props => props.theme.typography.smallFontSize};
+  margin-top: 8px;
+  font-size: ${props => props.theme.typography.smallFontSize}px;
 `
 const WarsCaseTrack = ({ i18n, t, track }) => {
   return (
@@ -90,20 +93,23 @@ const WarsCaseTrack = ({ i18n, t, track }) => {
         const remarksText = withLanguage(i18n, tr.node, "remarks")
         return (
           <div key={i} className="track-row">
-            <div className="wars-row">
-              <Box>
-                {tr.node.start_date === tr.node.end_date
-                  ? tr.node.end_date
-                  : `${formatDateDDMM(tr.node.start_date)} - ${formatDateDDMM(
-                      tr.node.end_date
-                    )}`}
-              </Box>
-              <Box>
+            {tr.node.start_date && tr.node.end_date && (
+              <div className="wars-row">
+                <Box>
+                  {tr.node.start_date === tr.node.end_date
+                    ? tr.node.end_date
+                    : `${formatDateDDMM(tr.node.start_date)} - ${formatDateDDMM(
+                        tr.node.end_date
+                      )}`}
+                </Box>
                 <b>{withLanguage(i18n, tr.node, "action")}</b>
-              </Box>
-            </div>
+              </div>
+            )}
             <div className="wars-row">
               <b>{withLanguage(i18n, tr.node, "location")}</b>
+              {(!tr.node.start_date || !tr.node.end_date) && (
+                <b>{withLanguage(i18n, tr.node, "action")}</b>
+              )}
             </div>
             {remarksText && (
               <div className="wars-row">

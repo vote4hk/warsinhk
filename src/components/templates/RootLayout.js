@@ -1,4 +1,5 @@
 import React from "react"
+import CssBaseline from "@material-ui/core/CssBaseline"
 import { MuiThemeProvider } from "@material-ui/core/styles/"
 import { ThemeProvider } from "styled-components"
 import { createThemeWithFontZoom } from "@/ui/theme"
@@ -16,7 +17,10 @@ const ThemeProviderWrapper = ({ children }) => {
 
   return (
     <MuiThemeProvider theme={theme}>
-      <ThemeProvider theme={theme}>{children}</ThemeProvider>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        {children}
+      </ThemeProvider>
     </MuiThemeProvider>
   )
 }
