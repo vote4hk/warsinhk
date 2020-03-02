@@ -441,9 +441,9 @@
   },
   {
     "country_emoji": "🇨🇿",
-    "baidu_country_name": "捷克共和国",
+    "baidu_country_name": "捷克",
     "country_en": "The Czech Republic",
-    "country_zh": "捷克共和國",
+    "country_zh": "捷克",
     "topo_country_names": "Czechia",
     "iso_code": 203,
     "latitude": 49.75,
@@ -1421,7 +1421,7 @@
   },
   {
     "country_emoji": "🇹🇼",
-    "baidu_country_name": "颱灣",
+    "baidu_country_name": "台灣",
     "country_en": "Taiwan",
     "country_zh": "台灣",
     "topo_country_names": "Taiwan",

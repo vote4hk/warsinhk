@@ -1,5 +1,5 @@
 import React from "react"
-import _ from "lodash"
+import find from "lodash.find"
 import * as d3 from "d3"
 import { feature } from "topojson-client"
 import worldJson from "./world-110m"
@@ -27,16 +27,15 @@ const WorldMap = ({ data }) => {
   })
 
   const handleCountryClick = countryIndex => {
-    // console.log("Clicked on country: ", geographies[countryIndex])
     setHoverCountry(geographies[countryIndex].id)
   }
 
   const handleMarkerClick = i => {
-    // console.log("Marker: ", cities[i])
+    // TODO: show tooltips
   }
 
   const getDiedNumber = countryName => {
-    const country = _.find(data, { area: countryName })
+    const country = find(data, { area: countryName })
     return getTransparency(country ? country.died * 10 : 0)
   }
 

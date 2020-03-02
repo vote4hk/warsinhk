@@ -133,6 +133,11 @@ const getPreviousTotalCured = data => {
   return updatedData.reduce((a, d) => a + d.crued, 0)
 }
 
+const getNumberWithComma = num => {
+  const num_str = num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+  return num_str === "0" ? "-" : num_str
+}
+
 const WorldBoard = props => {
   const { data } = props
   const [value, setValue] = React.useState(0)
@@ -178,9 +183,7 @@ const WorldBoard = props => {
             />
             <Typography
               style={{ fontSize: 32, fontWeight: "bold", marginTop: 5 }}
-              children={metric.figures
-                .toString()
-                .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+              children={getNumberWithComma(metric.figures)}
             />
             <Grid container>
               <Grid item>
@@ -194,7 +197,7 @@ const WorldBoard = props => {
                     fontSize: 16,
                     color: metric.delta < 0 ? "#f55543" : "#1d946d",
                   }}
-                  children={metric.delta}
+                  children={getNumberWithComma(metric.delta)}
                 />
               </Grid>
               <Grid item>
@@ -250,7 +253,7 @@ const WorldRanking = props => {
                 <TableCell
                   style={{ fontSize: 15, color: "#767676", padding: 5 }}
                 >
-                  {t("world.ranking")}
+                  #
                 </TableCell>
                 <TableCell
                   style={{ fontSize: 15, color: "#767676", padding: 5 }}
@@ -308,7 +311,7 @@ const WorldRanking = props => {
                         padding: "7px 4px",
                       }}
                     >
-                      {row.confirmedFigures}
+                      {getNumberWithComma(row.confirmedFigures)}
                     </TableCell>
                     <TableCell
                       style={{
@@ -317,7 +320,7 @@ const WorldRanking = props => {
                         padding: "7px 4px",
                       }}
                     >
-                      {row.deathNumber}
+                      {getNumberWithComma(row.deathNumber)}
                     </TableCell>
                   </TableRow>
                 )

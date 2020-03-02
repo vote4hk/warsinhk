@@ -164,7 +164,6 @@
   "world.compared_to_previous_day": "daily changes",
   "world.distribution": "Cases Distribution",
   "world.trend": "Global Trend (in dev)",
-  "world.ranking": "Rank",
   "world.ranking_country": "Country",
   "world.ranking_confirmed": "Infected",
   "world.ranking_died": "Death"

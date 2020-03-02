@@ -147,16 +147,16 @@ const createWorldCasesNode = async ({
   })
 
   let count = data.wars_BaiduInternationalData.length
-  let china_cured = {}
-  let china_died = {}
-  let china_confirmed = {}
-  let available_date = []
-  let date_time_mapping = {}
+  let chinaCured = {}
+  let chinaDied = {}
+  let chinaConfirmed = {}
+  let availableDate = []
+  let dateTimeMapping = {}
 
   baiduChinaData.wars_BaiduChinaData.forEach(p => {
     if (p.area === "香港" || p.area === "颱灣" || p.area === "台灣") {
       const node_data = {
-        area: p.area === "台灣" ? "颱灣" : p.area,
+        area: p.area === "颱灣" ? "台灣" : p.area,
         date: p.date,
         time: p.time,
         confirmed: p.confirmed,
@@ -176,28 +176,28 @@ const createWorldCasesNode = async ({
       createNode(node)
       count += 1
     } else if (p.city === "") {
-      if (available_date.includes(p.date)) {
-        china_cured[p.date] += p.crued
-        china_died[p.date] += p.died
-        china_confirmed[p.date] += p.confirmed
+      if (availableDate.includes(p.date)) {
+        chinaCured[p.date] += p.crued
+        chinaDied[p.date] += p.died
+        chinaConfirmed[p.date] += p.confirmed
       } else {
-        available_date.push(p.date)
-        date_time_mapping[p.date] = p.time
-        china_cured[p.date] = p.crued
-        china_died[p.date] = p.died
-        china_confirmed[p.date] = p.confirmed
+        availableDate.push(p.date)
+        dateTimeMapping[p.date] = p.time
+        chinaCured[p.date] = p.crued
+        chinaDied[p.date] = p.died
+        chinaConfirmed[p.date] = p.confirmed
       }
     }
   })
 
-  available_date.forEach(date => {
+  availableDate.forEach(date => {
     const node_data = {
       area: "中国",
       date: date,
-      time: date_time_mapping[date],
-      confirmed: china_confirmed[date],
-      died: china_died[date],
-      crued: china_cured[date],
+      time: dateTimeMapping[date],
+      confirmed: chinaConfirmed[date],
+      died: chinaDied[date],
+      crued: chinaCured[date],
     }
     const meta = {
       id: createNodeId(`${type}-${count}`),
