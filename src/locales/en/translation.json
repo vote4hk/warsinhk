@@ -152,5 +152,19 @@
   "about_us.high_risk": "High risk areas",
   "about_us.wars_cases": "Confirmed cases",
   "about_us.sponsor_title": "Speical Thanks",
-  "about_us.sponsor_html": "Thanks to <a href='https://www.kintohub.com/' target='_blank'><img src=\"/images/kintohub_icon.svg\" style=\"width:30px; height:15px;\"></img>Kintohub</a> for the sponsorship on our server cost."
+  "about_us.sponsor_html": "Thanks to <a href='https://www.kintohub.com/' target='_blank'><img src=\"/images/kintohub_icon.svg\" style=\"width:30px; height:15px;\"></img>Kintohub</a> for the sponsorship on our server cost.",
+  "world.title": "Global Cases",
+  "world.page_title": "Global Cases",
+  "world.ranking_title": "Global Ranking",
+  "world.source_who": "Source: Baidu real-time coronavirus report",
+  "world.last_update": "Last update:",
+  "world.total_confirmed": "Total Infected",
+  "world.total_died": "Total Death",
+  "world.total_cured": "Total Recovered",
+  "world.compared_to_previous_day": "daily changes",
+  "world.distribution": "Cases Distribution",
+  "world.trend": "Global Trend (in dev)",
+  "world.ranking_country": "Country",
+  "world.ranking_confirmed": "Infected",
+  "world.ranking_died": "Death"
 }

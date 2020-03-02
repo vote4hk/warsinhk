@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="20px" height="20px" viewBox="0 0 20 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 63.1 (92452) - https://sketch.com -->
+    <title>Icon/regular/increase</title>
+    <desc>Created with Sketch.</desc>
+    <g id="Home" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g transform="translate(-382.000000, -276.000000)" id="Icon/regular/increase">
+            <g transform="translate(380.000000, 274.000000)">
+                <circle id="Oval" fill="#CBEFE3" cx="12" cy="12" r="10"></circle>
+                <g id="Icon/function/Up" stroke-width="1" transform="translate(4.000000, 4.000000)" fill="#00847E">
+                    <polygon id="Path" transform="translate(8.000000, 8.000000) rotate(-135.000000) translate(-8.000000, -8.000000) " points="13 9.18736842 11.7270341 7.97473684 8.89238845 10.7031579 8.89238845 2 7.10761155 2 7.10761155 10.7031579 4.27296588 7.97473684 3 9.18736842 8 14"></polygon>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

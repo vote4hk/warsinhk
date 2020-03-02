@@ -1,0 +1,2082 @@
+[
+  {
+    "country_emoji": "🇦🇫",
+    "baidu_country_name": "阿富汗",
+    "country_en": "Afghanistan",
+    "country_zh": "阿富汗",
+    "topo_country_names": "Afghanistan",
+    "iso_code": 4,
+    "latitude": 33,
+    "longitude": 65
+  },
+  {
+    "country_emoji": "🇦🇱",
+    "baidu_country_name": "阿尔巴尼亚",
+    "country_en": "Albania",
+    "country_zh": "阿爾巴尼亞",
+    "topo_country_names": "Albania",
+    "iso_code": 8,
+    "latitude": 41,
+    "longitude": 20
+  },
+  {
+    "country_emoji": "🇩🇿",
+    "baidu_country_name": "阿尔及利亚",
+    "country_en": "Algeria",
+    "country_zh": "阿爾及利亞",
+    "topo_country_names": "Algeria",
+    "iso_code": 12,
+    "latitude": 28,
+    "longitude": 3
+  },
+  {
+    "country_emoji": "🇦🇩",
+    "baidu_country_name": "安道尔",
+    "country_en": "Andorra",
+    "country_zh": "安道爾",
+    "topo_country_names": "",
+    "iso_code": 20,
+    "latitude": 42.5,
+    "longitude": 1.6
+  },
+  {
+    "country_emoji": "🇦🇴",
+    "baidu_country_name": "安哥拉",
+    "country_en": "Angola",
+    "country_zh": "安哥拉",
+    "topo_country_names": "Angola",
+    "iso_code": 24,
+    "latitude": -12.5,
+    "longitude": 18.5
+  },
+  {
+    "country_emoji": "🇦🇬",
+    "baidu_country_name": "安提瓜和巴布达",
+    "country_en": "Antigua and Barbuda",
+    "country_zh": "安提瓜和巴布達",
+    "topo_country_names": "",
+    "iso_code": 28,
+    "latitude": 17.05,
+    "longitude": -61.8
+  },
+  {
+    "country_emoji": "🇦🇷",
+    "baidu_country_name": "阿根廷",
+    "country_en": "Argentina",
+    "country_zh": "阿根廷",
+    "topo_country_names": "Argentina",
+    "iso_code": 32,
+    "latitude": -34,
+    "longitude": -64
+  },
+  {
+    "country_emoji": "🇦🇲",
+    "baidu_country_name": "亚美尼亚",
+    "country_en": "Armenia",
+    "country_zh": "亞美尼亞",
+    "topo_country_names": "Armenia",
+    "iso_code": 51,
+    "latitude": 40,
+    "longitude": 45
+  },
+  {
+    "country_emoji": "🇦🇺",
+    "baidu_country_name": "澳大利亚",
+    "country_en": "Australia",
+    "country_zh": "澳大利亞",
+    "topo_country_names": "Australia",
+    "iso_code": 36,
+    "latitude": -27,
+    "longitude": 133
+  },
+  {
+    "country_emoji": "🇦🇹",
+    "baidu_country_name": "奥地利",
+    "country_en": "Austria",
+    "country_zh": "奧地利",
+    "topo_country_names": "Austria",
+    "iso_code": 40,
+    "latitude": 47.3333,
+    "longitude": 13.3333
+  },
+  {
+    "country_emoji": "🇦🇿",
+    "baidu_country_name": "阿塞拜疆",
+    "country_en": "Azerbaijan",
+    "country_zh": "阿塞拜疆",
+    "topo_country_names": "Azerbaijan",
+    "iso_code": 31,
+    "latitude": 40.5,
+    "longitude": 47.5
+  },
+  {
+    "country_emoji": "🇧🇸",
+    "baidu_country_name": "巴哈马群岛",
+    "country_en": "The Bahamas",
+    "country_zh": "巴哈馬群島",
+    "topo_country_names": "Bahamas",
+    "iso_code": 44,
+    "latitude": 24.25,
+    "longitude": -76
+  },
+  {
+    "country_emoji": "🇧🇭",
+    "baidu_country_name": "巴林",
+    "country_en": "Bahrain",
+    "country_zh": "巴林",
+    "topo_country_names": "",
+    "iso_code": 48,
+    "latitude": 26,
+    "longitude": 50.55
+  },
+  {
+    "country_emoji": "🇧🇩",
+    "baidu_country_name": "孟加拉国",
+    "country_en": "Bangladesh",
+    "country_zh": "孟加拉國",
+    "topo_country_names": "Bangladesh",
+    "iso_code": 50,
+    "latitude": 24,
+    "longitude": 90
+  },
+  {
+    "country_emoji": "🇧🇧",
+    "baidu_country_name": "巴巴多斯",
+    "country_en": "Barbados",
+    "country_zh": "巴巴多斯",
+    "topo_country_names": "",
+    "iso_code": 52,
+    "latitude": 13.1667,
+    "longitude": -59.5333
+  },
+  {
+    "country_emoji": "🇧🇾",
+    "baidu_country_name": "白俄罗斯",
+    "country_en": "Belarus",
+    "country_zh": "白俄羅斯",
+    "topo_country_names": "Belarus",
+    "iso_code": 112,
+    "latitude": 53,
+    "longitude": 28
+  },
+  {
+    "country_emoji": "🇧🇪",
+    "baidu_country_name": "比利时",
+    "country_en": "Belgium",
+    "country_zh": "比利時",
+    "topo_country_names": "Belgium",
+    "iso_code": 56,
+    "latitude": 50.8333,
+    "longitude": 4
+  },
+  {
+    "country_emoji": "🇧🇿",
+    "baidu_country_name": "伯利兹",
+    "country_en": "Belize",
+    "country_zh": "伯利茲",
+    "topo_country_names": "Belize",
+    "iso_code": 84,
+    "latitude": 17.25,
+    "longitude": -88.75
+  },
+  {
+    "country_emoji": "🇧🇯",
+    "baidu_country_name": "贝宁",
+    "country_en": "Benin",
+    "country_zh": "貝寧",
+    "topo_country_names": "Benin",
+    "iso_code": 204,
+    "latitude": 9.5,
+    "longitude": 2.25
+  },
+  {
+    "country_emoji": "🇧🇹",
+    "baidu_country_name": "不丹",
+    "country_en": "Bhutan",
+    "country_zh": "不丹",
+    "topo_country_names": "Bhutan",
+    "iso_code": 64,
+    "latitude": 27.5,
+    "longitude": 90.5
+  },
+  {
+    "country_emoji": "🇧🇴",
+    "baidu_country_name": "玻利维亚",
+    "country_en": "Bolivia",
+    "country_zh": "玻利維亞",
+    "topo_country_names": "Bolivia",
+    "iso_code": 68,
+    "latitude": -17,
+    "longitude": -65
+  },
+  {
+    "country_emoji": "🇧🇦",
+    "baidu_country_name": "波斯尼亚和黑塞哥维那",
+    "country_en": "Bosnia and Herzegovina",
+    "country_zh": "波斯尼亞和黑塞哥維那",
+    "topo_country_names": "Bosnia and Herz.",
+    "iso_code": 70,
+    "latitude": 44,
+    "longitude": 18
+  },
+  {
+    "country_emoji": "🇧🇼",
+    "baidu_country_name": "博茨瓦纳",
+    "country_en": "Botswana",
+    "country_zh": "博茨瓦納",
+    "topo_country_names": "Botswana",
+    "iso_code": 72,
+    "latitude": -22,
+    "longitude": 24
+  },
+  {
+    "country_emoji": "🇧🇷",
+    "baidu_country_name": "巴西",
+    "country_en": "Brazil",
+    "country_zh": "巴西",
+    "topo_country_names": "Brazil",
+    "iso_code": 76,
+    "latitude": -10,
+    "longitude": -55
+  },
+  {
+    "country_emoji": "🇧🇳",
+    "baidu_country_name": "文莱",
+    "country_en": "Brunei",
+    "country_zh": "文萊",
+    "topo_country_names": "Brunei",
+    "iso_code": 96,
+    "latitude": 4.5,
+    "longitude": 114.6667
+  },
+  {
+    "country_emoji": "🇧🇬",
+    "baidu_country_name": "保加利亚",
+    "country_en": "Bulgaria",
+    "country_zh": "保加利亞",
+    "topo_country_names": "Bulgaria",
+    "iso_code": 100,
+    "latitude": 43,
+    "longitude": 25
+  },
+  {
+    "country_emoji": "🇧🇫",
+    "baidu_country_name": "布基纳法索",
+    "country_en": "Burkina Faso",
+    "country_zh": "布基納法索",
+    "topo_country_names": "Burkina Faso",
+    "iso_code": 854,
+    "latitude": 13,
+    "longitude": -2
+  },
+  {
+    "country_emoji": "🇧🇮",
+    "baidu_country_name": "布隆迪",
+    "country_en": "Burundi",
+    "country_zh": "布隆迪",
+    "topo_country_names": "Burundi",
+    "iso_code": 108,
+    "latitude": -3.5,
+    "longitude": 30
+  },
+  {
+    "country_emoji": "🇰🇭",
+    "baidu_country_name": "柬埔寨",
+    "country_en": "Cambodia",
+    "country_zh": "柬埔寨",
+    "topo_country_names": "Cambodia",
+    "iso_code": 116,
+    "latitude": 13,
+    "longitude": 105
+  },
+  {
+    "country_emoji": "🇨🇲",
+    "baidu_country_name": "喀麦隆",
+    "country_en": "Cameroon",
+    "country_zh": "喀麥隆",
+    "topo_country_names": "Cameroon",
+    "iso_code": 120,
+    "latitude": 6,
+    "longitude": 12
+  },
+  {
+    "country_emoji": "🇨🇦",
+    "baidu_country_name": "加拿大",
+    "country_en": "Canada",
+    "country_zh": "加拿大",
+    "topo_country_names": "Canada",
+    "iso_code": 124,
+    "latitude": 60,
+    "longitude": -95
+  },
+  {
+    "country_emoji": "🇨🇻",
+    "baidu_country_name": "佛得角",
+    "country_en": "Cape Verde",
+    "country_zh": "佛得角",
+    "topo_country_names": "",
+    "iso_code": 132,
+    "latitude": 16,
+    "longitude": -24
+  },
+  {
+    "country_emoji": "🇨🇫",
+    "baidu_country_name": "中非共和国",
+    "country_en": "The Central African Republic",
+    "country_zh": "中非共和國",
+    "topo_country_names": "Central African Rep.",
+    "iso_code": 140,
+    "latitude": 7,
+    "longitude": 21
+  },
+  {
+    "country_emoji": "🇹🇩",
+    "baidu_country_name": "乍得",
+    "country_en": "Chad",
+    "country_zh": "乍得",
+    "topo_country_names": "Chad",
+    "iso_code": 148,
+    "latitude": 15,
+    "longitude": 19
+  },
+  {
+    "country_emoji": "🇨🇱",
+    "baidu_country_name": "智利",
+    "country_en": "Chile",
+    "country_zh": "智利",
+    "topo_country_names": "Chile",
+    "iso_code": 152,
+    "latitude": -30,
+    "longitude": -71
+  },
+  {
+    "country_emoji": "🇨🇳",
+    "baidu_country_name": "中国",
+    "country_en": "China",
+    "country_zh": "中國",
+    "topo_country_names": "China",
+    "iso_code": 156,
+    "latitude": 35,
+    "longitude": 105
+  },
+  {
+    "country_emoji": "🇨🇴",
+    "baidu_country_name": "哥伦比亚",
+    "country_en": "Colombia",
+    "country_zh": "哥倫比亞",
+    "topo_country_names": "Colombia",
+    "iso_code": 170,
+    "latitude": 4,
+    "longitude": -72
+  },
+  {
+    "country_emoji": "🇰🇲",
+    "baidu_country_name": "科摩罗",
+    "country_en": "The Comoros",
+    "country_zh": "科摩羅",
+    "topo_country_names": "",
+    "iso_code": "",
+    "latitude": "",
+    "longitude": ""
+  },
+  {
+    "country_emoji": "🇨🇰",
+    "baidu_country_name": "库克群岛",
+    "country_en": "Cook Islands",
+    "country_zh": "庫克群島",
+    "topo_country_names": "",
+    "iso_code": 184,
+    "latitude": -21.2333,
+    "longitude": -159.7667
+  },
+  {
+    "country_emoji": "🇨🇷",
+    "baidu_country_name": "哥斯达黎加",
+    "country_en": "Costa Rica",
+    "country_zh": "哥斯達黎加",
+    "topo_country_names": "Costa Rica",
+    "iso_code": 188,
+    "latitude": 10,
+    "longitude": -84
+  },
+  {
+    "country_emoji": "🇨🇮",
+    "baidu_country_name": "科特迪瓦",
+    "country_en": "Cote d’Ivoire",
+    "country_zh": "科特迪瓦",
+    "topo_country_names": "Côte d'Ivoire",
+    "iso_code": 384,
+    "latitude": 8,
+    "longitude": -5
+  },
+  {
+    "country_emoji": "🇭🇷",
+    "baidu_country_name": "克罗地亚",
+    "country_en": "Croatia",
+    "country_zh": "克羅地亞",
+    "topo_country_names": "Croatia",
+    "iso_code": 191,
+    "latitude": 45.1667,
+    "longitude": 15.5
+  },
+  {
+    "country_emoji": "🇨🇺",
+    "baidu_country_name": "古巴",
+    "country_en": "Cuba",
+    "country_zh": "古巴",
+    "topo_country_names": "Cuba",
+    "iso_code": 192,
+    "latitude": 21.5,
+    "longitude": -80
+  },
+  {
+    "country_emoji": "🇨🇾",
+    "baidu_country_name": "塞浦路斯",
+    "country_en": "Cyprus",
+    "country_zh": "塞浦路斯",
+    "topo_country_names": "Cyprus",
+    "iso_code": 196,
+    "latitude": 35,
+    "longitude": 33
+  },
+  {
+    "country_emoji": "🇨🇿",
+    "baidu_country_name": "捷克",
+    "country_en": "The Czech Republic",
+    "country_zh": "捷克",
+    "topo_country_names": "Czechia",
+    "iso_code": 203,
+    "latitude": 49.75,
+    "longitude": 15.5
+  },
+  {
+    "country_emoji": "🇨🇩",
+    "baidu_country_name": "刚果民主共和国",
+    "country_en": "The Democratic Republic of the Congo",
+    "country_zh": "剛果民主共和國",
+    "topo_country_names": "Dem. Rep. Congo",
+    "iso_code": 180,
+    "latitude": 0,
+    "longitude": 25
+  },
+  {
+    "country_emoji": "🇩🇰",
+    "baidu_country_name": "丹麦",
+    "country_en": "Denmark",
+    "country_zh": "丹麥",
+    "topo_country_names": "Denmark",
+    "iso_code": 208,
+    "latitude": 56,
+    "longitude": 10
+  },
+  {
+    "country_emoji": "🇩🇯",
+    "baidu_country_name": "吉布提",
+    "country_en": "Djibouti",
+    "country_zh": "吉布提",
+    "topo_country_names": "Djibouti",
+    "iso_code": 262,
+    "latitude": 11.5,
+    "longitude": 43
+  },
+  {
+    "country_emoji": "🇩🇲",
+    "baidu_country_name": "多米尼加",
+    "country_en": "Dominica",
+    "country_zh": "多米尼加",
+    "topo_country_names": "",
+    "iso_code": 212,
+    "latitude": 15.4167,
+    "longitude": -61.3333
+  },
+  {
+    "country_emoji": "🇩🇴",
+    "baidu_country_name": "多米尼加共和国",
+    "country_en": "The Dominican Republic",
+    "country_zh": "多米尼加共和國",
+    "topo_country_names": "Dominican Rep.",
+    "iso_code": 214,
+    "latitude": 19,
+    "longitude": -70.6667
+  },
+  {
+    "country_emoji": "🇹🇱",
+    "baidu_country_name": "东帝汶",
+    "country_en": "East Timor",
+    "country_zh": "東帝汶",
+    "topo_country_names": "Timor-Leste",
+    "iso_code": 626,
+    "latitude": -8.55,
+    "longitude": 125.5167
+  },
+  {
+    "country_emoji": "🇪🇨",
+    "baidu_country_name": "厄瓜多尔",
+    "country_en": "Ecuador",
+    "country_zh": "厄瓜多爾",
+    "topo_country_names": "Ecuador",
+    "iso_code": 218,
+    "latitude": -2,
+    "longitude": -77.5
+  },
+  {
+    "country_emoji": "🇪🇬",
+    "baidu_country_name": "埃及",
+    "country_en": "Egypt",
+    "country_zh": "埃及",
+    "topo_country_names": "Egypt",
+    "iso_code": 818,
+    "latitude": 27,
+    "longitude": 30
+  },
+  {
+    "country_emoji": "🇸🇻",
+    "baidu_country_name": "萨尔瓦多",
+    "country_en": "El Salvador",
+    "country_zh": "薩爾瓦多",
+    "topo_country_names": "El Salvador",
+    "iso_code": 222,
+    "latitude": 13.8333,
+    "longitude": -88.9167
+  },
+  {
+    "country_emoji": "🇬🇶",
+    "baidu_country_name": "赤道几内亚",
+    "country_en": "Equatorial Guinea",
+    "country_zh": "赤道幾內亞",
+    "topo_country_names": "Eq. Guinea",
+    "iso_code": 226,
+    "latitude": 2,
+    "longitude": 10
+  },
+  {
+    "country_emoji": "🇪🇷",
+    "baidu_country_name": "厄立特里亚",
+    "country_en": "Eritrea",
+    "country_zh": "厄立特里亞",
+    "topo_country_names": "Eritrea",
+    "iso_code": 232,
+    "latitude": 15,
+    "longitude": 39
+  },
+  {
+    "country_emoji": "🇪🇪",
+    "baidu_country_name": "爱沙尼亚",
+    "country_en": "Estonia",
+    "country_zh": "愛沙尼亞",
+    "topo_country_names": "Estonia",
+    "iso_code": 233,
+    "latitude": 59,
+    "longitude": 26
+  },
+  {
+    "country_emoji": "🇪🇹",
+    "baidu_country_name": "埃塞俄比亚",
+    "country_en": "Ethiopia",
+    "country_zh": "埃塞俄比亞",
+    "topo_country_names": "Ethiopia",
+    "iso_code": 231,
+    "latitude": 8,
+    "longitude": 38
+  },
+  {
+    "country_emoji": "🇫🇯",
+    "baidu_country_name": "斐济",
+    "country_en": "Fiji",
+    "country_zh": "斐濟",
+    "topo_country_names": "Fiji",
+    "iso_code": 242,
+    "latitude": -18,
+    "longitude": 175
+  },
+  {
+    "country_emoji": "🇫🇮",
+    "baidu_country_name": "芬兰",
+    "country_en": "Finland",
+    "country_zh": "芬蘭",
+    "topo_country_names": "Finland",
+    "iso_code": 246,
+    "latitude": 64,
+    "longitude": 26
+  },
+  {
+    "country_emoji": "🇫🇷",
+    "baidu_country_name": "法国",
+    "country_en": "France",
+    "country_zh": "法國",
+    "topo_country_names": "France",
+    "iso_code": 250,
+    "latitude": 46,
+    "longitude": 2
+  },
+  {
+    "country_emoji": "🇬🇦",
+    "baidu_country_name": "加蓬",
+    "country_en": "Gabon",
+    "country_zh": "加蓬",
+    "topo_country_names": "Gabon",
+    "iso_code": 266,
+    "latitude": -1,
+    "longitude": 11.75
+  },
+  {
+    "country_emoji": "🇬🇲",
+    "baidu_country_name": "冈比亚",
+    "country_en": "The Gambia",
+    "country_zh": "岡比亞",
+    "topo_country_names": "Gambia",
+    "iso_code": 270,
+    "latitude": 13.4667,
+    "longitude": -16.5667
+  },
+  {
+    "country_emoji": "🇬🇪",
+    "baidu_country_name": "格鲁吉亚",
+    "country_en": "Georgia",
+    "country_zh": "格魯吉亞",
+    "topo_country_names": "Georgia",
+    "iso_code": 268,
+    "latitude": 42,
+    "longitude": 43.5
+  },
+  {
+    "country_emoji": "🇩🇪",
+    "baidu_country_name": "德国",
+    "country_en": "Germany",
+    "country_zh": "德國",
+    "topo_country_names": "Germany",
+    "iso_code": 276,
+    "latitude": 51,
+    "longitude": 9
+  },
+  {
+    "country_emoji": "🇬🇭",
+    "baidu_country_name": "加纳",
+    "country_en": "Ghana",
+    "country_zh": "加納",
+    "topo_country_names": "Ghana",
+    "iso_code": 288,
+    "latitude": 8,
+    "longitude": -2
+  },
+  {
+    "country_emoji": "🇬🇷",
+    "baidu_country_name": "希腊",
+    "country_en": "Greece",
+    "country_zh": "希臘",
+    "topo_country_names": "Greece",
+    "iso_code": 300,
+    "latitude": 39,
+    "longitude": 22
+  },
+  {
+    "country_emoji": "🇬🇩",
+    "baidu_country_name": "格林纳达",
+    "country_en": "Grenada",
+    "country_zh": "格林納達",
+    "topo_country_names": "Greenland",
+    "iso_code": 304,
+    "latitude": 72,
+    "longitude": -40
+  },
+  {
+    "country_emoji": "🇬🇹",
+    "baidu_country_name": "危地马拉",
+    "country_en": "Guatemala",
+    "country_zh": "危地馬拉",
+    "topo_country_names": "Guatemala",
+    "iso_code": 320,
+    "latitude": 15.5,
+    "longitude": -90.25
+  },
+  {
+    "country_emoji": "🇬🇳",
+    "baidu_country_name": "几内亚",
+    "country_en": "Guinea",
+    "country_zh": "幾內亞",
+    "topo_country_names": "Guinea",
+    "iso_code": 324,
+    "latitude": 11,
+    "longitude": -10
+  },
+  {
+    "country_emoji": "🇬🇼",
+    "baidu_country_name": "几内亚比绍",
+    "country_en": "Guinea-Bissau",
+    "country_zh": "幾內亞比紹",
+    "topo_country_names": "Guinea-Bissau",
+    "iso_code": 624,
+    "latitude": 12,
+    "longitude": -15
+  },
+  {
+    "country_emoji": "🇬🇾",
+    "baidu_country_name": "圭亚那",
+    "country_en": "Guyana",
+    "country_zh": "圭亞那",
+    "topo_country_names": "Guyana",
+    "iso_code": 328,
+    "latitude": 5,
+    "longitude": -59
+  },
+  {
+    "country_emoji": "🇭🇹",
+    "baidu_country_name": "海地",
+    "country_en": "Haiti",
+    "country_zh": "海地",
+    "topo_country_names": "Haiti",
+    "iso_code": 332,
+    "latitude": 19,
+    "longitude": -72.4167
+  },
+  {
+    "country_emoji": "🇭🇳",
+    "baidu_country_name": "洪都拉斯",
+    "country_en": "Honduras",
+    "country_zh": "洪都拉斯",
+    "topo_country_names": "Honduras",
+    "iso_code": 340,
+    "latitude": 15,
+    "longitude": -86.5
+  },
+  {
+    "country_emoji": "🇭🇺",
+    "baidu_country_name": "匈牙利",
+    "country_en": "Hungary",
+    "country_zh": "匈牙利",
+    "topo_country_names": "Hungary",
+    "iso_code": 348,
+    "latitude": 47,
+    "longitude": 20
+  },
+  {
+    "country_emoji": "🇮🇸",
+    "baidu_country_name": "冰岛",
+    "country_en": "Iceland",
+    "country_zh": "冰島",
+    "topo_country_names": "Iceland",
+    "iso_code": 352,
+    "latitude": 65,
+    "longitude": -18
+  },
+  {
+    "country_emoji": "🇮🇳",
+    "baidu_country_name": "印度",
+    "country_en": "India",
+    "country_zh": "印度",
+    "topo_country_names": "India",
+    "iso_code": 356,
+    "latitude": 20,
+    "longitude": 77
+  },
+  {
+    "country_emoji": "🇮🇩",
+    "baidu_country_name": "印度尼西亚",
+    "country_en": "Indonesia",
+    "country_zh": "印度尼西亞",
+    "topo_country_names": "Indonesia",
+    "iso_code": 360,
+    "latitude": -5,
+    "longitude": 120
+  },
+  {
+    "country_emoji": "🇮🇷",
+    "baidu_country_name": "伊朗",
+    "country_en": "Iran",
+    "country_zh": "伊朗",
+    "topo_country_names": "Iran",
+    "iso_code": 364,
+    "latitude": 32,
+    "longitude": 53
+  },
+  {
+    "country_emoji": "🇮🇶",
+    "baidu_country_name": "伊拉克",
+    "country_en": "Iraq",
+    "country_zh": "伊拉克",
+    "topo_country_names": "Iraq",
+    "iso_code": 368,
+    "latitude": 33,
+    "longitude": 44
+  },
+  {
+    "country_emoji": "🇮🇪",
+    "baidu_country_name": "爱尔兰",
+    "country_en": "Ireland",
+    "country_zh": "愛爾蘭",
+    "topo_country_names": "Ireland",
+    "iso_code": 372,
+    "latitude": 53,
+    "longitude": -8
+  },
+  {
+    "country_emoji": "🇮🇱",
+    "baidu_country_name": "以色列",
+    "country_en": "Israel",
+    "country_zh": "以色列",
+    "topo_country_names": "Israel",
+    "iso_code": 376,
+    "latitude": 31.5,
+    "longitude": 34.75
+  },
+  {
+    "country_emoji": "🇮🇹",
+    "baidu_country_name": "意大利",
+    "country_en": "Italy",
+    "country_zh": "意大利",
+    "topo_country_names": "Italy",
+    "iso_code": 380,
+    "latitude": 42.8333,
+    "longitude": 12.8333
+  },
+  {
+    "country_emoji": "🇯🇲",
+    "baidu_country_name": "牙买加",
+    "country_en": "Jamaica",
+    "country_zh": "牙買加",
+    "topo_country_names": "Jamaica",
+    "iso_code": 388,
+    "latitude": 18.25,
+    "longitude": -77.5
+  },
+  {
+    "country_emoji": "🇯🇵",
+    "baidu_country_name": "日本",
+    "country_en": "Japan",
+    "country_zh": "日本",
+    "topo_country_names": "Japan",
+    "iso_code": 392,
+    "latitude": 36,
+    "longitude": 138
+  },
+  {
+    "country_emoji": "🇯🇴",
+    "baidu_country_name": "约旦",
+    "country_en": "Jordan",
+    "country_zh": "約旦",
+    "topo_country_names": "Jordan",
+    "iso_code": 400,
+    "latitude": 31,
+    "longitude": 36
+  },
+  {
+    "country_emoji": "🇰🇿",
+    "baidu_country_name": "哈萨克斯坦",
+    "country_en": "Kazakhstan",
+    "country_zh": "哈薩克斯坦",
+    "topo_country_names": "Kazakhstan",
+    "iso_code": 398,
+    "latitude": 48,
+    "longitude": 68
+  },
+  {
+    "country_emoji": "🇰🇪",
+    "baidu_country_name": "肯尼亚",
+    "country_en": "Kenya",
+    "country_zh": "肯尼亞",
+    "topo_country_names": "Kenya",
+    "iso_code": 404,
+    "latitude": 1,
+    "longitude": 38
+  },
+  {
+    "country_emoji": "🇰🇮",
+    "baidu_country_name": "基里巴斯",
+    "country_en": "Kiribati",
+    "country_zh": "基里巴斯",
+    "topo_country_names": "",
+    "iso_code": 296,
+    "latitude": 1.4167,
+    "longitude": 173
+  },
+  {
+    "country_emoji": "🇽🇰",
+    "baidu_country_name": "科索沃",
+    "country_en": "Kosovo",
+    "country_zh": "科索沃",
+    "topo_country_names": "Kosovo",
+    "iso_code": "",
+    "latitude": "",
+    "longitude": ""
+  },
+  {
+    "country_emoji": "🇰🇼",
+    "baidu_country_name": "科威特",
+    "country_en": "Kuwait",
+    "country_zh": "科威特",
+    "topo_country_names": "Kuwait",
+    "iso_code": 414,
+    "latitude": 29.3375,
+    "longitude": 47.6581
+  },
+  {
+    "country_emoji": "🇰🇬",
+    "baidu_country_name": "吉尔吉斯斯坦",
+    "country_en": "Kyrgyzstan",
+    "country_zh": "吉爾吉斯斯坦",
+    "topo_country_names": "Kyrgyzstan",
+    "iso_code": 417,
+    "latitude": 41,
+    "longitude": 75
+  },
+  {
+    "country_emoji": "🇱🇦",
+    "baidu_country_name": "老挝",
+    "country_en": "Laos",
+    "country_zh": "老撾",
+    "topo_country_names": "Laos",
+    "iso_code": 418,
+    "latitude": 18,
+    "longitude": 105
+  },
+  {
+    "country_emoji": "🇱🇻",
+    "baidu_country_name": "拉脱维亚",
+    "country_en": "Latvia",
+    "country_zh": "拉脫維亞",
+    "topo_country_names": "Latvia",
+    "iso_code": 428,
+    "latitude": 57,
+    "longitude": 25
+  },
+  {
+    "country_emoji": "🇱🇧",
+    "baidu_country_name": "黎巴嫩",
+    "country_en": "Lebanon",
+    "country_zh": "黎巴嫩",
+    "topo_country_names": "Lebanon",
+    "iso_code": 422,
+    "latitude": 33.8333,
+    "longitude": 35.8333
+  },
+  {
+    "country_emoji": "🇱🇸",
+    "baidu_country_name": "莱索托",
+    "country_en": "Lesotho",
+    "country_zh": "萊索托",
+    "topo_country_names": "Lesotho",
+    "iso_code": 426,
+    "latitude": -29.5,
+    "longitude": 28.5
+  },
+  {
+    "country_emoji": "🇱🇷",
+    "baidu_country_name": "利比里亚",
+    "country_en": "Liberia",
+    "country_zh": "利比里亞",
+    "topo_country_names": "Liberia",
+    "iso_code": 430,
+    "latitude": 6.5,
+    "longitude": -9.5
+  },
+  {
+    "country_emoji": "🇱🇾",
+    "baidu_country_name": "利比亚",
+    "country_en": "Libya",
+    "country_zh": "利比亞",
+    "topo_country_names": "Libya",
+    "iso_code": 434,
+    "latitude": 25,
+    "longitude": 17
+  },
+  {
+    "country_emoji": "🇱🇮",
+    "baidu_country_name": "列支敦士登",
+    "country_en": "Liechtenstein",
+    "country_zh": "列支敦士登",
+    "topo_country_names": "",
+    "iso_code": 438,
+    "latitude": 47.1667,
+    "longitude": 9.5333
+  },
+  {
+    "country_emoji": "🇱🇹",
+    "baidu_country_name": "立陶宛",
+    "country_en": "Lithuania",
+    "country_zh": "立陶宛",
+    "topo_country_names": "Lithuania",
+    "iso_code": 440,
+    "latitude": 56,
+    "longitude": 24
+  },
+  {
+    "country_emoji": "🇱🇺",
+    "baidu_country_name": "卢森堡",
+    "country_en": "Luxembourg",
+    "country_zh": "盧森堡",
+    "topo_country_names": "Luxembourg",
+    "iso_code": 442,
+    "latitude": 49.75,
+    "longitude": 6.1667
+  },
+  {
+    "country_emoji": "🇲🇰",
+    "baidu_country_name": "北马其顿",
+    "country_en": "Macedonia",
+    "country_zh": "北馬其頓",
+    "topo_country_names": "Macedonia",
+    "iso_code": 807,
+    "latitude": 41.8333,
+    "longitude": 22
+  },
+  {
+    "country_emoji": "🇲🇬",
+    "baidu_country_name": "马达加斯加",
+    "country_en": "Madagascar",
+    "country_zh": "馬達加斯加",
+    "topo_country_names": "Madagascar",
+    "iso_code": 450,
+    "latitude": -20,
+    "longitude": 47
+  },
+  {
+    "country_emoji": "🇲🇼",
+    "baidu_country_name": "马拉维",
+    "country_en": "Malawi",
+    "country_zh": "馬拉維",
+    "topo_country_names": "Malawi",
+    "iso_code": 454,
+    "latitude": -13.5,
+    "longitude": 34
+  },
+  {
+    "country_emoji": "🇲🇾",
+    "baidu_country_name": "马来西亚",
+    "country_en": "Malaysia",
+    "country_zh": "馬來西亞",
+    "topo_country_names": "Malaysia",
+    "iso_code": 458,
+    "latitude": 2.5,
+    "longitude": 112.5
+  },
+  {
+    "country_emoji": "🇲🇻",
+    "baidu_country_name": "马尔代夫",
+    "country_en": "Maldives",
+    "country_zh": "馬爾代夫",
+    "topo_country_names": "",
+    "iso_code": 462,
+    "latitude": 3.25,
+    "longitude": 73
+  },
+  {
+    "country_emoji": "🇲🇱",
+    "baidu_country_name": "马里",
+    "country_en": "Mali",
+    "country_zh": "馬里",
+    "topo_country_names": "Mali",
+    "iso_code": 466,
+    "latitude": 17,
+    "longitude": -4
+  },
+  {
+    "country_emoji": "🇲🇹",
+    "baidu_country_name": "马耳他",
+    "country_en": "Malta",
+    "country_zh": "馬耳他",
+    "topo_country_names": "",
+    "iso_code": 470,
+    "latitude": 35.8333,
+    "longitude": 14.5833
+  },
+  {
+    "country_emoji": "🇲🇭",
+    "baidu_country_name": "马绍尔群岛",
+    "country_en": "The Marshall Islands",
+    "country_zh": "馬紹爾群島",
+    "topo_country_names": "",
+    "iso_code": "",
+    "latitude": "",
+    "longitude": ""
+  },
+  {
+    "country_emoji": "🇲🇷",
+    "baidu_country_name": "毛里塔尼亚",
+    "country_en": "Mauritania",
+    "country_zh": "毛里塔尼亞",
+    "topo_country_names": "Mauritania",
+    "iso_code": 478,
+    "latitude": 20,
+    "longitude": -12
+  },
+  {
+    "country_emoji": "🇲🇺",
+    "baidu_country_name": "毛里求斯",
+    "country_en": "Mauritius",
+    "country_zh": "毛里求斯",
+    "topo_country_names": "",
+    "iso_code": 480,
+    "latitude": -20.2833,
+    "longitude": 57.55
+  },
+  {
+    "country_emoji": "🇲🇽",
+    "baidu_country_name": "墨西哥",
+    "country_en": "Mexico",
+    "country_zh": "墨西哥",
+    "topo_country_names": "Mexico",
+    "iso_code": 484,
+    "latitude": 23,
+    "longitude": -102
+  },
+  {
+    "country_emoji": "🇫🇲",
+    "baidu_country_name": "密克罗尼西亚",
+    "country_en": "Micronesia",
+    "country_zh": "密克羅尼西亞",
+    "topo_country_names": "",
+    "iso_code": "",
+    "latitude": "",
+    "longitude": ""
+  },
+  {
+    "country_emoji": "🇲🇩",
+    "baidu_country_name": "摩尔多瓦",
+    "country_en": "Moldova",
+    "country_zh": "摩爾多瓦",
+    "topo_country_names": "Moldova",
+    "iso_code": 498,
+    "latitude": 47,
+    "longitude": 29
+  },
+  {
+    "country_emoji": "🇲🇨",
+    "baidu_country_name": "摩纳哥",
+    "country_en": "Monaco",
+    "country_zh": "摩納哥",
+    "topo_country_names": "",
+    "iso_code": 492,
+    "latitude": 43.7333,
+    "longitude": 7.4
+  },
+  {
+    "country_emoji": "🇲🇳",
+    "baidu_country_name": "蒙古",
+    "country_en": "Mongolia",
+    "country_zh": "蒙古",
+    "topo_country_names": "Mongolia",
+    "iso_code": 496,
+    "latitude": 46,
+    "longitude": 105
+  },
+  {
+    "country_emoji": "🇲🇪",
+    "baidu_country_name": "黑山",
+    "country_en": "Montenegro",
+    "country_zh": "黑山",
+    "topo_country_names": "Montenegro",
+    "iso_code": 499,
+    "latitude": 42,
+    "longitude": 19
+  },
+  {
+    "country_emoji": "🇲🇦",
+    "baidu_country_name": "摩洛哥",
+    "country_en": "Morocco",
+    "country_zh": "摩洛哥",
+    "topo_country_names": "Morocco",
+    "iso_code": 504,
+    "latitude": 32,
+    "longitude": -5
+  },
+  {
+    "country_emoji": "🇲🇿",
+    "baidu_country_name": "莫桑比克",
+    "country_en": "Mozambique",
+    "country_zh": "莫桑比克",
+    "topo_country_names": "Mozambique",
+    "iso_code": 508,
+    "latitude": -18.25,
+    "longitude": 35
+  },
+  {
+    "country_emoji": "🇲🇲",
+    "baidu_country_name": "缅甸",
+    "country_en": "Myanmar",
+    "country_zh": "緬甸",
+    "topo_country_names": "Myanmar",
+    "iso_code": 104,
+    "latitude": 22,
+    "longitude": 98
+  },
+  {
+    "country_emoji": "🇳🇦",
+    "baidu_country_name": "纳米比亚",
+    "country_en": "Namibia",
+    "country_zh": "納米比亞",
+    "topo_country_names": "Namibia",
+    "iso_code": 516,
+    "latitude": -22,
+    "longitude": 17
+  },
+  {
+    "country_emoji": "🇳🇷",
+    "baidu_country_name": "瑙鲁",
+    "country_en": "Nauru",
+    "country_zh": "瑙魯",
+    "topo_country_names": "",
+    "iso_code": 520,
+    "latitude": -0.5333,
+    "longitude": 166.9167
+  },
+  {
+    "country_emoji": "🇳🇵",
+    "baidu_country_name": "尼泊尔",
+    "country_en": "Nepal",
+    "country_zh": "尼泊爾",
+    "topo_country_names": "Nepal",
+    "iso_code": 524,
+    "latitude": 28,
+    "longitude": 84
+  },
+  {
+    "country_emoji": "🇳🇱",
+    "baidu_country_name": "荷兰",
+    "country_en": "The Netherlands",
+    "country_zh": "荷蘭",
+    "topo_country_names": "Netherlands",
+    "iso_code": 528,
+    "latitude": 52.5,
+    "longitude": 5.75
+  },
+  {
+    "country_emoji": "🇳🇿",
+    "baidu_country_name": "新西兰",
+    "country_en": "New Zealand",
+    "country_zh": "新西蘭",
+    "topo_country_names": "New Zealand",
+    "iso_code": 554,
+    "latitude": -41,
+    "longitude": 174
+  },
+  {
+    "country_emoji": "🇳🇮",
+    "baidu_country_name": "尼加拉瓜",
+    "country_en": "Nicaragua",
+    "country_zh": "尼加拉瓜",
+    "topo_country_names": "Nicaragua",
+    "iso_code": 558,
+    "latitude": 13,
+    "longitude": -85
+  },
+  {
+    "country_emoji": "🇳🇪",
+    "baidu_country_name": "尼日尔",
+    "country_en": "Niger",
+    "country_zh": "尼日爾",
+    "topo_country_names": "Niger",
+    "iso_code": 562,
+    "latitude": 16,
+    "longitude": 8
+  },
+  {
+    "country_emoji": "🇳🇬",
+    "baidu_country_name": "尼日利亚",
+    "country_en": "Nigeria",
+    "country_zh": "尼日利亞",
+    "topo_country_names": "Nigeria",
+    "iso_code": 566,
+    "latitude": 10,
+    "longitude": 8
+  },
+  {
+    "country_emoji": "🇳🇺",
+    "baidu_country_name": "纽埃",
+    "country_en": "Niue",
+    "country_zh": "紐埃",
+    "topo_country_names": "",
+    "iso_code": 570,
+    "latitude": -19.0333,
+    "longitude": -169.8667
+  },
+  {
+    "country_emoji": "🇰🇵",
+    "baidu_country_name": "北朝鲜",
+    "country_en": "North Korea",
+    "country_zh": "北朝鮮",
+    "topo_country_names": "North Korea",
+    "iso_code": 408,
+    "latitude": 40,
+    "longitude": 127
+  },
+  {
+    "country_emoji": "🇳🇴",
+    "baidu_country_name": "挪威",
+    "country_en": "Norway",
+    "country_zh": "挪威",
+    "topo_country_names": "Norway",
+    "iso_code": 578,
+    "latitude": 62,
+    "longitude": 10
+  },
+  {
+    "country_emoji": "🇴🇲",
+    "baidu_country_name": "阿曼",
+    "country_en": "Oman",
+    "country_zh": "阿曼",
+    "topo_country_names": "Oman",
+    "iso_code": 512,
+    "latitude": 21,
+    "longitude": 57
+  },
+  {
+    "country_emoji": "🇵🇰",
+    "baidu_country_name": "巴基斯坦",
+    "country_en": "Pakistan",
+    "country_zh": "巴基斯坦",
+    "topo_country_names": "Pakistan",
+    "iso_code": 586,
+    "latitude": 30,
+    "longitude": 70
+  },
+  {
+    "country_emoji": "🇵🇼",
+    "baidu_country_name": "帕劳",
+    "country_en": "Palau",
+    "country_zh": "帕勞",
+    "topo_country_names": "",
+    "iso_code": 585,
+    "latitude": 7.5,
+    "longitude": 134.5
+  },
+  {
+    "country_emoji": "🇵🇦",
+    "baidu_country_name": "巴拿马",
+    "country_en": "Panama",
+    "country_zh": "巴拿馬",
+    "topo_country_names": "Panama",
+    "iso_code": 591,
+    "latitude": 9,
+    "longitude": -80
+  },
+  {
+    "country_emoji": "🇵🇬",
+    "baidu_country_name": "巴布亚新几内亚",
+    "country_en": "Papua New Guinea",
+    "country_zh": "巴布亞新幾內亞",
+    "topo_country_names": "Papua New Guinea",
+    "iso_code": 598,
+    "latitude": -6,
+    "longitude": 147
+  },
+  {
+    "country_emoji": "🇵🇾",
+    "baidu_country_name": "巴拉圭",
+    "country_en": "Paraguay",
+    "country_zh": "巴拉圭",
+    "topo_country_names": "Paraguay",
+    "iso_code": 600,
+    "latitude": -23,
+    "longitude": -58
+  },
+  {
+    "country_emoji": "🇵🇪",
+    "baidu_country_name": "秘鲁",
+    "country_en": "Peru",
+    "country_zh": "秘魯",
+    "topo_country_names": "Peru",
+    "iso_code": 604,
+    "latitude": -10,
+    "longitude": -76
+  },
+  {
+    "country_emoji": "🇵🇭",
+    "baidu_country_name": "菲律宾",
+    "country_en": "The Philippines",
+    "country_zh": "菲律賓",
+    "topo_country_names": "Philippines",
+    "iso_code": 608,
+    "latitude": 13,
+    "longitude": 122
+  },
+  {
+    "country_emoji": "🇵🇱",
+    "baidu_country_name": "波兰",
+    "country_en": "Poland",
+    "country_zh": "波蘭",
+    "topo_country_names": "Poland",
+    "iso_code": 616,
+    "latitude": 52,
+    "longitude": 20
+  },
+  {
+    "country_emoji": "🇵🇹",
+    "baidu_country_name": "葡萄牙",
+    "country_en": "Portugal",
+    "country_zh": "葡萄牙",
+    "topo_country_names": "Portugal",
+    "iso_code": 620,
+    "latitude": 39.5,
+    "longitude": -8
+  },
+  {
+    "country_emoji": "🇶🇦",
+    "baidu_country_name": "卡塔尔",
+    "country_en": "Qatar",
+    "country_zh": "卡塔爾",
+    "topo_country_names": "Qatar",
+    "iso_code": 634,
+    "latitude": 25.5,
+    "longitude": 51.25
+  },
+  {
+    "country_emoji": "🇹🇼",
+    "baidu_country_name": "台灣",
+    "country_en": "Taiwan",
+    "country_zh": "台灣",
+    "topo_country_names": "Taiwan",
+    "iso_code": 158,
+    "latitude": 23.5,
+    "longitude": 121
+  },
+  {
+    "country_emoji": "🇨🇬",
+    "baidu_country_name": "刚果共和国",
+    "country_en": "The Republic of the Congo",
+    "country_zh": "剛果共和國",
+    "topo_country_names": "Congo",
+    "iso_code": 178,
+    "latitude": -1,
+    "longitude": 15
+  },
+  {
+    "country_emoji": "🇷🇴",
+    "baidu_country_name": "罗马尼亚",
+    "country_en": "Romania",
+    "country_zh": "羅馬尼亞",
+    "topo_country_names": "Romania",
+    "iso_code": 642,
+    "latitude": 46,
+    "longitude": 25
+  },
+  {
+    "country_emoji": "🇷🇺",
+    "baidu_country_name": "俄罗斯",
+    "country_en": "Russia",
+    "country_zh": "俄羅斯",
+    "topo_country_names": "Russia",
+    "iso_code": 643,
+    "latitude": 60,
+    "longitude": 100
+  },
+  {
+    "country_emoji": "🇷🇼",
+    "baidu_country_name": "卢旺达",
+    "country_en": "Rwanda",
+    "country_zh": "盧旺達",
+    "topo_country_names": "Rwanda",
+    "iso_code": 646,
+    "latitude": -2,
+    "longitude": 30
+  },
+  {
+    "country_emoji": "🇰🇳",
+    "baidu_country_name": "圣基茨和尼维斯",
+    "country_en": "Saint Kitts and Nevis",
+    "country_zh": "聖基茨和尼維斯",
+    "topo_country_names": "",
+    "iso_code": 659,
+    "latitude": 17.3333,
+    "longitude": -62.75
+  },
+  {
+    "country_emoji": "🇱🇨",
+    "baidu_country_name": "圣卢西亚",
+    "country_en": "Saint Lucia",
+    "country_zh": "聖盧西亞",
+    "topo_country_names": "",
+    "iso_code": 662,
+    "latitude": 13.8833,
+    "longitude": -61.1333
+  },
+  {
+    "country_emoji": "🇻🇨",
+    "baidu_country_name": "圣文森特和格林纳丁斯",
+    "country_en": "Saint Vincent and the Grenadines",
+    "country_zh": "聖文森特和格林納丁斯",
+    "topo_country_names": "",
+    "iso_code": 670,
+    "latitude": 13.25,
+    "longitude": -61.2
+  },
+  {
+    "country_emoji": "🇼🇸",
+    "baidu_country_name": "萨摩亚",
+    "country_en": "Samoa",
+    "country_zh": "薩摩亞",
+    "topo_country_names": "",
+    "iso_code": 882,
+    "latitude": -13.5833,
+    "longitude": -172.3333
+  },
+  {
+    "country_emoji": "🇸🇲",
+    "baidu_country_name": "圣马力诺",
+    "country_en": "San Marino",
+    "country_zh": "聖馬力諾",
+    "topo_country_names": "",
+    "iso_code": 674,
+    "latitude": 43.7667,
+    "longitude": 12.4167
+  },
+  {
+    "country_emoji": "🇸🇹",
+    "baidu_country_name": "圣多美和普林西比",
+    "country_en": "Sao Tome and Principe",
+    "country_zh": "聖多美和普林西比",
+    "topo_country_names": "",
+    "iso_code": 678,
+    "latitude": 1,
+    "longitude": 7
+  },
+  {
+    "country_emoji": "🇸🇦",
+    "baidu_country_name": "沙特阿拉伯",
+    "country_en": "Saudi Arabia",
+    "country_zh": "沙特阿拉伯",
+    "topo_country_names": "Saudi Arabia",
+    "iso_code": 682,
+    "latitude": 25,
+    "longitude": 45
+  },
+  {
+    "country_emoji": "🇸🇳",
+    "baidu_country_name": "塞内加尔",
+    "country_en": "Senegal",
+    "country_zh": "塞內加爾",
+    "topo_country_names": "Senegal",
+    "iso_code": 686,
+    "latitude": 14,
+    "longitude": -14
+  },
+  {
+    "country_emoji": "🇷🇸",
+    "baidu_country_name": "塞尔维亚",
+    "country_en": "Serbia",
+    "country_zh": "塞爾維亞",
+    "topo_country_names": "Serbia",
+    "iso_code": 688,
+    "latitude": 44,
+    "longitude": 21
+  },
+  {
+    "country_emoji": "🇸🇨",
+    "baidu_country_name": "塞舌尔群岛",
+    "country_en": "The Seychelles",
+    "country_zh": "塞舌爾群島",
+    "topo_country_names": "",
+    "iso_code": "",
+    "latitude": "",
+    "longitude": ""
+  },
+  {
+    "country_emoji": "🇸🇱",
+    "baidu_country_name": "塞拉利昂",
+    "country_en": "Sierra Leone",
+    "country_zh": "塞拉利昂",
+    "topo_country_names": "Sierra Leone",
+    "iso_code": 694,
+    "latitude": 8.5,
+    "longitude": -11.5
+  },
+  {
+    "country_emoji": "🇸🇬",
+    "baidu_country_name": "新加坡",
+    "country_en": "Singapore",
+    "country_zh": "新加坡",
+    "topo_country_names": "",
+    "iso_code": 702,
+    "latitude": 1.3667,
+    "longitude": 103.8
+  },
+  {
+    "country_emoji": "🇸🇰",
+    "baidu_country_name": "斯洛伐克",
+    "country_en": "Slovakia",
+    "country_zh": "斯洛伐克",
+    "topo_country_names": "Slovakia",
+    "iso_code": 703,
+    "latitude": 48.6667,
+    "longitude": 19.5
+  },
+  {
+    "country_emoji": "🇸🇮",
+    "baidu_country_name": "斯洛文尼亚",
+    "country_en": "Slovenia",
+    "country_zh": "斯洛文尼亞",
+    "topo_country_names": "Slovenia",
+    "iso_code": 705,
+    "latitude": 46,
+    "longitude": 15
+  },
+  {
+    "country_emoji": "🇸🇧",
+    "baidu_country_name": "所罗门群岛",
+    "country_en": "The Solomon Islands",
+    "country_zh": "所羅門群島",
+    "topo_country_names": "Solomon Is.",
+    "iso_code": 90,
+    "latitude": -8,
+    "longitude": 159
+  },
+  {
+    "country_emoji": "🇸🇴",
+    "baidu_country_name": "索马里",
+    "country_en": "Somalia",
+    "country_zh": "索馬里",
+    "topo_country_names": "Somalia",
+    "iso_code": 706,
+    "latitude": 10,
+    "longitude": 49
+  },
+  {
+    "country_emoji": "🇿🇦",
+    "baidu_country_name": "南非",
+    "country_en": "South Africa",
+    "country_zh": "南非",
+    "topo_country_names": "South Africa",
+    "iso_code": 710,
+    "latitude": -29,
+    "longitude": 24
+  },
+  {
+    "country_emoji": "🇰🇷",
+    "baidu_country_name": "韩国",
+    "country_en": "South Korea",
+    "country_zh": "韓國",
+    "topo_country_names": "South Korea",
+    "iso_code": 410,
+    "latitude": 37,
+    "longitude": 127.5
+  },
+  {
+    "country_emoji": "🇸🇸",
+    "baidu_country_name": "南苏丹",
+    "country_en": "South Sudan",
+    "country_zh": "南蘇丹",
+    "topo_country_names": "S. Sudan",
+    "iso_code": 728,
+    "latitude": "",
+    "longitude": ""
+  },
+  {
+    "country_emoji": "🇪🇸",
+    "baidu_country_name": "西班牙",
+    "country_en": "Spain",
+    "country_zh": "西班牙",
+    "topo_country_names": "Spain",
+    "iso_code": 724,
+    "latitude": 40,
+    "longitude": -4
+  },
+  {
+    "country_emoji": "🇱🇰",
+    "baidu_country_name": "斯里兰卡",
+    "country_en": "Sri Lanka",
+    "country_zh": "斯里蘭卡",
+    "topo_country_names": "Sri Lanka",
+    "iso_code": 144,
+    "latitude": 7,
+    "longitude": 81
+  },
+  {
+    "country_emoji": "🇸🇩",
+    "baidu_country_name": "苏丹",
+    "country_en": "Sudan",
+    "country_zh": "蘇丹",
+    "topo_country_names": "Sudan",
+    "iso_code": 729,
+    "latitude": "",
+    "longitude": ""
+  },
+  {
+    "country_emoji": "🇸🇷",
+    "baidu_country_name": "苏里南",
+    "country_en": "Suriname",
+    "country_zh": "蘇里南",
+    "topo_country_names": "Suriname",
+    "iso_code": 740,
+    "latitude": 4,
+    "longitude": -56
+  },
+  {
+    "country_emoji": "🇸🇿",
+    "baidu_country_name": "斯威士兰",
+    "country_en": "Swaziland",
+    "country_zh": "斯威士蘭",
+    "topo_country_names": "",
+    "iso_code": 748,
+    "latitude": -26.5,
+    "longitude": 31.5
+  },
+  {
+    "country_emoji": "🇸🇪",
+    "baidu_country_name": "瑞典",
+    "country_en": "Sweden",
+    "country_zh": "瑞典",
+    "topo_country_names": "Sweden",
+    "iso_code": 752,
+    "latitude": 62,
+    "longitude": 15
+  },
+  {
+    "country_emoji": "🇨🇭",
+    "baidu_country_name": "瑞士",
+    "country_en": "Switzerland",
+    "country_zh": "瑞士",
+    "topo_country_names": "Switzerland",
+    "iso_code": 756,
+    "latitude": 47,
+    "longitude": 8
+  },
+  {
+    "country_emoji": "🇸🇾",
+    "baidu_country_name": "叙利亚",
+    "country_en": "Syria",
+    "country_zh": "敘利亞",
+    "topo_country_names": "Syria",
+    "iso_code": 760,
+    "latitude": 35,
+    "longitude": 38
+  },
+  {
+    "country_emoji": "🇹🇯",
+    "baidu_country_name": "塔吉克斯坦",
+    "country_en": "Tajikistan",
+    "country_zh": "塔吉克斯坦",
+    "topo_country_names": "Tajikistan",
+    "iso_code": 762,
+    "latitude": 39,
+    "longitude": 71
+  },
+  {
+    "country_emoji": "🇹🇿",
+    "baidu_country_name": "坦桑尼亚",
+    "country_en": "Tanzania",
+    "country_zh": "坦桑尼亞",
+    "topo_country_names": "Tanzania",
+    "iso_code": 834,
+    "latitude": -6,
+    "longitude": 35
+  },
+  {
+    "country_emoji": "🇹🇭",
+    "baidu_country_name": "泰国",
+    "country_en": "Thailand",
+    "country_zh": "泰國",
+    "topo_country_names": "Thailand",
+    "iso_code": 764,
+    "latitude": 15,
+    "longitude": 100
+  },
+  {
+    "country_emoji": "🇹🇬",
+    "baidu_country_name": "多哥",
+    "country_en": "Togo",
+    "country_zh": "多哥",
+    "topo_country_names": "Togo",
+    "iso_code": 768,
+    "latitude": 8,
+    "longitude": 1.1667
+  },
+  {
+    "country_emoji": "🇹🇴",
+    "baidu_country_name": "汤加",
+    "country_en": "Tonga",
+    "country_zh": "湯加",
+    "topo_country_names": "",
+    "iso_code": 776,
+    "latitude": -20,
+    "longitude": -175
+  },
+  {
+    "country_emoji": "🇹🇹",
+    "baidu_country_name": "特立尼达和多巴哥",
+    "country_en": "Trinidad and Tobago",
+    "country_zh": "特立尼達和多巴哥",
+    "topo_country_names": "Trinidad and Tobago",
+    "iso_code": 780,
+    "latitude": 11,
+    "longitude": -61
+  },
+  {
+    "country_emoji": "🇹🇳",
+    "baidu_country_name": "突尼斯",
+    "country_en": "Tunisia",
+    "country_zh": "突尼斯",
+    "topo_country_names": "Tunisia",
+    "iso_code": 788,
+    "latitude": 34,
+    "longitude": 9
+  },
+  {
+    "country_emoji": "🇹🇷",
+    "baidu_country_name": "土耳其",
+    "country_en": "Turkey",
+    "country_zh": "土耳其",
+    "topo_country_names": "Turkey",
+    "iso_code": 792,
+    "latitude": 39,
+    "longitude": 35
+  },
+  {
+    "country_emoji": "🇹🇲",
+    "baidu_country_name": "土库曼斯坦",
+    "country_en": "Turkmenistan",
+    "country_zh": "土庫曼斯坦",
+    "topo_country_names": "Turkmenistan",
+    "iso_code": 795,
+    "latitude": 40,
+    "longitude": 60
+  },
+  {
+    "country_emoji": "🇹🇻",
+    "baidu_country_name": "图瓦卢",
+    "country_en": "Tuvalu",
+    "country_zh": "圖瓦盧",
+    "topo_country_names": "",
+    "iso_code": 798,
+    "latitude": -8,
+    "longitude": 178
+  },
+  {
+    "country_emoji": "🇺🇬",
+    "baidu_country_name": "乌干达",
+    "country_en": "Uganda",
+    "country_zh": "烏干達",
+    "topo_country_names": "Uganda",
+    "iso_code": 800,
+    "latitude": 1,
+    "longitude": 32
+  },
+  {
+    "country_emoji": "🇺🇦",
+    "baidu_country_name": "乌克兰",
+    "country_en": "Ukraine",
+    "country_zh": "烏克蘭",
+    "topo_country_names": "Ukraine",
+    "iso_code": 804,
+    "latitude": 49,
+    "longitude": 32
+  },
+  {
+    "country_emoji": "🇦🇪",
+    "baidu_country_name": "阿联酋",
+    "country_en": "The United Arab Emirates",
+    "country_zh": "阿聯酋",
+    "topo_country_names": "United Arab Emirates",
+    "iso_code": 784,
+    "latitude": 24,
+    "longitude": 54
+  },
+  {
+    "country_emoji": "🇬🇧",
+    "baidu_country_name": "英国",
+    "country_en": "The United Kingdom",
+    "country_zh": "英國",
+    "topo_country_names": "United Kingdom",
+    "iso_code": 826,
+    "latitude": 54,
+    "longitude": -2
+  },
+  {
+    "country_emoji": "🇺🇸",
+    "baidu_country_name": "美国",
+    "country_en": "The United States",
+    "country_zh": "美國",
+    "topo_country_names": "United States of America",
+    "iso_code": 840,
+    "latitude": 38,
+    "longitude": -97
+  },
+  {
+    "country_emoji": "🇺🇾",
+    "baidu_country_name": "乌拉圭",
+    "country_en": "Uruguay",
+    "country_zh": "烏拉圭",
+    "topo_country_names": "Uruguay",
+    "iso_code": 858,
+    "latitude": -33,
+    "longitude": -56
+  },
+  {
+    "country_emoji": "🇺🇿",
+    "baidu_country_name": "乌兹别克斯坦",
+    "country_en": "Uzbekistan",
+    "country_zh": "烏茲別克斯坦",
+    "topo_country_names": "Uzbekistan",
+    "iso_code": 860,
+    "latitude": 41,
+    "longitude": 64
+  },
+  {
+    "country_emoji": "🇻🇺",
+    "baidu_country_name": "瓦努阿图",
+    "country_en": "Vanuatu",
+    "country_zh": "瓦努阿圖",
+    "topo_country_names": "Vanuatu",
+    "iso_code": 548,
+    "latitude": -16,
+    "longitude": 167
+  },
+  {
+    "country_emoji": "🇻🇦",
+    "baidu_country_name": "梵蒂冈城",
+    "country_en": "The Vatican City",
+    "country_zh": "梵蒂岡城",
+    "topo_country_names": "",
+    "iso_code": "",
+    "latitude": "",
+    "longitude": ""
+  },
+  {
+    "country_emoji": "🇻🇪",
+    "baidu_country_name": "委内瑞拉",
+    "country_en": "Venezuela",
+    "country_zh": "委內瑞拉",
+    "topo_country_names": "Venezuela",
+    "iso_code": 862,
+    "latitude": 8,
+    "longitude": -66
+  },
+  {
+    "country_emoji": "🇻🇳",
+    "baidu_country_name": "越南",
+    "country_en": "Vietnam",
+    "country_zh": "越南",
+    "topo_country_names": "Vietnam",
+    "iso_code": 704,
+    "latitude": 16,
+    "longitude": 106
+  },
+  {
+    "country_emoji": "🇪🇭",
+    "baidu_country_name": "撒哈拉沙漠西部",
+    "country_en": "Western Sahara",
+    "country_zh": "撒哈拉沙漠西部",
+    "topo_country_names": "W. Sahara",
+    "iso_code": 732,
+    "latitude": 24.5,
+    "longitude": -13
+  },
+  {
+    "country_emoji": "🇾🇪",
+    "baidu_country_name": "也门",
+    "country_en": "Yemen",
+    "country_zh": "也門",
+    "topo_country_names": "Yemen",
+    "iso_code": 887,
+    "latitude": 15,
+    "longitude": 48
+  },
+  {
+    "country_emoji": "🇿🇲",
+    "baidu_country_name": "赞比亚",
+    "country_en": "Zambia",
+    "country_zh": "贊比亞",
+    "topo_country_names": "Zambia",
+    "iso_code": 894,
+    "latitude": -15,
+    "longitude": 30
+  },
+  {
+    "country_emoji": "🇿🇼",
+    "baidu_country_name": "津巴布韦",
+    "country_en": "Zimbabwe",
+    "country_zh": "津巴布韋",
+    "topo_country_names": "Zimbabwe",
+    "iso_code": 716,
+    "latitude": -20,
+    "longitude": 30
+  },
+  {
+    "country_emoji": "🇭🇰",
+    "baidu_country_name": "香港",
+    "country_en": "Hong Kong",
+    "country_zh": "香港",
+    "topo_country_names": "",
+    "iso_code": 344,
+    "latitude": 22.25,
+    "longitude": 114.1667
+  },
+  {
+    "country_emoji": "",
+    "baidu_country_name": "",
+    "country_en": "",
+    "country_zh": "",
+    "topo_country_names": "Antarctica",
+    "iso_code": 10,
+    "latitude": -90,
+    "longitude": 0
+  },
+  {
+    "country_emoji": "",
+    "baidu_country_name": "",
+    "country_en": "",
+    "country_zh": "",
+    "topo_country_names": "Falkland Is.",
+    "iso_code": 238,
+    "latitude": -51.75,
+    "longitude": -59
+  },
+  {
+    "country_emoji": "",
+    "baidu_country_name": "",
+    "country_en": "",
+    "country_zh": "",
+    "topo_country_names": "Fr. S. Antarctic Lands",
+    "iso_code": 260,
+    "latitude": -43,
+    "longitude": 67
+  },
+  {
+    "country_emoji": "",
+    "baidu_country_name": "",
+    "country_en": "",
+    "country_zh": "",
+    "topo_country_names": "Puerto Rico",
+    "iso_code": 630,
+    "latitude": 18.25,
+    "longitude": -66.5
+  },
+  {
+    "country_emoji": "",
+    "baidu_country_name": "",
+    "country_en": "",
+    "country_zh": "",
+    "topo_country_names": "N. Cyprus",
+    "iso_code": "",
+    "latitude": "",
+    "longitude": ""
+  },
+  {
+    "country_emoji": "",
+    "baidu_country_name": "",
+    "country_en": "",
+    "country_zh": "",
+    "topo_country_names": "New Caledonia",
+    "iso_code": 540,
+    "latitude": -21.5,
+    "longitude": 165.5
+  },
+  {
+    "country_emoji": "",
+    "baidu_country_name": "",
+    "country_en": "",
+    "country_zh": "",
+    "topo_country_names": "Palestine",
+    "iso_code": 275,
+    "latitude": 32,
+    "longitude": 35.25
+  },
+  {
+    "country_emoji": "",
+    "baidu_country_name": "",
+    "country_en": "",
+    "country_zh": "",
+    "topo_country_names": "eSwatini",
+    "iso_code": 748,
+    "latitude": -26.5,
+    "longitude": 31.5
+  }
+]

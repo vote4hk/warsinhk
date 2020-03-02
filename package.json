@@ -23,6 +23,7 @@
     "gatsby-plugin-material-ui": "^2.1.6",
     "gatsby-plugin-offline": "^3.0.27",
     "gatsby-plugin-react-helmet": "^3.1.16",
+    "gatsby-plugin-react-svg": "^3.0.0",
     "gatsby-plugin-robots-txt": "^1.5.0",
     "gatsby-plugin-sharp": "^2.3.5",
     "gatsby-plugin-sitemap": "^2.2.26",
@@ -35,6 +36,7 @@
     "leaflet": "^1.6.0",
     "leaflet-pixi-overlay": "^1.8.1",
     "leaflet.markercluster": "^1.4.1",
+    "lodash.find": "^4.6.0",
     "lodash.flatten": "^4.4.0",
     "lodash.get": "^4.4.2",
     "lodash.groupby": "^4.6.0",
@@ -57,7 +59,8 @@
     "react-share": "^4.0.1",
     "react-virtualized": "^9.21.2",
     "rss-parser": "^3.7.4",
-    "styled-components": "^5.0.1"
+    "styled-components": "^5.0.1",
+    "topojson-client": "^3.1.0"
   },
   "devDependencies": {
     "@babel/core": "^7.8.0",

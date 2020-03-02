@@ -213,7 +213,11 @@ export default function ConfirmedCaseVisual(props) {
               : tcName
           return `${name}: ${value}`
         }}
-        legendTitle={<Typography variant="body2">{t("cases_visual.legendTitle")}</Typography>}
+        legendTitle={
+          <Typography variant="body2">
+            {t("cases_visual.legendTitle")}
+          </Typography>
+        }
         getDataByDistrictName={tcName => {
           const node = citizenshipDistrict.find(
             i => tcName.indexOf(i.fieldValue) === 0

@@ -67,6 +67,14 @@ module.exports = {
         icon: `static/images/pwa_icon.jpeg`, // This path is relative to the root of the site.
       },
     },
+    {
+      resolve: "gatsby-plugin-react-svg",
+      options: {
+        rule: {
+          include: /\.svg$/,
+        },
+      },
+    },
     `gatsby-plugin-offline`,
   ],
 }
