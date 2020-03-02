@@ -27,12 +27,26 @@ const StyledCopyIcon = styled(CopyIcon)`
   }
 `
 
+function isWebShareAPISupported() {
+  return (
+    "share" in navigator &&
+    typeof navigator.share === "function" &&
+    "canShare" in navigator && typeof navigator.canShare === "function"
+  )
+}
+
 function getShareUrl(url, platform) {
   return updateUrlParameter(
     updateUrlParameter(url, "utm_source", platform),
     "utm_medium",
     "social_share"
   )
+}
+
+function getWebShareData(url) {
+  return {
+    url: getShareUrl(url, "web_share_api"),
+  }
 }
 
 // https://gist.github.com/niyazpk/f8ac616f181f6042d1e0
@@ -74,11 +88,36 @@ function ShareButton(props) {
       }
     `
   )
-  const handleShareButtonClick = event => {
+
+  function getPageUrl() {
+    let url = `${site.siteMetadata.siteUrl}${fullPath}`
+    if (!isSSR()) {
+      url = url + decodeURIComponent(window.location.hash)
+    }
+
+    return url
+  }
+
+  function handleShareButtonClick(event) {
+    if (!isSSR() && isWebShareAPISupported()) {
+      const data = getWebShareData(getPageUrl())
+      if (navigator.canShare(data)) {
+        navigator.share(data).then(() => {
+          trackCustomEvent({
+            category: "general",
+            action: "click",
+            label: "share",
+          })
+        })
+
+        return
+      }
+    }
+
     setAnchorEl(event.currentTarget)
   }
 
-  const handleShareButtonClose = media => {
+  function handleShareButtonClose(media) {
     setAnchorEl(null)
     if (typeof media === "string") {
       trackCustomEvent({
@@ -88,16 +127,15 @@ function ShareButton(props) {
       })
     }
   }
+
   const {
     route: {
       state: { fullPath },
     },
   } = React.useContext(ContextStore)
 
-  let url = `${site.siteMetadata.siteUrl}${fullPath}`
-  if (!isSSR()) {
-    url = url + decodeURIComponent(window.location.hash)
-  }
+  const url = getPageUrl()
+
   return (
     <>
       <IconButton
