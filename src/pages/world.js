@@ -298,6 +298,7 @@ const WorldRanking = props => {
                         : _rows
                             .map(r => r.confirmedFigures)
                             .sort((x, y) => y - x)
+                            .filter((v, i, sorted) => i === sorted.indexOf(v))
                             .indexOf(row.confirmedFigures) + 1}
                     </TableCell>
                     <TableCell
