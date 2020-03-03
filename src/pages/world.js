@@ -273,7 +273,7 @@ const WorldRanking = props => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {rows.map((row, ix) => {
+              {rows.map((row, ix, _rows) => {
                 const country = mapBaiduCountry(row.country) || {
                   country_emoji: "",
                   country_zh: row.country,
@@ -293,7 +293,12 @@ const WorldRanking = props => {
                         padding: "7px 4px",
                       }}
                     >
-                      {ix + 1}
+                      {!ix
+                        ? ix + 1
+                        : _rows
+                            .map(r => r.confirmedFigures)
+                            .sort((x, y) => y - x)
+                            .indexOf(row.confirmedFigures) + 1}
                     </TableCell>
                     <TableCell
                       style={{
