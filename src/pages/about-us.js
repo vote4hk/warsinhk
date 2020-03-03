@@ -81,6 +81,14 @@ const AboutUsPage = props => {
     [data.configJson.credits.volunteers]
   )
 
+  const designers = React.useMemo(
+    () =>
+      []
+        .concat(data.configJson.credits.designers)
+        .sort((a, b) => (a.name > b.name ? 1 : -1)),
+    [data.configJson.credits.designers]
+  )
+
   return (
     <Layout>
       <SEO title="AboutUsPage" />
@@ -264,6 +272,19 @@ const AboutUsPage = props => {
             ))}
           </Grid>
           <Typography variant="h2" style={{ marginTop: 16 }}>
+            {t("about_us.designers")}
+          </Typography>
+          <Grid container spacing={1} style={{ marginTop: 8 }}>
+            {designers.map(item => (
+              <Grid item key={item.id} xs={6} md={4}>
+                <Volunteer
+                  item={item}
+                  siteUrl={data.site.siteMetadata.siteUrl}
+                />
+              </Grid>
+            ))}
+          </Grid>
+          <Typography variant="h2" style={{ marginTop: 16 }}>
             {t("about_us.contributors")}
           </Typography>
           <Grid container spacing={1} style={{ marginTop: 8 }}>
@@ -290,6 +311,10 @@ export const AboutUsQuery = graphql`
           name
         }
         contributors
+        designers {
+          id
+          name
+        }
       }
     }
     site {
