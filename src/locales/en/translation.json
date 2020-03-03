@@ -94,7 +94,7 @@
   "cases_visual.age": "Age",
   "cases_visual.median_age": "{{gender}} (Median)",
   "cases_visual.median_age_mobile": "{{gender}} (Median): ",
-  "cases_visual.age_unit": "yr",
+  "cases_visual.age_unit": "y/o",
   "cases_visual.age_range": "{{min}}-{{max}}",
   "cases_visual.age_range_mobile": "Range: {{min}} - {{max}}",
   "cases_visual.age_range_title": "Range",
