@@ -26,6 +26,10 @@ const StyledResponsiveDrawer = styled(ResponsiveDrawer)`
       padding-bottom: 60px;
     }
   }
+
+  main {
+    position: relative;
+  }
 `
 
 const Layout = props => {
