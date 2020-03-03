@@ -293,13 +293,11 @@ const WorldRanking = props => {
                         padding: "7px 4px",
                       }}
                     >
-                      {!ix
-                        ? ix + 1
-                        : _rows
-                            .map(r => r.confirmedFigures)
-                            .sort((x, y) => y - x)
-                            .filter((v, i, sorted) => i === sorted.indexOf(v))
-                            .indexOf(row.confirmedFigures) + 1}
+                      {_rows
+                        .map(r => r.confirmedFigures)
+                        .sort((x, y) => y - x)
+                        .filter((v, i, sorted) => i === sorted.indexOf(v))
+                        .indexOf(row.confirmedFigures) + 1}
                     </TableCell>
                     <TableCell
                       style={{
