@@ -158,6 +158,20 @@
   "about_us.vote4hk_fb": "Vote4.hk 投票指南",
   "about_us.high_risk": "高危地區",
   "about_us.wars_cases": "確診個案",
-  "about_us.sponsor_title": "鳴謝",
-  "about_us.sponsor_html": "感謝<a href='https://www.kintohub.com/' target='_blank'><img src=\"/images/kintohub_icon.svg\" style=\"width:30px; height:15px;\"></img>Kintohub</a>贊助部份伺服器開支"
+  "about_us.sponsor_title": "嗚謝",
+  "about_us.sponsor_html": "感謝<a href='https://www.kintohub.com/' target='_blank'><img src=\"/images/kintohub_icon.svg\" style=\"width:30px; height:15px;\"></img>Kintohub</a>贊助部份伺服器開支",
+  "world.title": "全球疫情",
+  "world.page_title": "全球疫情追蹤",
+  "world.ranking_title": "確診國家",
+  "world.source_who": "資料來源: 百度疫情實時大數據報告",
+  "world.last_update": "最後更新日期:",
+  "world.total_confirmed": "總確診人數",
+  "world.total_died": "總死亡人數",
+  "world.total_cured": "總治癒人數",
+  "world.compared_to_previous_day": "較昨日",
+  "world.distribution": "全球個案分佈",
+  "world.trend": "疫情走勢 (即將推出)",
+  "world.ranking_country": "國家",
+  "world.ranking_confirmed": "確診",
+  "world.ranking_died": "死亡"
 }

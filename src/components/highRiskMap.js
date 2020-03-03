@@ -12,6 +12,7 @@ import List from "react-virtualized/dist/es/List"
 import CellMeasurer, {
   CellMeasurerCache,
 } from "react-virtualized/dist/es/CellMeasurer"
+import Fullscreen from "react-full-screen";
 import ConfirmedCaseMarker from "./icons/confirmed_case.png"
 import HomeConfineesMarker from "./icons/home_confinees.png"
 import ClinicMarker from "./icons/clinic.png"
@@ -22,6 +23,8 @@ import findIndex from "lodash/findIndex"
 import { withTheme } from "@material-ui/core/styles"
 import IconButton from "@material-ui/core/IconButton"
 import DateRangeIcon from "@material-ui/icons/DateRange"
+import FullscreenIcon from "@material-ui/icons/Fullscreen"
+import FullscreenExitIcon from "@material-ui/icons/FullscreenExit"
 import NotListedLocationIcon from "@material-ui/icons/NotListedLocationRounded"
 import { trackCustomEvent } from "gatsby-plugin-google-analytics"
 import styled, { createGlobalStyle } from "styled-components"
@@ -78,6 +81,7 @@ class HighRiskMap extends Component {
     this.state = {
       activeDataPoint: undefined,
       dataPointRendered: null,
+      fullscreenEnabled: false,
       showDatePicker: false,
       legend: null,
       showLegend: true,
@@ -257,6 +261,7 @@ class HighRiskMap extends Component {
     const markers = dataPoints.map(this.dataPointToMarker)
     this.markersById = keyBy(markers, "options.id")
     this.pixiContainer.removeChildren()
+    let x, y, target
     markers.forEach(marker => {
       if (!this.textureResources[marker.options.pinType]) {
         console.log(marker.options.pinType, "resource not found")
@@ -270,7 +275,19 @@ class HighRiskMap extends Component {
       sprite.interactive = true
       if (marker.options.fade) sprite.alpha = 0.5
       sprite.on("pointerdown", e => {
-        setTimeout(marker.options.activeHandler, 16)
+        x = e.data.global.x
+        y = e.data.global.y
+        target = e.target
+      })
+
+      sprite.on("pointerup", e => {
+        if (
+          e.target === target &&
+          e.data.global.x === x &&
+          e.data.global.y === y
+        ) {
+          setTimeout(marker.options.activeHandler, 16)
+        }
       })
       this.pixiContainer.addChild(sprite)
     })
@@ -428,7 +445,8 @@ class HighRiskMap extends Component {
       this.setState({ legend: this.renderLegend() })
     }
   }
-  resetMapViewPort = () => {
+
+  resetMapViewPort() {
     const bounds = this.props.filteredLocations
       .filter(i => i.lat && i.lng)
       .reduce(
@@ -451,148 +469,185 @@ class HighRiskMap extends Component {
       )
     this.map.fitBounds(L.latLngBounds(bounds).pad(0.1), { maxZoom: 15 })
   }
+
+  toggleFullscreen(fullscreenEnabled) {
+    if (typeof fullscreenEnabled !== "boolean") { fullscreenEnabled = !this.state.fullscreenEnabled }
+    this.setState({ fullscreenEnabled })
+  }
+
   render() {
-    const { useHorizontalLayout } = this.state
+    const { fullscreenEnabled, useHorizontalLayout } = this.state
     const { height, width, theme } = this.props
 
     return (
-      <div
-        style={{
-          position: "relative",
-          height,
-          width,
-        }}
+      <Fullscreen
+        enabled={fullscreenEnabled}
+        onChange={enabled => this.toggleFullscreen(enabled)}
       >
-        <LeafletStyleOverride />
         <div
           style={{
-            position: "absolute",
-            top: 0,
-            left: useHorizontalLayout ? 480 : 0,
-            bottom: useHorizontalLayout ? 0 : height / 2,
-            right: 0,
-            zIndex: 0,
+            position: "relative",
+            height: fullscreenEnabled ? "100%" : height,
+            width: fullscreenEnabled ? "100%" : width,
           }}
         >
-          <div
-            ref={el => (this.mapContainer = el)}
-            style={{ width: "100%", height: "100%" }}
-          />
-
-          {this.state.showLegend && (
-            <div
-              style={{
-                position: "absolute",
-                background: "rgba(255,255,255,0.9)",
-                bottom: "64px",
-                right: 0,
-                zIndex: 500,
-                pointerEvents: "none",
-              }}
-            >
-              {this.state.legend}
-            </div>
-          )}
+          <LeafletStyleOverride />
           <div
             style={{
               position: "absolute",
-              bottom: "16px",
+              top: 0,
+              left: (useHorizontalLayout && !fullscreenEnabled) ? 480 : 0,
+              bottom: (useHorizontalLayout || fullscreenEnabled) ? 0 : height / 2,
               right: 0,
-              zIndex: 501,
+              zIndex: 0,
             }}
           >
-            <IconButton
-              color={this.state.showLegend ? "secondary" : "primary"}
-              onClick={() => {
-                trackCustomEvent({
-                  category: "high_risk_map",
-                  action: "toggle_legend",
-                  label: this.state.showLegend ? "enable" : "disable",
-                })
-                this.setState({ showLegend: !this.state.showLegend })
-              }}
-            >
-              <NotListedLocationIcon />
-            </IconButton>
-          </div>
-        </div>
-        <div
-          style={{
-            position: "absolute",
-            top: useHorizontalLayout ? 56 : height / 2,
-            left: 0,
-            width: useHorizontalLayout ? 480 : width,
-            height: useHorizontalLayout ? height - 56 : height / 2,
-            backgroundColor: theme.palette.background.paper,
-          }}
-        >
-          <AutoSizer>
-            {({ width, height }) => (
-              <List
-                ref={el => (this.list = el)}
-                height={height}
-                overscanRowCount={8}
-                rowCount={this.props.filteredLocations.length}
-                rowHeight={this.cache.rowHeight}
-                rowRenderer={this.rowRenderer}
-                deferredMeasurementCache={this.cache}
-                width={width}
-                scrollToIndex={this.state.scrollToIndex || 0}
-                scrollToAlignment="start"
-                activeDataPoint={this.state.activeDataPoint}
-              />
+            <div
+              ref={el => (this.mapContainer = el)}
+              style={{ width: "100%", height: "100%" }}
+            />
+
+            {this.state.showLegend && (
+              <div
+                style={{
+                  position: "absolute",
+                  background: "rgba(255,255,255,0.9)",
+                  bottom: "64px",
+                  right: 0,
+                  zIndex: 500,
+                  pointerEvents: "none",
+                }}
+              >
+                {this.state.legend}
+              </div>
             )}
-          </AutoSizer>
-        </div>
-        <div
-          style={
-            !useHorizontalLayout
-              ? {
-                  position: "absolute",
-                  top: theme.spacing(1),
-                  left: theme.spacing(2),
-                  right: theme.spacing(2),
-                  opacity: 0.96,
-                }
-              : {
-                  position: "absolute",
-                  top: 0,
-                  left: 0,
-                  width: 480,
-                  height: 56,
-                  paddingTop: theme.spacing(2),
-                  paddingBottom: theme.spacing(1),
-                  paddingLeft: "20px",
-                  paddingRight: "20px",
-                  backgroundColor: theme.palette.background.paper,
-                }
-          }
-        >
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "row",
-              alignItems: "center",
-            }}
-          >
-            <div style={{ flex: 1 }}>{this.props.selectBar}</div>
-            <DateButton
-              color={this.props.dateFilterEnabled ? "secondary" : "primary"}
-              onClick={() => {
-                trackCustomEvent({
-                  category: "high_risk_map",
-                  action: "click_date_filter",
-                  label: this.props.dateFilterEnabled ? "enable" : "disable",
-                })
-                this.setState({ showDatePicker: !this.state.showDatePicker })
+            <div
+              style={{
+                position: "absolute",
+                bottom: "16px",
+                right: "48px",
+                zIndex: 501,
               }}
             >
-              <DateRangeIcon />
-            </DateButton>
+              <IconButton
+                color={this.state.showLegend ? "secondary" : "primary"}
+                onClick={() => {
+                  trackCustomEvent({
+                    category: "high_risk_map",
+                    action: "toggle_legend",
+                    label: this.state.showLegend ? "enable" : "disable",
+                  })
+                  this.setState({ showLegend: !this.state.showLegend })
+                }}
+              >
+                <NotListedLocationIcon />
+              </IconButton>
+            </div>
+            <div
+              style={{
+                position: "absolute",
+                bottom: "16px",
+                right: 0,
+                zIndex: 550,
+              }}
+            >
+              <IconButton
+                color="primary"
+                onClick={() => {
+                  trackCustomEvent({
+                    category: "high_risk_map",
+                    action: "toggle_fullscreen",
+                    label: fullscreenEnabled ? "enable" : "disable",
+                  })
+                  this.toggleFullscreen()
+                }}
+              >
+                {fullscreenEnabled ? <FullscreenExitIcon /> : <FullscreenIcon />}
+              </IconButton>
+            </div>
           </div>
-          {this.state.showDatePicker && this.props.datePicker}
+          {
+            !fullscreenEnabled && (
+              <div
+                style={{
+                  position: "absolute",
+                  top: useHorizontalLayout ? 56 : height / 2,
+                  left: 0,
+                  width: useHorizontalLayout ? 480 : width,
+                  height: useHorizontalLayout ? height - 56 : height / 2,
+                  backgroundColor: theme.palette.background.paper,
+                }}
+              >
+                <AutoSizer>
+                  {({ width, height }) => (
+                    <List
+                      ref={el => (this.list = el)}
+                      height={height}
+                      overscanRowCount={8}
+                      rowCount={this.props.filteredLocations.length}
+                      rowHeight={this.cache.rowHeight}
+                      rowRenderer={this.rowRenderer}
+                      deferredMeasurementCache={this.cache}
+                      width={width}
+                      scrollToIndex={this.state.scrollToIndex || 0}
+                      scrollToAlignment="start"
+                      activeDataPoint={this.state.activeDataPoint}
+                    />
+                  )}
+                </AutoSizer>
+              </div>
+            )
+          }
+          <div
+            style={
+              !useHorizontalLayout
+                ? {
+                    position: "absolute",
+                    top: theme.spacing(1),
+                    left: theme.spacing(2),
+                    right: theme.spacing(2),
+                    opacity: 0.96,
+                  }
+                : {
+                    position: "absolute",
+                    top: 0,
+                    left: 0,
+                    width: 480,
+                    height: 56,
+                    paddingTop: theme.spacing(2),
+                    paddingBottom: theme.spacing(1),
+                    paddingLeft: "20px",
+                    paddingRight: "20px",
+                    backgroundColor: theme.palette.background.paper,
+                  }
+            }
+          >
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                alignItems: "center",
+              }}
+            >
+              <div style={{ flex: 1 }}>{this.props.selectBar}</div>
+              <DateButton
+                color={this.props.dateFilterEnabled ? "secondary" : "primary"}
+                onClick={() => {
+                  trackCustomEvent({
+                    category: "high_risk_map",
+                    action: "click_date_filter",
+                    label: this.props.dateFilterEnabled ? "enable" : "disable",
+                  })
+                  this.setState({ showDatePicker: !this.state.showDatePicker })
+                }}
+              >
+                <DateRangeIcon />
+              </DateButton>
+            </div>
+            {this.state.showDatePicker && this.props.datePicker}
+          </div>
         </div>
-      </div>
+      </Fullscreen>
     )
   }
 }

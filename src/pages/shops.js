@@ -19,20 +19,20 @@ import { createDedupOptions } from "@/utils/search"
 
 import { withLanguage } from "@/utils/i18n"
 import { bps } from "@/ui/theme"
-import { BasicFab } from "@components/atoms/Fab"
+// import { BasicFab } from "@components/atoms/Fab"
 import { ResponsiveWrapper } from "@components/atoms/ResponsiveWrapper"
 import MultiPurposeSearch from "../components/modecules/MultiPurposeSearch"
 import { PageContent } from "../components/atoms/Container"
 import { Paragraph } from "@components/atoms/Text"
 
-const FabContainer = styled(Box)`
-  && {
-    bottom: 84px;
-    right: 16px;
-    position: fixed;
-    z-index: 1200;
-  }
-`
+// const FabContainer = styled(Box)`
+//   && {
+//     bottom: 84px;
+//     right: 16px;
+//     position: fixed;
+//     z-index: 1200;
+//   }
+// `
 
 const ShopDetail = styled(Typography)`
   margin-top: 8px;
@@ -198,11 +198,11 @@ const ShopsPage = props => {
     <>
       <SEO title="ShopsPage" />
       <Layout>
-        <FabContainer>
+        {/* <FabContainer>
           <Link href="https://t.me/findmasks" target="_blank">
             <BasicFab title={t("dodgy_shops.find_mask")} icon="search" />
           </Link>
-        </FabContainer>
+        </FabContainer> */}
         <Typography variant="h2">{t("dodgy_shops.list_text")}</Typography>
         <PageContent>
           <Paragraph>{t("dodgy_shops.disclaimer")}</Paragraph>

@@ -16,11 +16,11 @@
       "bottomNav": true
     },
     {
-      "title": "dodgy_shops.title",
-      "to": "/shops",
-      "icon": "remove_shopping_cart",
+      "title": "world.title",
+      "to": "/world",
+      "icon": "public",
       "sideMenu": true,
-      "bottomNav": true
+      "bottomNav": false
     },
     {
       "title": "disruption.title",
@@ -33,6 +33,13 @@
       "title": "high_risk.title",
       "to": "/high-risk",
       "icon": "priority_high",
+      "sideMenu": true,
+      "bottomNav": true
+    },
+    {
+      "title": "dodgy_shops.title",
+      "to": "/shops",
+      "icon": "remove_shopping_cart",
       "sideMenu": true,
       "bottomNav": true
     },
