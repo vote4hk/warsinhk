@@ -5,7 +5,6 @@ import styled from "styled-components"
 import Layout from "@components/templates/Layout"
 import Typography from "@material-ui/core/Typography"
 import { graphql } from "gatsby"
-import { ResponsiveWrapper } from "@components/atoms/ResponsiveWrapper"
 import MultiPurposeSearch from "@/components/modecules/MultiPurposeSearch"
 import { createDedupOptions, createDedupArrayOptions } from "@/utils/search"
 import { PageContent } from "../components/atoms/Container"
@@ -15,14 +14,22 @@ import _uniqby from "lodash.uniqby"
 import _get from "lodash.get"
 
 const SelectedCardContainer = styled.div`
-  position: fixed;
-  position: fixed;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  position: absolute;
   width: 100%;
+  height: 100%;
   left: 0;
-  right: 0;
-  bottom: 60px;
-  padding: 0 16px 0;
+  bottom: -60px;
+  background: rgba(0, 0, 0, 0.15);
+  padding: 0 24px;
+
+  [class*="CaseCard"] {
+    max-width: 800px;
+  }
 `
+
 const RelationPage = props => {
   const { data } = props
   // Do the sorting here since case_no is string instead of int
@@ -126,18 +133,15 @@ const RelationPage = props => {
           filterWithOr={false}
         />
       </PageContent>
-
-      <ResponsiveWrapper>
-        <WarsCaseBoxContainer
-          filteredCases={filteredCases}
-          handleBoxClick={handleBoxClick}
-        />
-        {selectedCase && (
-          <SelectedCardContainer>
-            {renderCaseCard(selectedCase)}
-          </SelectedCardContainer>
-        )}
-      </ResponsiveWrapper>
+      <WarsCaseBoxContainer
+        filteredCases={filteredCases}
+        handleBoxClick={handleBoxClick}
+      />
+      {selectedCase && (
+        <SelectedCardContainer>
+          {renderCaseCard(selectedCase)}
+        </SelectedCardContainer>
+      )}
     </Layout>
   )
 }
