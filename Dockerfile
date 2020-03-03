@@ -25,4 +25,4 @@ FROM alpine:3 AS release
 
 WORKDIR /app
 
-COPY -—from=build /build /app
+COPY --from=build /build .
