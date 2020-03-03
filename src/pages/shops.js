@@ -27,7 +27,10 @@ import { Paragraph } from "@components/atoms/Text"
 
 const FabContainer = styled(Box)`
   && {
-    bottom: 84px;
+    ${bps.down("xs")} {
+      bottom: 136px;
+    }
+    bottom: 32px;
     right: 16px;
     position: fixed;
     z-index: 1200;
