@@ -5,13 +5,14 @@ import {
   mapColorForClassification,
   mapColorForStatus,
 } from "@/utils/colorHelper"
+import { bps } from "@/ui/theme"
 import _get from "lodash/get"
 import _uniq from "lodash/uniq"
 import * as moment from "moment"
 
 const StyledBox = styled(Box)`
   position: relative;
-  margin: 0 16px 10px 0;
+  margin: 0 8px 10px;
   width: 32px;
   height: 32px;
   font-size: 12px;
@@ -25,6 +26,11 @@ const StyledBox = styled(Box)`
   border: 3px ${props => props.statuscolor} solid;
   box-shadow: 0px 2px 1px -1px rgba(0, 0, 0, 0.2),
     0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 1px 3px 0px rgba(0, 0, 0, 0.12);
+
+  ${bps.down("sm")} {
+    width: 48px;
+    height: 48px;
+  }
 
   &:before,
   &:after {
@@ -48,7 +54,7 @@ const StyledBox = styled(Box)`
   }
 `
 const WarsGroupContainer = styled(Box)`
-  margin-bottom: 16px;
+  margin: 16px 0 0;
 `
 
 const GroupHeader = styled(Box)`
@@ -58,6 +64,7 @@ const GroupHeader = styled(Box)`
 const StyledContainer = styled(Box)`
   display: flex;
   flex-wrap: wrap;
+  margin: 0 -8px;
 `
 
 export const WarsCaseBox = React.forwardRef((props, ref) => {
