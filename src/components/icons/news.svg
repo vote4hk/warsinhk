@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 63.1 (92452) - https://sketch.com -->
+    <title>Icon/regular/announce</title>
+    <desc>Created with Sketch.</desc>
+    <g id="Icon/regular/announce" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="noun_Speaker_534344" transform="translate(3.000000, 3.000000)" fill-rule="nonzero">
+            <path d="M12.7692801,0 L12.7692801,19 L10.3986961,19 L4.73547628,14.2714286 L0.811064147,14.2714286 C0.363125787,14.2714286 0,13.9068604 0,13.4571429 L0,5.63142857 C0,5.18171099 0.363125787,4.81714286 0.811064147,4.81714286 L4.73547628,4.81714286 L10.4043878,0 L12.7692801,0 Z" id="Path" fill="#C4C9CF"></path>
+            <path d="M17.9999664,9.02285714 C17.9991187,7.1565563 16.8322713,5.49133729 15.0829473,4.86 L14.5137795,6.47428571 C15.5702679,6.85288723 16.282198,7.84951152 16.3005645,8.97558941 C16.318931,10.1016673 15.639884,11.1211592 14.5963088,11.5342857 L15.2223934,13.1285714 C16.9036441,12.4668447 18.0070228,10.8358477 17.9999664,9.02285714 Z" id="Path" fill="#9DA5B0"></path>
+        </g>
+    </g>
+</svg>

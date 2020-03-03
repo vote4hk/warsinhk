@@ -8,7 +8,12 @@ export const UnstyledLink = styled(Link)`
   cursor: pointer;
   display: flex;
   background: rgba(0, 0, 0, 0);
+  border-radius: 4pt;
+  &:hover {
+    background: #f4f4f4;
+  }
   &.active {
-    background: rgba(0, 0, 0, 0.1);
+    background: rgba(80, 80, 150);
+    color: white;
   }
 `

@@ -11,63 +11,63 @@
     {
       "title": "cases.title",
       "to": "/cases",
-      "icon": "hotel",
+      "icon": "cases",
       "sideMenu": true,
       "bottomNav": true
     },
     {
       "title": "world.title",
       "to": "/world",
-      "icon": "public",
+      "icon": "world",
       "sideMenu": true,
       "bottomNav": false
     },
     {
       "title": "disruption.title",
       "to": "/disruption",
-      "icon": "not_interested",
+      "icon": "disruption",
       "sideMenu": true,
       "bottomNav": true
     },
     {
       "title": "high_risk.title",
       "to": "/high-risk",
-      "icon": "priority_high",
+      "icon": "high_risk",
       "sideMenu": true,
       "bottomNav": true
     },
     {
       "title": "dodgy_shops.title",
       "to": "/shops",
-      "icon": "remove_shopping_cart",
+      "icon": "shops",
       "sideMenu": true,
       "bottomNav": true
     },
     {
       "title": "waiting_time.title",
       "to": "/ae-waiting-time",
-      "icon": "timelapse",
+      "icon": "waiting_time",
       "sideMenu": true,
       "bottomNav": false
     },
     {
       "title": "wars_tips.title",
       "to": "/wars-tips",
-      "icon": "verified_user",
+      "icon": "wars_tips",
       "sideMenu": true,
       "bottomNav": true
     },
     {
       "title": "news.title",
       "to": "/news",
-      "icon": "web",
+      "icon": "news",
       "sideMenu": true,
       "bottomNav": false
     },
     {
       "title": "poster_gallery.title",
       "to": "/poster-gallery",
-      "icon": "collections",
+      "icon": "poster_gallery",
       "sideMenu": true,
       "bottomNav": false
     },
