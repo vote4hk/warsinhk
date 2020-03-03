@@ -69,7 +69,7 @@ const StyledContainer = styled(Box)`
   }
 `
 const WarsGroupContainer = styled(Box)`
-  margin-bottom: 16px;
+  margin: 16px 0 0;
 `
 
 const GroupHeader = styled(Box)`
@@ -79,6 +79,7 @@ const GroupHeader = styled(Box)`
 const StyledContainer = styled(Box)`
   display: flex;
   flex-wrap: wrap;
+  margin: 0 -8px;
 `
 
 export const WarsCaseBox = React.forwardRef((props, ref) => {

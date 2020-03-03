@@ -61,14 +61,22 @@ const SortedSelect = styled(Select)`
 `
 
 const SelectedCardContainer = styled.div`
-  position: fixed;
-  position: fixed;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  position: absolute;
   width: 100%;
+  height: 100%;
   left: 0;
-  right: 0;
-  bottom: 60px;
-  padding: 0 16px 0;
+  bottom: -60px;
+  background: rgba(0, 0, 0, 0.15);
+  padding: 0 24px;
+
+  [class*="CaseCard"] {
+    max-width: 800px;
+  }
 `
+
 const RelationPage = props => {
   const { data } = props
   const {
