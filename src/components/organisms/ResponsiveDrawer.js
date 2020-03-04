@@ -60,6 +60,7 @@ const useStyles = makeStyles(theme => ({
   drawerPaper: {
     width: drawerWidth,
     justifyContent: "space-between",
+    borderRight: "none",
   },
   content: {
     flexGrow: 1,
@@ -117,8 +118,11 @@ function ResponsiveDrawer(props) {
         </LanguageSwitcherContainer>
 
         <Divider />
-        <List>
-          <UnstyledLink to={getLocalizedPath(i18n, "/")}>
+        <List style={{ padding: "10px 20px" }}>
+          <UnstyledLink
+            to={getLocalizedPath(i18n, "/")}
+            activeClassName={"active"}
+          >
             <ListItem>
               <ListItemIcon>{mapIcon("home")}</ListItemIcon>
               <ListItemText primary={t("text.homepage")} />
