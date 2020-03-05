@@ -1,56 +1,94 @@
 import React from "react"
 import Box from "@material-ui/core/Box"
 import styled from "styled-components"
-import {
-  mapColorForClassification,
-  mapColorForStatus,
-} from "@/utils/colorHelper"
+import { mapColorForStatus } from "@/utils/colorHelper"
 import { bps } from "@/ui/theme"
 import _get from "lodash/get"
 import _uniq from "lodash/uniq"
 import * as moment from "moment"
 
+const colorArray = [
+  "#1a237e",
+  "#ff74e0",
+  "#1b5e20",
+  "#00bfa5",
+  "#651fff",
+  "#E6B333",
+  "#3366E6",
+  "#999966",
+  "#99FF99",
+  "#B34D4D",
+  "#80B300",
+  "#809900",
+  "#E6B3B3",
+  "#6680B3",
+  "#66991A",
+  "#FF99E6",
+  "#CCFF1A",
+  "#FF1A66",
+  "#E6331A",
+  "#33FFCC",
+  "#66994D",
+  "#B366CC",
+  "#4D8000",
+  "#B33300",
+  "#CC80CC",
+  "#66664D",
+  "#991AFF",
+  "#E666FF",
+  "#4DB3FF",
+  "#1AB399",
+  "#E666B3",
+  "#33991A",
+  "#CC9999",
+  "#B3B31A",
+  "#00E680",
+  "#4D8066",
+  "#809980",
+  "#E6FF80",
+  "#1AFF33",
+  "#999933",
+  "#FF3380",
+  "#CCCC00",
+  "#66E64D",
+  "#4D80CC",
+  "#9900B3",
+  "#E64D66",
+  "#4DB380",
+  "#FF4D4D",
+  "#99E6E6",
+  "#6666FF",
+]
+
 const StyledBox = styled(Box)`
+  cursor: pointer;
   position: relative;
   margin: 0 8px 10px;
   width: 32px;
   height: 32px;
+  border-radius: 4px;
   font-size: 12px;
   font-weight: 900;
   display: flex;
   justify-content: center;
   align-items: center;
-  color: white;
-  background: ${props => props.classificationcolor || "transparent"};
-
-  border: 3px ${props => props.statuscolor} solid;
+  color: ${props =>
+    props.gender === "M"
+      ? "#78bbce"
+      : props.gender === "F"
+      ? "#ffa5eb"
+      : "#fff"};
+  background: ${props => props.statuscolor || "transparent"};
+  border: 3px ${props => props.groupcolor} solid;
   box-shadow: 0px 2px 1px -1px rgba(0, 0, 0, 0.2),
     0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 1px 3px 0px rgba(0, 0, 0, 0.12);
 
   ${bps.down("sm")} {
     width: 48px;
     height: 48px;
-  }
-
-  &:before,
-  &:after {
-    content: "";
-    position: absolute;
-    bottom: 0px;
-    right: 0px;
-    border-color: transparent;
-    border-style: solid;
-  }
-
-  &:before {
-    border-right-color: #f5f5f6;
-    border-bottom-color: #f5f5f6;
-  }
-
-  &:after {
-    border-radius: 100px;
-    border-right-color: #f5f5f6;
-    border-bottom-color: #f5f5f6;
+    border-radius: 12px;
+    font-size: 15px;
+    border: 5px ${props => props.groupcolor} solid;
   }
 `
 const WarsGroupContainer = styled(Box)`
@@ -66,17 +104,26 @@ const StyledContainer = styled(Box)`
   flex-wrap: wrap;
   margin: 0 -8px;
 `
+const ExampleContainer = styled(Box)`
+  display: flex;
+  flex-wrap: wrap;
+  padding: 0 0 8px;
+  margin: 16px -8px 8px;
+  border-bottom: black 2px solid;
+`
 
 export const WarsCaseBox = React.forwardRef((props, ref) => {
   const {
     cases: { node },
     handleBoxClick,
   } = props
+
   return (
     <StyledBox
       className={`wars_box_${node.case_no}`}
-      classificationcolor={mapColorForClassification(node.classification).main}
       statuscolor={mapColorForStatus(node.status).main}
+      groupcolor={colorArray[node.group_id || 0]}
+      gender={node.gender}
       onClick={e => handleBoxClick(node)}
     >
       {node.case_no}
@@ -116,8 +163,63 @@ export const WarsCaseBoxContainer = React.forwardRef((props, ref) => {
   }
   const dates = _uniq(Object.values(dateMap))
 
+  const exampleCases = [
+    {
+      node: {
+        case_no: "群組",
+        status: "hospitalised",
+        group_id: 1,
+        gender: "-",
+      },
+    },
+    {
+      node: {
+        case_no: "嚴重",
+        status: "serious",
+        group_id: 0,
+        gender: "-",
+      },
+    },
+    {
+      node: {
+        case_no: "死亡",
+        status: "deceased",
+        group_id: 0,
+        gender: "-",
+      },
+    },
+    {
+      node: {
+        case_no: "出院",
+        status: "discharged",
+        group_id: 0,
+        gender: "-",
+      },
+    },
+    {
+      node: {
+        case_no: "男",
+        status: "hospitalised",
+        group_id: 0,
+        gender: "M",
+      },
+    },
+    {
+      node: {
+        case_no: "女",
+        status: "hospitalised",
+        group_id: 0,
+        gender: "F",
+      },
+    },
+  ]
   return (
     <>
+      <ExampleContainer>
+        {exampleCases.map(c => (
+          <WarsCaseBox cases={c} />
+        ))}
+      </ExampleContainer>
       {dates.map(
         (dateKey, index) =>
           filteredCases.filter(
