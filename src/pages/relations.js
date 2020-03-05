@@ -3,14 +3,12 @@ import { useTranslation } from "react-i18next"
 import SEO from "@/components/templates/SEO"
 import styled from "styled-components"
 import Layout from "@components/templates/Layout"
-import Typography from "@material-ui/core/Typography"
 import { graphql } from "gatsby"
 import MultiPurposeSearch from "@/components/modecules/MultiPurposeSearch"
 import { createDedupOptions, createDedupArrayOptions } from "@/utils/search"
 import { PageContent } from "../components/atoms/Container"
 import { WarsCaseBoxContainer } from "@/components/organisms/CaseBoxContainer"
 import { WarsCaseCard } from "@components/organisms/CaseCard"
-import _uniqby from "lodash.uniqby"
 import _get from "lodash.get"
 
 const SelectedCardContainer = styled.div`
@@ -42,40 +40,42 @@ const RelationPage = props => {
     }
     return res
   })
-  const groupMap = {}
-  data.allWarsCaseRelation.edges.forEach(({ node }) => {
-    groupMap[node.from_case_no] = {
-      zh: _uniqby(
-        [node.group_zh, ..._get(groupMap, `[${node.from_case_no}].zh`, [])],
-        n => n.group_zh
-      ),
-      en: _uniqby(
-        [node.group_en, ..._get(groupMap, `[${node.from_case_no}].en`, [])],
-        n => n.group_en
-      ),
-    }
-    groupMap[node.to_case_no] = {
-      zh: _uniqby(
-        [node.group_zh, ..._get(groupMap, `[${node.to_case_no}].zh`, [])],
-        n => n.group_zh
-      ),
-      en: _uniqby(
-        [node.group_en, ..._get(groupMap, `[${node.to_case_no}].en`, [])],
-        n => n.group_en
-      ),
-    }
+
+  const groupArray = []
+  data.allWarsCaseRelation.edges.forEach(({ node }, id) => {
+    node.id = id + 1
+    node.case_no.split(",").forEach(nodeCase => {
+      groupArray.push({
+        ...node,
+        case_no: nodeCase,
+      })
+    })
   })
+
   cases.forEach(({ node }) => {
-    node.group_zh = _get(groupMap, `[${node.case_no}].zh`, [])
-    node.group_en = _get(groupMap, `[${node.case_no}].en`, [])
+    const groupKeys = [
+      "name_zh",
+      "name_en",
+      "description_zh",
+      "description_en",
+      "id",
+    ]
+    groupKeys.forEach(k => {
+      node[`group_${k}`] = _get(
+        groupArray.find(g => g.case_no === node.case_no),
+        k,
+        null
+      )
+    })
   })
+
   const [filteredCases, setFilteredCases] = useState(cases)
   const [selectedCase, setSelectedCase] = useState(null)
   const { i18n, t } = useTranslation()
   const options = [
     {
       label: t("search.group"),
-      options: createDedupArrayOptions(i18n, filteredCases, "group"),
+      options: createDedupArrayOptions(i18n, filteredCases, "group_name"),
     },
     {
       label: t("search.classification"),
@@ -122,7 +122,6 @@ const RelationPage = props => {
       }
     >
       <SEO />
-      <Typography variant="h2">{t("cases.title")}</Typography>
       <PageContent>
         <MultiPurposeSearch
           list={data.allWarsCase.edges}
@@ -179,12 +178,11 @@ export const RelationPageQuery = graphql`
     allWarsCaseRelation {
       edges {
         node {
-          from_case_no
-          to_case_no
-          relationship_zh
-          relationship_en
-          group_zh
-          group_en
+          case_no
+          name_zh
+          name_en
+          description_zh
+          description_en
         }
       }
     }
