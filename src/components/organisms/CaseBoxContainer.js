@@ -81,6 +81,13 @@ const StyledContainer = styled(Box)`
   flex-wrap: wrap;
   margin: 0 -8px;
 `
+const ExampleContainer = styled(Box)`
+  display: flex;
+  flex-wrap: wrap;
+  padding: 0 0 8px;
+  margin: 16px -8px 8px;
+  border-bottom: black 2px solid;
+`
 
 export const WarsCaseBox = React.forwardRef((props, ref) => {
   const {
@@ -92,6 +99,8 @@ export const WarsCaseBox = React.forwardRef((props, ref) => {
     <CaseAvatar
       className={`wars_box_${node.case_no}`}
       statuscolor={mapColorForStatus(node.status).main}
+      groupcolor={colorArray[node.group_id || 0]}
+      gender={node.gender}
       onClick={e => handleBoxClick(node)}
     >
       <span className="case-no">{node.case_no}</span>
