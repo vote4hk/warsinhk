@@ -188,6 +188,7 @@ function ResponsiveDrawer(props) {
       <UnstyledLink
         to={getLocalizedPath(i18n, "/about-us")}
         activeClassName={"active"}
+        style={{ margin: "10px 20px" }}
       >
         <ListItem>
           <ListItemIcon>
