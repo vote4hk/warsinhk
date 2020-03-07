@@ -121,6 +121,8 @@
   "cases.status_serious": "Serious",
   "cases.status_critical": "Critical",
   "cases.status_deceased": "Deceased",
+  "cases.box_view": "Overview",
+  "cases.card_view": "List view",
   "datepicker.datepickerStartDatePlaceholder": "Select",
   "datepicker.datepickerStartDateLabel": "Start Date",
   "datepicker.datepickerEndDatePlaceholder": "Select",
