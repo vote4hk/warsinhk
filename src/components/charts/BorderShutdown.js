@@ -102,8 +102,8 @@ const BorderShutdown = props => {
   countryGrouped["inbound"] = _groupBy(countryGrouped["inbound"], "status")
 
   return (
-    <Grid container style={{ paddingTop: 25 }}>
-      <Grid item xs={12} md={6} style={{ padding: "5px 10px" }}>
+    <Grid container style={{ paddingTop: 25 }} spacing={2}>
+      <Grid item xs={12} md={6}>
         <Paper style={outboundPaperStyle}>
           <Grid container>
             <Grid item xs={12} container style={{ height: 90 }}>
@@ -141,7 +141,7 @@ const BorderShutdown = props => {
         </Paper>
       </Grid>
 
-      <Grid item xs={12} md={6} style={{ padding: "5px 10px" }}>
+      <Grid item xs={12} md={6}>
         <Paper style={inboundPaperStyle}>
           <Grid container>
             <Grid item xs={12} container style={{ height: 90 }}>
