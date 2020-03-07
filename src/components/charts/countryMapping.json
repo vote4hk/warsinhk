@@ -2286,5 +2286,16 @@
     "iso_code": 748,
     "latitude": -26.5,
     "longitude": 31.5
+  },
+  {
+    "country_emoji": "🇲🇴",
+    "baidu_country_name": "澳門",
+    "baidu_country_name_translated": "澳門",
+    "country_en": "Macao",
+    "country_zh": "澳門",
+    "topo_country_names": "",
+    "iso_code": 446,
+    "latitude": 22.1667,
+    "longitude": 113.55
   }
 ]
