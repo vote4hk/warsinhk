@@ -59,7 +59,7 @@ module.exports = {
       resolve: `gatsby-plugin-manifest`,
       options: {
         name: `武漢肺炎民間資訊`,
-        short_name: `Coronavirus in HK`,
+        short_name: `COVID-19 in HK`,
         start_url: `/`,
         background_color: `#1a237e`,
         theme_color: `#1a237e`,
