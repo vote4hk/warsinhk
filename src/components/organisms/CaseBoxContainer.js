@@ -62,11 +62,9 @@ const colorArray = [
 
 const StyledBox = styled(Box)`
   cursor: pointer;
-  position: relative;
   margin: 0 8px 10px;
   width: 32px;
   height: 32px;
-  border-radius: 4px;
   font-size: 12px;
   font-weight: 900;
   display: flex;
@@ -80,19 +78,29 @@ const StyledBox = styled(Box)`
       : "#fff"};
   background: ${props => props.statuscolor || "transparent"};
   border: 3px ${props => props.groupcolor} solid;
+  border-radius: 4px;
   box-shadow: 0px 2px 1px -1px rgba(0, 0, 0, 0.2),
     0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 1px 3px 0px rgba(0, 0, 0, 0.12);
 
   ${bps.down("sm")} {
-    width: 48px;
-    height: 48px;
+    position: relative;
+    width: calc((100% / 6) - 8px);
+    height: auto;
     border-radius: 12px;
     font-size: 15px;
-    border: 5px ${props => props.groupcolor} solid;
+    padding-bottom: calc((100% / 6) - 8px - 10px);
+    margin: 0 4px 10px;
+    border-width: 5px;
+
+    span {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+    }
   }
 `
 const WarsGroupContainer = styled(Box)`
-  margin: 16px 0 0;
+  margin: 16px 0;
 `
 
 const GroupHeader = styled(Box)`
@@ -103,6 +111,10 @@ const StyledContainer = styled(Box)`
   display: flex;
   flex-wrap: wrap;
   margin: 0 -8px;
+
+  ${bps.down("sm")} {
+    margin: 0 -4px;
+  }
 `
 const ExampleContainer = styled(Box)`
   display: flex;
@@ -110,6 +122,14 @@ const ExampleContainer = styled(Box)`
   padding: 0 0 8px;
   margin: 16px -8px 8px;
   border-bottom: black 2px solid;
+
+  ${bps.down("sm")} {
+    margin: 16px -4px 8px;
+  }
+
+  ${StyledBox} {
+    cursor: default;
+  }
 `
 
 export const WarsCaseBox = React.forwardRef((props, ref) => {
@@ -126,7 +146,7 @@ export const WarsCaseBox = React.forwardRef((props, ref) => {
       gender={node.gender}
       onClick={e => handleBoxClick(node)}
     >
-      {node.case_no}
+      <span className="wars_box_case_number">{node.case_no}</span>
     </StyledBox>
   )
 })
@@ -217,7 +237,7 @@ export const WarsCaseBoxContainer = React.forwardRef((props, ref) => {
     <>
       <ExampleContainer>
         {exampleCases.map(c => (
-          <WarsCaseBox cases={c} />
+          <WarsCaseBox cases={c} handleBoxClick={() => {}} />
         ))}
       </ExampleContainer>
       {dates.map(

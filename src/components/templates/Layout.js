@@ -29,6 +29,7 @@ const StyledResponsiveDrawer = styled(ResponsiveDrawer)`
 
   main {
     position: relative;
+    min-height: calc(100vh - 60px);
   }
 `
 
