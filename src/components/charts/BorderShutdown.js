@@ -9,6 +9,8 @@ import { withStyles } from "@material-ui/core/styles"
 import Tooltip from "@material-ui/core/Tooltip"
 import styled from "styled-components"
 import { useTranslation } from "react-i18next"
+import { withLanguage } from "@/utils/i18n"
+import _groupBy from "lodash.groupby"
 
 const StyledTooltip = withStyles({
   tooltip: {
@@ -20,7 +22,7 @@ const StyledTooltip = withStyles({
   },
 })(Tooltip)
 
-const Chip = styled(Paper)`
+const Chip = styled("div")`
   color: white;
   width: auto;
   height: auto;
@@ -35,21 +37,48 @@ const Chip = styled(Paper)`
   }
 `
 
+const outboundPaperStyle = {
+  background:
+    "linear-gradient(225deg, rgba(211,75,111,1) 0%, rgba(167,12,53,1) 100%)",
+  height: "100%",
+  borderRadius: 12,
+}
+
+const inboundPaperStyle = {
+  background:
+    "linear-gradient(225deg, rgba(80,80,150,1) 0%, rgba(45,45,113,1) 100%)",
+  height: "100%",
+  borderRadius: 12,
+}
+
+const CountryChip = ({ detail, country_name, country_emoji }) => (
+  <Grid item style={{ padding: 5 }}>
+    <StyledTooltip title={detail} enterTouchDelay={10}>
+      <Chip>{`${country_emoji}${country_name}`}</Chip>
+    </StyledTooltip>
+  </Grid>
+)
+
 const BorderShutdown = props => {
   const { data } = props
   const { t, i18n } = useTranslation()
 
+  const countryNodes = data.map(d => {
+    const country = getCountryFromISO(Number(d.node.iso_code))
+    return {
+      key: d.node.iso_code.concat(d.node.status),
+      country_emoji: country.country_emoji,
+      country_name: withLanguage(i18n, country, "country"),
+      detail: withLanguage(i18n, d.node, "detail"),
+      status: d.node.status,
+    }
+  })
+  const countryGrouped = _groupBy(countryNodes, "status")
+
   return (
     <Grid container style={{ paddingTop: 25 }}>
       <Grid item xs={12} md={6} style={{ padding: "5px 10px" }}>
-        <Paper
-          style={{
-            background:
-              "linear-gradient(225deg, rgba(211,75,111,1) 0%, rgba(167,12,53,1) 100%)",
-            height: "100%",
-            borderRadius: 12,
-          }}
-        >
+        <Paper style={outboundPaperStyle}>
           <Grid container>
             <Grid item xs={12} container style={{ height: 90 }}>
               <Grid item xs={7}>
@@ -74,23 +103,9 @@ const BorderShutdown = props => {
               />
             </Grid>
             <Grid item xs={12} container style={{ padding: "10px 20px" }}>
-              {data.map(d => {
-                const country = getCountryFromISO(Number(d.node.iso_code))
-                const detail =
-                  i18n.language === "zh" ? d.node.detail_zh : d.node.detail_en
-                const country_name =
-                  i18n.language === "zh"
-                    ? country.country_zh
-                    : country.country_en
-
-                return d.node.status === "全面禁止由香港入境國家" ? (
-                  <Grid item key={d.node.detail_zh} style={{ padding: 5 }}>
-                    <StyledTooltip title={detail} enterTouchDelay={10}>
-                      <Chip>{`${country.country_emoji}${country_name}`}</Chip>
-                    </StyledTooltip>
-                  </Grid>
-                ) : null
-              })}
+              {(countryGrouped["全面禁止由香港入境國家"] || []).map(props => (
+                <CountryChip {...props} />
+              ))}
             </Grid>
             <Grid item xs={12}>
               <Typography
@@ -99,36 +114,16 @@ const BorderShutdown = props => {
               />
             </Grid>
             <Grid item xs={12} container style={{ padding: "10px 20px" }}>
-              {data.map(d => {
-                const country = getCountryFromISO(Number(d.node.iso_code))
-                const detail =
-                  i18n.language === "zh" ? d.node.detail_zh : d.node.detail_en
-                const country_name =
-                  i18n.language === "zh"
-                    ? country.country_zh
-                    : country.country_en
-
-                return d.node.status === "有限度禁止由香港入境國家" ? (
-                  <Grid item key={d.node.detail_zh} style={{ padding: 5 }}>
-                    <StyledTooltip title={detail} enterTouchDelay={10}>
-                      <Chip>{`${country.country_emoji}${country_name}`}</Chip>
-                    </StyledTooltip>
-                  </Grid>
-                ) : null
-              })}
+              {(countryGrouped["有限度禁止由香港入境國家"] || []).map(props => (
+                <CountryChip {...props} />
+              ))}
             </Grid>
           </Grid>
         </Paper>
       </Grid>
+
       <Grid item xs={12} md={6} style={{ padding: "5px 10px" }}>
-        <Paper
-          style={{
-            background:
-              "linear-gradient(225deg, rgba(80,80,150,1) 0%, rgba(45,45,113,1) 100%)",
-            height: "100%",
-            borderRadius: 12,
-          }}
-        >
+        <Paper style={inboundPaperStyle}>
           <Grid container>
             <Grid item xs={12} container style={{ height: 90 }}>
               <Grid item xs={7}>
@@ -153,23 +148,9 @@ const BorderShutdown = props => {
               />
             </Grid>
             <Grid item xs={12} container style={{ padding: "10px 20px" }}>
-              {data.map(d => {
-                const country = getCountryFromISO(Number(d.node.iso_code))
-                const detail =
-                  i18n.language === "zh" ? d.node.detail_zh : d.node.detail_en
-                const country_name =
-                  i18n.language === "zh"
-                    ? country.country_zh
-                    : country.country_en
-
-                return d.node.status === "有限度禁止抵港國家" ? (
-                  <Grid item key={d.node.detail_zh} style={{ padding: 5 }}>
-                    <StyledTooltip title={detail} enterTouchDelay={10}>
-                      <Chip>{`${country.country_emoji}${country_name}`}</Chip>
-                    </StyledTooltip>
-                  </Grid>
-                ) : null
-              })}
+              {(countryGrouped["有限度禁止抵港國家"] || []).map(props => (
+                <CountryChip {...props} />
+              ))}
             </Grid>
             <Grid item xs={12}>
               <Typography
@@ -180,23 +161,9 @@ const BorderShutdown = props => {
               />
             </Grid>
             <Grid item xs={12} container style={{ padding: "10px 20px" }}>
-              {data.map(d => {
-                const country = getCountryFromISO(Number(d.node.iso_code))
-                const detail =
-                  i18n.language === "zh" ? d.node.detail_zh : d.node.detail_en
-                const country_name =
-                  i18n.language === "zh"
-                    ? country.country_zh
-                    : country.country_en
-
-                return d.node.status === "抵港需強制檢疫國家" ? (
-                  <Grid item key={d.node.detail_zh} style={{ padding: 5 }}>
-                    <StyledTooltip title={detail} enterTouchDelay={10}>
-                      <Chip>{`${country.country_emoji}${country_name}`}</Chip>
-                    </StyledTooltip>
-                  </Grid>
-                ) : null
-              })}
+              {(countryGrouped["抵港需強制檢疫國家"] || []).map(props => (
+                <CountryChip {...props} />
+              ))}
             </Grid>
           </Grid>
         </Paper>
