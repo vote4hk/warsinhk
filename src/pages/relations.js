@@ -9,6 +9,10 @@ import { createDedupOptions, createDedupArrayOptions } from "@/utils/search"
 import { PageContent } from "../components/atoms/Container"
 import { WarsCaseBoxContainer } from "@/components/organisms/CaseBoxContainer"
 import { WarsCaseCard } from "@components/organisms/CaseCard"
+import InfiniteScroll from "@/components/modecules/InfiniteScroll"
+import ContextStore from "@/contextStore"
+import { CASES_BOX_VIEW, CASES_CARD_VIEW } from "@/reducers/cases"
+import { Button } from "@material-ui/core"
 import _get from "lodash.get"
 
 const SelectedCardContainer = styled.div`
@@ -30,6 +34,13 @@ const SelectedCardContainer = styled.div`
 
 const RelationPage = props => {
   const { data } = props
+  const {
+    cases: {
+      dispatch,
+      state: { view },
+    },
+  } = React.useContext(ContextStore)
+
   // Do the sorting here since case_no is string instead of int
   const cases = data.allWarsCase.edges.sort((edge1, edge2) => {
     const res = edge2.node.confirmation_date.localeCompare(
@@ -95,6 +106,12 @@ const RelationPage = props => {
     },
   ]
 
+  // Calculate how much cards we should preload in order to scorll to that position
+  let preloadedCases = cases.length - parseInt(selectedCase) + 1
+  if (isNaN(preloadedCases)) {
+    preloadedCases = 15
+  }
+
   const listFilteredHandler = list => {
     setFilteredCases(list)
   }
@@ -125,6 +142,25 @@ const RelationPage = props => {
     >
       <SEO />
       <PageContent>
+        <Button
+          style={{ marginBottom: 8 }}
+          variant="outlined"
+          color="primary"
+          size="small"
+          // startIcon={}
+          onClick={() => {
+            dispatch({
+              type: view === CASES_CARD_VIEW ? CASES_BOX_VIEW : CASES_CARD_VIEW,
+            })
+            // trackCustomEvent({
+            //   category: "about_us",
+            //   action: "click",
+            //   label: "https://www.facebook.com/vote4hongkong/",
+            // })
+          }}
+        >
+          {view === CASES_BOX_VIEW ? t("cases.card_view") : t("cases.box_view")}
+        </Button>
         <MultiPurposeSearch
           list={data.allWarsCase.edges}
           placeholder={t("search.case_placeholder")}
@@ -134,14 +170,24 @@ const RelationPage = props => {
           filterWithOr={false}
         />
       </PageContent>
-      <WarsCaseBoxContainer
-        filteredCases={filteredCases}
-        handleBoxClick={handleBoxClick}
-      />
-      {selectedCase && (
-        <SelectedCardContainer>
-          {renderCaseCard(selectedCase)}
-        </SelectedCardContainer>
+      {view === CASES_BOX_VIEW ? (
+        <>
+          <WarsCaseBoxContainer
+            filteredCases={filteredCases}
+            handleBoxClick={handleBoxClick}
+          />
+          {selectedCase && (
+            <SelectedCardContainer>
+              {renderCaseCard(selectedCase)}
+            </SelectedCardContainer>
+          )}
+        </>
+      ) : (
+        <InfiniteScroll
+          list={filteredCases.map(c => c.node)}
+          step={{ mobile: 5, preload: preloadedCases }}
+          onItem={renderCaseCard}
+        />
       )}
     </Layout>
   )
