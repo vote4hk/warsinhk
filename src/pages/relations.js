@@ -118,7 +118,9 @@ const RelationPage = props => {
   return (
     <Layout
       onClick={e =>
-        !e.target.className.includes("wars_box") && setSelectedCase(null)
+        e.target.className &&
+        !e.target.className.includes("wars_box") &&
+        setSelectedCase(null)
       }
     >
       <SEO />
