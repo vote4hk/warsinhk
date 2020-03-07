@@ -7,12 +7,16 @@ import { graphql } from "gatsby"
 import MultiPurposeSearch from "@/components/modecules/MultiPurposeSearch"
 import { createDedupOptions, createDedupArrayOptions } from "@/utils/search"
 import { PageContent } from "../components/atoms/Container"
-import { WarsCaseBoxContainer } from "@/components/organisms/CaseBoxContainer"
+import {
+  WarsCaseBoxContainer,
+  WarsCaseBoxLegend,
+} from "@/components/organisms/CaseBoxContainer"
 import { WarsCaseCard } from "@components/organisms/CaseCard"
 import InfiniteScroll from "@/components/modecules/InfiniteScroll"
 import ContextStore from "@/contextStore"
 import { CASES_BOX_VIEW, CASES_CARD_VIEW } from "@/reducers/cases"
 import { Button } from "@material-ui/core"
+import Dialog from "@/components/atoms/Dialog"
 import _get from "lodash.get"
 
 const SelectedCardContainer = styled.div`
@@ -82,6 +86,15 @@ const RelationPage = props => {
 
   const [filteredCases, setFilteredCases] = useState(cases)
   const [selectedCase, setSelectedCase] = useState(null)
+  const [showLegend, setShowLegend] = useState(false)
+
+  const handleClickOpen = () => {
+    setShowLegend(true)
+  }
+  const handleClose = () => {
+    setShowLegend(false)
+  }
+
   const { i18n, t } = useTranslation()
   const options = [
     {
@@ -130,12 +143,23 @@ const RelationPage = props => {
     />
   )
 
+  const LegendContent = i18n => {
+    return (
+      <>
+        <WarsCaseBoxLegend
+          caseGroup={data.allWarsCaseRelation.edges}
+          i18n={i18n}
+        />
+      </>
+    )
+  }
+
   const handleBoxClick = item => setSelectedCase(item)
 
   return (
     <Layout
       onClick={e =>
-        e.target.className &&
+        typeof e.target.className === "string" &&
         !e.target.className.includes("wars_box") &&
         setSelectedCase(null)
       }
@@ -161,6 +185,16 @@ const RelationPage = props => {
         >
           {view === CASES_BOX_VIEW ? t("cases.card_view") : t("cases.box_view")}
         </Button>
+        <Button
+          style={{ marginBottom: 8 }}
+          variant="outlined"
+          color="primary"
+          size="small"
+          // startIcon={}
+          onClick={handleClickOpen}
+        >
+          {t("cases.legend")}
+        </Button>
         <MultiPurposeSearch
           list={data.allWarsCase.edges}
           placeholder={t("search.case_placeholder")}
@@ -181,6 +215,12 @@ const RelationPage = props => {
               {renderCaseCard(selectedCase)}
             </SelectedCardContainer>
           )}
+          <Dialog
+            open={showLegend}
+            handleClose={handleClose}
+            title={t("cases.legend")}
+            content={<LegendContent i18n={i18n} />}
+          />
         </>
       ) : (
         <InfiniteScroll
