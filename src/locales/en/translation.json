@@ -164,8 +164,14 @@
   "world.total_cured": "Total Recovered",
   "world.compared_to_previous_day": "daily changes",
   "world.distribution": "Cases Distribution",
-  "world.trend": "Global Trend (in dev)",
+  "world.border_shutdown": "Border Shutdown",
   "world.ranking_country": "Country",
   "world.ranking_confirmed": "Infected",
-  "world.ranking_died": "Death"
+  "world.ranking_died": "Death",
+  "world.border_shutdown_outbound": "Outbound",
+  "world.border_shutdown_outbound_full": "Complete shutdown",
+  "world.border_shutdown_outbound_part": "Partly shutdown",
+  "world.border_shutdown_inbound": "Inbound",
+  "world.border_shutdown_inbound_part": "Partly shutdown",
+  "world.border_shutdown_inbound_compulsory_quarantine": "Compulsory Quarantine"
 }

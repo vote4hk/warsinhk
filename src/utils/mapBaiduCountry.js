@@ -29,9 +29,29 @@ const mapBaiduCountry = countryName => {
   )
 }
 
+// TODO: deprecate this utils, use getCountryFromISO instead
 export const getBaiduCountryFromISO = iso => {
   const country = find(countryMappingJSON, { iso_code: iso })
-  return country ? country.baidu_country_name : ""
+  return country
+    ? country.baidu_country_name || country.baidu_country_name_translated
+    : ""
+}
+
+export const getCountryFromISO = iso => {
+  const country = find(countryMappingJSON, { iso_code: iso })
+  return (
+    country || {
+      country_emoji: "",
+      baidu_country_name: "",
+      baidu_country_name_translated: "",
+      country_en: "",
+      country_zh: "",
+      topo_country_names: "",
+      iso_code: iso,
+      latitude: -90,
+      longitude: 0,
+    }
+  )
 }
 
 export default mapBaiduCountry

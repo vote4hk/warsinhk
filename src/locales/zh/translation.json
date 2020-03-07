@@ -171,8 +171,14 @@
   "world.total_cured": "總治癒人數",
   "world.compared_to_previous_day": "較昨日",
   "world.distribution": "全球個案分佈",
-  "world.trend": "疫情走勢 (即將推出)",
+  "world.border_shutdown": "封關情況",
   "world.ranking_country": "國家",
   "world.ranking_confirmed": "確診",
-  "world.ranking_died": "死亡"
+  "world.ranking_died": "死亡",
+  "world.border_shutdown_outbound": "離境限制",
+  "world.border_shutdown_outbound_full": "全面禁止由香港入境國家",
+  "world.border_shutdown_outbound_part": "有限度禁止由香港入境國家",
+  "world.border_shutdown_inbound": "抵港限制",
+  "world.border_shutdown_inbound_part": "有限度禁止抵港國家",
+  "world.border_shutdown_inbound_compulsory_quarantine": "抵港需強制檢疫國家"
 }

@@ -20,6 +20,7 @@ import { withStyles } from "@material-ui/core/styles"
 import IncreaseIcon from "@/components/icons/increase.svg"
 import DecreaseIcon from "@/components/icons/decrease.svg"
 import WorldMap from "@/components/charts/WorldMap"
+import BorderShutdown from "@/components/charts/BorderShutdown"
 import mapBaiduCountry from "@/utils/mapBaiduCountry"
 
 const TabPanel = props => {
@@ -33,7 +34,11 @@ const TabPanel = props => {
       aria-labelledby={`tab-${index}`}
       {...other}
     >
-      {value === index && <Box p={3}>{children}</Box>}
+      {value === index && (
+        <Box p={3} style={{ padding: "10px 5px" }}>
+          {children}
+        </Box>
+      )}
     </Typography>
   )
 }
@@ -212,13 +217,15 @@ const WorldBoard = props => {
       </Grid>
       <Grid item xs={12} style={{ marginTop: 30 }}>
         <StyledTabs value={value} onChange={handleChange}>
-          <Tab label={t("world.distribution")} {...tabProps(0)} />
-          <Tab label={t("world.trend")} {...tabProps(1)} disabled />
+          <Tab label={t("world.border_shutdown")} {...tabProps(0)} />
+          <Tab label={t("world.distribution")} {...tabProps(1)} />
         </StyledTabs>
         <TabPanel value={value} index={0}>
+          <BorderShutdown data={data.allBorderShutdown.edges} />
+        </TabPanel>
+        <TabPanel value={value} index={1}>
           <WorldMap data={getMostUpdatedRanking(data)} />
         </TabPanel>
-        <TabPanel value={value} index={1} />
       </Grid>
     </Grid>
   )
@@ -387,6 +394,17 @@ export const BaiduInternationalDataQuery = graphql`
           confirmed
           died
           crued
+        }
+      }
+    }
+    allBorderShutdown(sort: { order: DESC, fields: last_update }) {
+      edges {
+        node {
+          iso_code
+          category
+          detail_zh
+          detail_en
+          status
         }
       }
     }
