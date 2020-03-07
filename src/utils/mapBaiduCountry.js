@@ -9,11 +9,12 @@ const mapBaiduCountry = countryName => {
     baidu_country_name: cn,
   }) // find by simplified chinese
   const countryByTraditionalChinese = find(countryMappingJSON, {
-    country_zh: cn,
+    baidu_country_name_translated: cn,
   }) // find by traditional chinese
   const defaultCountry = {
     country_emoji: "",
     baidu_country_name: cn,
+    baidu_country_name_translated: cn,
     country_en: cn,
     country_zh: cn,
     topo_country_names: cn,

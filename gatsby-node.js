@@ -154,7 +154,12 @@ const createWorldCasesNode = async ({
   let dateTimeMapping = {}
 
   baiduChinaData.wars_BaiduChinaData.forEach(p => {
-    if (p.area === "香港" || p.area === "颱灣" || p.area === "台灣") {
+    if (
+      p.area === "香港" ||
+      p.area === "颱灣" ||
+      p.area === "台灣" ||
+      p.area === "澳門"
+    ) {
       const node_data = {
         area: p.area === "颱灣" ? "台灣" : p.area,
         date: p.date,
