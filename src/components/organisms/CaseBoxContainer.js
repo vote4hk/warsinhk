@@ -151,6 +151,25 @@ export const WarsCaseBox = React.forwardRef((props, ref) => {
   )
 })
 
+export const WarsCaseBoxLegend = React.forwardRef((props, ref) => {
+  const { caseGroup } = props
+  return (
+    <>
+      {caseGroup.map(({ node }, id) => {
+        const c = {
+          node: {
+            case_no: "群組",
+            status: "hospitalised",
+            group_id: id,
+            gender: "-",
+          },
+        }
+        return <WarsCaseBox cases={c} handleBoxClick={() => {}} />
+      })}
+    </>
+  )
+})
+
 export const WarsCaseBoxContainer = React.forwardRef((props, ref) => {
   const { filteredCases, handleBoxClick } = props
 
