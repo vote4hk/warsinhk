@@ -2,6 +2,7 @@
   {
     "country_emoji": "🇦🇫",
     "baidu_country_name": "阿富汗",
+    "baidu_country_name_translated": "阿富汗",
     "country_en": "Afghanistan",
     "country_zh": "阿富汗",
     "topo_country_names": "Afghanistan",
@@ -12,6 +13,7 @@
   {
     "country_emoji": "🇦🇱",
     "baidu_country_name": "阿尔巴尼亚",
+    "baidu_country_name_translated": "阿爾巴尼亞",
     "country_en": "Albania",
     "country_zh": "阿爾巴尼亞",
     "topo_country_names": "Albania",
@@ -22,6 +24,7 @@
   {
     "country_emoji": "🇩🇿",
     "baidu_country_name": "阿尔及利亚",
+    "baidu_country_name_translated": "阿爾及利亞",
     "country_en": "Algeria",
     "country_zh": "阿爾及利亞",
     "topo_country_names": "Algeria",
@@ -32,6 +35,7 @@
   {
     "country_emoji": "🇦🇩",
     "baidu_country_name": "安道尔",
+    "baidu_country_name_translated": "安道爾",
     "country_en": "Andorra",
     "country_zh": "安道爾",
     "topo_country_names": "",
@@ -42,6 +46,7 @@
   {
     "country_emoji": "🇦🇴",
     "baidu_country_name": "安哥拉",
+    "baidu_country_name_translated": "安哥拉",
     "country_en": "Angola",
     "country_zh": "安哥拉",
     "topo_country_names": "Angola",
@@ -52,6 +57,7 @@
   {
     "country_emoji": "🇦🇬",
     "baidu_country_name": "安提瓜和巴布达",
+    "baidu_country_name_translated": "安提瓜和巴布達",
     "country_en": "Antigua and Barbuda",
     "country_zh": "安提瓜和巴布達",
     "topo_country_names": "",
@@ -62,6 +68,7 @@
   {
     "country_emoji": "🇦🇷",
     "baidu_country_name": "阿根廷",
+    "baidu_country_name_translated": "阿根廷",
     "country_en": "Argentina",
     "country_zh": "阿根廷",
     "topo_country_names": "Argentina",
@@ -72,6 +79,7 @@
   {
     "country_emoji": "🇦🇲",
     "baidu_country_name": "亚美尼亚",
+    "baidu_country_name_translated": "亞美尼亞",
     "country_en": "Armenia",
     "country_zh": "亞美尼亞",
     "topo_country_names": "Armenia",
@@ -82,6 +90,7 @@
   {
     "country_emoji": "🇦🇺",
     "baidu_country_name": "澳大利亚",
+    "baidu_country_name_translated": "澳大利亞",
     "country_en": "Australia",
     "country_zh": "澳洲",
     "topo_country_names": "Australia",
@@ -92,6 +101,7 @@
   {
     "country_emoji": "🇦🇹",
     "baidu_country_name": "奥地利",
+    "baidu_country_name_translated": "奧地利",
     "country_en": "Austria",
     "country_zh": "奧地利",
     "topo_country_names": "Austria",
@@ -102,6 +112,7 @@
   {
     "country_emoji": "🇦🇿",
     "baidu_country_name": "阿塞拜疆",
+    "baidu_country_name_translated": "阿塞拜疆",
     "country_en": "Azerbaijan",
     "country_zh": "阿塞拜疆",
     "topo_country_names": "Azerbaijan",
@@ -112,6 +123,7 @@
   {
     "country_emoji": "🇧🇸",
     "baidu_country_name": "巴哈马群岛",
+    "baidu_country_name_translated": "巴哈馬群島",
     "country_en": "The Bahamas",
     "country_zh": "巴哈馬群島",
     "topo_country_names": "Bahamas",
@@ -122,6 +134,7 @@
   {
     "country_emoji": "🇧🇭",
     "baidu_country_name": "巴林",
+    "baidu_country_name_translated": "巴林",
     "country_en": "Bahrain",
     "country_zh": "巴林",
     "topo_country_names": "",
@@ -132,6 +145,7 @@
   {
     "country_emoji": "🇧🇩",
     "baidu_country_name": "孟加拉国",
+    "baidu_country_name_translated": "孟加拉國",
     "country_en": "Bangladesh",
     "country_zh": "孟加拉",
     "topo_country_names": "Bangladesh",
@@ -142,6 +156,7 @@
   {
     "country_emoji": "🇧🇧",
     "baidu_country_name": "巴巴多斯",
+    "baidu_country_name_translated": "巴巴多斯",
     "country_en": "Barbados",
     "country_zh": "巴巴多斯",
     "topo_country_names": "",
@@ -152,6 +167,7 @@
   {
     "country_emoji": "🇧🇾",
     "baidu_country_name": "白俄罗斯",
+    "baidu_country_name_translated": "白俄羅斯",
     "country_en": "Belarus",
     "country_zh": "白俄羅斯",
     "topo_country_names": "Belarus",
@@ -162,6 +178,7 @@
   {
     "country_emoji": "🇧🇪",
     "baidu_country_name": "比利时",
+    "baidu_country_name_translated": "比利時",
     "country_en": "Belgium",
     "country_zh": "比利時",
     "topo_country_names": "Belgium",
@@ -172,6 +189,7 @@
   {
     "country_emoji": "🇧🇿",
     "baidu_country_name": "伯利兹",
+    "baidu_country_name_translated": "伯利茲",
     "country_en": "Belize",
     "country_zh": "伯利茲",
     "topo_country_names": "Belize",
@@ -182,6 +200,7 @@
   {
     "country_emoji": "🇧🇯",
     "baidu_country_name": "贝宁",
+    "baidu_country_name_translated": "貝寧",
     "country_en": "Benin",
     "country_zh": "貝寧",
     "topo_country_names": "Benin",
@@ -192,6 +211,7 @@
   {
     "country_emoji": "🇧🇹",
     "baidu_country_name": "不丹",
+    "baidu_country_name_translated": "不丹",
     "country_en": "Bhutan",
     "country_zh": "不丹",
     "topo_country_names": "Bhutan",
@@ -202,6 +222,7 @@
   {
     "country_emoji": "🇧🇴",
     "baidu_country_name": "玻利维亚",
+    "baidu_country_name_translated": "玻利維亞",
     "country_en": "Bolivia",
     "country_zh": "玻利維亞",
     "topo_country_names": "Bolivia",
@@ -212,6 +233,7 @@
   {
     "country_emoji": "🇧🇦",
     "baidu_country_name": "波斯尼亚和黑塞哥维那",
+    "baidu_country_name_translated": "波黑",
     "country_en": "Bosnia and Herzegovina",
     "country_zh": "波黑",
     "topo_country_names": "Bosnia and Herz.",
@@ -222,6 +244,7 @@
   {
     "country_emoji": "🇧🇼",
     "baidu_country_name": "博茨瓦纳",
+    "baidu_country_name_translated": "博茨瓦納",
     "country_en": "Botswana",
     "country_zh": "博茨瓦納",
     "topo_country_names": "Botswana",
@@ -232,6 +255,7 @@
   {
     "country_emoji": "🇧🇷",
     "baidu_country_name": "巴西",
+    "baidu_country_name_translated": "巴西",
     "country_en": "Brazil",
     "country_zh": "巴西",
     "topo_country_names": "Brazil",
@@ -242,6 +266,7 @@
   {
     "country_emoji": "🇧🇳",
     "baidu_country_name": "文莱",
+    "baidu_country_name_translated": "文萊",
     "country_en": "Brunei",
     "country_zh": "汶萊",
     "topo_country_names": "Brunei",
@@ -252,6 +277,7 @@
   {
     "country_emoji": "🇧🇬",
     "baidu_country_name": "保加利亚",
+    "baidu_country_name_translated": "保加利亞",
     "country_en": "Bulgaria",
     "country_zh": "保加利亞",
     "topo_country_names": "Bulgaria",
@@ -262,6 +288,7 @@
   {
     "country_emoji": "🇧🇫",
     "baidu_country_name": "布基纳法索",
+    "baidu_country_name_translated": "布基納法索",
     "country_en": "Burkina Faso",
     "country_zh": "布基納法索",
     "topo_country_names": "Burkina Faso",
@@ -272,6 +299,7 @@
   {
     "country_emoji": "🇧🇮",
     "baidu_country_name": "布隆迪",
+    "baidu_country_name_translated": "布隆迪",
     "country_en": "Burundi",
     "country_zh": "布隆迪",
     "topo_country_names": "Burundi",
@@ -282,6 +310,7 @@
   {
     "country_emoji": "🇰🇭",
     "baidu_country_name": "柬埔寨",
+    "baidu_country_name_translated": "柬埔寨",
     "country_en": "Cambodia",
     "country_zh": "柬埔寨",
     "topo_country_names": "Cambodia",
@@ -292,6 +321,7 @@
   {
     "country_emoji": "🇨🇲",
     "baidu_country_name": "喀麦隆",
+    "baidu_country_name_translated": "喀麥隆",
     "country_en": "Cameroon",
     "country_zh": "喀麥隆",
     "topo_country_names": "Cameroon",
@@ -302,6 +332,7 @@
   {
     "country_emoji": "🇨🇦",
     "baidu_country_name": "加拿大",
+    "baidu_country_name_translated": "加拿大",
     "country_en": "Canada",
     "country_zh": "加拿大",
     "topo_country_names": "Canada",
@@ -312,6 +343,7 @@
   {
     "country_emoji": "🇨🇻",
     "baidu_country_name": "佛得角",
+    "baidu_country_name_translated": "佛得角",
     "country_en": "Cape Verde",
     "country_zh": "維德角",
     "topo_country_names": "",
@@ -322,6 +354,7 @@
   {
     "country_emoji": "🇨🇫",
     "baidu_country_name": "中非共和国",
+    "baidu_country_name_translated": "中非共和國",
     "country_en": "The Central African Republic",
     "country_zh": "中非共和國",
     "topo_country_names": "Central African Rep.",
@@ -332,6 +365,7 @@
   {
     "country_emoji": "🇹🇩",
     "baidu_country_name": "乍得",
+    "baidu_country_name_translated": "乍得",
     "country_en": "Chad",
     "country_zh": "乍得",
     "topo_country_names": "Chad",
@@ -342,6 +376,7 @@
   {
     "country_emoji": "🇨🇱",
     "baidu_country_name": "智利",
+    "baidu_country_name_translated": "智利",
     "country_en": "Chile",
     "country_zh": "智利",
     "topo_country_names": "Chile",
@@ -352,6 +387,7 @@
   {
     "country_emoji": "🇨🇳",
     "baidu_country_name": "中国",
+    "baidu_country_name_translated": "中國",
     "country_en": "China",
     "country_zh": "中國",
     "topo_country_names": "China",
@@ -362,6 +398,7 @@
   {
     "country_emoji": "🇨🇴",
     "baidu_country_name": "哥伦比亚",
+    "baidu_country_name_translated": "哥倫比亞",
     "country_en": "Colombia",
     "country_zh": "哥倫比亞",
     "topo_country_names": "Colombia",
@@ -372,6 +409,7 @@
   {
     "country_emoji": "🇰🇲",
     "baidu_country_name": "科摩罗",
+    "baidu_country_name_translated": "科摩羅",
     "country_en": "The Comoros",
     "country_zh": "科摩羅",
     "topo_country_names": "",
@@ -382,6 +420,7 @@
   {
     "country_emoji": "🇨🇰",
     "baidu_country_name": "库克群岛",
+    "baidu_country_name_translated": "庫克群島",
     "country_en": "Cook Islands",
     "country_zh": "庫克群島",
     "topo_country_names": "",
@@ -392,6 +431,7 @@
   {
     "country_emoji": "🇨🇷",
     "baidu_country_name": "哥斯达黎加",
+    "baidu_country_name_translated": "哥斯達黎加",
     "country_en": "Costa Rica",
     "country_zh": "哥斯達黎加",
     "topo_country_names": "Costa Rica",
@@ -402,6 +442,7 @@
   {
     "country_emoji": "🇨🇮",
     "baidu_country_name": "科特迪瓦",
+    "baidu_country_name_translated": "科特迪瓦",
     "country_en": "Cote d’Ivoire",
     "country_zh": "科特迪瓦",
     "topo_country_names": "Côte d'Ivoire",
@@ -412,6 +453,7 @@
   {
     "country_emoji": "🇭🇷",
     "baidu_country_name": "克罗地亚",
+    "baidu_country_name_translated": "克羅地亞",
     "country_en": "Croatia",
     "country_zh": "克羅地亞",
     "topo_country_names": "Croatia",
@@ -422,6 +464,7 @@
   {
     "country_emoji": "🇨🇺",
     "baidu_country_name": "古巴",
+    "baidu_country_name_translated": "古巴",
     "country_en": "Cuba",
     "country_zh": "古巴",
     "topo_country_names": "Cuba",
@@ -432,6 +475,7 @@
   {
     "country_emoji": "🇨🇾",
     "baidu_country_name": "塞浦路斯",
+    "baidu_country_name_translated": "塞浦路斯",
     "country_en": "Cyprus",
     "country_zh": "塞浦路斯",
     "topo_country_names": "Cyprus",
@@ -442,6 +486,7 @@
   {
     "country_emoji": "🇨🇿",
     "baidu_country_name": "捷克",
+    "baidu_country_name_translated": "捷克",
     "country_en": "The Czech Republic",
     "country_zh": "捷克",
     "topo_country_names": "Czechia",
@@ -452,6 +497,7 @@
   {
     "country_emoji": "🇨🇩",
     "baidu_country_name": "刚果民主共和国",
+    "baidu_country_name_translated": "剛果民主共和國",
     "country_en": "The Democratic Republic of the Congo",
     "country_zh": "剛果民主共和國",
     "topo_country_names": "Dem. Rep. Congo",
@@ -462,6 +508,7 @@
   {
     "country_emoji": "🇩🇰",
     "baidu_country_name": "丹麦",
+    "baidu_country_name_translated": "丹麥",
     "country_en": "Denmark",
     "country_zh": "丹麥",
     "topo_country_names": "Denmark",
@@ -472,6 +519,7 @@
   {
     "country_emoji": "🇩🇯",
     "baidu_country_name": "吉布提",
+    "baidu_country_name_translated": "吉布提",
     "country_en": "Djibouti",
     "country_zh": "吉布提",
     "topo_country_names": "Djibouti",
@@ -482,6 +530,7 @@
   {
     "country_emoji": "🇩🇲",
     "baidu_country_name": "多米尼加",
+    "baidu_country_name_translated": "多米尼加",
     "country_en": "Dominica",
     "country_zh": "多米尼加",
     "topo_country_names": "",
@@ -492,6 +541,7 @@
   {
     "country_emoji": "🇩🇴",
     "baidu_country_name": "多米尼加共和国",
+    "baidu_country_name_translated": "多米尼加共和國",
     "country_en": "The Dominican Republic",
     "country_zh": "多米尼加共和國",
     "topo_country_names": "Dominican Rep.",
@@ -502,6 +552,7 @@
   {
     "country_emoji": "🇹🇱",
     "baidu_country_name": "东帝汶",
+    "baidu_country_name_translated": "東帝汶",
     "country_en": "East Timor",
     "country_zh": "東帝汶",
     "topo_country_names": "Timor-Leste",
@@ -512,6 +563,7 @@
   {
     "country_emoji": "🇪🇨",
     "baidu_country_name": "厄瓜多尔",
+    "baidu_country_name_translated": "厄瓜多爾",
     "country_en": "Ecuador",
     "country_zh": "厄瓜多爾",
     "topo_country_names": "Ecuador",
@@ -522,6 +574,7 @@
   {
     "country_emoji": "🇪🇬",
     "baidu_country_name": "埃及",
+    "baidu_country_name_translated": "埃及",
     "country_en": "Egypt",
     "country_zh": "埃及",
     "topo_country_names": "Egypt",
@@ -532,6 +585,7 @@
   {
     "country_emoji": "🇸🇻",
     "baidu_country_name": "萨尔瓦多",
+    "baidu_country_name_translated": "薩爾瓦多",
     "country_en": "El Salvador",
     "country_zh": "薩爾瓦多",
     "topo_country_names": "El Salvador",
@@ -542,6 +596,7 @@
   {
     "country_emoji": "🇬🇶",
     "baidu_country_name": "赤道几内亚",
+    "baidu_country_name_translated": "赤道幾內亞",
     "country_en": "Equatorial Guinea",
     "country_zh": "赤道幾內亞",
     "topo_country_names": "Eq. Guinea",
@@ -552,6 +607,7 @@
   {
     "country_emoji": "🇪🇷",
     "baidu_country_name": "厄立特里亚",
+    "baidu_country_name_translated": "厄立特里亞",
     "country_en": "Eritrea",
     "country_zh": "厄立特里亞",
     "topo_country_names": "Eritrea",
@@ -562,6 +618,7 @@
   {
     "country_emoji": "🇪🇪",
     "baidu_country_name": "爱沙尼亚",
+    "baidu_country_name_translated": "愛沙尼亞",
     "country_en": "Estonia",
     "country_zh": "愛沙尼亞",
     "topo_country_names": "Estonia",
@@ -572,6 +629,7 @@
   {
     "country_emoji": "🇪🇹",
     "baidu_country_name": "埃塞俄比亚",
+    "baidu_country_name_translated": "埃塞俄比亞",
     "country_en": "Ethiopia",
     "country_zh": "埃塞俄比亞",
     "topo_country_names": "Ethiopia",
@@ -582,6 +640,7 @@
   {
     "country_emoji": "🇫🇯",
     "baidu_country_name": "斐济",
+    "baidu_country_name_translated": "斐濟",
     "country_en": "Fiji",
     "country_zh": "斐濟",
     "topo_country_names": "Fiji",
@@ -592,6 +651,7 @@
   {
     "country_emoji": "🇫🇮",
     "baidu_country_name": "芬兰",
+    "baidu_country_name_translated": "芬蘭",
     "country_en": "Finland",
     "country_zh": "芬蘭",
     "topo_country_names": "Finland",
@@ -602,6 +662,7 @@
   {
     "country_emoji": "🇫🇷",
     "baidu_country_name": "法国",
+    "baidu_country_name_translated": "法國",
     "country_en": "France",
     "country_zh": "法國",
     "topo_country_names": "France",
@@ -612,6 +673,7 @@
   {
     "country_emoji": "🇬🇦",
     "baidu_country_name": "加蓬",
+    "baidu_country_name_translated": "加蓬",
     "country_en": "Gabon",
     "country_zh": "加蓬",
     "topo_country_names": "Gabon",
@@ -622,6 +684,7 @@
   {
     "country_emoji": "🇬🇲",
     "baidu_country_name": "冈比亚",
+    "baidu_country_name_translated": "岡比亞",
     "country_en": "The Gambia",
     "country_zh": "岡比亞",
     "topo_country_names": "Gambia",
@@ -632,6 +695,7 @@
   {
     "country_emoji": "🇬🇪",
     "baidu_country_name": "格鲁吉亚",
+    "baidu_country_name_translated": "格魯吉亞",
     "country_en": "Georgia",
     "country_zh": "格魯吉亞",
     "topo_country_names": "Georgia",
@@ -642,6 +706,7 @@
   {
     "country_emoji": "🇩🇪",
     "baidu_country_name": "德国",
+    "baidu_country_name_translated": "德國",
     "country_en": "Germany",
     "country_zh": "德國",
     "topo_country_names": "Germany",
@@ -652,6 +717,7 @@
   {
     "country_emoji": "🇬🇭",
     "baidu_country_name": "加纳",
+    "baidu_country_name_translated": "加納",
     "country_en": "Ghana",
     "country_zh": "加納",
     "topo_country_names": "Ghana",
@@ -662,6 +728,7 @@
   {
     "country_emoji": "🇬🇷",
     "baidu_country_name": "希腊",
+    "baidu_country_name_translated": "希臘",
     "country_en": "Greece",
     "country_zh": "希臘",
     "topo_country_names": "Greece",
@@ -672,6 +739,7 @@
   {
     "country_emoji": "🇬🇩",
     "baidu_country_name": "格林纳达",
+    "baidu_country_name_translated": "格林納達",
     "country_en": "Grenada",
     "country_zh": "格林納達",
     "topo_country_names": "Greenland",
@@ -682,6 +750,7 @@
   {
     "country_emoji": "🇬🇹",
     "baidu_country_name": "危地马拉",
+    "baidu_country_name_translated": "危地馬拉",
     "country_en": "Guatemala",
     "country_zh": "危地馬拉",
     "topo_country_names": "Guatemala",
@@ -692,6 +761,7 @@
   {
     "country_emoji": "🇬🇳",
     "baidu_country_name": "几内亚",
+    "baidu_country_name_translated": "幾內亞",
     "country_en": "Guinea",
     "country_zh": "幾內亞",
     "topo_country_names": "Guinea",
@@ -702,6 +772,7 @@
   {
     "country_emoji": "🇬🇼",
     "baidu_country_name": "几内亚比绍",
+    "baidu_country_name_translated": "幾內亞比紹",
     "country_en": "Guinea-Bissau",
     "country_zh": "幾內亞比紹",
     "topo_country_names": "Guinea-Bissau",
@@ -712,6 +783,7 @@
   {
     "country_emoji": "🇬🇾",
     "baidu_country_name": "圭亚那",
+    "baidu_country_name_translated": "圭亞那",
     "country_en": "Guyana",
     "country_zh": "圭亞那",
     "topo_country_names": "Guyana",
@@ -722,6 +794,7 @@
   {
     "country_emoji": "🇭🇹",
     "baidu_country_name": "海地",
+    "baidu_country_name_translated": "海地",
     "country_en": "Haiti",
     "country_zh": "海地",
     "topo_country_names": "Haiti",
@@ -732,6 +805,7 @@
   {
     "country_emoji": "🇭🇳",
     "baidu_country_name": "洪都拉斯",
+    "baidu_country_name_translated": "洪都拉斯",
     "country_en": "Honduras",
     "country_zh": "洪都拉斯",
     "topo_country_names": "Honduras",
@@ -742,6 +816,7 @@
   {
     "country_emoji": "🇭🇺",
     "baidu_country_name": "匈牙利",
+    "baidu_country_name_translated": "匈牙利",
     "country_en": "Hungary",
     "country_zh": "匈牙利",
     "topo_country_names": "Hungary",
@@ -752,6 +827,7 @@
   {
     "country_emoji": "🇮🇸",
     "baidu_country_name": "冰岛",
+    "baidu_country_name_translated": "冰島",
     "country_en": "Iceland",
     "country_zh": "冰島",
     "topo_country_names": "Iceland",
@@ -762,6 +838,7 @@
   {
     "country_emoji": "🇮🇳",
     "baidu_country_name": "印度",
+    "baidu_country_name_translated": "印度",
     "country_en": "India",
     "country_zh": "印度",
     "topo_country_names": "India",
@@ -772,6 +849,7 @@
   {
     "country_emoji": "🇮🇩",
     "baidu_country_name": "印度尼西亚",
+    "baidu_country_name_translated": "印度尼西亞",
     "country_en": "Indonesia",
     "country_zh": "印尼",
     "topo_country_names": "Indonesia",
@@ -782,6 +860,7 @@
   {
     "country_emoji": "🇮🇷",
     "baidu_country_name": "伊朗",
+    "baidu_country_name_translated": "伊朗",
     "country_en": "Iran",
     "country_zh": "伊朗",
     "topo_country_names": "Iran",
@@ -792,6 +871,7 @@
   {
     "country_emoji": "🇮🇶",
     "baidu_country_name": "伊拉克",
+    "baidu_country_name_translated": "伊拉克",
     "country_en": "Iraq",
     "country_zh": "伊拉克",
     "topo_country_names": "Iraq",
@@ -802,6 +882,7 @@
   {
     "country_emoji": "🇮🇪",
     "baidu_country_name": "爱尔兰",
+    "baidu_country_name_translated": "愛爾蘭",
     "country_en": "Ireland",
     "country_zh": "愛爾蘭",
     "topo_country_names": "Ireland",
@@ -812,6 +893,7 @@
   {
     "country_emoji": "🇮🇱",
     "baidu_country_name": "以色列",
+    "baidu_country_name_translated": "以色列",
     "country_en": "Israel",
     "country_zh": "以色列",
     "topo_country_names": "Israel",
@@ -822,6 +904,7 @@
   {
     "country_emoji": "🇮🇹",
     "baidu_country_name": "意大利",
+    "baidu_country_name_translated": "意大利",
     "country_en": "Italy",
     "country_zh": "意大利",
     "topo_country_names": "Italy",
@@ -832,6 +915,7 @@
   {
     "country_emoji": "🇯🇲",
     "baidu_country_name": "牙买加",
+    "baidu_country_name_translated": "牙買加",
     "country_en": "Jamaica",
     "country_zh": "牙買加",
     "topo_country_names": "Jamaica",
@@ -842,6 +926,7 @@
   {
     "country_emoji": "🇯🇵",
     "baidu_country_name": "日本",
+    "baidu_country_name_translated": "日本",
     "country_en": "Japan",
     "country_zh": "日本",
     "topo_country_names": "Japan",
@@ -852,6 +937,7 @@
   {
     "country_emoji": "🇯🇴",
     "baidu_country_name": "约旦",
+    "baidu_country_name_translated": "約旦",
     "country_en": "Jordan",
     "country_zh": "約旦",
     "topo_country_names": "Jordan",
@@ -862,6 +948,7 @@
   {
     "country_emoji": "🇰🇿",
     "baidu_country_name": "哈萨克斯坦",
+    "baidu_country_name_translated": "哈薩克斯坦",
     "country_en": "Kazakhstan",
     "country_zh": "哈薩克",
     "topo_country_names": "Kazakhstan",
@@ -872,6 +959,7 @@
   {
     "country_emoji": "🇰🇪",
     "baidu_country_name": "肯尼亚",
+    "baidu_country_name_translated": "肯尼亞",
     "country_en": "Kenya",
     "country_zh": "肯雅",
     "topo_country_names": "Kenya",
@@ -882,6 +970,7 @@
   {
     "country_emoji": "🇰🇮",
     "baidu_country_name": "基里巴斯",
+    "baidu_country_name_translated": "基里巴斯",
     "country_en": "Kiribati",
     "country_zh": "基里巴斯",
     "topo_country_names": "",
@@ -892,6 +981,7 @@
   {
     "country_emoji": "🇽🇰",
     "baidu_country_name": "科索沃",
+    "baidu_country_name_translated": "科索沃",
     "country_en": "Kosovo",
     "country_zh": "科索沃",
     "topo_country_names": "Kosovo",
@@ -902,6 +992,7 @@
   {
     "country_emoji": "🇰🇼",
     "baidu_country_name": "科威特",
+    "baidu_country_name_translated": "科威特",
     "country_en": "Kuwait",
     "country_zh": "科威特",
     "topo_country_names": "Kuwait",
@@ -912,6 +1003,7 @@
   {
     "country_emoji": "🇰🇬",
     "baidu_country_name": "吉尔吉斯斯坦",
+    "baidu_country_name_translated": "吉爾吉斯斯坦",
     "country_en": "Kyrgyzstan",
     "country_zh": "吉爾吉斯斯坦",
     "topo_country_names": "Kyrgyzstan",
@@ -922,6 +1014,7 @@
   {
     "country_emoji": "🇱🇦",
     "baidu_country_name": "老挝",
+    "baidu_country_name_translated": "老撾",
     "country_en": "Laos",
     "country_zh": "老撾",
     "topo_country_names": "Laos",
@@ -932,6 +1025,7 @@
   {
     "country_emoji": "🇱🇻",
     "baidu_country_name": "拉脱维亚",
+    "baidu_country_name_translated": "拉脫維亞",
     "country_en": "Latvia",
     "country_zh": "拉脫維亞",
     "topo_country_names": "Latvia",
@@ -942,6 +1036,7 @@
   {
     "country_emoji": "🇱🇧",
     "baidu_country_name": "黎巴嫩",
+    "baidu_country_name_translated": "黎巴嫩",
     "country_en": "Lebanon",
     "country_zh": "黎巴嫩",
     "topo_country_names": "Lebanon",
@@ -952,6 +1047,7 @@
   {
     "country_emoji": "🇱🇸",
     "baidu_country_name": "莱索托",
+    "baidu_country_name_translated": "萊索托",
     "country_en": "Lesotho",
     "country_zh": "萊索托",
     "topo_country_names": "Lesotho",
@@ -962,6 +1058,7 @@
   {
     "country_emoji": "🇱🇷",
     "baidu_country_name": "利比里亚",
+    "baidu_country_name_translated": "利比里亞",
     "country_en": "Liberia",
     "country_zh": "利比里亞",
     "topo_country_names": "Liberia",
@@ -972,6 +1069,7 @@
   {
     "country_emoji": "🇱🇾",
     "baidu_country_name": "利比亚",
+    "baidu_country_name_translated": "利比亞",
     "country_en": "Libya",
     "country_zh": "利比亞",
     "topo_country_names": "Libya",
@@ -982,6 +1080,7 @@
   {
     "country_emoji": "🇱🇮",
     "baidu_country_name": "列支敦士登",
+    "baidu_country_name_translated": "列支敦士登",
     "country_en": "Liechtenstein",
     "country_zh": "列支敦士登",
     "topo_country_names": "",
@@ -992,6 +1091,7 @@
   {
     "country_emoji": "🇱🇹",
     "baidu_country_name": "立陶宛",
+    "baidu_country_name_translated": "立陶宛",
     "country_en": "Lithuania",
     "country_zh": "立陶宛",
     "topo_country_names": "Lithuania",
@@ -1002,6 +1102,7 @@
   {
     "country_emoji": "🇱🇺",
     "baidu_country_name": "卢森堡",
+    "baidu_country_name_translated": "盧森堡",
     "country_en": "Luxembourg",
     "country_zh": "盧森堡",
     "topo_country_names": "Luxembourg",
@@ -1012,6 +1113,7 @@
   {
     "country_emoji": "🇲🇰",
     "baidu_country_name": "北马其顿",
+    "baidu_country_name_translated": "北馬其頓",
     "country_en": "Macedonia",
     "country_zh": "北馬其頓",
     "topo_country_names": "Macedonia",
@@ -1022,6 +1124,7 @@
   {
     "country_emoji": "🇲🇬",
     "baidu_country_name": "马达加斯加",
+    "baidu_country_name_translated": "馬達加斯加",
     "country_en": "Madagascar",
     "country_zh": "馬達加斯加",
     "topo_country_names": "Madagascar",
@@ -1032,6 +1135,7 @@
   {
     "country_emoji": "🇲🇼",
     "baidu_country_name": "马拉维",
+    "baidu_country_name_translated": "馬拉維",
     "country_en": "Malawi",
     "country_zh": "馬拉維",
     "topo_country_names": "Malawi",
@@ -1042,6 +1146,7 @@
   {
     "country_emoji": "🇲🇾",
     "baidu_country_name": "马来西亚",
+    "baidu_country_name_translated": "馬來西亞",
     "country_en": "Malaysia",
     "country_zh": "馬來西亞",
     "topo_country_names": "Malaysia",
@@ -1052,6 +1157,7 @@
   {
     "country_emoji": "🇲🇻",
     "baidu_country_name": "马尔代夫",
+    "baidu_country_name_translated": "馬爾代夫",
     "country_en": "Maldives",
     "country_zh": "馬爾代夫",
     "topo_country_names": "",
@@ -1062,6 +1168,7 @@
   {
     "country_emoji": "🇲🇱",
     "baidu_country_name": "马里",
+    "baidu_country_name_translated": "馬里",
     "country_en": "Mali",
     "country_zh": "馬里",
     "topo_country_names": "Mali",
@@ -1072,6 +1179,7 @@
   {
     "country_emoji": "🇲🇹",
     "baidu_country_name": "马耳他",
+    "baidu_country_name_translated": "馬耳他",
     "country_en": "Malta",
     "country_zh": "馬耳他",
     "topo_country_names": "",
@@ -1082,6 +1190,7 @@
   {
     "country_emoji": "🇲🇭",
     "baidu_country_name": "马绍尔群岛",
+    "baidu_country_name_translated": "馬紹爾群島",
     "country_en": "The Marshall Islands",
     "country_zh": "馬紹爾群島",
     "topo_country_names": "",
@@ -1092,6 +1201,7 @@
   {
     "country_emoji": "🇲🇷",
     "baidu_country_name": "毛里塔尼亚",
+    "baidu_country_name_translated": "毛里塔尼亞",
     "country_en": "Mauritania",
     "country_zh": "毛里塔尼亞",
     "topo_country_names": "Mauritania",
@@ -1102,6 +1212,7 @@
   {
     "country_emoji": "🇲🇺",
     "baidu_country_name": "毛里求斯",
+    "baidu_country_name_translated": "毛里求斯",
     "country_en": "Mauritius",
     "country_zh": "毛里求斯",
     "topo_country_names": "",
@@ -1112,6 +1223,7 @@
   {
     "country_emoji": "🇲🇽",
     "baidu_country_name": "墨西哥",
+    "baidu_country_name_translated": "墨西哥",
     "country_en": "Mexico",
     "country_zh": "墨西哥",
     "topo_country_names": "Mexico",
@@ -1122,6 +1234,7 @@
   {
     "country_emoji": "🇫🇲",
     "baidu_country_name": "密克罗尼西亚",
+    "baidu_country_name_translated": "密克羅尼西亞",
     "country_en": "Micronesia",
     "country_zh": "密克羅尼西亞",
     "topo_country_names": "",
@@ -1132,6 +1245,7 @@
   {
     "country_emoji": "🇲🇩",
     "baidu_country_name": "摩尔多瓦",
+    "baidu_country_name_translated": "摩爾多瓦",
     "country_en": "Moldova",
     "country_zh": "摩爾多瓦",
     "topo_country_names": "Moldova",
@@ -1142,6 +1256,7 @@
   {
     "country_emoji": "🇲🇨",
     "baidu_country_name": "摩纳哥",
+    "baidu_country_name_translated": "摩納哥",
     "country_en": "Monaco",
     "country_zh": "摩納哥",
     "topo_country_names": "",
@@ -1152,6 +1267,7 @@
   {
     "country_emoji": "🇲🇳",
     "baidu_country_name": "蒙古",
+    "baidu_country_name_translated": "蒙古",
     "country_en": "Mongolia",
     "country_zh": "蒙古",
     "topo_country_names": "Mongolia",
@@ -1162,6 +1278,7 @@
   {
     "country_emoji": "🇲🇪",
     "baidu_country_name": "黑山",
+    "baidu_country_name_translated": "黑山",
     "country_en": "Montenegro",
     "country_zh": "黑山",
     "topo_country_names": "Montenegro",
@@ -1172,6 +1289,7 @@
   {
     "country_emoji": "🇲🇦",
     "baidu_country_name": "摩洛哥",
+    "baidu_country_name_translated": "摩洛哥",
     "country_en": "Morocco",
     "country_zh": "摩洛哥",
     "topo_country_names": "Morocco",
@@ -1182,6 +1300,7 @@
   {
     "country_emoji": "🇲🇿",
     "baidu_country_name": "莫桑比克",
+    "baidu_country_name_translated": "莫桑比克",
     "country_en": "Mozambique",
     "country_zh": "莫桑比克",
     "topo_country_names": "Mozambique",
@@ -1192,6 +1311,7 @@
   {
     "country_emoji": "🇲🇲",
     "baidu_country_name": "缅甸",
+    "baidu_country_name_translated": "緬甸",
     "country_en": "Myanmar",
     "country_zh": "緬甸",
     "topo_country_names": "Myanmar",
@@ -1202,6 +1322,7 @@
   {
     "country_emoji": "🇳🇦",
     "baidu_country_name": "纳米比亚",
+    "baidu_country_name_translated": "納米比亞",
     "country_en": "Namibia",
     "country_zh": "納米比亞",
     "topo_country_names": "Namibia",
@@ -1212,6 +1333,7 @@
   {
     "country_emoji": "🇳🇷",
     "baidu_country_name": "瑙鲁",
+    "baidu_country_name_translated": "瑙魯",
     "country_en": "Nauru",
     "country_zh": "瑙魯",
     "topo_country_names": "",
@@ -1222,6 +1344,7 @@
   {
     "country_emoji": "🇳🇵",
     "baidu_country_name": "尼泊尔",
+    "baidu_country_name_translated": "尼泊爾",
     "country_en": "Nepal",
     "country_zh": "尼泊爾",
     "topo_country_names": "Nepal",
@@ -1232,6 +1355,7 @@
   {
     "country_emoji": "🇳🇱",
     "baidu_country_name": "荷兰",
+    "baidu_country_name_translated": "荷蘭",
     "country_en": "The Netherlands",
     "country_zh": "荷蘭",
     "topo_country_names": "Netherlands",
@@ -1242,6 +1366,7 @@
   {
     "country_emoji": "🇳🇿",
     "baidu_country_name": "新西兰",
+    "baidu_country_name_translated": "新西蘭",
     "country_en": "New Zealand",
     "country_zh": "新西蘭",
     "topo_country_names": "New Zealand",
@@ -1252,6 +1377,7 @@
   {
     "country_emoji": "🇳🇮",
     "baidu_country_name": "尼加拉瓜",
+    "baidu_country_name_translated": "尼加拉瓜",
     "country_en": "Nicaragua",
     "country_zh": "尼加拉瓜",
     "topo_country_names": "Nicaragua",
@@ -1262,6 +1388,7 @@
   {
     "country_emoji": "🇳🇪",
     "baidu_country_name": "尼日尔",
+    "baidu_country_name_translated": "尼日爾",
     "country_en": "Niger",
     "country_zh": "尼日爾",
     "topo_country_names": "Niger",
@@ -1272,6 +1399,7 @@
   {
     "country_emoji": "🇳🇬",
     "baidu_country_name": "尼日利亚",
+    "baidu_country_name_translated": "尼日利亞",
     "country_en": "Nigeria",
     "country_zh": "尼日利亞",
     "topo_country_names": "Nigeria",
@@ -1282,6 +1410,7 @@
   {
     "country_emoji": "🇳🇺",
     "baidu_country_name": "纽埃",
+    "baidu_country_name_translated": "紐埃",
     "country_en": "Niue",
     "country_zh": "紐埃",
     "topo_country_names": "",
@@ -1292,6 +1421,7 @@
   {
     "country_emoji": "🇰🇵",
     "baidu_country_name": "北朝鲜",
+    "baidu_country_name_translated": "北朝鮮",
     "country_en": "North Korea",
     "country_zh": "北韓",
     "topo_country_names": "North Korea",
@@ -1302,6 +1432,7 @@
   {
     "country_emoji": "🇳🇴",
     "baidu_country_name": "挪威",
+    "baidu_country_name_translated": "挪威",
     "country_en": "Norway",
     "country_zh": "挪威",
     "topo_country_names": "Norway",
@@ -1312,6 +1443,7 @@
   {
     "country_emoji": "🇴🇲",
     "baidu_country_name": "阿曼",
+    "baidu_country_name_translated": "阿曼",
     "country_en": "Oman",
     "country_zh": "阿曼",
     "topo_country_names": "Oman",
@@ -1322,6 +1454,7 @@
   {
     "country_emoji": "🇵🇰",
     "baidu_country_name": "巴基斯坦",
+    "baidu_country_name_translated": "巴基斯坦",
     "country_en": "Pakistan",
     "country_zh": "巴基斯坦",
     "topo_country_names": "Pakistan",
@@ -1332,6 +1465,7 @@
   {
     "country_emoji": "🇵🇼",
     "baidu_country_name": "帕劳",
+    "baidu_country_name_translated": "帕勞",
     "country_en": "Palau",
     "country_zh": "帕勞",
     "topo_country_names": "",
@@ -1342,6 +1476,7 @@
   {
     "country_emoji": "🇵🇦",
     "baidu_country_name": "巴拿马",
+    "baidu_country_name_translated": "巴拿馬",
     "country_en": "Panama",
     "country_zh": "巴拿馬",
     "topo_country_names": "Panama",
@@ -1352,6 +1487,7 @@
   {
     "country_emoji": "🇵🇬",
     "baidu_country_name": "巴布亚新几内亚",
+    "baidu_country_name_translated": "巴布亞新幾內亞",
     "country_en": "Papua New Guinea",
     "country_zh": "巴布亞新幾內亞",
     "topo_country_names": "Papua New Guinea",
@@ -1362,6 +1498,7 @@
   {
     "country_emoji": "🇵🇾",
     "baidu_country_name": "巴拉圭",
+    "baidu_country_name_translated": "巴拉圭",
     "country_en": "Paraguay",
     "country_zh": "巴拉圭",
     "topo_country_names": "Paraguay",
@@ -1372,6 +1509,7 @@
   {
     "country_emoji": "🇵🇪",
     "baidu_country_name": "秘鲁",
+    "baidu_country_name_translated": "秘魯",
     "country_en": "Peru",
     "country_zh": "秘魯",
     "topo_country_names": "Peru",
@@ -1382,6 +1520,7 @@
   {
     "country_emoji": "🇵🇭",
     "baidu_country_name": "菲律宾",
+    "baidu_country_name_translated": "菲律賓",
     "country_en": "The Philippines",
     "country_zh": "菲律賓",
     "topo_country_names": "Philippines",
@@ -1392,6 +1531,7 @@
   {
     "country_emoji": "🇵🇱",
     "baidu_country_name": "波兰",
+    "baidu_country_name_translated": "波蘭",
     "country_en": "Poland",
     "country_zh": "波蘭",
     "topo_country_names": "Poland",
@@ -1402,6 +1542,7 @@
   {
     "country_emoji": "🇵🇹",
     "baidu_country_name": "葡萄牙",
+    "baidu_country_name_translated": "葡萄牙",
     "country_en": "Portugal",
     "country_zh": "葡萄牙",
     "topo_country_names": "Portugal",
@@ -1412,6 +1553,7 @@
   {
     "country_emoji": "🇶🇦",
     "baidu_country_name": "卡塔尔",
+    "baidu_country_name_translated": "卡塔爾",
     "country_en": "Qatar",
     "country_zh": "卡塔爾",
     "topo_country_names": "Qatar",
@@ -1422,6 +1564,7 @@
   {
     "country_emoji": "🇹🇼",
     "baidu_country_name": "台灣",
+    "baidu_country_name_translated": "台灣",
     "country_en": "Taiwan",
     "country_zh": "台灣",
     "topo_country_names": "Taiwan",
@@ -1432,6 +1575,7 @@
   {
     "country_emoji": "🇨🇬",
     "baidu_country_name": "刚果共和国",
+    "baidu_country_name_translated": "剛果共和國",
     "country_en": "The Republic of the Congo",
     "country_zh": "剛果共和國",
     "topo_country_names": "Congo",
@@ -1442,6 +1586,7 @@
   {
     "country_emoji": "🇷🇴",
     "baidu_country_name": "罗马尼亚",
+    "baidu_country_name_translated": "羅馬尼亞",
     "country_en": "Romania",
     "country_zh": "羅馬尼亞",
     "topo_country_names": "Romania",
@@ -1452,6 +1597,7 @@
   {
     "country_emoji": "🇷🇺",
     "baidu_country_name": "俄罗斯",
+    "baidu_country_name_translated": "俄羅斯",
     "country_en": "Russia",
     "country_zh": "俄羅斯",
     "topo_country_names": "Russia",
@@ -1462,6 +1608,7 @@
   {
     "country_emoji": "🇷🇼",
     "baidu_country_name": "卢旺达",
+    "baidu_country_name_translated": "盧旺達",
     "country_en": "Rwanda",
     "country_zh": "盧旺達",
     "topo_country_names": "Rwanda",
@@ -1472,6 +1619,7 @@
   {
     "country_emoji": "🇰🇳",
     "baidu_country_name": "圣基茨和尼维斯",
+    "baidu_country_name_translated": "聖基茨和尼維斯",
     "country_en": "Saint Kitts and Nevis",
     "country_zh": "聖基茨和尼維斯",
     "topo_country_names": "",
@@ -1482,6 +1630,7 @@
   {
     "country_emoji": "🇱🇨",
     "baidu_country_name": "圣卢西亚",
+    "baidu_country_name_translated": "聖盧西亞",
     "country_en": "Saint Lucia",
     "country_zh": "聖盧西亞",
     "topo_country_names": "",
@@ -1492,6 +1641,7 @@
   {
     "country_emoji": "🇻🇨",
     "baidu_country_name": "圣文森特和格林纳丁斯",
+    "baidu_country_name_translated": "聖文森特和格林納丁斯",
     "country_en": "Saint Vincent and the Grenadines",
     "country_zh": "聖文森特和格林納丁斯",
     "topo_country_names": "",
@@ -1502,6 +1652,7 @@
   {
     "country_emoji": "🇼🇸",
     "baidu_country_name": "萨摩亚",
+    "baidu_country_name_translated": "薩摩亞",
     "country_en": "Samoa",
     "country_zh": "薩摩亞",
     "topo_country_names": "",
@@ -1512,6 +1663,7 @@
   {
     "country_emoji": "🇸🇲",
     "baidu_country_name": "圣马力诺",
+    "baidu_country_name_translated": "聖馬力諾",
     "country_en": "San Marino",
     "country_zh": "聖馬力諾",
     "topo_country_names": "",
@@ -1522,6 +1674,7 @@
   {
     "country_emoji": "🇸🇹",
     "baidu_country_name": "圣多美和普林西比",
+    "baidu_country_name_translated": "聖多美和普林西比",
     "country_en": "Sao Tome and Principe",
     "country_zh": "聖多美和普林西比",
     "topo_country_names": "",
@@ -1532,6 +1685,7 @@
   {
     "country_emoji": "🇸🇦",
     "baidu_country_name": "沙特阿拉伯",
+    "baidu_country_name_translated": "沙特阿拉伯",
     "country_en": "Saudi Arabia",
     "country_zh": "沙特阿拉伯",
     "topo_country_names": "Saudi Arabia",
@@ -1542,6 +1696,7 @@
   {
     "country_emoji": "🇸🇳",
     "baidu_country_name": "塞内加尔",
+    "baidu_country_name_translated": "塞內加爾",
     "country_en": "Senegal",
     "country_zh": "塞內加爾",
     "topo_country_names": "Senegal",
@@ -1552,6 +1707,7 @@
   {
     "country_emoji": "🇷🇸",
     "baidu_country_name": "塞尔维亚",
+    "baidu_country_name_translated": "塞爾維亞",
     "country_en": "Serbia",
     "country_zh": "塞爾維亞",
     "topo_country_names": "Serbia",
@@ -1562,6 +1718,7 @@
   {
     "country_emoji": "🇸🇨",
     "baidu_country_name": "塞舌尔群岛",
+    "baidu_country_name_translated": "塞舌爾群島",
     "country_en": "The Seychelles",
     "country_zh": "塞舌爾群島",
     "topo_country_names": "",
@@ -1572,6 +1729,7 @@
   {
     "country_emoji": "🇸🇱",
     "baidu_country_name": "塞拉利昂",
+    "baidu_country_name_translated": "塞拉利昂",
     "country_en": "Sierra Leone",
     "country_zh": "塞拉利昂",
     "topo_country_names": "Sierra Leone",
@@ -1582,6 +1740,7 @@
   {
     "country_emoji": "🇸🇬",
     "baidu_country_name": "新加坡",
+    "baidu_country_name_translated": "新加坡",
     "country_en": "Singapore",
     "country_zh": "新加坡",
     "topo_country_names": "",
@@ -1592,6 +1751,7 @@
   {
     "country_emoji": "🇸🇰",
     "baidu_country_name": "斯洛伐克",
+    "baidu_country_name_translated": "斯洛伐克",
     "country_en": "Slovakia",
     "country_zh": "斯洛伐克",
     "topo_country_names": "Slovakia",
@@ -1602,6 +1762,7 @@
   {
     "country_emoji": "🇸🇮",
     "baidu_country_name": "斯洛文尼亚",
+    "baidu_country_name_translated": "斯洛文尼亞",
     "country_en": "Slovenia",
     "country_zh": "斯洛文尼亞",
     "topo_country_names": "Slovenia",
@@ -1612,6 +1773,7 @@
   {
     "country_emoji": "🇸🇧",
     "baidu_country_name": "所罗门群岛",
+    "baidu_country_name_translated": "所羅門群島",
     "country_en": "The Solomon Islands",
     "country_zh": "所羅門群島",
     "topo_country_names": "Solomon Is.",
@@ -1622,6 +1784,7 @@
   {
     "country_emoji": "🇸🇴",
     "baidu_country_name": "索马里",
+    "baidu_country_name_translated": "索馬里",
     "country_en": "Somalia",
     "country_zh": "索馬里",
     "topo_country_names": "Somalia",
@@ -1632,6 +1795,7 @@
   {
     "country_emoji": "🇿🇦",
     "baidu_country_name": "南非",
+    "baidu_country_name_translated": "南非",
     "country_en": "South Africa",
     "country_zh": "南非",
     "topo_country_names": "South Africa",
@@ -1642,6 +1806,7 @@
   {
     "country_emoji": "🇰🇷",
     "baidu_country_name": "韩国",
+    "baidu_country_name_translated": "韓國",
     "country_en": "South Korea",
     "country_zh": "南韓",
     "topo_country_names": "South Korea",
@@ -1652,6 +1817,7 @@
   {
     "country_emoji": "🇸🇸",
     "baidu_country_name": "南苏丹",
+    "baidu_country_name_translated": "南蘇丹",
     "country_en": "South Sudan",
     "country_zh": "南蘇丹",
     "topo_country_names": "S. Sudan",
@@ -1662,6 +1828,7 @@
   {
     "country_emoji": "🇪🇸",
     "baidu_country_name": "西班牙",
+    "baidu_country_name_translated": "西班牙",
     "country_en": "Spain",
     "country_zh": "西班牙",
     "topo_country_names": "Spain",
@@ -1672,6 +1839,7 @@
   {
     "country_emoji": "🇱🇰",
     "baidu_country_name": "斯里兰卡",
+    "baidu_country_name_translated": "斯里蘭卡",
     "country_en": "Sri Lanka",
     "country_zh": "斯里蘭卡",
     "topo_country_names": "Sri Lanka",
@@ -1682,6 +1850,7 @@
   {
     "country_emoji": "🇸🇩",
     "baidu_country_name": "苏丹",
+    "baidu_country_name_translated": "蘇丹",
     "country_en": "Sudan",
     "country_zh": "蘇丹",
     "topo_country_names": "Sudan",
@@ -1692,6 +1861,7 @@
   {
     "country_emoji": "🇸🇷",
     "baidu_country_name": "苏里南",
+    "baidu_country_name_translated": "蘇里南",
     "country_en": "Suriname",
     "country_zh": "蘇里南",
     "topo_country_names": "Suriname",
@@ -1702,6 +1872,7 @@
   {
     "country_emoji": "🇸🇿",
     "baidu_country_name": "斯威士兰",
+    "baidu_country_name_translated": "斯威士蘭",
     "country_en": "Swaziland",
     "country_zh": "斯威士蘭",
     "topo_country_names": "",
@@ -1712,6 +1883,7 @@
   {
     "country_emoji": "🇸🇪",
     "baidu_country_name": "瑞典",
+    "baidu_country_name_translated": "瑞典",
     "country_en": "Sweden",
     "country_zh": "瑞典",
     "topo_country_names": "Sweden",
@@ -1722,6 +1894,7 @@
   {
     "country_emoji": "🇨🇭",
     "baidu_country_name": "瑞士",
+    "baidu_country_name_translated": "瑞士",
     "country_en": "Switzerland",
     "country_zh": "瑞士",
     "topo_country_names": "Switzerland",
@@ -1732,6 +1905,7 @@
   {
     "country_emoji": "🇸🇾",
     "baidu_country_name": "叙利亚",
+    "baidu_country_name_translated": "敘利亞",
     "country_en": "Syria",
     "country_zh": "敘利亞",
     "topo_country_names": "Syria",
@@ -1742,6 +1916,7 @@
   {
     "country_emoji": "🇹🇯",
     "baidu_country_name": "塔吉克斯坦",
+    "baidu_country_name_translated": "塔吉克斯坦",
     "country_en": "Tajikistan",
     "country_zh": "塔吉克",
     "topo_country_names": "Tajikistan",
@@ -1752,6 +1927,7 @@
   {
     "country_emoji": "🇹🇿",
     "baidu_country_name": "坦桑尼亚",
+    "baidu_country_name_translated": "坦桑尼亞",
     "country_en": "Tanzania",
     "country_zh": "坦桑尼亞",
     "topo_country_names": "Tanzania",
@@ -1762,6 +1938,7 @@
   {
     "country_emoji": "🇹🇭",
     "baidu_country_name": "泰国",
+    "baidu_country_name_translated": "泰國",
     "country_en": "Thailand",
     "country_zh": "泰國",
     "topo_country_names": "Thailand",
@@ -1772,6 +1949,7 @@
   {
     "country_emoji": "🇹🇬",
     "baidu_country_name": "多哥",
+    "baidu_country_name_translated": "多哥",
     "country_en": "Togo",
     "country_zh": "多哥",
     "topo_country_names": "Togo",
@@ -1782,6 +1960,7 @@
   {
     "country_emoji": "🇹🇴",
     "baidu_country_name": "汤加",
+    "baidu_country_name_translated": "湯加",
     "country_en": "Tonga",
     "country_zh": "湯加",
     "topo_country_names": "",
@@ -1792,6 +1971,7 @@
   {
     "country_emoji": "🇹🇹",
     "baidu_country_name": "特立尼达和多巴哥",
+    "baidu_country_name_translated": "特立尼達和多巴哥",
     "country_en": "Trinidad and Tobago",
     "country_zh": "特立尼達和多巴哥",
     "topo_country_names": "Trinidad and Tobago",
@@ -1802,6 +1982,7 @@
   {
     "country_emoji": "🇹🇳",
     "baidu_country_name": "突尼斯",
+    "baidu_country_name_translated": "突尼斯",
     "country_en": "Tunisia",
     "country_zh": "突尼斯",
     "topo_country_names": "Tunisia",
@@ -1812,6 +1993,7 @@
   {
     "country_emoji": "🇹🇷",
     "baidu_country_name": "土耳其",
+    "baidu_country_name_translated": "土耳其",
     "country_en": "Turkey",
     "country_zh": "土耳其",
     "topo_country_names": "Turkey",
@@ -1822,6 +2004,7 @@
   {
     "country_emoji": "🇹🇲",
     "baidu_country_name": "土库曼斯坦",
+    "baidu_country_name_translated": "土庫曼斯坦",
     "country_en": "Turkmenistan",
     "country_zh": "土庫曼",
     "topo_country_names": "Turkmenistan",
@@ -1832,6 +2015,7 @@
   {
     "country_emoji": "🇹🇻",
     "baidu_country_name": "图瓦卢",
+    "baidu_country_name_translated": "圖瓦盧",
     "country_en": "Tuvalu",
     "country_zh": "圖瓦盧",
     "topo_country_names": "",
@@ -1842,6 +2026,7 @@
   {
     "country_emoji": "🇺🇬",
     "baidu_country_name": "乌干达",
+    "baidu_country_name_translated": "烏干達",
     "country_en": "Uganda",
     "country_zh": "烏干達",
     "topo_country_names": "Uganda",
@@ -1852,6 +2037,7 @@
   {
     "country_emoji": "🇺🇦",
     "baidu_country_name": "乌克兰",
+    "baidu_country_name_translated": "烏克蘭",
     "country_en": "Ukraine",
     "country_zh": "烏克蘭",
     "topo_country_names": "Ukraine",
@@ -1862,6 +2048,7 @@
   {
     "country_emoji": "🇦🇪",
     "baidu_country_name": "阿联酋",
+    "baidu_country_name_translated": "阿聯酋",
     "country_en": "The United Arab Emirates",
     "country_zh": "阿聯酋",
     "topo_country_names": "United Arab Emirates",
@@ -1872,6 +2059,7 @@
   {
     "country_emoji": "🇬🇧",
     "baidu_country_name": "英国",
+    "baidu_country_name_translated": "英國",
     "country_en": "The United Kingdom",
     "country_zh": "英國",
     "topo_country_names": "United Kingdom",
@@ -1882,6 +2070,7 @@
   {
     "country_emoji": "🇺🇸",
     "baidu_country_name": "美国",
+    "baidu_country_name_translated": "美國",
     "country_en": "The United States",
     "country_zh": "美國",
     "topo_country_names": "United States of America",
@@ -1892,6 +2081,7 @@
   {
     "country_emoji": "🇺🇾",
     "baidu_country_name": "乌拉圭",
+    "baidu_country_name_translated": "烏拉圭",
     "country_en": "Uruguay",
     "country_zh": "烏拉圭",
     "topo_country_names": "Uruguay",
@@ -1902,6 +2092,7 @@
   {
     "country_emoji": "🇺🇿",
     "baidu_country_name": "乌兹别克斯坦",
+    "baidu_country_name_translated": "烏茲別克斯坦",
     "country_en": "Uzbekistan",
     "country_zh": "烏茲別克",
     "topo_country_names": "Uzbekistan",
@@ -1912,6 +2103,7 @@
   {
     "country_emoji": "🇻🇺",
     "baidu_country_name": "瓦努阿图",
+    "baidu_country_name_translated": "瓦努阿圖",
     "country_en": "Vanuatu",
     "country_zh": "瓦努阿圖",
     "topo_country_names": "Vanuatu",
@@ -1922,6 +2114,7 @@
   {
     "country_emoji": "🇻🇦",
     "baidu_country_name": "梵蒂冈城",
+    "baidu_country_name_translated": "梵蒂岡",
     "country_en": "The Vatican City",
     "country_zh": "梵蒂岡城",
     "topo_country_names": "",
@@ -1932,6 +2125,7 @@
   {
     "country_emoji": "🇻🇪",
     "baidu_country_name": "委内瑞拉",
+    "baidu_country_name_translated": "委內瑞拉",
     "country_en": "Venezuela",
     "country_zh": "委內瑞拉",
     "topo_country_names": "Venezuela",
@@ -1942,6 +2136,7 @@
   {
     "country_emoji": "🇻🇳",
     "baidu_country_name": "越南",
+    "baidu_country_name_translated": "越南",
     "country_en": "Vietnam",
     "country_zh": "越南",
     "topo_country_names": "Vietnam",
@@ -1952,6 +2147,7 @@
   {
     "country_emoji": "🇪🇭",
     "baidu_country_name": "撒哈拉沙漠西部",
+    "baidu_country_name_translated": "撒哈拉沙漠西部",
     "country_en": "Western Sahara",
     "country_zh": "撒哈拉沙漠西部",
     "topo_country_names": "W. Sahara",
@@ -1962,6 +2158,7 @@
   {
     "country_emoji": "🇾🇪",
     "baidu_country_name": "也门",
+    "baidu_country_name_translated": "也門",
     "country_en": "Yemen",
     "country_zh": "也門",
     "topo_country_names": "Yemen",
@@ -1972,6 +2169,7 @@
   {
     "country_emoji": "🇿🇲",
     "baidu_country_name": "赞比亚",
+    "baidu_country_name_translated": "贊比亞",
     "country_en": "Zambia",
     "country_zh": "贊比亞",
     "topo_country_names": "Zambia",
@@ -1982,6 +2180,7 @@
   {
     "country_emoji": "🇿🇼",
     "baidu_country_name": "津巴布韦",
+    "baidu_country_name_translated": "津巴布韋",
     "country_en": "Zimbabwe",
     "country_zh": "津巴布韋",
     "topo_country_names": "Zimbabwe",
@@ -1992,6 +2191,7 @@
   {
     "country_emoji": "🇭🇰",
     "baidu_country_name": "香港",
+    "baidu_country_name_translated": "香港",
     "country_en": "Hong Kong",
     "country_zh": "香港",
     "topo_country_names": "",
@@ -2002,6 +2202,7 @@
   {
     "country_emoji": "",
     "baidu_country_name": "",
+    "baidu_country_name_translated": "",
     "country_en": "",
     "country_zh": "",
     "topo_country_names": "Antarctica",
@@ -2012,6 +2213,7 @@
   {
     "country_emoji": "",
     "baidu_country_name": "",
+    "baidu_country_name_translated": "",
     "country_en": "",
     "country_zh": "",
     "topo_country_names": "Falkland Is.",
@@ -2022,6 +2224,7 @@
   {
     "country_emoji": "",
     "baidu_country_name": "",
+    "baidu_country_name_translated": "",
     "country_en": "",
     "country_zh": "",
     "topo_country_names": "Fr. S. Antarctic Lands",
@@ -2032,6 +2235,7 @@
   {
     "country_emoji": "",
     "baidu_country_name": "",
+    "baidu_country_name_translated": "",
     "country_en": "",
     "country_zh": "",
     "topo_country_names": "Puerto Rico",
@@ -2042,6 +2246,7 @@
   {
     "country_emoji": "",
     "baidu_country_name": "",
+    "baidu_country_name_translated": "",
     "country_en": "",
     "country_zh": "",
     "topo_country_names": "N. Cyprus",
@@ -2052,6 +2257,7 @@
   {
     "country_emoji": "",
     "baidu_country_name": "",
+    "baidu_country_name_translated": "",
     "country_en": "",
     "country_zh": "",
     "topo_country_names": "New Caledonia",
@@ -2060,10 +2266,11 @@
     "longitude": 165.5
   },
   {
-    "country_emoji": "",
-    "baidu_country_name": "",
-    "country_en": "",
-    "country_zh": "",
+    "country_emoji": "🇵🇸",
+    "baidu_country_name": "巴勒斯坦",
+    "baidu_country_name_translated": "巴勒斯坦",
+    "country_en": "Palestine",
+    "country_zh": "巴勒斯坦",
     "topo_country_names": "Palestine",
     "iso_code": 275,
     "latitude": 32,
@@ -2072,6 +2279,7 @@
   {
     "country_emoji": "",
     "baidu_country_name": "",
+    "baidu_country_name_translated": "",
     "country_en": "",
     "country_zh": "",
     "topo_country_names": "eSwatini",
