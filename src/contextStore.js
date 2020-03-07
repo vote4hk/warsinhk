@@ -4,6 +4,7 @@ import routeReducer from "@/reducers/route"
 import pageOptionsReducer, {
   FONT_ZOOM_LOCALSTORAGE_KEY,
 } from "@/reducers/pageOptions"
+import casesReducer, { CASES_BOX_VIEW } from "@/reducers/cases"
 import { loadFromLocalStorage } from "@/utils"
 
 export const drawerInitialState = {
@@ -22,10 +23,15 @@ export const pageOptionsInitialState = {
   ),
 }
 
+export const casesInitialState = {
+  view: CASES_BOX_VIEW,
+}
+
 const ContextStore = React.createContext({
   drawer: drawerInitialState,
   route: routeInitialState,
   pageOptions: pageOptionsInitialState,
+  cases: casesInitialState,
 })
 
 export const ContextStoreProvider = props => {
@@ -49,6 +55,10 @@ export const ContextStoreProvider = props => {
     }
   )
 
+  const [casesState, casesDispatch] = React.useReducer(casesReducer, {
+    ...casesInitialState,
+    ...initialStore.cases,
+  })
   return (
     <ContextStore.Provider
       value={{
@@ -63,6 +73,10 @@ export const ContextStoreProvider = props => {
         pageOptions: {
           state: pageOptionsState,
           dispatch: pageOptionsDispatch,
+        },
+        cases: {
+          state: casesState,
+          dispatch: casesDispatch,
         },
       }}
       {...props}
