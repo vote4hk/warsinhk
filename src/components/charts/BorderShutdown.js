@@ -51,9 +51,29 @@ const inboundPaperStyle = {
   borderRadius: 12,
 }
 
-const CountryChip = ({ detail, country_name, country_emoji }) => (
+const CountryChip = ({
+  t,
+  last_update,
+  detail,
+  country_name,
+  country_emoji,
+}) => (
   <Grid item style={{ padding: 5 }}>
-    <StyledTooltip title={detail} enterTouchDelay={10}>
+    <StyledTooltip
+      title={
+        <>
+          {detail}
+          {last_update && (
+            <>
+              <br />
+              <br />
+              {t("world.border_shutdown_last_update", { date: last_update })}
+            </>
+          )}
+        </>
+      }
+      enterTouchDelay={10}
+    >
       <Chip>{`${country_emoji}${country_name}`}</Chip>
     </StyledTooltip>
   </Grid>
@@ -61,19 +81,25 @@ const CountryChip = ({ detail, country_name, country_emoji }) => (
 
 const BorderShutdown = props => {
   const { data } = props
+
   const { t, i18n } = useTranslation()
 
   const countryNodes = data.map(d => {
     const country = getCountryFromISO(Number(d.node.iso_code))
     return {
-      key: d.node.iso_code.concat(d.node.status),
+      last_update: d.node.last_update,
+      category: d.node.category,
       country_emoji: country.country_emoji,
       country_name: withLanguage(i18n, country, "country"),
       detail: withLanguage(i18n, d.node, "detail"),
-      status: d.node.status,
+      status: withLanguage(i18n, d.node, "status"),
+      status_order: d.node.status_order,
     }
   })
-  const countryGrouped = _groupBy(countryNodes, "status")
+  const countryGrouped = _groupBy(countryNodes, "category")
+
+  countryGrouped["outbound"] = _groupBy(countryGrouped["outbound"], "status")
+  countryGrouped["inbound"] = _groupBy(countryGrouped["inbound"], "status")
 
   return (
     <Grid container style={{ paddingTop: 25 }}>
@@ -96,28 +122,21 @@ const BorderShutdown = props => {
                 />
               </Grid>
             </Grid>
-            <Grid item xs={12}>
-              <Typography
-                style={{ color: "white", paddingLeft: 20 }}
-                children={t("world.border_shutdown_outbound_full")}
-              />
-            </Grid>
-            <Grid item xs={12} container style={{ padding: "10px 20px" }}>
-              {(countryGrouped["全面禁止由香港入境國家"] || []).map(props => (
-                <CountryChip {...props} />
-              ))}
-            </Grid>
-            <Grid item xs={12}>
-              <Typography
-                style={{ color: "white", paddingLeft: 20 }}
-                children={t("world.border_shutdown_outbound_part")}
-              />
-            </Grid>
-            <Grid item xs={12} container style={{ padding: "10px 20px" }}>
-              {(countryGrouped["有限度禁止由香港入境國家"] || []).map(props => (
-                <CountryChip {...props} />
-              ))}
-            </Grid>
+            {Object.values(countryGrouped["outbound"]).map(group => (
+              <>
+                <Grid item xs={12}>
+                  <Typography
+                    style={{ color: "white", paddingLeft: 20 }}
+                    children={group[0].status}
+                  />
+                </Grid>
+                <Grid item xs={12} container style={{ padding: "10px 20px" }}>
+                  {group.map(props => (
+                    <CountryChip t={t} {...props} />
+                  ))}
+                </Grid>
+              </>
+            ))}
           </Grid>
         </Paper>
       </Grid>
@@ -141,30 +160,21 @@ const BorderShutdown = props => {
                 />
               </Grid>
             </Grid>
-            <Grid item xs={12}>
-              <Typography
-                style={{ color: "white", paddingLeft: 20 }}
-                children={t("world.border_shutdown_inbound_part")}
-              />
-            </Grid>
-            <Grid item xs={12} container style={{ padding: "10px 20px" }}>
-              {(countryGrouped["有限度禁止抵港國家"] || []).map(props => (
-                <CountryChip {...props} />
-              ))}
-            </Grid>
-            <Grid item xs={12}>
-              <Typography
-                style={{ color: "white", paddingLeft: 20 }}
-                children={t(
-                  "world.border_shutdown_inbound_compulsory_quarantine"
-                )}
-              />
-            </Grid>
-            <Grid item xs={12} container style={{ padding: "10px 20px" }}>
-              {(countryGrouped["抵港需強制檢疫國家"] || []).map(props => (
-                <CountryChip {...props} />
-              ))}
-            </Grid>
+            {Object.values(countryGrouped["inbound"]).map(group => (
+              <>
+                <Grid item xs={12}>
+                  <Typography
+                    style={{ color: "white", paddingLeft: 20 }}
+                    children={group[0].status}
+                  />
+                </Grid>
+                <Grid item xs={12} container style={{ padding: "10px 20px" }}>
+                  {group.map(props => (
+                    <CountryChip t={t} {...props} />
+                  ))}
+                </Grid>
+              </>
+            ))}
           </Grid>
         </Paper>
       </Grid>

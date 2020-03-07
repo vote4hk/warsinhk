@@ -175,10 +175,7 @@
   "world.ranking_country": "國家",
   "world.ranking_confirmed": "確診",
   "world.ranking_died": "死亡",
-  "world.border_shutdown_outbound": "離境限制",
-  "world.border_shutdown_outbound_full": "全面禁止由香港入境國家",
-  "world.border_shutdown_outbound_part": "有限度禁止由香港入境國家",
-  "world.border_shutdown_inbound": "抵港限制",
-  "world.border_shutdown_inbound_part": "有限度禁止抵港國家",
-  "world.border_shutdown_inbound_compulsory_quarantine": "抵港需強制檢疫國家"
+  "world.border_shutdown_outbound": "離港",
+  "world.border_shutdown_inbound": "抵港",
+  "world.border_shutdown_last_update": "最後更新：{{date}}"
 }

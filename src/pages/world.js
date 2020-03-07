@@ -397,14 +397,17 @@ export const BaiduInternationalDataQuery = graphql`
         }
       }
     }
-    allBorderShutdown(sort: { order: DESC, fields: last_update }) {
+    allBorderShutdown(sort: { order: ASC, fields: [category, status_order] }) {
       edges {
         node {
+          last_update
           iso_code
           category
           detail_zh
           detail_en
-          status
+          status_zh
+          status_en
+          status_order
         }
       }
     }
