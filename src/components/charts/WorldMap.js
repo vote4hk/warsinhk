@@ -9,7 +9,7 @@ import mapBaiduCountry, {
 
 const projection = d3
   .geoMercator()
-  .scale(140)
+  .scale(120)
   .translate([380, 280])
 
 const WorldMap = ({ data }) => {
