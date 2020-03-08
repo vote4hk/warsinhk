@@ -286,6 +286,8 @@ const WorldRanking = props => {
                   i18n.language === "zh"
                     ? country.country_zh
                     : country.country_en
+                const confirmedFigures = formatNumber(row.confirmedFigures)
+                const deathNumber = formatNumber(row.deathNumber)
 
                 return (
                   <TableRow key={row.country}>
@@ -318,7 +320,7 @@ const WorldRanking = props => {
                         padding: "7px 4px",
                       }}
                     >
-                      {formatNumber(row.confirmedFigures)}
+                      {confirmedFigures === "0" ? "-" : confirmedFigures}
                     </TableCell>
                     <TableCell
                       style={{
@@ -327,7 +329,7 @@ const WorldRanking = props => {
                         padding: "7px 4px",
                       }}
                     >
-                      {formatNumber(row.deathNumber)}
+                      {deathNumber === "0" ? "-" : deathNumber}
                     </TableCell>
                   </TableRow>
                 )

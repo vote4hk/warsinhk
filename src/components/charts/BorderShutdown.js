@@ -123,7 +123,7 @@ const BorderShutdown = props => {
               </Grid>
             </Grid>
             {Object.values(countryGrouped["outbound"]).map(group => (
-              <>
+              <Grid item xs={12} container key={group[0].status}>
                 <Grid item xs={12}>
                   <Typography
                     style={{ color: "white", paddingLeft: 20 }}
@@ -132,10 +132,10 @@ const BorderShutdown = props => {
                 </Grid>
                 <Grid item xs={12} container style={{ padding: "10px 20px" }}>
                   {group.map(props => (
-                    <CountryChip t={t} {...props} />
+                    <CountryChip t={t} {...props} key={props.country_name} />
                   ))}
                 </Grid>
-              </>
+              </Grid>
             ))}
           </Grid>
         </Paper>
@@ -161,7 +161,7 @@ const BorderShutdown = props => {
               </Grid>
             </Grid>
             {Object.values(countryGrouped["inbound"]).map(group => (
-              <>
+              <Grid item xs={12} container key={group[0].status}>
                 <Grid item xs={12}>
                   <Typography
                     style={{ color: "white", paddingLeft: 20 }}
@@ -170,10 +170,10 @@ const BorderShutdown = props => {
                 </Grid>
                 <Grid item xs={12} container style={{ padding: "10px 20px" }}>
                   {group.map(props => (
-                    <CountryChip t={t} {...props} />
+                    <CountryChip t={t} {...props} key={props.country_name} />
                   ))}
                 </Grid>
-              </>
+              </Grid>
             ))}
           </Grid>
         </Paper>
