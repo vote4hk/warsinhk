@@ -169,9 +169,6 @@
   "world.ranking_confirmed": "Infected",
   "world.ranking_died": "Death",
   "world.border_shutdown_outbound": "Outbound",
-  "world.border_shutdown_outbound_full": "Complete shutdown",
-  "world.border_shutdown_outbound_part": "Partly shutdown",
   "world.border_shutdown_inbound": "Inbound",
-  "world.border_shutdown_inbound_part": "Partly shutdown",
-  "world.border_shutdown_inbound_compulsory_quarantine": "Compulsory Quarantine"
+  "world.border_shutdown_last_update": "Last update: {{date}}"
 }

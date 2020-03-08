@@ -22,6 +22,7 @@ import DecreaseIcon from "@/components/icons/decrease.svg"
 import WorldMap from "@/components/charts/WorldMap"
 import BorderShutdown from "@/components/charts/BorderShutdown"
 import mapBaiduCountry from "@/utils/mapBaiduCountry"
+import { formatNumber } from "@/utils"
 
 const TabPanel = props => {
   const { children, value, index, ...other } = props
@@ -138,11 +139,6 @@ const getPreviousTotalCured = data => {
   return updatedData.reduce((a, d) => a + d.crued, 0)
 }
 
-const getNumberWithComma = num => {
-  const num_str = num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-  return num_str === "0" ? "-" : num_str
-}
-
 const WorldBoard = props => {
   const { data } = props
   const [value, setValue] = React.useState(0)
@@ -188,7 +184,7 @@ const WorldBoard = props => {
             />
             <Typography
               style={{ fontSize: 32, fontWeight: "bold", marginTop: 5 }}
-              children={getNumberWithComma(metric.figures)}
+              children={formatNumber(metric.figures)}
             />
             <Grid container>
               <Grid item>
@@ -202,7 +198,7 @@ const WorldBoard = props => {
                     fontSize: 16,
                     color: metric.delta < 0 ? "#f55543" : "#1d946d",
                   }}
-                  children={getNumberWithComma(metric.delta)}
+                  children={formatNumber(metric.delta)}
                 />
               </Grid>
               <Grid item>
@@ -322,7 +318,7 @@ const WorldRanking = props => {
                         padding: "7px 4px",
                       }}
                     >
-                      {getNumberWithComma(row.confirmedFigures)}
+                      {formatNumber(row.confirmedFigures)}
                     </TableCell>
                     <TableCell
                       style={{
@@ -331,7 +327,7 @@ const WorldRanking = props => {
                         padding: "7px 4px",
                       }}
                     >
-                      {getNumberWithComma(row.deathNumber)}
+                      {formatNumber(row.deathNumber)}
                     </TableCell>
                   </TableRow>
                 )
@@ -397,14 +393,17 @@ export const BaiduInternationalDataQuery = graphql`
         }
       }
     }
-    allBorderShutdown(sort: { order: DESC, fields: last_update }) {
+    allBorderShutdown(sort: { order: ASC, fields: [category, status_order] }) {
       edges {
         node {
+          last_update
           iso_code
           category
           detail_zh
           detail_en
-          status
+          status_zh
+          status_en
+          status_order
         }
       }
     }
