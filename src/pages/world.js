@@ -20,7 +20,9 @@ import { withStyles } from "@material-ui/core/styles"
 import IncreaseIcon from "@/components/icons/increase.svg"
 import DecreaseIcon from "@/components/icons/decrease.svg"
 import WorldMap from "@/components/charts/WorldMap"
+import BorderShutdown from "@/components/charts/BorderShutdown"
 import mapBaiduCountry from "@/utils/mapBaiduCountry"
+import { formatNumber } from "@/utils"
 
 const TabPanel = props => {
   const { children, value, index, ...other } = props
@@ -33,7 +35,11 @@ const TabPanel = props => {
       aria-labelledby={`tab-${index}`}
       {...other}
     >
-      {value === index && <Box p={3}>{children}</Box>}
+      {value === index && (
+        <Box p={3} style={{ padding: "10px 5px" }}>
+          {children}
+        </Box>
+      )}
     </Typography>
   )
 }
@@ -133,11 +139,6 @@ const getPreviousTotalCured = data => {
   return updatedData.reduce((a, d) => a + d.crued, 0)
 }
 
-const getNumberWithComma = num => {
-  const num_str = num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-  return num_str === "0" ? "-" : num_str
-}
-
 const WorldBoard = props => {
   const { data } = props
   const [value, setValue] = React.useState(0)
@@ -183,7 +184,7 @@ const WorldBoard = props => {
             />
             <Typography
               style={{ fontSize: 32, fontWeight: "bold", marginTop: 5 }}
-              children={getNumberWithComma(metric.figures)}
+              children={formatNumber(metric.figures)}
             />
             <Grid container>
               <Grid item>
@@ -197,7 +198,7 @@ const WorldBoard = props => {
                     fontSize: 16,
                     color: metric.delta < 0 ? "#f55543" : "#1d946d",
                   }}
-                  children={getNumberWithComma(metric.delta)}
+                  children={formatNumber(metric.delta)}
                 />
               </Grid>
               <Grid item>
@@ -212,13 +213,15 @@ const WorldBoard = props => {
       </Grid>
       <Grid item xs={12} style={{ marginTop: 30 }}>
         <StyledTabs value={value} onChange={handleChange}>
-          <Tab label={t("world.distribution")} {...tabProps(0)} />
-          <Tab label={t("world.trend")} {...tabProps(1)} disabled />
+          <Tab label={t("world.border_shutdown")} {...tabProps(0)} />
+          <Tab label={t("world.distribution")} {...tabProps(1)} />
         </StyledTabs>
         <TabPanel value={value} index={0}>
+          <BorderShutdown data={data.allBorderShutdown.edges} />
+        </TabPanel>
+        <TabPanel value={value} index={1}>
           <WorldMap data={getMostUpdatedRanking(data)} />
         </TabPanel>
-        <TabPanel value={value} index={1} />
       </Grid>
     </Grid>
   )
@@ -283,6 +286,8 @@ const WorldRanking = props => {
                   i18n.language === "zh"
                     ? country.country_zh
                     : country.country_en
+                const confirmedFigures = formatNumber(row.confirmedFigures)
+                const deathNumber = formatNumber(row.deathNumber)
 
                 return (
                   <TableRow key={row.country}>
@@ -315,7 +320,7 @@ const WorldRanking = props => {
                         padding: "7px 4px",
                       }}
                     >
-                      {getNumberWithComma(row.confirmedFigures)}
+                      {confirmedFigures === "0" ? "-" : confirmedFigures}
                     </TableCell>
                     <TableCell
                       style={{
@@ -324,7 +329,7 @@ const WorldRanking = props => {
                         padding: "7px 4px",
                       }}
                     >
-                      {getNumberWithComma(row.deathNumber)}
+                      {deathNumber === "0" ? "-" : deathNumber}
                     </TableCell>
                   </TableRow>
                 )
@@ -387,6 +392,20 @@ export const BaiduInternationalDataQuery = graphql`
           confirmed
           died
           crued
+        }
+      }
+    }
+    allBorderShutdown(sort: { order: ASC, fields: [category, status_order] }) {
+      edges {
+        node {
+          last_update
+          iso_code
+          category
+          detail_zh
+          detail_en
+          status_zh
+          status_en
+          status_order
         }
       }
     }
