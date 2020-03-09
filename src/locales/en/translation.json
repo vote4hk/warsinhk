@@ -170,5 +170,6 @@
   "world.ranking_died": "Death",
   "world.border_shutdown_outbound": "Outbound",
   "world.border_shutdown_inbound": "Inbound",
-  "world.border_shutdown_last_update": "Last update: {{date}}"
+  "world.border_shutdown_last_update": "Last update: {{date}}",
+  "world.border_shutdown_more_info": "View more"
 }

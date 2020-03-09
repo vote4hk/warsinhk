@@ -57,6 +57,7 @@ const CountryChip = ({
   detail,
   country_name,
   country_emoji,
+  source_url,
 }) => (
   <Grid item style={{ padding: 5 }}>
     <StyledTooltip
@@ -94,6 +95,7 @@ const BorderShutdown = props => {
       detail: withLanguage(i18n, d.node, "detail"),
       status: withLanguage(i18n, d.node, "status"),
       status_order: d.node.status_order,
+      source_url: withLanguage(i18n, d.node, "source_url"),
     }
   })
   const countryGrouped = _groupBy(countryNodes, "category")

@@ -177,5 +177,6 @@
   "world.ranking_died": "死亡",
   "world.border_shutdown_outbound": "離港",
   "world.border_shutdown_inbound": "抵港",
-  "world.border_shutdown_last_update": "最後更新：{{date}}"
+  "world.border_shutdown_last_update": "最後更新：{{date}}",
+  "world.border_shutdown_more_info": "查看更多"
 }

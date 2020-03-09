@@ -406,6 +406,8 @@ export const BaiduInternationalDataQuery = graphql`
           status_zh
           status_en
           status_order
+          source_url_zh
+          source_url_en
         }
       }
     }
