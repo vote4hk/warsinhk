@@ -20,7 +20,7 @@
       "to": "/world",
       "icon": "world",
       "sideMenu": true,
-      "bottomNav": false
+      "bottomNav": true
     },
     {
       "title": "disruption.title",
@@ -41,7 +41,7 @@
       "to": "/shops",
       "icon": "shops",
       "sideMenu": true,
-      "bottomNav": true
+      "bottomNav": false
     },
     {
       "title": "waiting_time.title",
