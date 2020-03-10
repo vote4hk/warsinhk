@@ -15,6 +15,7 @@
     "d3-svg-legend": "^2.25.6",
     "dotenv": "^8.2.0",
     "eslint": "^6.8.0",
+    "file-loader": "^5.1.0",
     "gatsby": "^2.18.12",
     "gatsby-image": "^2.2.34",
     "gatsby-plugin-alias-imports": "^1.0.5",
