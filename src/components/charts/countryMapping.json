@@ -497,7 +497,7 @@
   {
     "country_emoji": "🇨🇩",
     "baidu_country_name": "刚果民主共和国",
-    "baidu_country_name_translated": "剛果民主共和國",
+    "baidu_country_name_translated": "剛果",
     "country_en": "The Democratic Republic of the Congo",
     "country_zh": "剛果民主共和國",
     "topo_country_names": "Dem. Rep. Congo",
@@ -671,6 +671,17 @@
     "longitude": 2
   },
   {
+    "country_emoji": "🇬🇫",
+    "baidu_country_name": "法属圭亚那",
+    "baidu_country_name_translated": "法屬圭亞那",
+    "country_en": "French Guiana",
+    "country_zh": "法屬圭亞那",
+    "topo_country_names": "French Guiana",
+    "iso_code": 254,
+    "latitude": 4,
+    "longitude": -53
+  },
+  {
     "country_emoji": "🇬🇦",
     "baidu_country_name": "加蓬",
     "baidu_country_name_translated": "加蓬",
@@ -713,6 +724,17 @@
     "iso_code": 276,
     "latitude": 51,
     "longitude": 9
+  },
+  {
+    "country_emoji": "🇬🇮",
+    "baidu_country_name": "直布罗陀",
+    "baidu_country_name_translated": "直布羅陀",
+    "country_en": "Gibraltar",
+    "country_zh": "直布羅陀",
+    "topo_country_names": "Gibraltar",
+    "iso_code": 292,
+    "latitude": 36,
+    "longitude": -5
   },
   {
     "country_emoji": "🇬🇭",
@@ -1199,6 +1221,17 @@
     "longitude": ""
   },
   {
+    "country_emoji": "🇲🇶",
+    "baidu_country_name": "马提尼克",
+    "baidu_country_name_translated": "馬提尼克",
+    "country_en": "Martinique",
+    "country_zh": "馬提尼克",
+    "topo_country_names": "Martinique",
+    "iso_code": 474,
+    "latitude": 15,
+    "longitude": -61
+  },
+  {
     "country_emoji": "🇲🇷",
     "baidu_country_name": "毛里塔尼亚",
     "baidu_country_name_translated": "毛里塔尼亞",
@@ -1267,7 +1300,7 @@
   {
     "country_emoji": "🇲🇳",
     "baidu_country_name": "蒙古",
-    "baidu_country_name_translated": "蒙古",
+    "baidu_country_name_translated": "濛古國",
     "country_en": "Mongolia",
     "country_zh": "蒙古",
     "topo_country_names": "Mongolia",
@@ -2220,6 +2253,17 @@
     "iso_code": 238,
     "latitude": -51.75,
     "longitude": -59
+  },
+  {
+    "country_emoji": "🇫🇴",
+    "baidu_country_name": "法罗群岛",
+    "baidu_country_name_translated": "法羅群島",
+    "country_en": "Faroe Islands",
+    "country_zh": "法羅群島",
+    "topo_country_names": "Faroe Islands",
+    "iso_code": 234,
+    "latitude": 62,
+    "longitude": -7
   },
   {
     "country_emoji": "",
