@@ -1,6 +1,7 @@
 import React from "react"
 import Grid from "@material-ui/core/Grid"
 import Paper from "@material-ui/core/Paper"
+import Link from "@material-ui/core/Link"
 import Typography from "@material-ui/core/Typography"
 import outboundIcon from "@components/icons/outbound.png"
 import inboundIcon from "@components/icons/inbound.png"
@@ -71,9 +72,20 @@ const CountryChip = ({
               {t("world.border_shutdown_last_update", { date: last_update })}
             </>
           )}
+          {source_url && (
+            <>
+              <br />
+              <br />
+              <Link href={source_url} target="_blank">
+                {t("world.border_shutdown_more_info")}
+              </Link>
+            </>
+          )}
         </>
       }
       enterTouchDelay={10}
+      leaveTouchDelay={5000}
+      interactive
     >
       <Chip>{`${country_emoji}${country_name}`}</Chip>
     </StyledTooltip>
