@@ -264,12 +264,22 @@ const WorldRanking = props => {
                   {t("world.ranking_country")}
                 </TableCell>
                 <TableCell
-                  style={{ fontSize: 15, color: "#767676", padding: 5 }}
+                  style={{
+                    fontSize: 15,
+                    color: "#767676",
+                    padding: 5,
+                    textAlign: "right",
+                  }}
                 >
                   {t("world.ranking_confirmed")}
                 </TableCell>
                 <TableCell
-                  style={{ fontSize: 15, color: "#767676", padding: 5 }}
+                  style={{
+                    fontSize: 15,
+                    color: "#767676",
+                    padding: 5,
+                    textAlign: "right",
+                  }}
                 >
                   {t("world.ranking_died")}
                 </TableCell>
@@ -318,6 +328,7 @@ const WorldRanking = props => {
                         fontSize: 16,
                         borderBottom: 0,
                         padding: "7px 4px",
+                        textAlign: "right",
                       }}
                     >
                       {confirmedFigures === "0" ? "-" : confirmedFigures}
@@ -327,6 +338,7 @@ const WorldRanking = props => {
                         fontSize: 16,
                         borderBottom: 0,
                         padding: "7px 4px",
+                        textAlign: "right",
                       }}
                     >
                       {deathNumber === "0" ? "-" : deathNumber}
