@@ -1,6 +1,10 @@
 import React from "react"
 import find from "lodash.find"
 import * as d3 from "d3"
+import Tooltip from "@material-ui/core/Tooltip"
+import Typography from "@material-ui/core/Typography"
+import { withStyles } from "@material-ui/core/styles"
+import { useTranslation } from "react-i18next"
 import { feature } from "topojson-client"
 import worldJson from "./world-110m"
 import mapBaiduCountry, {
@@ -12,26 +16,36 @@ const projection = d3
   .scale(120)
   .translate([380, 280])
 
+const StyledTooltip = withStyles({
+  tooltip: {
+    backgroundColor: "white",
+    color: "rgba(0, 0, 0, 0.87)",
+    fontSize: 10,
+    borderRadius: 14,
+    padding: 10,
+  },
+})(Tooltip)
+
 const WorldMap = ({ data }) => {
   const [hoveredCountry, setHoverCountry] = React.useState("")
   const geographies = feature(worldJson, worldJson.objects.countries).features
+  const { i18n } = useTranslation()
 
   const cities = data.map(d => {
     const country = mapBaiduCountry(d.area)
-
     return {
-      name: country.country_zh,
+      name_zh: country.country_zh,
+      name_en: country.country_en,
+      emoji: country.country_emoji,
       coordinates: [country.longitude, country.latitude],
       confirmed: d.confirmed,
+      died: d.died,
+      cured: d.crued,
     }
   })
 
   const handleCountryClick = countryIndex => {
     setHoverCountry(geographies[countryIndex].id)
-  }
-
-  const handleMarkerClick = i => {
-    // TODO: show tooltips
   }
 
   const getDiedNumber = countryName => {
@@ -73,6 +87,25 @@ const WorldMap = ({ data }) => {
     }
   }
 
+  const ToolTipTitle = ({ props }) => {
+    const isZh = i18n.language === "zh"
+    return (
+      <>
+        <Typography color="inherit" variant="h6">
+          {" "}
+          {props.emoji} {isZh ? props.name_zh : props.name_en}
+        </Typography>
+        {`${isZh ? "確診" : "Confirmed"}: ${
+          props.confirmed === 0 ? "-" : props.confirmed
+        } `}
+        {`${isZh ? "死亡" : "Dead"}: ${props.died === 0 ? "-" : props.died} `}
+        {`${isZh ? "康復" : "Cured"}: ${
+          props.cured === 0 ? "-" : props.cured
+        } `}
+      </>
+    )
+  }
+
   return (
     <svg width="100%" viewBox="0 0 800 450">
       <g>
@@ -96,16 +129,21 @@ const WorldMap = ({ data }) => {
       </g>
       <g>
         {cities.map((city, i) => (
-          <circle
-            key={`marker-${i}`}
-            cx={projection(city.coordinates)[0]}
-            cy={projection(city.coordinates)[1]}
-            r={getRadius(city.confirmed)}
-            fill={`rgba(207, 7, 7, ${getTransparency(city.confirmed)})`}
-            stroke="#FFFFFF"
-            className="marker"
-            onClick={() => handleMarkerClick(i)}
-          />
+          <StyledTooltip title={<ToolTipTitle props={city} />}>
+            <circle
+              key={`marker-${i}`}
+              cx={projection(city.coordinates)[0]}
+              cy={
+                projection(city.coordinates)[1]
+                  ? projection(city.coordinates)[1]
+                  : 0
+              }
+              r={getRadius(city.confirmed)}
+              fill={`rgba(207, 7, 7, ${getTransparency(city.confirmed)})`}
+              stroke="#FFFFFF"
+              className="marker"
+            />
+          </StyledTooltip>
         ))}
       </g>
     </svg>
