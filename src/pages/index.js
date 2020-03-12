@@ -18,6 +18,7 @@ import { WarsCaseCard } from "@components/organisms/CaseCard"
 import AlertMessage from "@components/organisms/AlertMessage"
 import { Paragraph } from "@components/atoms/Text"
 import Grid from "@material-ui/core/Grid"
+import { trackCustomEvent } from "gatsby-plugin-google-analytics"
 
 import { isSSR, formatNumber } from "@/utils"
 import { SessionWrapper, SplitWrapper } from "@components/atoms/Container"
@@ -330,9 +331,14 @@ export default function IndexPage({ data }) {
                   {bannerImagesArray.map((b, index) => (
                     <CarouselCell
                       key={index}
-                      onClick={() =>
+                      onClick={() => {
+                        trackCustomEvent({
+                          category: "carousel_banner",
+                          action: "click",
+                          label: b.url,
+                        })
                         window.open(b.url, b.isExternal ? "_blank" : "_self")
-                      }
+                      }}
                       src={b.img}
                       alt=""
                     />
