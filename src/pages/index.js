@@ -22,7 +22,6 @@ import { trackCustomEvent } from "gatsby-plugin-google-analytics"
 
 import { isSSR, formatNumber } from "@/utils"
 import { SessionWrapper, SplitWrapper } from "@components/atoms/Container"
-import Carousel from "@components/atoms/Carousel"
 
 import ImageZh1 from "@/images/banner/zh/dummies.png"
 import ImageZh2 from "@/images/banner/zh/world.png"
@@ -34,6 +33,10 @@ const ConfirmedCaseVisual = React.lazy(() =>
   import(
     /* webpackPrefetch: true */ "@/components/organisms/ConfirmedCaseVisual"
   )
+)
+
+const Carousel = React.lazy(() =>
+  import(/* webpackPrefetch: true */ "@components/atoms/Carousel")
 )
 
 const IndexAlertMessage = styled(AlertMessage)`
@@ -318,33 +321,35 @@ export default function IndexPage({ data }) {
               </Typography>
             )}
             {!isSSR() && (
-              <CarouselContainer>
-                <Carousel
-                  options={{
-                    autoPlay: false,
-                    wrapAround: true,
-                    adaptiveHeight: false,
-                    prevNextButtons: isMobile ? false : true,
-                    pageDots: false,
-                  }}
-                >
-                  {bannerImagesArray.map((b, index) => (
-                    <CarouselCell
-                      key={index}
-                      onClick={() => {
-                        trackCustomEvent({
-                          category: "carousel_banner",
-                          action: "click",
-                          label: b.url,
-                        })
-                        window.open(b.url, b.isExternal ? "_blank" : "_self")
-                      }}
-                      src={b.img}
-                      alt=""
-                    />
-                  ))}
-                </Carousel>
-              </CarouselContainer>
+              <React.Suspense fallback={<div />}>
+                <CarouselContainer>
+                  <Carousel
+                    options={{
+                      autoPlay: false,
+                      wrapAround: true,
+                      adaptiveHeight: false,
+                      prevNextButtons: isMobile ? false : true,
+                      pageDots: false,
+                    }}
+                  >
+                    {bannerImagesArray.map((b, index) => (
+                      <CarouselCell
+                        key={index}
+                        onClick={() => {
+                          trackCustomEvent({
+                            category: "carousel_banner",
+                            action: "click",
+                            label: b.url,
+                          })
+                          window.open(b.url, b.isExternal ? "_blank" : "_self")
+                        }}
+                        src={b.img}
+                        alt=""
+                      />
+                    ))}
+                  </Carousel>
+                </CarouselContainer>
+              </React.Suspense>
             )}
             {isMobile && (
               <Typography variant="h2">{t("index.highlight")}</Typography>

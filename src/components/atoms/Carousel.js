@@ -1,9 +1,7 @@
 import React from "react"
 import ReactDOM from "react-dom"
 import "flickity/dist/flickity.min.css"
-import { isSSR } from "@/utils"
-
-const Flickity = !isSSR() ? require("Flickity") : null
+import Flickity from "Flickity"
 
 export default class Carousel extends React.Component {
   constructor(props) {
