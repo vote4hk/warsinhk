@@ -1,7 +1,7 @@
 import React from "react"
 import ReactDOM from "react-dom"
 import "flickity/dist/flickity.min.css"
-import Flickity from "Flickity"
+import Flickity from "flickity"
 
 export default class Carousel extends React.Component {
   constructor(props) {
