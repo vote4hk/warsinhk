@@ -149,6 +149,8 @@ export const WarsCaseCard = React.forwardRef((props, ref) => {
     () => trackData && <WarsCaseTrack i18n={i18n} t={t} track={trackData} />,
     [i18n, t, trackData]
   )
+
+  const dateFormat = /\d{4}-\d{2}-\d{2}/g
   return (
     <WarsCaseContainer
       key={`case-${node.case_no}`}
@@ -201,7 +203,13 @@ export const WarsCaseCard = React.forwardRef((props, ref) => {
         {node.onset_date && (
           <Box>
             <Label>{t("dashboard.patient_onset_date")}</Label>
-            <b>{node.onset_date}</b>
+            <b>
+              {node.onset_date.match(dateFormat)
+                ? node.onset_date
+                : node.onset_date === "asymptomatic"
+                ? t("cases.asymptomatic")
+                : ""}
+            </b>
           </Box>
         )}
         <Box>
