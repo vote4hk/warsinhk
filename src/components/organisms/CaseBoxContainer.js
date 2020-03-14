@@ -6,6 +6,7 @@ import { bps } from "@/ui/theme"
 import _get from "lodash/get"
 import _uniq from "lodash/uniq"
 import * as moment from "moment"
+import { withLanguage } from "@/utils/i18n"
 
 const colorArray = [
   "#1a237e",
@@ -152,19 +153,21 @@ export const WarsCaseBox = React.forwardRef((props, ref) => {
 })
 
 export const WarsCaseBoxLegend = React.forwardRef((props, ref) => {
-  const { caseGroup } = props
+  const { caseGroup, i18n } = props
   return (
     <>
       {caseGroup.map(({ node }, id) => {
         const c = {
           node: {
-            case_no: "群組",
+            case_no: withLanguage(i18n, node, "name"),
             status: "hospitalised",
             group_id: id,
             gender: "-",
           },
         }
-        return <WarsCaseBox cases={c} handleBoxClick={() => {}} />
+        return (
+        <li style={{ color: colorArray[id || 0] }}>{withLanguage(i18n, node, 'name')}</li>
+        )
       })}
     </>
   )
