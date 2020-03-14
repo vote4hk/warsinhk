@@ -121,6 +121,8 @@
   "cases.status_serious": "Serious",
   "cases.status_critical": "Critical",
   "cases.status_deceased": "Deceased",
+  "cases.asymptomatic": "Asymptomatic",
+  "cases.view_more": "View details",
   "datepicker.datepickerStartDatePlaceholder": "Select",
   "datepicker.datepickerStartDateLabel": "Start Date",
   "datepicker.datepickerEndDatePlaceholder": "Select",
