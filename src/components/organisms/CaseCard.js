@@ -174,7 +174,8 @@ export const WarsCaseCard = React.forwardRef((props, ref) => {
         <Box>
           <Typography variant="h6">
             {node.age && t("dashboard.patient_age_format", { age: node.age })}{" "}
-            {node.gender !== "-" && t(`dashboard.gender_${node.gender}`)}
+            {(node.gender === "M" || node.gender === "F") &&
+              t(`dashboard.gender_${node.gender}`)}
           </Typography>
         </Box>
       </Row>
