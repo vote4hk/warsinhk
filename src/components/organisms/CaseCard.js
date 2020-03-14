@@ -1,10 +1,11 @@
 import React from "react"
 import Typography from "@material-ui/core/Typography"
 import Box from "@material-ui/core/Box"
-import Link from "@material-ui/core/Link"
+import MuiLink from "@material-ui/core/Link"
+import { Link } from "gatsby"
 import styled from "styled-components"
 import { Row } from "@components/atoms/Row"
-import { withLanguage } from "../../utils/i18n"
+import { withLanguage, getLocalizedPath } from "@/utils/i18n"
 import { Label } from "@components/atoms/Text"
 import { DefaultChip } from "@components/atoms/Chip"
 import {
@@ -12,23 +13,25 @@ import {
   mapColorForStatus,
 } from "@/utils/colorHelper"
 import { formatDateDDMM } from "@/utils"
-import MuiLink from "@material-ui/core/Link"
 import * as d3 from "d3"
 import _get from "lodash.get"
 
 const colors = d3.scaleOrdinal(d3.schemeDark2).domain([0, 1, 2, 3, 4])
 
 const WarsCaseContainer = styled(Box)`
-  background: ${props =>
-    props.selected
-      ? props.theme.palette.background.paperHighlighted
-      : props.theme.palette.background.paper};
+  background: ${props => props.theme.palette.background.paper};
   padding: 8px 16px;
   margin: 16px 0;
-  box-shadow: 0px 2px 1px -1px rgba(0, 0, 0, 0.2),
-    0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 1px 3px 0px rgba(0, 0, 0, 0.12);
+  box-shadow: ${props =>
+    props.selected
+      ? "0px 2px 10px -1px rgba(0, 0, 0, 0.2), 0px 1px 10px 0px rgba(0, 0, 0, 0.14), 0px 1px 3px 0px rgba(0, 0, 0, 0.12)"
+      : "0px 2px 1px -1px rgba(0,0,0,0.2), 0px 1px 1px 0px rgba(0,0,0,0.14), 0px 1px 3px 0px rgba(0,0,0,0.12)"};
+
   border-top: 3px ${props => props.statuscolor} solid;
 
+  a {
+    color: ${props => props.theme.palette.primary.main};
+  }
   .track-row {
     border-top: 1px #ddd solid;
     padding: 8px 0 8px;
@@ -49,10 +52,6 @@ const WarsCaseContainer = styled(Box)`
 
 const WarsCaseDetail = styled(Typography)`
   margin-top: 20px;
-`
-
-const WarsSource = styled(Link)`
-  margin-top: 8px;
 `
 
 const WarsRow = styled(Row)`
@@ -141,7 +140,14 @@ const WarsCaseTrack = ({ i18n, t, track }) => {
 }
 
 export const WarsCaseCard = React.forwardRef((props, ref) => {
-  const { node, i18n, t, isSelected, patientTrack } = props
+  const {
+    node,
+    i18n,
+    t,
+    isSelected,
+    patientTrack,
+    showViewMore = false,
+  } = props
   const trackData = _get(patientTrack, "[0].edges", null)
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -231,9 +237,14 @@ export const WarsCaseCard = React.forwardRef((props, ref) => {
         <WarsCaseDetail>{withLanguage(i18n, node, "detail")}</WarsCaseDetail>
       </Row>
       <Row>
-        <WarsSource href={node.source_url} target="_blank">
+        <MuiLink href={node.source_url} target="_blank">
           {t("dashboard.source")}
-        </WarsSource>
+        </MuiLink>
+        {showViewMore && (
+          <Link to={getLocalizedPath(i18n, `/cases/#${node.case_no} `)}>
+            {t("cases.view_more")}
+          </Link>
+        )}
       </Row>
       {track}
     </WarsCaseContainer>

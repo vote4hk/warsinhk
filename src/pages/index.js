@@ -417,7 +417,13 @@ export default function IndexPage({ data }) {
             </FriendlyLinksContainer>
             <Typography variant="h2">{t("index.latest_case")}</Typography>
             {latestCases.map((item, index) => (
-              <WarsCaseCard key={index} node={item.node} i18n={i18n} t={t} />
+              <WarsCaseCard
+                key={index}
+                node={item.node}
+                showViewMore={true}
+                i18n={i18n}
+                t={t}
+              />
             ))}
             <FullWidthButton
               component={InternalLink}

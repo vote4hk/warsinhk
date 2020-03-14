@@ -129,6 +129,7 @@
   "cases.status_critical": "危殆",
   "cases.status_deceased": "死亡",
   "cases.asymptomatic": "無病徵",
+  "cases.view_more": "詳情",
   "datepicker.datepickerStartDatePlaceholder": "選擇",
   "datepicker.datepickerStartDateLabel": "由",
   "datepicker.datepickerEndDatePlaceholder": "選擇",
