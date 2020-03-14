@@ -64,7 +64,7 @@ const SelectedCardContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: flex-start;
-  position: absolute;
+  position: fixed;
   width: 100%;
   height: 100%;
   left: 0;
