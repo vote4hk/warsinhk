@@ -8,9 +8,7 @@ import { useTranslation } from "react-i18next"
 import { withLanguage } from "@/utils/i18n"
 import { feature } from "topojson-client"
 import worldJson from "./world-110m"
-import mapBaiduCountry, {
-  getBaiduCountryFromISO,
-} from "@/utils/mapBaiduCountry"
+import mapBaiduCountry from "@/utils/mapBaiduCountry"
 
 const projection = d3
   .geoMercator()
@@ -32,10 +30,10 @@ const WorldMap = ({ data }) => {
   const geographies = feature(worldJson, worldJson.objects.countries).features
   const { i18n, t } = useTranslation()
 
-  const cities = data.map(d => {
+  const countries = data.map(d => {
     const country = mapBaiduCountry(d.area)
-    console.log(country)
     return {
+      iso: country.iso_code,
       name: withLanguage(i18n, country, "country"),
       emoji: country.country_emoji,
       coordinates: [country.longitude, country.latitude],
@@ -49,9 +47,9 @@ const WorldMap = ({ data }) => {
     setHoverCountry(geographies[countryIndex].id)
   }
 
-  const getDiedNumber = countryName => {
-    const country = find(data, { area: countryName })
-    return getTransparency(country ? country.died * 10 : 0)
+  const getTransparencyByCountryDeath = countryIso => {
+    const country = find(countries, { iso: countryIso })
+    return getTransparency(country ? country.died * 1 : 0)
   }
 
   const getTransparency = num => {
@@ -112,8 +110,8 @@ const WorldMap = ({ data }) => {
             fill={
               hoveredCountry === d.id
                 ? "rgba(38,50,56,0.2)"
-                : `rgba(38,50,56, ${getDiedNumber(
-                    getBaiduCountryFromISO(Number(d.id))
+                : `rgba(38,50,56, ${getTransparencyByCountryDeath(
+                    Number(d.id)
                   )})`
             }
             stroke="#FFFFFF"
@@ -124,7 +122,7 @@ const WorldMap = ({ data }) => {
         ))}
       </g>
       <g>
-        {cities.map((city, i) => (
+        {countries.map((city, i) => (
           <StyledTooltip title={<ToolTipTitle props={city} />}>
             <circle
               key={`marker-${i}`}
