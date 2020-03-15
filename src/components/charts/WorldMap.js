@@ -5,6 +5,7 @@ import Tooltip from "@material-ui/core/Tooltip"
 import Typography from "@material-ui/core/Typography"
 import { withStyles } from "@material-ui/core/styles"
 import { useTranslation } from "react-i18next"
+import { withLanguage } from "@/utils/i18n"
 import { feature } from "topojson-client"
 import worldJson from "./world-110m"
 import mapBaiduCountry, {
@@ -29,13 +30,13 @@ const StyledTooltip = withStyles({
 const WorldMap = ({ data }) => {
   const [hoveredCountry, setHoverCountry] = React.useState("")
   const geographies = feature(worldJson, worldJson.objects.countries).features
-  const { i18n } = useTranslation()
+  const { i18n, t } = useTranslation()
 
   const cities = data.map(d => {
     const country = mapBaiduCountry(d.area)
+    console.log(country)
     return {
-      name_zh: country.country_zh,
-      name_en: country.country_en,
+      name: withLanguage(i18n, country, "country"),
       emoji: country.country_emoji,
       coordinates: [country.longitude, country.latitude],
       confirmed: d.confirmed,
@@ -88,20 +89,15 @@ const WorldMap = ({ data }) => {
   }
 
   const ToolTipTitle = ({ props }) => {
-    const isZh = i18n.language === "zh"
+    const formatZero = num => (num === 0 ? "-" : num)
     return (
       <>
         <Typography color="inherit" variant="h6">
-          {" "}
-          {props.emoji} {isZh ? props.name_zh : props.name_en}
+          {props.emoji} {props.name}
         </Typography>
-        {`${isZh ? "確診" : "Confirmed"}: ${
-          props.confirmed === 0 ? "-" : props.confirmed
-        } `}
-        {`${isZh ? "死亡" : "Dead"}: ${props.died === 0 ? "-" : props.died} `}
-        {`${isZh ? "康復" : "Cured"}: ${
-          props.cured === 0 ? "-" : props.cured
-        } `}
+        {`${t("world.ranking_confirmed")}: ${formatZero(props.confirmed)} `}
+        {`${t("cases.status_deceased")}: ${formatZero(props.died)} `}
+        {`${t("cases.status_discharged")}: ${formatZero(props.cured)} `}
       </>
     )
   }
