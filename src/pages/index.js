@@ -16,6 +16,7 @@ import Layout from "@components/templates/Layout"
 import { BasicCard } from "@components/atoms/Card"
 import { WarsCaseCard } from "@components/organisms/CaseCard"
 import AlertMessage from "@components/organisms/AlertMessage"
+import OutboundAlert from "@components/charts/OutboundAlert"
 import { Paragraph } from "@components/atoms/Text"
 import Grid from "@material-ui/core/Grid"
 import { trackCustomEvent } from "gatsby-plugin-google-analytics"
@@ -396,6 +397,14 @@ export default function IndexPage({ data }) {
                 <ConfirmedCaseVisual />
               </React.Suspense>
             )}
+            <OutboundAlert data={data.allBorderShutdown.edges} />
+            <FullWidthButton
+              component={InternalLink}
+              to={getLocalizedPath(i18n, "/world")}
+              variant="outlined"
+            >
+              {t("index.see_more")}
+            </FullWidthButton>
           </SessionWrapper>
           <SessionWrapper>
             <FriendlyLinksContainer>
@@ -572,6 +581,22 @@ export const WarsCaseQuery = graphql`
           title
           source_url
           sort_order
+        }
+      }
+    }
+    allBorderShutdown(sort: { order: ASC, fields: [category, status_order] }) {
+      edges {
+        node {
+          last_update
+          iso_code
+          category
+          detail_zh
+          detail_en
+          status_zh
+          status_en
+          status_order
+          source_url_zh
+          source_url_en
         }
       }
     }
