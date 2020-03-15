@@ -123,7 +123,12 @@ const WorldMap = ({ data }) => {
       </g>
       <g>
         {countries.map((city, i) => (
-          <StyledTooltip title={<ToolTipTitle props={city} />}>
+          <StyledTooltip
+            key={`tooltip-${i}`}
+            title={<ToolTipTitle props={city} />}
+            enterTouchDelay={10}
+            leaveTouchDelay={100}
+          >
             <circle
               key={`marker-${i}`}
               cx={projection(city.coordinates)[0]}
