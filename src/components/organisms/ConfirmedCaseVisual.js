@@ -4,7 +4,6 @@ import Typography from "@material-ui/core/Typography"
 import Grid from "@material-ui/core/Grid"
 import { useMediaQuery } from "react-responsive"
 import { useStaticQuery, graphql } from "gatsby"
-import { withLanguage } from "../../utils/i18n"
 import Chart from "@components/atoms/Chart"
 import styled from "styled-components"
 import { BasicCard } from "@components/atoms/Card"
@@ -13,6 +12,8 @@ import Box from "@material-ui/core/Box"
 import { Hidden } from "@material-ui/core"
 import { bps } from "@/ui/theme"
 import { median } from "@/utils"
+import DistrictsChart from "@/components/charts/18Districts"
+import capitalize from "lodash/capitalize"
 
 const PlotsWrapper = styled(Grid)`
   ${bps.up("lg")} {
@@ -33,15 +34,20 @@ const AgeGrid = styled(Grid)`
 `
 
 const AgeWrapper = styled(Row)`
-  ${bps.up("md")} {
+  flex-direction: row;
+
+  ${bps.between("md", "lg")} {
     flex-direction: column;
+  }
+
+  ${bps.up("lg")} {
+    flex-direction: row;
   }
 `
 
 const AgeBox = styled(Box)`
   ${bps.up("md")} {
     text-align: center;
-    margin: 0 0 3em;
   }
 `
 
@@ -59,7 +65,7 @@ const DataValue = styled.span`
     line-height: 1.4;
   }
 `
-
+const MapCard = styled.div``
 export default function ConfirmedCaseVisual(props) {
   const { i18n, t } = useTranslation()
 
@@ -68,6 +74,7 @@ export default function ConfirmedCaseVisual(props) {
     genderAge: { group: genderAge },
     citizenshipZh: { group: citizenship_zh },
     citizenshipEn: { group: citizenship_en },
+    citizenshipDistrict: { group: citizenshipDistrict },
   } = useStaticQuery(
     graphql`
       query {
@@ -88,6 +95,20 @@ export default function ConfirmedCaseVisual(props) {
             }
             totalCount
             fieldValue
+          }
+        }
+        citizenshipDistrict: allWarsCase(
+          filter: { type_en: { eq: "Confirmed" } }
+        ) {
+          group(field: citizenship_district_zh) {
+            totalCount
+            fieldValue
+            edges {
+              node {
+                citizenship_district_zh
+                citizenship_district_en
+              }
+            }
           }
         }
         citizenshipZh: allWarsCase(filter: { type_en: { eq: "Confirmed" } }) {
@@ -112,26 +133,12 @@ export default function ConfirmedCaseVisual(props) {
     citizenship_en,
     female: genderAge.find(age => age.fieldValue === "F"),
     male: genderAge.find(age => age.fieldValue === "M"),
+    citizenshipDistrict,
   }
-
-  const citizenshipData = withLanguage(i18n, WarsCaseData, "citizenship")
 
   const isMobile = useMediaQuery({ maxWidth: 960 })
 
   const GENDER_COLOR_LIST = ["#006266", "#ED4C67"]
-
-  const COLOR_LIST = [
-    "#45CF8F",
-    "#005ECD",
-    "#FF5D55",
-    "#424559",
-    "#F49600",
-    "#F3966F",
-    "#06C7BA",
-    "#004427",
-    "#BEB4D3",
-    "#FCC457",
-  ]
 
   const axis = isMobile
     ? {
@@ -163,9 +170,9 @@ export default function ConfirmedCaseVisual(props) {
           type: isMobile ? "bar" : "donut",
           groups: isMobile
             ? [
-                ["male", "female"].map(gender =>
-                  t(`dashboard.gender_${WarsCaseData[gender].fieldValue}`)
-                ),
+                ["male", "female"].map(gender => [
+                  t(`dashboard.gender_${WarsCaseData[gender].fieldValue}`),
+                ]),
               ]
             : undefined,
         }}
@@ -182,31 +189,44 @@ export default function ConfirmedCaseVisual(props) {
       />
     </BasicCard>
   )
+
   const citizenPlot = (
-    <BasicCard>
-      <Typography variant="h6">{t("cases_visual.citizen")}</Typography>
-      <Chart
-        data={{
-          columns: citizenshipData
-            .sort((a, b) => b.totalCount - a.totalCount)
-            .map(c => [c.fieldValue, c.totalCount]),
-          type: isMobile ? "bar" : "donut",
-          labels: isMobile,
+    <MapCard>
+      <Typography variant="h6">{t("cases_visual.distribution")}</Typography>
+      <DistrictsChart
+        scale={[
+          0,
+          Math.max.apply(
+            null,
+            citizenshipDistrict.map(i => i.totalCount)
+          ),
+        ]}
+        values={citizenshipDistrict.map(i => i.totalCount)}
+        getDescriptionByDistrictName={(tcName, enName) => {
+          const node = citizenshipDistrict.find(
+            i => tcName.indexOf(i.fieldValue) === 0
+          )
+          const value = node ? node.totalCount : 0
+          const name =
+            i18n.language !== "zh"
+              ? enName.split` `.map(capitalize).join` `
+              : tcName
+          return `${name}: ${value}`
         }}
-        color={{ pattern: COLOR_LIST }}
-        tooltip={{
-          grouped: false,
-          format: {
-            title: () => t("cases_visual.citizen"),
-          },
-        }}
-        bar={bar}
-        size={
-          isMobile ? { height: 40 + 30 * citizenshipData.length } : undefined
+        legendTitle={
+          <Typography variant="body2">
+            {t("cases_visual.legendTitle")}
+          </Typography>
         }
-        axis={axis}
+        getDataByDistrictName={tcName => {
+          const node = citizenshipDistrict.find(
+            i => tcName.indexOf(i.fieldValue) === 0
+          )
+          const value = node ? node.totalCount : 0
+          return value
+        }}
       />
-    </BasicCard>
+    </MapCard>
   )
 
   const agePlot = (
@@ -257,9 +277,9 @@ export default function ConfirmedCaseVisual(props) {
   if (isMobile) {
     return (
       <>
+        {citizenPlot}
         {genderPlot}
         {agePlot}
-        {citizenPlot}
       </>
     )
   }

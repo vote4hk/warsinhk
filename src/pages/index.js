@@ -2,6 +2,7 @@ import React from "react"
 import { useTranslation } from "react-i18next"
 import { graphql, Link as InternalLink } from "gatsby"
 import styled from "styled-components"
+import { useMediaQuery } from "react-responsive"
 
 import { bps } from "@/ui/theme"
 import Box from "@material-ui/core/Box"
@@ -16,10 +17,17 @@ import { BasicCard } from "@components/atoms/Card"
 import { WarsCaseCard } from "@components/organisms/CaseCard"
 import AlertMessage from "@components/organisms/AlertMessage"
 import { Paragraph } from "@components/atoms/Text"
-import { useMediaQuery } from "@material-ui/core"
+import Grid from "@material-ui/core/Grid"
+import { trackCustomEvent } from "gatsby-plugin-google-analytics"
 
-import { formatNumber } from "@/utils"
+import { isSSR, formatNumber } from "@/utils"
+import { SessionWrapper, SplitWrapper } from "@components/atoms/Container"
 
+import ImageZh1 from "@/images/banner/zh/dummies.png"
+import ImageZh2 from "@/images/banner/zh/world.png"
+import ImageZh3 from "@/images/banner/zh/apple.png"
+import ImageEn1 from "@/images/banner/en/world.png"
+import ImageEn2 from "@/images/banner/en/apple.png"
 // lazy-load the chart to avoid SSR
 const ConfirmedCaseVisual = React.lazy(() =>
   import(
@@ -27,30 +35,15 @@ const ConfirmedCaseVisual = React.lazy(() =>
   )
 )
 
+const Carousel = React.lazy(() =>
+  import(/* webpackPrefetch: true */ "@components/atoms/Carousel")
+)
+
 const IndexAlertMessage = styled(AlertMessage)`
   ${bps.up("lg")} {
     > * {
       flex: 1 0 100%;
       margin-right: 0;
-    }
-  }
-`
-const SessiontWrapper = styled(Box)`
-  margin-bottom: 16px;
-`
-const SplitWrapper = styled.div`
-  ${bps.up("lg")} {
-    display: flex;
-    align-items: flex-start;
-
-    ${SessiontWrapper} {
-      flex: 1 0 calc(50% - 12px);
-
-      &:nth-of-type(2) {
-        max-width: 600px;
-        flex: 0 0 calc(50% - 12px);
-        margin-left: 24px;
-      }
     }
   }
 `
@@ -66,7 +59,7 @@ const DailyStat = styled(Box)`
 `
 const DailyStatFigureLabel = styled(Typography)`
   text-align: center;
-  font-size: 12px;
+  font-size: ${props => props.theme.typography.xsmallFontSize};
 
   ${bps.down("sm")} {
     font-size: 11px;
@@ -83,17 +76,35 @@ const PassengerDailyStatFigure = styled(Typography)`
   font-weight: 700;
 `
 
-const DailyChange = styled(Typography)`
+const DailyChange = styled(({ badSign, children, ...props }) => (
+  <Typography {...props}>{children}</Typography>
+))`
   font-size: 14px;
   font-weight: 700;
-  color: ${props =>
-    props.badSign
+  color: ${props => {
+    return props.badSign
       ? props.theme.palette.secondary.dark
-      : props.theme.palette.trafficLight.green};
+      : props.theme.palette.trafficLight.green
+  }};
 `
+
 const FullWidthButton = styled(Button)`
   width: 100%;
   padding: 6px 10px;
+`
+
+const FriendlyLinksContainer = styled(Box)`
+  margin-bottom: 16px;
+`
+const CarouselContainer = styled.div`
+  margin: 16px 0;
+`
+
+const CarouselCell = styled.img`
+  width: 66%;
+  max-width: 220px;
+  height: 120px;
+  margin-right: 12px;
 `
 
 function DailyStats({
@@ -107,12 +118,14 @@ function DailyStats({
     ...first,
     confirmed: Math.max(overridedata.confirmed, first.confirmed),
     discharged: Math.max(overridedata.discharged, first.discharged),
+    death: Math.max(overridedata.death, first.death),
   }
 
   if (
     overridedata.date > first.date &&
     (overridedata.confirmed > first.confirmed ||
-      overridedata.discharged > first.discharged)
+      overridedata.discharged > first.discharged ||
+      overridedata.death > first.death)
   ) {
     ytd = {
       ...first,
@@ -225,8 +238,8 @@ function PassengerStats({
 
 export default function IndexPage({ data }) {
   const { i18n, t } = useTranslation()
-  const isSSR = typeof window === "undefined"
-  const isMobile = useMediaQuery(bps.down("md"))
+
+  const isMobile = useMediaQuery({ maxWidth: 960 })
 
   const latestFigures = React.useMemo(
     () => data.allBotWarsLatestFigures.edges[0].node,
@@ -243,16 +256,41 @@ export default function IndexPage({ data }) {
     [i18n, latestFiguresOverride]
   )
 
-  data.allWarsCase.edges.sort(
-    (a, b) => parseInt(b.node.case_no) - parseInt(a.node.case_no)
-  )
+  const latestCases = data.allWarsCase.edges
+    .sort((a, b) => parseInt(b.node.case_no) - parseInt(a.node.case_no))
+    .filter(
+      c =>
+        c.node.confirmation_date ===
+        data.allWarsCase.edges[0].node.confirmation_date
+    )
+
+  const bannerImages = {
+    zh: [
+      { img: ImageZh1, isExternal: true, url: "https://bit.ly/wars1001" },
+      { img: ImageZh2, isExternal: false, url: "https://wars.vote4.hk/world" },
+      { img: ImageZh3, isExternal: true, url: "http://bit.ly/3cLtKeL" },
+    ],
+    en: [
+      {
+        img: ImageEn1,
+        isExternal: false,
+        url: "https://wars.vote4.hk/en/world",
+      },
+      { img: ImageEn2, isExternal: true, url: "http://bit.ly/3cLtKeL" },
+    ],
+  }
+
+  const bannerImagesArray =
+    bannerImages[i18n.language].length < 4
+      ? [...bannerImages[i18n.language], ...bannerImages[i18n.language]]
+      : bannerImages[i18n.language]
 
   return (
     <>
       <SEO title="Home" />
-      <Layout hideAlerts={true}>
+      <Layout>
         <SplitWrapper>
-          <SessiontWrapper>
+          <SessionWrapper>
             <IndexAlertMessage />
             <Typography variant="h2">{t("index.title")}</Typography>
             <Typography variant="body2">
@@ -282,6 +320,46 @@ export default function IndexPage({ data }) {
                 {remarksText}
               </Typography>
             )}
+            {!isSSR() && (
+              <React.Suspense fallback={<div />}>
+                <CarouselContainer>
+                  <Carousel
+                    options={{
+                      autoPlay: false,
+                      wrapAround: true,
+                      adaptiveHeight: false,
+                      prevNextButtons: isMobile ? false : true,
+                      pageDots: false,
+                    }}
+                  >
+                    {bannerImagesArray.map((b, index) => (
+                      <CarouselCell
+                        key={index}
+                        onClick={() => {
+                          trackCustomEvent({
+                            category: "carousel_banner",
+                            action: "click",
+                            label: b.url,
+                          })
+                          window.open(b.url, b.isExternal ? "_blank" : "_self")
+                        }}
+                        src={b.img}
+                        alt=""
+                      />
+                    ))}
+                  </Carousel>
+                </CarouselContainer>
+              </React.Suspense>
+            )}
+            {isMobile && (
+              <Typography variant="h2">{t("index.highlight")}</Typography>
+            )}
+            {isMobile && !isSSR() && (
+              <React.Suspense fallback={<div />}>
+                <ConfirmedCaseVisual />
+              </React.Suspense>
+            )}
+
             <Typography variant="h2">{t("dashboard.passenger")}</Typography>
 
             <Paragraph>{t("dashboard.reference_only")}</Paragraph>
@@ -310,20 +388,43 @@ export default function IndexPage({ data }) {
               />
             </BasicCard>
 
-            <Typography variant="h2">{t("index.highlight")}</Typography>
-            {!isSSR && (
+            {!isMobile && (
+              <Typography variant="h2">{t("index.highlight")}</Typography>
+            )}
+            {!isMobile && !isSSR() && (
               <React.Suspense fallback={<div />}>
                 <ConfirmedCaseVisual />
               </React.Suspense>
             )}
-          </SessiontWrapper>
-          <SessiontWrapper>
+          </SessionWrapper>
+          <SessionWrapper>
+            <FriendlyLinksContainer>
+              <Grid container spacing={1}>
+                {data.allFriendlyLink.edges.map((item, index) => (
+                  <Grid item xs={12} md={6} key={index}>
+                    <FullWidthButton
+                      index={index}
+                      component={Link}
+                      href={item.node.source_url}
+                      target="_blank"
+                      variant="outlined"
+                    >
+                      {item.node.title}
+                    </FullWidthButton>
+                  </Grid>
+                ))}
+              </Grid>
+            </FriendlyLinksContainer>
             <Typography variant="h2">{t("index.latest_case")}</Typography>
-            {data.allWarsCase.edges
-              .slice(0, isMobile ? 5 : 10)
-              .map((item, index) => (
-                <WarsCaseCard key={index} node={item.node} i18n={i18n} t={t} />
-              ))}
+            {latestCases.map((item, index) => (
+              <WarsCaseCard
+                key={index}
+                node={item.node}
+                showViewMore={true}
+                i18n={i18n}
+                t={t}
+              />
+            ))}
             <FullWidthButton
               component={InternalLink}
               to={getLocalizedPath(i18n, "/cases")}
@@ -331,7 +432,7 @@ export default function IndexPage({ data }) {
             >
               {t("index.see_more")}
             </FullWidthButton>
-          </SessiontWrapper>
+          </SessionWrapper>
         </SplitWrapper>
       </Layout>
     </>
@@ -339,7 +440,7 @@ export default function IndexPage({ data }) {
 }
 
 export const WarsCaseQuery = graphql`
-  query {
+  query($locale: String) {
     allImmdHongKongZhuhaiMacaoBridge(sort: { order: DESC, fields: date }) {
       edges {
         node {
@@ -436,7 +537,7 @@ export const WarsCaseQuery = graphql`
     }
     allWarsCase(
       sort: { order: [DESC, DESC], fields: [confirmation_date, case_no] }
-      limit: 10
+      limit: 5
     ) {
       edges {
         node {
@@ -455,7 +556,22 @@ export const WarsCaseQuery = graphql`
           detail_zh
           detail_en
           classification
+          classification_zh
+          classification_en
           source_url
+        }
+      }
+    }
+    allFriendlyLink(
+      sort: { fields: sort_order, order: DESC }
+      filter: { language: { eq: $locale } }
+    ) {
+      edges {
+        node {
+          language
+          title
+          source_url
+          sort_order
         }
       }
     }

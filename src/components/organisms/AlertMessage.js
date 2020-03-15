@@ -16,8 +16,12 @@ const StyledAlert = styled(Alert)`
   && {
     margin-bottom: 20px;
 
-    a {
-      color: white;
+    a,
+    a:visited {
+      color: ${props =>
+        props.variant === "filled"
+          ? "white"
+          : props.theme.palette.primary.main};
       text-decoration: underline;
     }
   }

@@ -11,6 +11,7 @@ import InfiniteScroll from "@/components/modecules/InfiniteScroll"
 import MultiPurposeSearch from "@/components/modecules/MultiPurposeSearch"
 import { createDedupOptions } from "@/utils/search"
 import { PageContent } from "../components/atoms/Container"
+import ConfirmedCasesSummary from "@/components/modecules/ConfirmedCasesSummary"
 
 const ConfirmedCasePage = props => {
   const { data, location } = props
@@ -45,8 +46,12 @@ const ConfirmedCasePage = props => {
 
   const options = [
     {
-      label: t("search.hospital"),
-      options: createDedupOptions(i18n, data.allWarsCase.edges, "hospital"),
+      label: t("search.classification"),
+      options: createDedupOptions(
+        i18n,
+        data.allWarsCase.edges,
+        "classification"
+      ),
     },
     {
       label: t("search.citizenship"),
@@ -56,38 +61,57 @@ const ConfirmedCasePage = props => {
       label: t("search.case_status"),
       options: createDedupOptions(i18n, data.allWarsCase.edges, "status"),
     },
+    {
+      label: t("search.hospital"),
+      options: createDedupOptions(i18n, data.allWarsCase.edges, "hospital"),
+    },
   ]
+
+  // Calculate how much cards we should preload in order to scorll to that position
+  let preloadedCases =
+    data.allWarsCase.edges.length - parseInt(selectedCase) + 1
+  if (isNaN(preloadedCases)) {
+    preloadedCases = 15
+  }
+
+  const listFilteredHandler = list => {
+    setFilteredCases(list)
+  }
+
+  const infiniteScrollOnItem = item => (
+    <WarsCaseCard
+      node={item.node}
+      i18n={i18n}
+      t={t}
+      key={item.node.case_no}
+      isSelected={selectedCase === item.node.case_no}
+      ref={selectedCase === item.node.case_no ? selectedCard : null}
+      patientTrack={data.patient_track.group.filter(
+        t => t.fieldValue === item.node.case_no
+      )}
+    />
+  )
 
   return (
     <Layout>
       <SEO title="ConfirmedCasePage" />
       <Typography variant="h2">{t("cases.title")}</Typography>
       <PageContent>
+        <ConfirmedCasesSummary />
         <MultiPurposeSearch
           list={data.allWarsCase.edges}
           placeholder={t("search.case_placeholder")}
           options={options}
           searchKey="case"
-          onListFiltered={list => {
-            setFilteredCases(list)
-          }}
+          onListFiltered={listFilteredHandler}
         />
       </PageContent>
 
       <ResponsiveWrapper>
         <InfiniteScroll
           list={filteredCases}
-          step={{ mobile: 5, preload: 15 }}
-          onItem={(item, index) => (
-            <WarsCaseCard
-              node={item.node}
-              i18n={i18n}
-              t={t}
-              key={item.node.case_no}
-              isSelected={selectedCase === item.node.case_no}
-              ref={selectedCase === item.node.case_no ? selectedCard : null}
-            />
-          )}
+          step={{ mobile: 5, preload: preloadedCases }}
+          onItem={infiniteScrollOnItem}
         />
       </ResponsiveWrapper>
     </Layout>
@@ -121,7 +145,31 @@ export const ConfirmedCaseQuery = graphql`
           detail_zh
           detail_en
           classification
+          classification_zh
+          classification_en
           source_url
+        }
+      }
+    }
+    patient_track: allWarsCaseLocation(
+      sort: { order: DESC, fields: end_date }
+    ) {
+      group(field: case___case_no) {
+        fieldValue
+        edges {
+          node {
+            case_no
+            start_date
+            end_date
+            location_zh
+            location_en
+            action_zh
+            action_en
+            remarks_zh
+            remarks_en
+            source_url_1
+            source_url_2
+          }
         }
       }
     }

@@ -1,114 +1,57 @@
 import React from "react"
 import Typography from "@material-ui/core/Typography"
 import Box from "@material-ui/core/Box"
-import Link from "@material-ui/core/Link"
+import MuiLink from "@material-ui/core/Link"
+import { Link } from "gatsby"
 import styled from "styled-components"
 import { Row } from "@components/atoms/Row"
-import { withLanguage } from "../../utils/i18n"
+import { withLanguage, getLocalizedPath } from "@/utils/i18n"
 import { Label } from "@components/atoms/Text"
 import { DefaultChip } from "@components/atoms/Chip"
 import {
-  pink,
-  teal,
-  blueGrey,
-  red,
-  green,
-  amber,
-  grey,
-} from "@material-ui/core/colors"
+  mapColorForClassification,
+  mapColorForStatus,
+} from "@/utils/colorHelper"
+import { formatDateDDMM } from "@/utils"
+import * as d3 from "d3"
+import _get from "lodash.get"
 
-const mapColorForClassification = classification => {
-  const mapping = {
-    imported: {
-      main: pink[600],
-      contrastText: "#fff",
-    },
-    imported_close_contact: {
-      main: pink[700],
-      contrastText: "#fff",
-    },
-    local: {
-      main: teal[600],
-      contrastText: "#fff",
-    },
-    local_possibly: {
-      main: teal[500],
-      contrastText: "#fff",
-    },
-    local_unknown_source: {
-      main: teal[700],
-      contrastText: "#fff",
-    },
-    local_possibly_close_contact: {
-      main: teal[400],
-      contrastText: "#fff",
-    },
-    local_close_contact: {
-      main: teal[500],
-      contrastText: "#fff",
-    },
-    default: {
-      main: grey[900],
-      contrastText: "#fff",
-    },
-  }
-
-  if (!mapping[classification]) return mapping["default"]
-  return mapping[classification]
-}
-
-const mapColorForStatus = status => {
-  const mapping = {
-    hospitalised: {
-      main: amber[700],
-      contrastText: "#000",
-    },
-    discharged: {
-      main: green[700],
-      contrastText: "#fff",
-    },
-    serious: {
-      main: red[600],
-      contrastText: "#fff",
-    },
-    critical: {
-      main: red[900],
-      contrastText: "#fff",
-    },
-    deceased: {
-      main: blueGrey[800],
-      contrastText: "#fff",
-    },
-    default: {
-      main: grey[50],
-      contrastText: "#000",
-    },
-  }
-
-  if (!mapping[status]) return mapping["default"]
-  return mapping[status]
-}
+const colors = d3.scaleOrdinal(d3.schemeDark2).domain([0, 1, 2, 3, 4])
 
 const WarsCaseContainer = styled(Box)`
-  background: ${props =>
-    props.selected
-      ? props.theme.palette.background.paperHighlighted
-      : props.theme.palette.background.paper};
+  background: ${props => props.theme.palette.background.paper};
   padding: 8px 16px;
   margin: 16px 0;
-  box-shadow: 0px 2px 1px -1px rgba(0, 0, 0, 0.2),
-    0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 1px 3px 0px rgba(0, 0, 0, 0.12);
+  box-shadow: ${props =>
+    props.selected
+      ? "0px 2px 10px -1px rgba(0, 0, 0, 0.2), 0px 1px 10px 0px rgba(0, 0, 0, 0.14), 0px 1px 3px 0px rgba(0, 0, 0, 0.12)"
+      : "0px 2px 1px -1px rgba(0,0,0,0.2), 0px 1px 1px 0px rgba(0,0,0,0.14), 0px 1px 3px 0px rgba(0,0,0,0.12)"};
+
   border-top: 3px ${props => props.statuscolor} solid;
+
+  a {
+    color: ${props => props.theme.palette.primary.main};
+  }
+  .track-row {
+    border-top: 1px #ddd solid;
+    padding: 8px 0 8px;
+  }
+
+  .wars-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 4px;
+    div:not(:first-child):last-child {
+      text-align: right;
+    }
+    b {
+      font-weight: 700;
+    }
+  }
 `
 
 const WarsCaseDetail = styled(Typography)`
   margin-top: 20px;
-  font-size: 14px;
-  line-height: 1.33rem;
-`
-
-const WarsSource = styled(Link)`
-  margin-top: 8px;
 `
 
 const WarsRow = styled(Row)`
@@ -124,10 +67,96 @@ const WarsRow = styled(Row)`
 const StatusRow = styled(Row)`
   margin: 8px 0 10px;
 `
+const WarsCaseTrackContainer = styled(Box)`
+  margin-top: 16px;
+`
+
+const CaseLabel = styled(Box)`
+  color: ${props => props.color};
+  background: white;
+  border: ${props => props.color} 1px solid;
+  padding: 2px 5px 2px;
+  margin-right: 4px;
+  border-radius: 2px;
+`
+const SourceRow = styled(Box)`
+  display: flex;
+  justify-content: flex-start;
+  margin-top: 8px;
+  font-size: ${props => props.theme.typography.smallFontSize}px;
+`
+const WarsCaseTrack = ({ i18n, t, track }) => {
+  return (
+    <WarsCaseTrackContainer>
+      {track.map((tr, i) => {
+        const remarksText = withLanguage(i18n, tr.node, "remarks")
+        return (
+          <div key={i} className="track-row">
+            {tr.node.start_date && tr.node.end_date && (
+              <div className="wars-row">
+                <Box>
+                  {tr.node.start_date === tr.node.end_date
+                    ? tr.node.end_date
+                    : `${formatDateDDMM(tr.node.start_date)} - ${formatDateDDMM(
+                        tr.node.end_date
+                      )}`}
+                </Box>
+                <b>{withLanguage(i18n, tr.node, "action")}</b>
+              </div>
+            )}
+            <div className="wars-row">
+              <b>{withLanguage(i18n, tr.node, "location")}</b>
+              {(!tr.node.start_date || !tr.node.end_date) && (
+                <b>{withLanguage(i18n, tr.node, "action")}</b>
+              )}
+            </div>
+            {remarksText && (
+              <div className="wars-row">
+                <Typography variant="body2">{remarksText}</Typography>
+              </div>
+            )}
+
+            <SourceRow>
+              {tr.node.source_url_1 && (
+                <MuiLink target="_blank" href={tr.node.source_url_1}>
+                  <CaseLabel color={colors(2)}>
+                    {t("high_risk.source_1")}
+                  </CaseLabel>
+                </MuiLink>
+              )}
+              {tr.node.source_url_2 && (
+                <MuiLink target="_blank" href={tr.node.source_url_2}>
+                  <CaseLabel color={colors(4)}>
+                    {t("high_risk.source_2")}
+                  </CaseLabel>
+                </MuiLink>
+              )}
+            </SourceRow>
+          </div>
+        )
+      })}
+    </WarsCaseTrackContainer>
+  )
+}
 
 export const WarsCaseCard = React.forwardRef((props, ref) => {
-  const { node, i18n, t, isSelected } = props
+  const {
+    node,
+    i18n,
+    t,
+    isSelected,
+    patientTrack,
+    showViewMore = false,
+  } = props
+  const trackData = _get(patientTrack, "[0].edges", null)
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const track = React.useMemo(
+    () => trackData && <WarsCaseTrack i18n={i18n} t={t} track={trackData} />,
+    [i18n, t, trackData]
+  )
+
+  const dateFormat = /\d{4}-\d{2}-\d{2}/g
   return (
     <WarsCaseContainer
       key={`case-${node.case_no}`}
@@ -144,7 +173,7 @@ export const WarsCaseCard = React.forwardRef((props, ref) => {
             textcolor={mapColorForStatus(node.status).main}
             bordercolor={mapColorForStatus(node.status).main}
             size="small"
-            fontsize={14}
+            fontSize={14}
             label={t(`cases.status_${node.status}`)}
           />
         </Box>
@@ -153,7 +182,8 @@ export const WarsCaseCard = React.forwardRef((props, ref) => {
         <Box>
           <Typography variant="h6">
             {node.age && t("dashboard.patient_age_format", { age: node.age })}{" "}
-            {node.gender !== "-" && t(`dashboard.gender_${node.gender}`)}
+            {(node.gender === "M" || node.gender === "F") &&
+              t(`dashboard.gender_${node.gender}`)}
           </Typography>
         </Box>
       </Row>
@@ -169,8 +199,8 @@ export const WarsCaseCard = React.forwardRef((props, ref) => {
                 mapColorForClassification(node.classification).contrastText
               }
               size="small"
-              fontsize={14}
-              label={t(`cases.classification_${node.classification}`)}
+              fontSize={14}
+              label={withLanguage(i18n, node, "classification")}
             />
           )}
         </Box>
@@ -179,7 +209,13 @@ export const WarsCaseCard = React.forwardRef((props, ref) => {
         {node.onset_date && (
           <Box>
             <Label>{t("dashboard.patient_onset_date")}</Label>
-            <b>{node.onset_date}</b>
+            <b>
+              {node.onset_date.match(dateFormat)
+                ? node.onset_date
+                : node.onset_date === "asymptomatic"
+                ? t("cases.asymptomatic")
+                : ""}
+            </b>
           </Box>
         )}
         <Box>
@@ -201,10 +237,16 @@ export const WarsCaseCard = React.forwardRef((props, ref) => {
         <WarsCaseDetail>{withLanguage(i18n, node, "detail")}</WarsCaseDetail>
       </Row>
       <Row>
-        <WarsSource href={node.source_url} target="_blank">
+        <MuiLink href={node.source_url} target="_blank">
           {t("dashboard.source")}
-        </WarsSource>
+        </MuiLink>
+        {showViewMore && (
+          <Link to={getLocalizedPath(i18n, `/cases/#${node.case_no} `)}>
+            {t("cases.view_more")}
+          </Link>
+        )}
       </Row>
+      {track}
     </WarsCaseContainer>
   )
 })

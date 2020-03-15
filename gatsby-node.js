@@ -34,6 +34,12 @@ const PUBLISHED_SPREADSHEET_WARS_CASES_LOCATION_URL =
   "https://docs.google.com/spreadsheets/d/e/2PACX-1vT6aoKk3iHmotqb5_iHggKc_3uAA901xVzwsllmNoOpGgRZ8VAA3TSxK6XreKzg_AUQXIkVX5rqb0Mo/pub?gid=0"
 const PUBLISHED_SPREADSHEET_BOT_WARS_LATEST_FIGURES_URL =
   "https://docs.google.com/spreadsheets/d/e/2PACX-1vTiCndDnXu6l5ZKq2aAVgU2xM3WGGW68XF-pEbLAloRbOzA1QwglLGJ6gTKjFbLQGhbH6GR2TsJKrO7/pub?gid=0"
+const PUBLISHED_SPREADSHEET_FRIENDLY_LINK_URL =
+  "https://docs.google.com/spreadsheets/d/e/2PACX-1vRrwN4gNtogizNkYKGzMXpa7GTNJhE_vkZuYiFraU7f-N7ZKiT-araG-0jb586kczxc9Ua6oht8SVcE/pub?gid=0"
+const PUBLISHED_SPREADSHEET_WARS_CASES_LOCATION_599C_URL =
+  "https://docs.google.com/spreadsheets/d/e/2PACX-1vQcfO-bjeNxNSJ2AFQdv-a855leMyzgO7Q7QXwgCGGmCAx7PwUxgrfcuJM8BLDCQL-nwnt123OZ4_mT/pub?gid=456240224"
+const PUBLISHED_SPREADSHEET_TRAVEL_ALERT_URL =
+  "https://docs.google.com/spreadsheets/u/1/d/e/2PACX-1vQOnfZtGysW5qVe9FferSvhSODKa9ASH7SeqCGAGJSz8ZV7POm3kzFqfkbVAgryHKdj9WwLKXJai332/pub?gid=0"
 
 const GRAPHQL_URL = "https://api2.vote4.hk/v1/graphql"
 
@@ -78,6 +84,141 @@ const createIMMDNode = async ({
   addNodeByGate("Hong Kong-Zhuhai-Macao Bridge")
   addNodeByGate("Shenzhen Bay")
   addNodeByGate("Total")
+}
+
+const createWorldCasesNode = async ({
+  actions: { createNode },
+  createNodeId,
+  createContentDigest,
+}) => {
+  const type = "BaiduInternationalData"
+
+  const query = `{
+    wars_BaiduInternationalData (
+      distinct_on: [date, area]
+      order_by: [
+        {date: desc},
+        {area: desc},
+        {time: desc},
+      ]
+    ) {
+      area
+      date
+      time
+      confirmed
+      died
+      crued
+    }
+  }`
+
+  const baiduChinaQuery = `{
+    wars_BaiduChinaData (
+      distinct_on: [date, area, city]
+        order_by: [
+          {date: desc},
+          {area: desc},
+          {city: desc},
+          {time: desc},
+        ]
+      ) {
+        area
+        city
+        date
+        time
+        confirmed
+        died
+        crued
+      }
+  }`
+
+  const data = await request(GRAPHQL_URL, query)
+  const baiduChinaData = await request(GRAPHQL_URL, baiduChinaQuery)
+
+  data.wars_BaiduInternationalData.forEach((p, i) => {
+    const meta = {
+      id: createNodeId(`${type}-${i}`),
+      parent: null,
+      children: [],
+      internal: {
+        type,
+        contentDigest: createContentDigest(p),
+      },
+    }
+    const node = Object.assign({}, p, meta)
+    createNode(node)
+  })
+
+  let count = data.wars_BaiduInternationalData.length
+  let chinaCured = {}
+  let chinaDied = {}
+  let chinaConfirmed = {}
+  let availableDate = []
+  let dateTimeMapping = {}
+
+  baiduChinaData.wars_BaiduChinaData.forEach(p => {
+    if (
+      p.area === "香港" ||
+      p.area === "颱灣" ||
+      p.area === "台灣" ||
+      p.area === "澳門"
+    ) {
+      const node_data = {
+        area: p.area === "颱灣" ? "台灣" : p.area,
+        date: p.date,
+        time: p.time,
+        confirmed: p.confirmed,
+        died: p.died,
+        crued: p.crued,
+      }
+      const meta = {
+        id: createNodeId(`${type}-${count}`),
+        parent: null,
+        children: [],
+        internal: {
+          type,
+          contentDigest: createContentDigest(node_data),
+        },
+      }
+      const node = Object.assign({}, node_data, meta)
+      createNode(node)
+      count += 1
+    } else if (p.city === "") {
+      if (availableDate.includes(p.date)) {
+        chinaCured[p.date] += p.crued
+        chinaDied[p.date] += p.died
+        chinaConfirmed[p.date] += p.confirmed
+      } else {
+        availableDate.push(p.date)
+        dateTimeMapping[p.date] = p.time
+        chinaCured[p.date] = p.crued
+        chinaDied[p.date] = p.died
+        chinaConfirmed[p.date] = p.confirmed
+      }
+    }
+  })
+
+  availableDate.forEach(date => {
+    const node_data = {
+      area: "中国",
+      date: date,
+      time: dateTimeMapping[date],
+      confirmed: chinaConfirmed[date],
+      died: chinaDied[date],
+      crued: chinaCured[date],
+    }
+    const meta = {
+      id: createNodeId(`${type}-${count}`),
+      parent: null,
+      children: [],
+      internal: {
+        type,
+        contentDigest: createContentDigest(node_data),
+      },
+    }
+    const node = Object.assign({}, node_data, meta)
+    createNode(node)
+    count += 1
+  })
 }
 
 const createAENode = async ({
@@ -204,7 +345,7 @@ const createPublishedGoogleSpreadsheetNode = async (
   { actions: { createNode }, createNodeId, createContentDigest },
   publishedURL,
   type,
-  { skipFirstLine = false, alwaysEnabled = false }
+  { skipFirstLine = false, alwaysEnabled = false, subtype = null }
 ) => {
   // All table has first row reserved
   const result = await fetch(
@@ -222,7 +363,9 @@ const createPublishedGoogleSpreadsheetNode = async (
       // create node for build time data example in the docs
       const meta = {
         // required fields
-        id: createNodeId(`${type.toLowerCase()}-${i}`),
+        id: createNodeId(
+          `${type.toLowerCase()}${subtype ? `-${subtype}` : ""}-${i}`
+        ),
         parent: null,
         children: [],
         internal: {
@@ -230,12 +373,12 @@ const createPublishedGoogleSpreadsheetNode = async (
           contentDigest: createContentDigest(p),
         },
       }
-      const node = Object.assign({}, p, meta)
+      const node = Object.assign({}, { ...p, subtype }, meta)
       createNode(node)
     })
 }
 
-/* 
+/*
   =============== Gatsby API starts =================
 */
 
@@ -259,7 +402,12 @@ exports.onCreatePage = async ({ page, actions }) => {
 
 exports.onCreateWebpackConfig = ({ stage, loaders, actions }) => {
   if (stage === "build-html") {
-    const regex = [/node_modules\/leaflet/, /node_modules\\leaflet/]
+    const regex = [
+      /node_modules\/leaflet/,
+      /node_modules\\leaflet/,
+      /node_modules\/pixi.js/,
+      /node_modules\\pixi.js/,
+    ]
     actions.setWebpackConfig({
       module: {
         rules: [
@@ -291,7 +439,19 @@ exports.sourceNodes = async props => {
       props,
       PUBLISHED_SPREADSHEET_WARS_CASES_LOCATION_URL,
       "WarsCaseLocation",
-      { skipFirstLine: true }
+      {
+        skipFirstLine: true,
+        subtype: "default",
+      }
+    ),
+    createPublishedGoogleSpreadsheetNode(
+      props,
+      PUBLISHED_SPREADSHEET_WARS_CASES_LOCATION_599C_URL,
+      "WarsCaseLocation",
+      {
+        skipFirstLine: true,
+        subtype: "599c",
+      }
     ),
     createPublishedGoogleSpreadsheetNode(
       props,
@@ -323,6 +483,18 @@ exports.sourceNodes = async props => {
       "BotWarsLatestFigures",
       { skipFirstLine: true, alwaysEnabled: true }
     ),
+    createPublishedGoogleSpreadsheetNode(
+      props,
+      PUBLISHED_SPREADSHEET_FRIENDLY_LINK_URL,
+      "FriendlyLink",
+      { skipFirstLine: true }
+    ),
+    createPublishedGoogleSpreadsheetNode(
+      props,
+      PUBLISHED_SPREADSHEET_TRAVEL_ALERT_URL,
+      "BorderShutdown",
+      { skipFirstLine: true }
+    ),
     createNode(props, SHEET_ALERT_MASTER, "Alert"),
     createNode(
       props,
@@ -334,6 +506,7 @@ exports.sourceNodes = async props => {
     createGNNode(props),
     createGovNewsNode(props),
     createPosterNode(props),
+    createWorldCasesNode(props),
   ])
 }
 

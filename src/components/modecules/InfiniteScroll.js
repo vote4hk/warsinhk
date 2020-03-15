@@ -2,9 +2,11 @@ import React, { useState, useEffect, Fragment } from "react"
 import { useMediaQuery } from "@material-ui/core"
 import { bps } from "@/ui/theme"
 import PropTypes from "prop-types"
+import { useTranslation } from "react-i18next"
 
 const InfiniteScroll = ({ list, onItem, step }) => {
   const { mobile = 5, desktop = 20, preload = 5 } = step
+  const { i18n } = useTranslation()
   const isMobile = useMediaQuery(bps.down("md"))
   const [itemSize, setItemSize] = useState(preload)
   const [loadMore, setLoadMore] = useState(false)
@@ -16,9 +18,10 @@ const InfiniteScroll = ({ list, onItem, step }) => {
   }, [loadMore, itemSize, isMobile])
 
   const onScroll = () => {
+    const scrolledHeight = document.scrollingElement || document.documentElement
     const diff =
       document.documentElement.offsetHeight -
-      (window.innerHeight + document.documentElement.scrollTop)
+      (window.innerHeight + scrolledHeight.scrollTop)
     if (diff > 10) return
     setLoadMore(true)
   }
@@ -29,14 +32,18 @@ const InfiniteScroll = ({ list, onItem, step }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  return (
-    <>
-      {list &&
-        list
-          .filter((_, i) => i < itemSize)
-          .map((item, i) => <Fragment key={i}>{onItem(item, i)}</Fragment>)}
-    </>
+  // this is a perf fix for re-rendering
+  // if no more re-rendering can remove the useMemo here
+  const elements = React.useMemo(
+    () =>
+      list &&
+      list
+        .filter((_, i) => i < itemSize)
+        .map((item, i) => <Fragment key={i}>{onItem(item, i)}</Fragment>),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [list, itemSize, i18n.language]
   )
+  return <>{elements}</>
 }
 
 InfiniteScroll.propTypes = {

@@ -7,7 +7,9 @@ const App = props => {
   const { children, locale, ssr } = props
   const { i18n } = useTranslation()
   useEffect(() => {
-    i18n.changeLanguage(locale)
+    if (i18n.language !== locale) {
+      i18n.changeLanguage(locale)
+    }
   }, [i18n, locale])
 
   // since ssr does not have useEffect.

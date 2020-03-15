@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 63.1 (92452) - https://sketch.com -->
+    <title>Icon/regular/alert</title>
+    <desc>Created with Sketch.</desc>
+    <g id="Icon/regular/alert" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <path d="M21.5838669,17.901276 L13.7725173,4.27736736 C13.2844329,3.42511753 12.642322,3 11.9982107,3 C11.3540994,3 10.7119885,3.42511753 10.2239042,4.27736736 L2.4225563,17.901276 C1.43638592,19.6057757 2.23652416,21 4.19686285,21 L19.7995586,21 C21.7598973,21 22.5600355,19.6057757 21.5838669,17.901276 Z" id="Path" fill="#C4C9CF" fill-rule="nonzero"></path>
+        <polygon id="Path" fill="#FFFFFF" fill-rule="nonzero" points="11.0019646 9 13 9 13 15 11 15 11 9"></polygon>
+        <path d="M12,17.7623426 C11.4477149,17.7623426 11,17.3150292 11,16.7632403 C11,16.2114513 11.4477149,15.7641379 12,15.7641379 C12.5522835,15.7641379 13,16.2114513 13,16.7632403 C13.0004761,17.0288404 12.8950836,17.2836997 12.707107,17.4715076 C12.5191304,17.6593156 12.2640424,17.7646136 11.9982039,17.7641379 L12,17.7623426 Z" id="Path" fill="#FFFFFF" fill-rule="nonzero"></path>
+    </g>
+</svg>

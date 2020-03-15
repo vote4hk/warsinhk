@@ -18,51 +18,79 @@ export const FONT_FAMILY = [
   "Arial",
 ]
 
-export const typography = {
+export const palette = {
+  primary: {
+    main: "#1a237e",
+    light: "#534bae",
+    dark: "#000051",
+    text: "#ffffff",
+    contrastText: "#ffffff",
+  },
+  secondary: {
+    main: "#ef5350",
+    light: "#ff867c",
+    dark: "#b61827",
+    text: "#000000",
+    contrastText: "#000000",
+  },
+  background: {
+    default: "#f5f5f6",
+    paper: "#fff",
+  },
+  trafficLight: {
+    red: "#c0392b",
+    orange: "#e67e22",
+    green: "#27ae60",
+  },
+}
+
+export const typography = fontZoom => ({
   useNextVariants: true,
-  fontSize: 16,
+  xsmallFontSize: 12 * fontZoom,
+  smallFontSize: 14 * fontZoom,
+  fontSize: 16 * fontZoom,
   fontFamily: FONT_FAMILY.join(","),
   h1: {
     fontFamily: headingFontFamily,
-    fontSize: 21.5,
+    fontSize: 21.5 * fontZoom,
     fontWeight: 600,
   },
   h2: {
     fontFamily: headingFontFamily,
-    fontSize: 26,
+    fontSize: 26 * fontZoom,
     fontWeight: 600,
   },
   h3: {
     fontFamily: headingFontFamily,
-    fontSize: 22,
+    fontSize: 22 * fontZoom,
     fontWeight: 600,
   },
   h4: {
     fontFamily: FONT_FAMILY,
-    fontSize: 18,
+    fontSize: 18 * fontZoom,
     fontWeight: 600,
   },
   h5: {
     fontFamily: headingFontFamily,
-    fontSize: 16,
+    fontSize: 16 * fontZoom,
     fontWeight: 500,
   },
   h6: {
     fontFamily: headingFontFamily,
-    fontSize: 16,
+    fontSize: 16 * fontZoom,
     fontWeight: 600,
     lineHeight: 1.3,
   },
   body1: {
     fontFamily: bodyFontFamily,
-    fontSize: 16,
+    fontSize: 16 * fontZoom,
     lineHeight: 1.4,
   },
   body2: {
     fontFamily: bodyFontFamily,
-    fontSize: 14,
+    fontSize: 14 * fontZoom,
   },
-}
+})
 
 export const COLORS = {
   main: {
@@ -105,32 +133,13 @@ export const COLORS = {
   secondaryBackgroundColor: "#f2f2f3", // grey
 }
 
+export const createThemeWithFontZoom = fontZoom =>
+  createMuiTheme({
+    typography: typography(fontZoom),
+    palette,
+  })
+
 export default createMuiTheme({
-  typography,
-  palette: {
-    primary: {
-      main: "#1a237e",
-      light: "#534bae",
-      dark: "#000051",
-      text: "#ffffff",
-      contrastText: "#ffffff",
-    },
-    secondary: {
-      main: "#ef5350",
-      light: "#ff867c",
-      dark: "#b61827",
-      text: "#000000",
-      contrastText: "#000000",
-    },
-    background: {
-      default: "#f5f5f6",
-      paper: "#fff",
-      paperHighlighted: "#f99",
-    },
-    trafficLight: {
-      red: "#c0392b",
-      orange: "#e67e22",
-      green: "#27ae60",
-    },
-  },
+  typography: typography(1),
+  palette,
 })

@@ -27,7 +27,10 @@ import { Paragraph } from "@components/atoms/Text"
 
 const FabContainer = styled(Box)`
   && {
-    bottom: 84px;
+    ${bps.down("xs")} {
+      bottom: 136px;
+    }
+    bottom: 32px;
     right: 16px;
     position: fixed;
     z-index: 1200;
@@ -196,7 +199,7 @@ const ShopsPage = props => {
 
   return (
     <>
-      <SEO title="Home" />
+      <SEO title="ShopsPage" />
       <Layout>
         <FabContainer>
           <Link href="https://t.me/findmasks" target="_blank">

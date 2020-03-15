@@ -30,8 +30,17 @@ const MultiPurposeSearch = props => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
+  const customStyles = {
+    placeholder: () => ({
+      // none of react-select's styles are passed to <Control />
+      fontSize: "12px",
+      color: "#cccccc",
+    }),
+  }
+
   return (
     <AsyncSelect
+      styles={customStyles}
       closeMenuOnSelect={false}
       loadOptions={(input, callback) =>
         callback(filterSearchOptions(sortedOptions, input, 5))

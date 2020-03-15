@@ -9,7 +9,6 @@ import MuiLink from "@material-ui/core/Link"
 import { Link } from "gatsby"
 import { withLanguage, getLocalizedPath } from "@/utils/i18n"
 import { UnstyledRow } from "@components/atoms/Row"
-import HighRiskMap from "@components/highRiskMap"
 import Grid from "@material-ui/core/Grid"
 import { makeStyles } from "@material-ui/core/styles"
 import AutoSizer from "react-virtualized/dist/es/AutoSizer"
@@ -20,6 +19,12 @@ import Theme from "@/ui/theme"
 import { trackCustomEvent } from "gatsby-plugin-google-analytics"
 import { createDedupOptions, filterByDate } from "@/utils/search"
 import MultiPurposeSearch from "../components/modecules/MultiPurposeSearch"
+import { grey } from "@material-ui/core/colors"
+import { formatDateDDMM, isSSR } from "@/utils"
+
+const HighRiskMap = React.lazy(() =>
+  import(/* webpackPrefetch: true */ "@components/highRiskMap")
+)
 
 const colors = d3.scaleOrdinal(d3.schemeDark2).domain([0, 1, 2, 3, 4])
 
@@ -81,6 +86,13 @@ const CaseActionRow = styled(UnstyledRow)`
   }
 `
 
+const CaseText = styled(({ pass14days, children, ...props }) => (
+  <Typography {...props}>{children}</Typography>
+))`
+  color: ${props => {
+    return props.pass14days ? grey[500] : "black"
+  }};
+`
 const InfoToolTip = ({ t, title, className, color }) => {
   const [open, setOpen] = useState(false)
   return (
@@ -127,23 +139,25 @@ export const HighRiskCardItem = ({ node, i18n, t, isActive }) => (
   </HighRiskCardContainer>
 )
 
-export const CaseRow = ({ c, i18n, t }) => (
+export const CaseRow = ({ c, i18n, t, pass14days }) => (
   <CaseRowContainer key={c.id}>
     <Grid container spacing={1}>
       <Grid item xs={4}>
         <UnstyledRow>
-          <Typography component="span" variant="body2" color="textPrimary">
+          <CaseText component="div" variant="body2" pass14days={pass14days}>
             {c.start_date === c.end_date
               ? c.end_date
-              : `${formatDate(c.start_date)} - ${formatDate(c.end_date)}`}
-          </Typography>
+              : `${formatDateDDMM(c.start_date)} - ${formatDateDDMM(
+                  c.end_date
+                )}`}
+          </CaseText>
         </UnstyledRow>
       </Grid>
       <Grid item xs>
         <CaseActionRow>
-          <Typography component="div" variant="body2" color="textPrimary">
+          <CaseText component="div" variant="body2" pass14days={pass14days}>
             {withLanguage(i18n, c, "action")}
-          </Typography>
+          </CaseText>
           <LabelRow>
             {withLanguage(i18n, c, "remarks") && (
               <InfoToolTip
@@ -177,28 +191,23 @@ export const CaseRow = ({ c, i18n, t }) => (
     </Grid>
   </CaseRowContainer>
 )
-const formatDate = d => {
-  // Orignal formatString: "DD/M" cannot be parsed in DatePicker
-  // formatString: "YYYY-MM-DD" for DatePicker
-  // Reformat for UI here
-  if (d) {
-    d = d.replace(/(\d{4})-(\d\d)-(\d\d)/, function(_, y, m, d) {
-      return [d, m].join("/")
-    })
-  }
-  return d
-}
 
 const Item = ({ node, i18n, t }) => {
   return (
     <HighRiskCardContent>
       <HighRiskCardTitle>
-        <Typography component="span" variant="h6" color="textPrimary">
+        <CaseText component="span" variant="h6" pass14days={node.allPass14days}>
           {withLanguage(i18n, node, "location")}
-        </Typography>
+        </CaseText>
       </HighRiskCardTitle>
       {node.cases.map(c => (
-        <CaseRow key={c.id} c={c} i18n={i18n} t={t}></CaseRow>
+        <CaseRow
+          key={c.id}
+          c={c}
+          i18n={i18n}
+          t={t}
+          pass14days={c.pass14days}
+        ></CaseRow>
       ))}
     </HighRiskCardContent>
   )
@@ -231,27 +240,71 @@ const HighRiskPage = ({ data }) => {
 
   const withinBoderFilter = ({ node }) => node.sub_district_zh !== "境外"
 
+  const nowTimeStamp = new Date()
+  const calculatePass14day = ({ case_code, end_date }) => {
+    const endDateTimeStamp = +new Date(end_date)
+    const daysToExpire = case_code === "_" ? 14 : 0
+    if (Number.isNaN(endDateTimeStamp)) return false
+    return nowTimeStamp - endDateTimeStamp > 86400 * 1000 * daysToExpire
+  }
+
+  const mapPinType = item => {
+    switch (item.type) {
+      case "self":
+      case "relatives":
+        return "confirmed_case"
+      default:
+        return item.type
+    }
+  }
+
   const groupedLocations = Object.values(
     _groupBy(
-      data.allWarsCaseLocation.edges.filter(withinBoderFilter).map(e => e.node),
+      data.allWarsCaseLocation.edges.filter(withinBoderFilter).map(e => {
+        const item = e.node
+        const end_date = item.end_date === "Invalid date" ? "" : item.end_date
+        return {
+          ...item,
+          start_date: item.start_date === "Invalid date" ? "" : item.start_date,
+          end_date,
+          pass14days: calculatePass14day(item),
+          pinType: mapPinType(item),
+        }
+      }),
       node => node.location_zh
     )
-  ).map(cases => ({
-    node: {
-      ...cases[0],
-      cases: cases.filter(
-        c =>
-          withLanguage(i18n, c, "location") ===
-          withLanguage(i18n, cases[0], "location")
-      ), // Quick fix for filtering locations
-    },
-  }))
+  ).map(cases => {
+    const casesPass14daysArray = [...new Set(cases.map(c => c.pass14days))]
+    return {
+      node: {
+        ...cases[0],
+        cases: cases.filter(
+          c =>
+            withLanguage(i18n, c, "location") ===
+            withLanguage(i18n, cases[0], "location")
+        ), // Quick fix for filtering locations
+        allPass14days:
+          casesPass14daysArray.length === 1 &&
+          casesPass14daysArray.pop() === true,
+      },
+    }
+  })
 
   const [filteredLocations, setFilteredLocations] = useState(groupedLocations)
+  const filteredOptionsWithDate = filteredLocations
+    .filter(loc => filterByDate(loc.node, searchStartDate, searchEndDate))
+    .sort((a, b) => {
+      // Active cards on top
+      if (a.node.allPass14days > b.node.allPass14days) return 1
+      if (a.node.allPass14days < b.node.allPass14days) return -1
 
-  const filteredOptionsWithDate = filteredLocations.filter(loc =>
-    filterByDate(loc.node, searchStartDate, searchEndDate)
-  )
+      if (a.node.end_date > b.node.end_date) return -1
+      if (a.node.end_date < b.node.end_date) return 1
+
+      if (a.node.start_date > b.node.start_date) return -1
+      if (a.node.start_date < b.node.start_date) return 1
+      return 0
+    })
   const options = [
     {
       label: t("search.sub_district"),
@@ -277,48 +330,54 @@ const HighRiskPage = ({ data }) => {
     <Layout>
       <SEO title="HighRiskPage" />
       <div className={fullPageContent}>
-        <AutoSizer>
-          {({ width, height }) => (
-            <HighRiskMap
-              t={t}
-              getTranslated={(node, key) => withLanguage(i18n, node, key)}
-              filteredLocations={filteredOptionsWithDate.map(i => i.node)}
-              height={height}
-              width={width}
-              dateFilterEnabled={searchStartDate && searchEndDate}
-              datePicker={
-                <DatePicker
-                  startDate={searchStartDate}
-                  endDate={searchEndDate}
-                  setSearchStartDate={setSearchStartDate}
-                  setSearchEndDate={setSearchEndDate}
-                />
-              }
-              selectBar={
-                <MultiPurposeSearch
-                  list={groupedLocations}
-                  placeholder={t("search.placeholder")}
-                  options={options}
-                  searchKey="high_risk"
-                  onListFiltered={list => {
-                    setFilteredLocations(list)
+        {/* SSR do not show the map */}
+        {!isSSR() && (
+          <AutoSizer defaultWidth={800} defaultHeight={600}>
+            {({ width, height }) => (
+              <React.Suspense fallback={<div />}>
+                <HighRiskMap
+                  t={t}
+                  language={i18n.language}
+                  getTranslated={(node, key) => withLanguage(i18n, node, key)}
+                  filteredLocations={filteredOptionsWithDate.map(i => i.node)}
+                  height={height}
+                  width={width}
+                  dateFilterEnabled={searchStartDate && searchEndDate}
+                  datePicker={
+                    <DatePicker
+                      startDate={searchStartDate}
+                      endDate={searchEndDate}
+                      setSearchStartDate={setSearchStartDate}
+                      setSearchEndDate={setSearchEndDate}
+                    />
+                  }
+                  selectBar={
+                    <MultiPurposeSearch
+                      list={groupedLocations}
+                      placeholder={t("search.placeholder")}
+                      options={options}
+                      searchKey="high_risk"
+                      onListFiltered={list => {
+                        setFilteredLocations(list)
+                      }}
+                    />
+                  }
+                  renderCard={({ node, isActive }) => {
+                    return (
+                      <HighRiskCardItem
+                        key={node.id}
+                        node={{ node }}
+                        i18n={i18n}
+                        t={t}
+                        isActive={isActive}
+                      />
+                    )
                   }}
-                />
-              }
-              renderCard={({ node, isActive }) => {
-                return (
-                  <HighRiskCardItem
-                    key={node.id}
-                    node={{ node }}
-                    i18n={i18n}
-                    t={t}
-                    isActive={isActive}
-                  />
-                )
-              }}
-            ></HighRiskMap>
-          )}
-        </AutoSizer>
+                ></HighRiskMap>
+              </React.Suspense>
+            )}
+          </AutoSizer>
+        )}
       </div>
     </Layout>
   )
@@ -328,10 +387,7 @@ export default HighRiskPage
 
 export const HighRiskQuery = graphql`
   query {
-    allWarsCaseLocation(
-      filter: { enabled: { eq: "Y" } }
-      sort: { order: DESC, fields: end_date }
-    ) {
+    allWarsCaseLocation(sort: { order: DESC, fields: end_date }) {
       edges {
         node {
           id
