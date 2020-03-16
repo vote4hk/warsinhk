@@ -4,12 +4,11 @@ import Paper from "@material-ui/core/Paper"
 import Link from "@material-ui/core/Link"
 import Typography from "@material-ui/core/Typography"
 import outboundIcon from "@components/icons/outbound.png"
-import inboundIcon from "@components/icons/inbound.png"
 import { getCountryFromISO } from "@/utils/mapBaiduCountry"
 import Tooltip from "@material-ui/core/Tooltip"
 import styled from "styled-components"
 import { useTranslation } from "react-i18next"
-import { withLanguage } from "@/utils/i18n"
+import { withLanguage, getLocalizedPath } from "@/utils/i18n"
 import _groupBy from "lodash.groupby"
 
 const StyledTooltip = styled(props => (
@@ -45,13 +44,6 @@ const Chip = styled("div")`
 const outboundPaperStyle = {
   background:
     "linear-gradient(225deg, rgba(211,75,111,1) 0%, rgba(167,12,53,1) 100%)",
-  height: "100%",
-  borderRadius: 12,
-}
-
-const inboundPaperStyle = {
-  background:
-    "linear-gradient(225deg, rgba(80,80,150,1) 0%, rgba(45,45,113,1) 100%)",
   height: "100%",
   borderRadius: 12,
 }
@@ -96,7 +88,7 @@ const CountryChip = ({
   </Grid>
 )
 
-const BorderShutdown = props => {
+const OutboundAlert = props => {
   const { data } = props
 
   const { t, i18n } = useTranslation()
@@ -117,11 +109,10 @@ const BorderShutdown = props => {
   const countryGrouped = _groupBy(countryNodes, "category")
 
   countryGrouped["outbound"] = _groupBy(countryGrouped["outbound"], "status")
-  countryGrouped["inbound"] = _groupBy(countryGrouped["inbound"], "status")
 
   return (
-    <Grid container style={{ paddingTop: 25 }} spacing={2}>
-      <Grid item xs={12} md={6}>
+    <Grid container style={{ marginBottom: "10px" }} spacing={2}>
+      <Grid item xs={12}>
         <Paper style={outboundPaperStyle}>
           <Grid container>
             <Grid item xs={12} container style={{ height: 90 }}>
@@ -140,59 +131,50 @@ const BorderShutdown = props => {
                 />
               </Grid>
             </Grid>
-            {Object.values(countryGrouped["outbound"]).map(group => (
-              <Grid item xs={12} container key={group[0].status}>
-                <Grid item xs={12}>
-                  <Typography
-                    style={{ color: "white", paddingLeft: 20 }}
-                    children={group[0].status}
-                  />
-                </Grid>
-                <Grid item xs={12} container style={{ padding: "10px 20px" }}>
-                  {group.map(props => (
-                    <CountryChip t={t} {...props} key={props.country_name} />
-                  ))}
-                </Grid>
-              </Grid>
-            ))}
-          </Grid>
-        </Paper>
-      </Grid>
-
-      <Grid item xs={12} md={6}>
-        <Paper style={inboundPaperStyle}>
-          <Grid container>
-            <Grid item xs={12} container style={{ height: 90 }}>
-              <Grid item xs={7}>
-                <Typography
-                  variant="h2"
-                  style={{ color: "white", padding: "30px 20px 0" }}
-                  children={t("world.border_shutdown_inbound")}
-                />
-              </Grid>
-              <Grid item xs={5}>
-                <img
-                  src={inboundIcon}
-                  style={{ width: "100%", position: "relative", top: -30 }}
-                  alt={"inbound border shutdown"}
-                />
-              </Grid>
-            </Grid>
-            {Object.values(countryGrouped["inbound"]).map(group => (
-              <Grid item xs={12} container key={group[0].status}>
-                <Grid item xs={12}>
-                  <Typography
-                    style={{ color: "white", paddingLeft: 20 }}
-                    children={group[0].status}
-                  />
-                </Grid>
-                <Grid item xs={12} container style={{ padding: "10px 20px" }}>
-                  {group.map(props => (
-                    <CountryChip t={t} {...props} key={props.country_name} />
-                  ))}
-                </Grid>
-              </Grid>
-            ))}
+            {Object.values(countryGrouped["outbound"])
+              .slice(0, 3)
+              .map(group => {
+                return (
+                  <Grid item xs={12} container key={group[0].status}>
+                    <Grid item xs={12}>
+                      <Typography
+                        style={{ color: "white", paddingLeft: 20 }}
+                        children={group[0].status}
+                      />
+                    </Grid>
+                    <Grid
+                      item
+                      xs={12}
+                      container
+                      style={{ padding: "10px 20px" }}
+                    >
+                      {group.slice(0, 3).map(props => {
+                        return (
+                          <CountryChip
+                            t={t}
+                            {...props}
+                            key={props.country_name}
+                          />
+                        )
+                      })}
+                      {group.length > 3 && (
+                        <Grid item style={{ padding: 5 }}>
+                          <Link
+                            href={getLocalizedPath(i18n, "/world")}
+                            style={{ textDecoration: "none" }}
+                          >
+                            <Chip>
+                              {t("world.border_shutdown_more_items", {
+                                items: group.length - 3,
+                              })}
+                            </Chip>
+                          </Link>
+                        </Grid>
+                      )}
+                    </Grid>
+                  </Grid>
+                )
+              })}
           </Grid>
         </Paper>
       </Grid>
@@ -200,4 +182,4 @@ const BorderShutdown = props => {
   )
 }
 
-export default BorderShutdown
+export default OutboundAlert

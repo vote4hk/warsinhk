@@ -17,6 +17,7 @@ import capitalize from "lodash/capitalize"
 
 const PlotsWrapper = styled(Grid)`
   ${bps.up("lg")} {
+    display: block;
     flex-direction: column;
 
     > * {
