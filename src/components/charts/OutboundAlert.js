@@ -175,6 +175,18 @@ const OutboundAlert = props => {
                   </Grid>
                 )
               })}
+            <Grid item xs style={{ padding: "0px 20px 15px" }}>
+              <Link
+                href={getLocalizedPath(i18n, "/world")}
+                style={{ textDecoration: "none" }}
+              >
+                <Typography
+                  variant="body1"
+                  style={{ color: "white", textAlign: "right" }}
+                  children={t("index.see_more")}
+                />
+              </Link>
+            </Grid>
           </Grid>
         </Paper>
       </Grid>

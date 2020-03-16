@@ -397,16 +397,9 @@ export default function IndexPage({ data }) {
                 <ConfirmedCaseVisual />
               </React.Suspense>
             )}
-            <OutboundAlert data={data.allBorderShutdown.edges} />
-            <FullWidthButton
-              component={InternalLink}
-              to={getLocalizedPath(i18n, "/world")}
-              variant="outlined"
-            >
-              {t("index.see_more")}
-            </FullWidthButton>
           </SessionWrapper>
           <SessionWrapper>
+            <OutboundAlert data={data.allBorderShutdown.edges} />
             <FriendlyLinksContainer>
               <Grid container spacing={1}>
                 {data.allFriendlyLink.edges.map((item, index) => (
