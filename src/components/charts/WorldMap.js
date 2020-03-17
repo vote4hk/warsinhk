@@ -72,15 +72,15 @@ const WorldMap = ({ data }) => {
   const getRadius = num => {
     switch (true) {
       case num <= 10:
-        return 5
+        return 2
       case num > 10 && num <= 50:
-        return 10
+        return 5
       case num > 50 && num <= 100:
-        return 15
+        return 7
       case num > 100 && num <= 500:
-        return 20
+        return 10
       case num > 500:
-        return 30
+        return 15
       default:
         return 0
     }
@@ -122,23 +122,23 @@ const WorldMap = ({ data }) => {
         ))}
       </g>
       <g>
-        {countries.map((city, i) => (
+        {countries.map((country, i) => (
           <StyledTooltip
             key={`tooltip-${i}`}
-            title={<ToolTipTitle props={city} />}
+            title={<ToolTipTitle props={country} />}
             enterTouchDelay={10}
             leaveTouchDelay={100}
           >
             <circle
               key={`marker-${i}`}
-              cx={projection(city.coordinates)[0]}
+              cx={projection(country.coordinates)[0]}
               cy={
-                projection(city.coordinates)[1]
-                  ? projection(city.coordinates)[1]
+                projection(country.coordinates)[1]
+                  ? projection(country.coordinates)[1]
                   : 0
               }
-              r={getRadius(city.confirmed)}
-              fill={`rgba(207, 7, 7, ${getTransparency(city.confirmed)})`}
+              r={getRadius(country.confirmed)}
+              fill={`rgba(207, 7, 7, ${getTransparency(country.confirmed)})`}
               stroke="#FFFFFF"
               className="marker"
             />
