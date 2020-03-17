@@ -41,6 +41,8 @@ const PUBLISHED_SPREADSHEET_WARS_CASES_RELATIONSHIP_URL =
   "https://docs.google.com/spreadsheets/d/e/2PACX-1vQS7Aay-dZbemZAxbW1oVrC5QKnT9wPjd55hSGGnXGj8_jdZJa9dsKYI--dTv4EU--xt_HGIDZsdNEw/pub?gid=0"
 const PUBLISHED_SPREADSHEET_WARS_CASES_LOCATION_599C_URL =
   "https://docs.google.com/spreadsheets/d/e/2PACX-1vQcfO-bjeNxNSJ2AFQdv-a855leMyzgO7Q7QXwgCGGmCAx7PwUxgrfcuJM8BLDCQL-nwnt123OZ4_mT/pub?gid=456240224"
+const PUBLISHED_SPREADSHEET_TRAVEL_ALERT_URL =
+  "https://docs.google.com/spreadsheets/u/1/d/e/2PACX-1vQOnfZtGysW5qVe9FferSvhSODKa9ASH7SeqCGAGJSz8ZV7POm3kzFqfkbVAgryHKdj9WwLKXJai332/pub?gid=0"
 
 const GRAPHQL_URL = "https://api2.vote4.hk/v1/graphql"
 
@@ -497,6 +499,13 @@ exports.sourceNodes = async props => {
       { skipFirstLine: true }
     ),
     createPublishedGoogleSpreadsheetNode(
+      props,
+      PUBLISHED_SPREADSHEET_TRAVEL_ALERT_URL,
+      "BorderShutdown",
+      { skipFirstLine: true }
+    ),
+    createNode(props, SHEET_ALERT_MASTER, "Alert"),
+    createNode(
       props,
       PUBLISHED_SPREADSHEET_TRAVEL_ALERT_URL,
       "BorderShutdown",
