@@ -122,10 +122,10 @@
   },
   {
     "country_emoji": "🇧🇸",
-    "baidu_country_name": "巴哈马群岛",
-    "baidu_country_name_translated": "巴哈馬群島",
+    "baidu_country_name": "巴哈马",
+    "baidu_country_name_translated": "巴哈馬",
     "country_en": "Bahamas",
-    "country_zh": "巴哈馬群島",
+    "country_zh": "巴哈馬",
     "topo_country_names": "Bahamas",
     "iso_code": 44,
     "latitude": 24.25,
@@ -200,7 +200,7 @@
   {
     "country_emoji": "🇧🇯",
     "baidu_country_name": "贝宁",
-    "baidu_country_name_translated": "貝寧",
+    "baidu_country_name_translated": "貝寜",
     "country_en": "Benin",
     "country_zh": "貝寧",
     "topo_country_names": "Benin",
@@ -497,7 +497,7 @@
   {
     "country_emoji": "🇨🇩",
     "baidu_country_name": "刚果民主共和国",
-    "baidu_country_name_translated": "剛果",
+    "baidu_country_name_translated": "剛果（金）",
     "country_en": "Democratic Republic of Congo",
     "country_zh": "剛果民主共和國",
     "topo_country_names": "Dem. Rep. Congo",
@@ -764,10 +764,10 @@
     "baidu_country_name_translated": "格林納達",
     "country_en": "Grenada",
     "country_zh": "格林納達",
-    "topo_country_names": "Greenland",
-    "iso_code": 304,
-    "latitude": 72,
-    "longitude": -40
+    "topo_country_names": "",
+    "iso_code": "",
+    "latitude": "",
+    "longitude": ""
   },
   {
     "country_emoji": "🇬🇹",
@@ -805,7 +805,7 @@
   {
     "country_emoji": "🇬🇾",
     "baidu_country_name": "圭亚那",
-    "baidu_country_name_translated": "圭亞那",
+    "baidu_country_name_translated": "圭亞那閤作共和國",
     "country_en": "Guyana",
     "country_zh": "圭亞那",
     "topo_country_names": "Guyana",
@@ -1080,7 +1080,7 @@
   {
     "country_emoji": "🇱🇷",
     "baidu_country_name": "利比里亚",
-    "baidu_country_name_translated": "利比里亞",
+    "baidu_country_name_translated": "利比裏亞",
     "country_en": "Liberia",
     "country_zh": "利比里亞",
     "topo_country_names": "Liberia",
@@ -1234,7 +1234,7 @@
   {
     "country_emoji": "🇲🇷",
     "baidu_country_name": "毛里塔尼亚",
-    "baidu_country_name_translated": "毛里塔尼亞",
+    "baidu_country_name_translated": "毛裏塔尼亞",
     "country_en": "Mauritania",
     "country_zh": "毛里塔尼亞",
     "topo_country_names": "Mauritania",
@@ -1299,8 +1299,8 @@
   },
   {
     "country_emoji": "🇲🇳",
-    "baidu_country_name": "蒙古",
-    "baidu_country_name_translated": "蒙古",
+    "baidu_country_name": "蒙古国",
+    "baidu_country_name_translated": "濛古國",
     "country_en": "Mongolia",
     "country_zh": "蒙古",
     "topo_country_names": "Mongolia",
@@ -1608,7 +1608,7 @@
   {
     "country_emoji": "🇨🇬",
     "baidu_country_name": "刚果共和国",
-    "baidu_country_name_translated": "剛果共和國",
+    "baidu_country_name_translated": "剛果（布）",
     "country_en": "Republic of Congo",
     "country_zh": "剛果共和國",
     "topo_country_names": "Congo",
@@ -1750,14 +1750,14 @@
   },
   {
     "country_emoji": "🇸🇨",
-    "baidu_country_name": "塞舌尔群岛",
-    "baidu_country_name_translated": "塞舌爾群島",
+    "baidu_country_name": "塞舌尔",
+    "baidu_country_name_translated": "塞舌爾",
     "country_en": "Seychelles",
-    "country_zh": "塞舌爾群島",
+    "country_zh": "塞舌爾",
     "topo_country_names": "",
-    "iso_code": "",
-    "latitude": "",
-    "longitude": ""
+    "iso_code": 690,
+    "latitude": -4.5833,
+    "longitude": 55.6667
   },
   {
     "country_emoji": "🇸🇱",
@@ -1817,7 +1817,7 @@
   {
     "country_emoji": "🇸🇴",
     "baidu_country_name": "索马里",
-    "baidu_country_name_translated": "索馬里",
+    "baidu_country_name_translated": "索馬裏",
     "country_en": "Somalia",
     "country_zh": "索馬里",
     "topo_country_names": "Somalia",
@@ -2125,7 +2125,7 @@
   {
     "country_emoji": "🇺🇿",
     "baidu_country_name": "乌兹别克斯坦",
-    "baidu_country_name_translated": "烏茲別克斯坦",
+    "baidu_country_name_translated": "烏茲彆克斯坦",
     "country_en": "Uzbekistan",
     "country_zh": "烏茲別克",
     "topo_country_names": "Uzbekistan",
@@ -2151,9 +2151,9 @@
     "country_en": "Vatican City",
     "country_zh": "梵蒂岡城",
     "topo_country_names": "",
-    "iso_code": "",
-    "latitude": "",
-    "longitude": ""
+    "iso_code": 336,
+    "latitude": 41.9,
+    "longitude": 12.45
   },
   {
     "country_emoji": "🇻🇪",
@@ -2277,11 +2277,11 @@
     "longitude": 67
   },
   {
-    "country_emoji": "",
-    "baidu_country_name": "",
-    "baidu_country_name_translated": "",
-    "country_en": "",
-    "country_zh": "",
+    "country_emoji": "🇵🇷",
+    "baidu_country_name": "波多黎各",
+    "baidu_country_name_translated": "波多黎各",
+    "country_en": "Puerto Rico",
+    "country_zh": "波多黎各",
     "topo_country_names": "Puerto Rico",
     "iso_code": 630,
     "latitude": 18.25,
@@ -2341,5 +2341,38 @@
     "iso_code": 446,
     "latitude": 22.1667,
     "longitude": 113.55
+  },
+  {
+    "country_emoji": "🚢",
+    "baidu_country_name": "钻石公主号邮轮",
+    "baidu_country_name_translated": "鑽石公主號郵輪",
+    "country_en": "Diamond Princess",
+    "country_zh": "鑽石公主號",
+    "topo_country_names": "",
+    "iso_code": "",
+    "latitude": "",
+    "longitude": ""
+  },
+  {
+    "country_emoji": "🇬🇱",
+    "baidu_country_name": "格陵兰岛",
+    "baidu_country_name_translated": "格陵蘭島",
+    "country_en": "Greenland",
+    "country_zh": "格陵蘭島",
+    "topo_country_names": "Greenland",
+    "iso_code": 304,
+    "latitude": 72,
+    "longitude": -40
+  },
+  {
+    "country_emoji": "🌎",
+    "baidu_country_name": "所以國家",
+    "baidu_country_name_translated": "所以國家",
+    "country_en": "All Countries",
+    "country_zh": "所以國家",
+    "topo_country_names": "",
+    "iso_code": 0,
+    "latitude": "",
+    "longitude": ""
   }
 ]
