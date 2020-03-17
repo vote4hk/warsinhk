@@ -12,7 +12,7 @@ import {
   mapColorForClassification,
   mapColorForStatus,
 } from "@/utils/colorHelper"
-import { formatDateMDD } from "@/utils"
+import { formatDateDDMM } from "@/utils"
 import * as d3 from "d3"
 import _get from "lodash.get"
 
@@ -28,6 +28,9 @@ const WarsCaseContainer = styled(Box)`
       : "0px 2px 1px -1px rgba(0,0,0,0.2), 0px 1px 1px 0px rgba(0,0,0,0.14), 0px 1px 3px 0px rgba(0,0,0,0.12)"};
 
   border-top: 3px ${props => props.statuscolor} solid;
+  max-height: 80vh;
+  overflow-y: auto;
+  
 
   a {
     color: ${props => props.theme.palette.primary.main};
@@ -212,9 +215,7 @@ export const WarsCaseCard = React.forwardRef((props, ref) => {
             <b>
               {node.onset_date.match(dateFormat)
                 ? node.onset_date
-                : node.onset_date &&
-                  (node.onset_date.toLowerCase() === "asymptomatic" ||
-                    node.onset_date.toLowerCase() === "none")
+                : node.onset_date === "asymptomatic"
                 ? t("cases.asymptomatic")
                 : ""}
             </b>
