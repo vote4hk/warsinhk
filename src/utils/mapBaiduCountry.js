@@ -18,10 +18,9 @@ const mapBaiduCountry = countryName => {
     country_en: cn,
     country_zh: cn,
     topo_country_names: cn,
-    // this coordinate won't appear on map
-    iso_code: 0,
-    latitude: -90,
-    longitude: 0,
+    iso_code: "",
+    latitude: "",
+    longitude: "",
   }
 
   return (
@@ -29,9 +28,21 @@ const mapBaiduCountry = countryName => {
   )
 }
 
-export const getBaiduCountryFromISO = iso => {
+export const getCountryFromISO = iso => {
   const country = find(countryMappingJSON, { iso_code: iso })
-  return country ? country.baidu_country_name : ""
+  return (
+    country || {
+      country_emoji: "",
+      baidu_country_name: "",
+      baidu_country_name_translated: "",
+      country_en: "",
+      country_zh: "",
+      topo_country_names: "",
+      iso_code: iso,
+      latitude: "",
+      longitude: "",
+    }
+  )
 }
 
 export default mapBaiduCountry
