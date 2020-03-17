@@ -44,7 +44,7 @@
   "waiting_time.hour": "hr",
   "index.title": "Latest Update",
   "index.latest_case": "New Cases",
-  "index.see_more": "See more",
+  "index.see_more": "See more >",
   "index.highlight": "Case highlights",
   "dodgy_shops.title": "Dubious Pharmacies",
   "news.title": "Latest News",
@@ -173,5 +173,6 @@
   "world.border_shutdown_outbound": "Outbound",
   "world.border_shutdown_inbound": "Inbound",
   "world.border_shutdown_last_update": "Last update: {{date}}",
-  "world.border_shutdown_more_info": "View more"
+  "world.border_shutdown_more_info": "View more",
+  "world.border_shutdown_more_items": "{{items}} more ..."
 }

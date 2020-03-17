@@ -1,28 +1,45 @@
 import React from "react"
 import find from "lodash.find"
 import * as d3 from "d3"
+import Tooltip from "@material-ui/core/Tooltip"
+import Typography from "@material-ui/core/Typography"
+import { withStyles } from "@material-ui/core/styles"
+import { useTranslation } from "react-i18next"
+import { withLanguage } from "@/utils/i18n"
 import { feature } from "topojson-client"
 import worldJson from "./world-110m"
-import mapBaiduCountry, {
-  getBaiduCountryFromISO,
-} from "@/utils/mapBaiduCountry"
+import mapBaiduCountry from "@/utils/mapBaiduCountry"
 
 const projection = d3
   .geoMercator()
   .scale(120)
   .translate([380, 280])
 
+const StyledTooltip = withStyles({
+  tooltip: {
+    backgroundColor: "white",
+    color: "rgba(0, 0, 0, 0.87)",
+    fontSize: 10,
+    borderRadius: 14,
+    padding: 10,
+  },
+})(Tooltip)
+
 const WorldMap = ({ data }) => {
   const [hoveredCountry, setHoverCountry] = React.useState("")
   const geographies = feature(worldJson, worldJson.objects.countries).features
+  const { i18n, t } = useTranslation()
 
-  const cities = data.map(d => {
+  const countries = data.map(d => {
     const country = mapBaiduCountry(d.area)
-
     return {
-      name: country.country_zh,
+      iso: country.iso_code,
+      name: withLanguage(i18n, country, "country"),
+      emoji: country.country_emoji,
       coordinates: [country.longitude, country.latitude],
       confirmed: d.confirmed,
+      died: d.died,
+      cured: d.crued,
     }
   })
 
@@ -30,13 +47,9 @@ const WorldMap = ({ data }) => {
     setHoverCountry(geographies[countryIndex].id)
   }
 
-  const handleMarkerClick = i => {
-    // TODO: show tooltips
-  }
-
-  const getDiedNumber = countryName => {
-    const country = find(data, { area: countryName })
-    return getTransparency(country ? country.died * 10 : 0)
+  const getTransparencyByCountryDeath = countryIso => {
+    const country = find(countries, { iso: countryIso })
+    return getTransparency(country ? country.died * 1 : 0)
   }
 
   const getTransparency = num => {
@@ -73,6 +86,20 @@ const WorldMap = ({ data }) => {
     }
   }
 
+  const ToolTipTitle = ({ props }) => {
+    const formatZero = num => (num === 0 ? "-" : num)
+    return (
+      <>
+        <Typography color="inherit" variant="h6">
+          {props.emoji} {props.name}
+        </Typography>
+        {`${t("world.ranking_confirmed")}: ${formatZero(props.confirmed)} `}
+        {`${t("cases.status_deceased")}: ${formatZero(props.died)} `}
+        {`${t("cases.status_discharged")}: ${formatZero(props.cured)} `}
+      </>
+    )
+  }
+
   return (
     <svg width="100%" viewBox="0 0 800 450">
       <g>
@@ -83,8 +110,8 @@ const WorldMap = ({ data }) => {
             fill={
               hoveredCountry === d.id
                 ? "rgba(38,50,56,0.2)"
-                : `rgba(38,50,56, ${getDiedNumber(
-                    getBaiduCountryFromISO(Number(d.id))
+                : `rgba(38,50,56, ${getTransparencyByCountryDeath(
+                    Number(d.id)
                   )})`
             }
             stroke="#FFFFFF"
@@ -95,17 +122,27 @@ const WorldMap = ({ data }) => {
         ))}
       </g>
       <g>
-        {cities.map((city, i) => (
-          <circle
-            key={`marker-${i}`}
-            cx={projection(city.coordinates)[0]}
-            cy={projection(city.coordinates)[1]}
-            r={getRadius(city.confirmed)}
-            fill={`rgba(207, 7, 7, ${getTransparency(city.confirmed)})`}
-            stroke="#FFFFFF"
-            className="marker"
-            onClick={() => handleMarkerClick(i)}
-          />
+        {countries.map((city, i) => (
+          <StyledTooltip
+            key={`tooltip-${i}`}
+            title={<ToolTipTitle props={city} />}
+            enterTouchDelay={10}
+            leaveTouchDelay={100}
+          >
+            <circle
+              key={`marker-${i}`}
+              cx={projection(city.coordinates)[0]}
+              cy={
+                projection(city.coordinates)[1]
+                  ? projection(city.coordinates)[1]
+                  : 0
+              }
+              r={getRadius(city.confirmed)}
+              fill={`rgba(207, 7, 7, ${getTransparency(city.confirmed)})`}
+              stroke="#FFFFFF"
+              className="marker"
+            />
+          </StyledTooltip>
         ))}
       </g>
     </svg>
