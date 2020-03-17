@@ -158,16 +158,10 @@ export const WarsCaseBoxLegend = React.forwardRef((props, ref) => {
   return (
     <>
       {caseGroup.map(({ node }, id) => {
-        const c = {
-          node: {
-            case_no: withLanguage(i18n, node, "name"),
-            status: "hospitalised",
-            group_id: id,
-            gender: "-",
-          },
-        }
         return (
-        <li style={{ color: colorArray[id || 0] }}>{withLanguage(i18n, node, 'name')}</li>
+          <li style={{ color: colorArray[id || 0] }}>
+            {withLanguage(i18n, node, "name")}
+          </li>
         )
       })}
     </>
@@ -269,7 +263,7 @@ export const WarsCaseBoxContainer = React.forwardRef((props, ref) => {
             ({ node }) => dateMap[node.confirmation_date] === dateKey
           ).length > 0 && (
             <WarsGroupContainer>
-              <GroupHeader variant='h6'>{dateKey}</GroupHeader>
+              <GroupHeader variant="h6">{dateKey}</GroupHeader>
               <StyledContainer>
                 {filteredCases
                   .filter(
