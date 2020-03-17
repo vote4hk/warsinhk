@@ -1855,8 +1855,8 @@
     "country_zh": "南蘇丹",
     "topo_country_names": "S. Sudan",
     "iso_code": 728,
-    "latitude": "",
-    "longitude": ""
+    "latitude": 4.859363,
+    "longitude": 31.571251
   },
   {
     "country_emoji": "🇪🇸",
@@ -1888,8 +1888,8 @@
     "country_zh": "蘇丹",
     "topo_country_names": "Sudan",
     "iso_code": 729,
-    "latitude": "",
-    "longitude": ""
+    "latitude": 15.564836,
+    "longitude": 32.529831
   },
   {
     "country_emoji": "🇸🇷",
@@ -2350,8 +2350,8 @@
     "country_zh": "鑽石公主號",
     "topo_country_names": "",
     "iso_code": "",
-    "latitude": "",
-    "longitude": ""
+    "latitude": 35.443707,
+    "longitude": 139.638031
   },
   {
     "country_emoji": "🇬🇱",
@@ -2366,10 +2366,10 @@
   },
   {
     "country_emoji": "🌎",
-    "baidu_country_name": "所有國家",
-    "baidu_country_name_translated": "所有國家",
-    "country_en": "All Countries",
-    "country_zh": "所有國家",
+    "baidu_country_name": "全球",
+    "baidu_country_name_translated": "全球",
+    "country_en": "The World",
+    "country_zh": "全球",
     "topo_country_names": "",
     "iso_code": 0,
     "latitude": "",
