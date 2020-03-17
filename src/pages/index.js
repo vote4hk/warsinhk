@@ -15,8 +15,9 @@ import FormGroup from "@material-ui/core/FormGroup"
 import FormControlLabel from "@material-ui/core/FormControlLabel"
 import Checkbox from "@material-ui/core/Checkbox"
 import AlertMessage from "@components/organisms/AlertMessage"
-import _get from "lodash.get"
-import CircularProgress from "@material-ui/core/CircularProgress"
+import OutboundAlert from "@components/charts/OutboundAlert"
+import { Paragraph } from "@components/atoms/Text"
+import Grid from "@material-ui/core/Grid"
 import { trackCustomEvent } from "gatsby-plugin-google-analytics"
 
 // default modules for user that doesn't configure at beginning. ORDER DOES MATTER!
@@ -77,8 +78,19 @@ const ComponentLoading = styled(props => {
   width: 100%;
 `
 
-export default function IndexPage({ data }) {
-  const { t } = useTranslation()
+const FriendlyLinksContainer = styled(Box)`
+  margin-bottom: 16px;
+`
+const CarouselContainer = styled.div`
+  margin: 16px 0;
+`
+
+const CarouselCell = styled.img`
+  width: 66%;
+  max-width: 220px;
+  height: 120px;
+  margin-right: 12px;
+`
 
   const [modules, setModules] = React.useState([])
   const [showSettings, setShowSettings] = React.useState(false)
@@ -177,15 +189,10 @@ export default function IndexPage({ data }) {
       )
     )
 
-    registerComponent(
-      "confirmed_digest_age",
-      "dashboard.case_highlights_age",
-      React.lazy(() =>
-        import(
-          /* webpackPrefetch: true */ "@/components/molecules/dashboard/ConfirmedCaseDigestAge"
-        )
-      )
-    )
+export default function IndexPage({ data }) {
+  const { i18n, t } = useTranslation()
+
+  const isMobile = useMediaQuery({ maxWidth: 960 })
 
     registerComponent(
       "outbound_alert",
@@ -240,19 +247,101 @@ export default function IndexPage({ data }) {
       }
     )
 
-    registerComponent(
-      "epidemic_chart",
-      "dashboard.epidemic_chart",
-      React.lazy(() =>
-        import(
-          /* webpackPrefetch: true */ "@/components/molecules/dashboard/EpidemicChart.js"
-        )
-      ),
+  const bannerImages = {
+    zh: [
+      { img: ImageZh1, isExternal: true, url: "https://bit.ly/wars1001" },
+      { img: ImageZh2, isExternal: false, url: "https://wars.vote4.hk/world" },
+      { img: ImageZh3, isExternal: true, url: "http://bit.ly/3cLtKeL" },
+    ],
+    en: [
       {
-        rowSpan: 4,
-      }
-    )
+        img: ImageEn1,
+        isExternal: false,
+        url: "https://wars.vote4.hk/en/world",
+      },
+      { img: ImageEn2, isExternal: true, url: "http://bit.ly/3cLtKeL" },
+    ],
   }
+
+  const bannerImagesArray =
+    bannerImages[i18n.language].length < 4
+      ? [...bannerImages[i18n.language], ...bannerImages[i18n.language]]
+      : bannerImages[i18n.language]
+
+  return (
+    <>
+      <SEO title="Home" />
+      <Layout>
+        <SplitWrapper>
+          <SessionWrapper>
+            <IndexAlertMessage />
+            <Typography variant="h2">{t("index.title")}</Typography>
+            <Typography variant="body2">
+              <Link
+                href="https://www.chp.gov.hk/tc/features/102465.html"
+                target="_blank"
+              >
+                {t("dashboard.source_chpgovhk")}
+              </Link>
+            </Typography>
+            <Typography variant="body2" color="textPrimary">
+              {`${t("dashboard.last_updated")}${
+                latestFiguresOverride.date > latestFigures.date
+                  ? latestFiguresOverride.date
+                  : latestFigures.date
+              }`}
+            </Typography>
+            <BasicCard>
+              <DailyStats
+                t={t}
+                botdata={data.allBotWarsLatestFigures.edges}
+                overridedata={latestFiguresOverride}
+              />
+            </BasicCard>
+            {remarksText && (
+              <Typography variant="body2" color="textPrimary">
+                {remarksText}
+              </Typography>
+            )}
+            {!isSSR() && (
+              <React.Suspense fallback={<div />}>
+                <CarouselContainer>
+                  <Carousel
+                    options={{
+                      autoPlay: false,
+                      wrapAround: true,
+                      adaptiveHeight: false,
+                      prevNextButtons: isMobile ? false : true,
+                      pageDots: false,
+                    }}
+                  >
+                    {bannerImagesArray.map((b, index) => (
+                      <CarouselCell
+                        key={index}
+                        onClick={() => {
+                          trackCustomEvent({
+                            category: "carousel_banner",
+                            action: "click",
+                            label: b.url,
+                          })
+                          window.open(b.url, b.isExternal ? "_blank" : "_self")
+                        }}
+                        src={b.img}
+                        alt=""
+                      />
+                    ))}
+                  </Carousel>
+                </CarouselContainer>
+              </React.Suspense>
+            )}
+            {isMobile && (
+              <Typography variant="h2">{t("index.highlight")}</Typography>
+            )}
+            {isMobile && !isSSR() && (
+              <React.Suspense fallback={<div />}>
+                <ConfirmedCaseVisual />
+              </React.Suspense>
+            )}
 
   const handleModuleChange = id => {
     const index = modules.indexOf(id)
@@ -300,69 +389,209 @@ export default function IndexPage({ data }) {
     }
   }
 
-  return (
-    <>
-      <SEO title="Home" />
-      <Layout>
-        <IndexContainer>
-          {showSettings && (
-            <ModuleContainer className="settingContainer">
-              <FormControl component="fieldset">
-                <FormLabel component="legend">
-                  {t("dashboard.settings")}
-                </FormLabel>
-                {Object.values(components).map(component => (
-                  <FormGroup>
-                    <FormControlLabel
-                      control={
-                        <Checkbox
-                          color="primary"
-                          checked={modules.indexOf(component.id) >= 0}
-                          onChange={() => handleModuleChange(component.id)}
-                        />
-                      }
-                      label={component.title}
-                    />
-                  </FormGroup>
+            {!isMobile && (
+              <Typography variant="h2">{t("index.highlight")}</Typography>
+            )}
+            {!isMobile && !isSSR() && (
+              <React.Suspense fallback={<div />}>
+                <ConfirmedCaseVisual />
+              </React.Suspense>
+            )}
+          </SessionWrapper>
+          <SessionWrapper>
+            <OutboundAlert data={data.allBorderShutdown.edges} />
+            <FriendlyLinksContainer>
+              <Grid container spacing={1}>
+                {data.allFriendlyLink.edges.map((item, index) => (
+                  <Grid item xs={12} md={6} key={index}>
+                    <FullWidthButton
+                      index={index}
+                      component={Link}
+                      href={item.node.source_url}
+                      target="_blank"
+                      variant="outlined"
+                    >
+                      {item.node.title}
+                    </FullWidthButton>
+                  </Grid>
                 ))}
-              </FormControl>
-            </ModuleContainer>
-          )}
-          <SplitWrapper>
-            <SessionWrapper>
-              <IndexAlertMessage />
-              {modules
-                .filter((_, i) => columnMap[i] === "left")
-                .map((m, i) => (
-                  <React.Fragment key={i}>
-                    {renderComponent(m, data)}
-                  </React.Fragment>
-                ))}
-            </SessionWrapper>
-            <SessionWrapper>
-              {modules
-                .filter((_, i) => columnMap[i] === "right")
-                .map((m, i) => (
-                  <React.Fragment key={i}>
-                    {renderComponent(m, data)}
-                  </React.Fragment>
-                ))}
-            </SessionWrapper>
-          </SplitWrapper>
-          <Fab
-            color="primary"
-            className="fab"
-            onClick={() => {
-              if (!showSettings) {
-                window.scrollTo(0, 0)
-              }
-              setShowSettings(!showSettings)
-            }}
-          >
-            <SettingIcon />
-          </Fab>
-        </IndexContainer>
+              </Grid>
+            </FriendlyLinksContainer>
+            <Typography variant="h2">{t("index.latest_case")}</Typography>
+            {latestCases.map((item, index) => (
+              <WarsCaseCard
+                key={index}
+                node={item.node}
+                showViewMore={true}
+                i18n={i18n}
+                t={t}
+              />
+            ))}
+            <FullWidthButton
+              component={InternalLink}
+              to={getLocalizedPath(i18n, "/cases")}
+              variant="outlined"
+            >
+              {t("index.see_more")}
+            </FullWidthButton>
+          </SessionWrapper>
+        </SplitWrapper>
       </Layout>
     </>
   )
 }
+
+export const WarsCaseQuery = graphql`
+  query($locale: String) {
+    allImmdHongKongZhuhaiMacaoBridge(sort: { order: DESC, fields: date }) {
+      edges {
+        node {
+          arrival_hong_kong
+          arrival_mainland
+          arrival_other
+          arrival_total
+          date
+          departure_hong_kong
+          departure_mainland
+          departure_other
+          departure_total
+          location
+        }
+      }
+    }
+    allImmdTotal(sort: { order: DESC, fields: date }) {
+      edges {
+        node {
+          arrival_hong_kong
+          arrival_mainland
+          arrival_other
+          arrival_total
+          date
+          departure_hong_kong
+          departure_mainland
+          departure_other
+          departure_total
+          location
+        }
+      }
+    }
+    allImmdAirport(sort: { order: DESC, fields: date }) {
+      edges {
+        node {
+          arrival_hong_kong
+          arrival_mainland
+          arrival_other
+          arrival_total
+          date
+          departure_hong_kong
+          departure_mainland
+          departure_other
+          departure_total
+          location
+        }
+      }
+    }
+    allImmdShenzhenBay(sort: { order: DESC, fields: date }) {
+      edges {
+        node {
+          arrival_hong_kong
+          arrival_mainland
+          arrival_other
+          arrival_total
+          date
+          departure_hong_kong
+          departure_mainland
+          departure_other
+          departure_total
+          location
+        }
+      }
+    }
+    allBotWarsLatestFigures(sort: { order: DESC, fields: date }) {
+      edges {
+        node {
+          date
+          time
+          confirmed
+          ruled_out
+          investigating
+          reported
+          death
+          discharged
+        }
+      }
+    }
+    allWarsLatestFiguresOverride(sort: { order: DESC, fields: date }) {
+      edges {
+        node {
+          date
+          time
+          confirmed
+          ruled_out
+          investigating
+          reported
+          death
+          discharged
+          remarks_zh
+          remarks_en
+        }
+      }
+    }
+    allWarsCase(
+      sort: { order: [DESC, DESC], fields: [confirmation_date, case_no] }
+      limit: 5
+    ) {
+      edges {
+        node {
+          case_no
+          onset_date
+          confirmation_date
+          gender
+          age
+          hospital_zh
+          hospital_en
+          status
+          type_zh
+          type_en
+          citizenship_zh
+          citizenship_en
+          detail_zh
+          detail_en
+          classification
+          classification_zh
+          classification_en
+          source_url
+        }
+      }
+    }
+    allFriendlyLink(
+      sort: { fields: sort_order, order: DESC }
+      filter: { language: { eq: $locale } }
+    ) {
+      edges {
+        node {
+          language
+          title
+          source_url
+          sort_order
+        }
+      }
+    }
+    allBorderShutdown(sort: { order: ASC, fields: [category, status_order] }) {
+      edges {
+        node {
+          last_update
+          iso_code
+          category
+          detail_zh
+          detail_en
+          status_zh
+          status_en
+          status_order
+          source_url_zh
+          source_url_en
+        }
+      }
+    }
+  }
+`
