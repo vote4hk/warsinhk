@@ -189,7 +189,7 @@ export const WarsCaseBoxContainer = React.forwardRef((props, ref) => {
   const caseStartDate = moment("2020-01-21")
 
   const dateMap = {
-    [lastConfirmedDate]: moment(lastConfirmedDate).format("MMM DD"),
+    [lastConfirmedDate]: moment(lastConfirmedDate).format("M.DD"),
   }
   let date = moment(lastConfirmedDate).add(-1, "day")
   let count = 0
@@ -198,7 +198,7 @@ export const WarsCaseBoxContainer = React.forwardRef((props, ref) => {
     if (count % 7 === 0) {
       dateLabel = `${moment(date)
         .add(-7, "days")
-        .format("MMM DD")} - ${date.format("MMM DD")}`
+        .format("M.DD")} - ${date.format("M.DD")}`
     }
     dateMap[date.format("YYYY-MM-DD")] = dateLabel
     count++
@@ -269,7 +269,7 @@ export const WarsCaseBoxContainer = React.forwardRef((props, ref) => {
             ({ node }) => dateMap[node.confirmation_date] === dateKey
           ).length > 0 && (
             <WarsGroupContainer>
-              <GroupHeader>{dateKey}</GroupHeader>
+              <GroupHeader variant='h6'>{dateKey}</GroupHeader>
               <StyledContainer>
                 {filteredCases
                   .filter(
