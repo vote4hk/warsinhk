@@ -7,6 +7,7 @@ import _get from "lodash/get"
 import _uniq from "lodash/uniq"
 import * as moment from "moment"
 import { withLanguage } from "@/utils/i18n"
+import Typography from "@material-ui/core/Typography"
 
 const colorArray = [
   "#1a237e",
@@ -104,7 +105,7 @@ const WarsGroupContainer = styled(Box)`
   margin: 16px 0;
 `
 
-const GroupHeader = styled(Box)`
+const GroupHeader = styled(Typography)`
   margin-bottom: 4px;
 `
 
