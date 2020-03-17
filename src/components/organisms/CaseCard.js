@@ -238,6 +238,14 @@ export const WarsCaseCard = React.forwardRef((props, ref) => {
       <Row>
         <WarsCaseDetail>{withLanguage(i18n, node, "detail")}</WarsCaseDetail>
       </Row>
+      {node.group_id && <WarsCaseGroup>
+        <Row>
+        <Typography variant='body2'>{withLanguage(i18n, node, "group_name")}</Typography>
+        </Row>
+        <Row>
+        <>{withLanguage(i18n, node, "group_description")}</>
+      </Row>
+      </WarsCaseGroup>}
       <Row>
         <MuiLink href={node.source_url} target="_blank">
           {t("dashboard.source")}
