@@ -261,7 +261,7 @@ export const WarsCaseCard = React.forwardRef((props, ref) => {
           <Row>{withLanguage(i18n, node, "group_description")}</Row>
           <Row>
             {node.group_related_cases.split(",").map(rc => (
-              <>{`#${rc},`}</>
+              <span>{`#${rc},`}</span>
             ))}
           </Row>
         </WarsCaseGroup>
