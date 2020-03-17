@@ -62,6 +62,7 @@ const RelationPage = props => {
     node.case_no.split(",").forEach(nodeCase => {
       groupArray.push({
         ...node,
+        related_cases: node.case_no,
         case_no: nodeCase,
       })
     })
@@ -74,6 +75,7 @@ const RelationPage = props => {
       "description_zh",
       "description_en",
       "id",
+      "related_cases",
     ]
     groupKeys.forEach(k => {
       node[`group_${k}`] = _get(
