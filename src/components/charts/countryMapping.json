@@ -2366,10 +2366,10 @@
   },
   {
     "country_emoji": "🌎",
-    "baidu_country_name": "所以國家",
-    "baidu_country_name_translated": "所以國家",
+    "baidu_country_name": "所有國家",
+    "baidu_country_name_translated": "所有國家",
     "country_en": "All Countries",
-    "country_zh": "所以國家",
+    "country_zh": "所有國家",
     "topo_country_names": "",
     "iso_code": 0,
     "latitude": "",
