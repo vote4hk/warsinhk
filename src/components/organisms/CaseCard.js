@@ -28,7 +28,9 @@ const WarsCaseContainer = styled(Box)`
   box-shadow: 0px 2px 1px -1px rgba(0, 0, 0, 0.2),
     0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 1px 3px 0px rgba(0, 0, 0, 0.12);
   border-top: 3px ${props => props.statuscolor} solid;
-
+  max-height: 80vh;
+  overflow-y: auto;
+  
   .track-row {
     border-top: 1px #ddd solid;
     padding: 8px 0 8px;
@@ -49,6 +51,13 @@ const WarsCaseContainer = styled(Box)`
 
 const WarsCaseDetail = styled(Typography)`
   margin-top: 20px;
+`
+
+const WarsCaseGroup = styled.div`
+    margin-top: 16px;
+    padding: 8px 16px;
+    background: #eee;
+    border-radius: 8px;
 `
 
 const WarsSource = styled(Link)`
@@ -221,6 +230,14 @@ export const WarsCaseCard = React.forwardRef((props, ref) => {
       <Row>
         <WarsCaseDetail>{withLanguage(i18n, node, "detail")}</WarsCaseDetail>
       </Row>
+      {node.group_id && <WarsCaseGroup>
+        <Row>
+        <Typography variant='body2'>{withLanguage(i18n, node, "group_name")}</Typography>
+        </Row>
+        <Row>
+        <>{withLanguage(i18n, node, "group_description")}</>
+      </Row>
+      </WarsCaseGroup>}
       <Row>
         <WarsSource href={node.source_url} target="_blank">
           {t("dashboard.source")}
