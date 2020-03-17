@@ -30,7 +30,6 @@ const WarsCaseContainer = styled(Box)`
   border-top: 3px ${props => props.statuscolor} solid;
   max-height: 80vh;
   overflow-y: auto;
-  
 
   a {
     color: ${props => props.theme.palette.primary.main};
@@ -55,6 +54,19 @@ const WarsCaseContainer = styled(Box)`
 
 const WarsCaseDetail = styled(Typography)`
   margin-top: 20px;
+`
+
+const WarsCaseGroup = styled.div`
+  margin-top: 16px;
+  padding: 8px 16px;
+  background: #eee;
+  border-radius: 8px;
+
+  div:last-child {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+  }
 `
 
 const WarsRow = styled(Row)`
@@ -239,14 +251,21 @@ export const WarsCaseCard = React.forwardRef((props, ref) => {
       <Row>
         <WarsCaseDetail>{withLanguage(i18n, node, "detail")}</WarsCaseDetail>
       </Row>
-      {node.group_id && <WarsCaseGroup>
-        <Row>
-        <Typography variant='body2'>{withLanguage(i18n, node, "group_name")}</Typography>
-        </Row>
-        <Row>
-        <>{withLanguage(i18n, node, "group_description")}</>
-      </Row>
-      </WarsCaseGroup>}
+      {node.group_id && (
+        <WarsCaseGroup>
+          <Row>
+            <Typography variant="body2">
+              {withLanguage(i18n, node, "group_name")}
+            </Typography>
+          </Row>
+          <Row>{withLanguage(i18n, node, "group_description")}</Row>
+          <Row>
+            {node.group_related_cases.split(",").map(rc => (
+              <>{`#${rc},`}</>
+            ))}
+          </Row>
+        </WarsCaseGroup>
+      )}
       <Row>
         <MuiLink href={node.source_url} target="_blank">
           {t("dashboard.source")}
