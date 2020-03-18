@@ -36,8 +36,8 @@ const PUBLISHED_SPREADSHEET_BOT_WARS_LATEST_FIGURES_URL =
   "https://docs.google.com/spreadsheets/d/e/2PACX-1vTiCndDnXu6l5ZKq2aAVgU2xM3WGGW68XF-pEbLAloRbOzA1QwglLGJ6gTKjFbLQGhbH6GR2TsJKrO7/pub?gid=0"
 const PUBLISHED_SPREADSHEET_FRIENDLY_LINK_URL =
   "https://docs.google.com/spreadsheets/d/e/2PACX-1vRrwN4gNtogizNkYKGzMXpa7GTNJhE_vkZuYiFraU7f-N7ZKiT-araG-0jb586kczxc9Ua6oht8SVcE/pub?gid=0"
-const PUBLISHED_SPREADSHEET_WARS_CASES_LOCATION_599C_URL =
-  "https://docs.google.com/spreadsheets/d/e/2PACX-1vQcfO-bjeNxNSJ2AFQdv-a855leMyzgO7Q7QXwgCGGmCAx7PwUxgrfcuJM8BLDCQL-nwnt123OZ4_mT/pub?gid=456240224"
+// const PUBLISHED_SPREADSHEET_WARS_CASES_LOCATION_599C_URL =
+//   "https://docs.google.com/spreadsheets/d/e/2PACX-1vQcfO-bjeNxNSJ2AFQdv-a855leMyzgO7Q7QXwgCGGmCAx7PwUxgrfcuJM8BLDCQL-nwnt123OZ4_mT/pub?gid=456240224"
 const PUBLISHED_SPREADSHEET_TRAVEL_ALERT_URL =
   "https://docs.google.com/spreadsheets/u/1/d/e/2PACX-1vQOnfZtGysW5qVe9FferSvhSODKa9ASH7SeqCGAGJSz8ZV7POm3kzFqfkbVAgryHKdj9WwLKXJai332/pub?gid=0"
 
@@ -444,15 +444,15 @@ exports.sourceNodes = async props => {
         subtype: "default",
       }
     ),
-    createPublishedGoogleSpreadsheetNode(
-      props,
-      PUBLISHED_SPREADSHEET_WARS_CASES_LOCATION_599C_URL,
-      "WarsCaseLocation",
-      {
-        skipFirstLine: true,
-        subtype: "599c",
-      }
-    ),
+    // createPublishedGoogleSpreadsheetNode(
+    //   props,
+    //   PUBLISHED_SPREADSHEET_WARS_CASES_LOCATION_599C_URL,
+    //   "WarsCaseLocation",
+    //   {
+    //     skipFirstLine: true,
+    //     subtype: "599c",
+    //   }
+    // ),
     createPublishedGoogleSpreadsheetNode(
       props,
       PUBLISHED_SPREADSHEET_DODGY_SHOPS_URL,
