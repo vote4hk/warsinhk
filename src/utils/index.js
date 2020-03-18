@@ -22,13 +22,13 @@ export const median = arr => {
 export const formatNumber = num =>
   num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
 
-export const formatDateDDMM = d => {
+export const formatDateMDD = d => {
   // Orignal formatString: "DD/M" cannot be parsed in DatePicker
   // formatString: "YYYY-MM-DD" for DatePicker
   // Reformat for UI here
   if (d) {
     d = d.replace(/(\d{4})-(\d\d)-(\d\d)/, function(_, y, m, d) {
-      return [d, m].join("/")
+      return [+m, d].join(".")
     })
   }
   return d

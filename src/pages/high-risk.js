@@ -20,7 +20,7 @@ import { trackCustomEvent } from "gatsby-plugin-google-analytics"
 import { createDedupOptions, filterByDate } from "@/utils/search"
 import MultiPurposeSearch from "../components/modecules/MultiPurposeSearch"
 import { grey } from "@material-ui/core/colors"
-import { formatDateDDMM, isSSR } from "@/utils"
+import { formatDateMDD, isSSR } from "@/utils"
 
 const HighRiskMap = React.lazy(() =>
   import(/* webpackPrefetch: true */ "@components/highRiskMap")
@@ -142,14 +142,12 @@ export const HighRiskCardItem = ({ node, i18n, t, isActive }) => (
 export const CaseRow = ({ c, i18n, t, pass14days }) => (
   <CaseRowContainer key={c.id}>
     <Grid container spacing={1}>
-      <Grid item xs={4}>
+      <Grid item xs={3}>
         <UnstyledRow>
           <CaseText component="div" variant="body2" pass14days={pass14days}>
             {c.start_date === c.end_date
-              ? c.end_date
-              : `${formatDateDDMM(c.start_date)} - ${formatDateDDMM(
-                  c.end_date
-                )}`}
+              ? formatDateMDD(c.end_date)
+              : `${formatDateMDD(c.start_date)} - ${formatDateMDD(c.end_date)}`}
           </CaseText>
         </UnstyledRow>
       </Grid>
@@ -241,9 +239,9 @@ const HighRiskPage = ({ data }) => {
   const withinBoderFilter = ({ node }) => node.sub_district_zh !== "境外"
 
   const nowTimeStamp = new Date()
-  const calculatePass14day = ({ case_code, end_date }) => {
+  const calculatePass14day = ({ case_no, end_date }) => {
     const endDateTimeStamp = +new Date(end_date)
-    const daysToExpire = case_code === "_" ? 14 : 0
+    const daysToExpire = case_no !== "-" ? 14 : 0
     if (Number.isNaN(endDateTimeStamp)) return false
     return nowTimeStamp - endDateTimeStamp > 86400 * 1000 * daysToExpire
   }
@@ -387,7 +385,10 @@ export default HighRiskPage
 
 export const HighRiskQuery = graphql`
   query {
-    allWarsCaseLocation(sort: { order: DESC, fields: end_date }) {
+    allWarsCaseLocation(
+      sort: { order: DESC, fields: end_date }
+      filter: { action_zh: { ne: "求醫" } }
+    ) {
       edges {
         node {
           id

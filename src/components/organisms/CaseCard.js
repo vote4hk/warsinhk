@@ -12,7 +12,7 @@ import {
   mapColorForClassification,
   mapColorForStatus,
 } from "@/utils/colorHelper"
-import { formatDateDDMM } from "@/utils"
+import { formatDateMDD } from "@/utils"
 import * as d3 from "d3"
 import _get from "lodash.get"
 
@@ -97,7 +97,7 @@ const WarsCaseTrack = ({ i18n, t, track }) => {
                 <Box>
                   {tr.node.start_date === tr.node.end_date
                     ? tr.node.end_date
-                    : `${formatDateDDMM(tr.node.start_date)} - ${formatDateDDMM(
+                    : `${formatDateMDD(tr.node.start_date)} - ${formatDateMDD(
                         tr.node.end_date
                       )}`}
                 </Box>
