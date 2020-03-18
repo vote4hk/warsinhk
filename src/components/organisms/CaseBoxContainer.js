@@ -1,4 +1,5 @@
 import React from "react"
+import { useTranslation } from "react-i18next"
 import Box from "@material-ui/core/Box"
 import styled from "styled-components"
 import { mapColorForStatus } from "@/utils/colorHelper"
@@ -170,7 +171,7 @@ export const WarsCaseBoxLegend = React.forwardRef((props, ref) => {
 
 export const WarsCaseBoxContainer = React.forwardRef((props, ref) => {
   const { filteredCases, handleBoxClick } = props
-
+  const { t } = useTranslation()
   // Grouping Logic:
   // 1. descending chronological order
   // 2. First row: Most recent date's case
@@ -257,13 +258,17 @@ export const WarsCaseBoxContainer = React.forwardRef((props, ref) => {
           <WarsCaseBox cases={c} handleBoxClick={() => {}} />
         ))}
       </ExampleContainer>
-      {dates.map(
-        (dateKey, index) =>
-          filteredCases.filter(
-            ({ node }) => dateMap[node.confirmation_date] === dateKey
-          ).length > 0 && (
+      {dates.map((dateKey, index) => {
+        let matchedCases = filteredCases.filter(
+          ({ node }) => dateMap[node.confirmation_date] === dateKey
+        ).length
+
+        return (
+          matchedCases && (
             <WarsGroupContainer>
-              <GroupHeader variant="h6">{dateKey}</GroupHeader>
+              <GroupHeader variant="h6">
+                {dateKey} ({t("cases.box_view_cases", { cases: matchedCases })})
+              </GroupHeader>
               <StyledContainer>
                 {filteredCases
                   .filter(
@@ -278,7 +283,8 @@ export const WarsCaseBoxContainer = React.forwardRef((props, ref) => {
               </StyledContainer>
             </WarsGroupContainer>
           )
-      )}
+        )
+      })}
     </>
   )
 })
