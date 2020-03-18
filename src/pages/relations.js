@@ -1,5 +1,6 @@
 import React, { useState } from "react"
 import { useTranslation } from "react-i18next"
+import { bps } from "@/ui/theme"
 import SEO from "@/components/templates/SEO"
 import styled from "styled-components"
 import Layout from "@components/templates/Layout"
@@ -31,8 +32,8 @@ const SelectedCardContainer = styled.div`
   background: rgba(0, 0, 0, 0.15);
   padding: 0 24px;
 
-  [class*="CaseCard"] {
-    max-width: 800px;
+  ${bps.up("sm")} {
+    padding-left: 260px;
   }
 `
 
