@@ -141,17 +141,27 @@ export default function ConfirmedCaseVisual(props) {
 
   const GENDER_COLOR_LIST = ["#006266", "#ED4C67"]
 
-  const axis = isMobile
-    ? {
-        rotated: true,
-        x: {
-          show: false,
-        },
-        y: {
-          show: false,
-        },
-      }
-    : undefined
+  const axis = {
+    rotated: true,
+    x: {
+      show: false,
+    },
+    y: {
+      show: false,
+    },
+  }
+
+  // const axis = isMobile
+  //   ? {
+  //       rotated: true,
+  //       x: {
+  //         show: false,
+  //       },
+  //       y: {
+  //         show: false,
+  //       },
+  //     }
+  //   : undefined
   const bar = isMobile
     ? {
         width: 30,
@@ -167,19 +177,19 @@ export default function ConfirmedCaseVisual(props) {
             t(`dashboard.gender_${WarsCaseData[gender].fieldValue}`),
             WarsCaseData[gender].totalCount,
           ]),
-          labels: isMobile,
-          type: isMobile ? "bar" : "donut",
-          groups: isMobile
-            ? [
-                ["male", "female"].map(gender => [
-                  t(`dashboard.gender_${WarsCaseData[gender].fieldValue}`),
-                ]),
-              ]
-            : undefined,
+          labels: true, // isMobile,
+          type: "bar", //isMobile ? "bar" : "donut",
+          // groups: isMobile
+          //   ? [
+          //       ["male", "female"].map(gender => [
+          //         t(`dashboard.gender_${WarsCaseData[gender].fieldValue}`),
+          //       ]),
+          //     ]
+          //   : undefined,
         }}
         color={{ pattern: GENDER_COLOR_LIST }}
         bar={bar}
-        size={isMobile ? { height: 100 } : undefined}
+        size={{ height: 100 }} // isMobile ? { height: 100 } : undefined}
         tooltip={{
           grouped: false,
           format: {
