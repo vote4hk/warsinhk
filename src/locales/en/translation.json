@@ -126,6 +126,7 @@
   "cases.legend": "Legend",
   "cases.asymptomatic": "Asymptomatic",
   "cases.view_more": "View details",
+  "cases.box_view_cases": "{{cases}} cases",
   "datepicker.datepickerStartDatePlaceholder": "Select",
   "datepicker.datepickerStartDateLabel": "Start Date",
   "datepicker.datepickerEndDatePlaceholder": "Select",
