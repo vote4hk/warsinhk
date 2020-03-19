@@ -25,10 +25,12 @@ import { isSSR, formatNumber } from "@/utils"
 import { SessionWrapper, SplitWrapper } from "@components/atoms/Container"
 
 import ImageZh1 from "@/images/banner/zh/dummies.png"
-import ImageZh2 from "@/images/banner/zh/world.png"
+import ImageZh2 from "@/images/banner/zh/searcher.png"
 import ImageZh3 from "@/images/banner/zh/apple.png"
-import ImageEn1 from "@/images/banner/en/world.png"
-import ImageEn2 from "@/images/banner/en/apple.png"
+import ImageZh4 from "@/images/banner/zh/world.png"
+import ImageEn1 from "@/images/banner/en/searcher.png"
+import ImageEn2 from "@/images/banner/en/world.png"
+// import ImageEn3 from "@/images/banner/en/apple.png"
 // lazy-load the chart to avoid SSR
 const ConfirmedCaseVisual = React.lazy(() =>
   import(
@@ -268,16 +270,17 @@ export default function IndexPage({ data }) {
   const bannerImages = {
     zh: [
       { img: ImageZh1, isExternal: true, url: "https://bit.ly/wars1001" },
-      { img: ImageZh2, isExternal: false, url: "https://wars.vote4.hk/world" },
+      { img: ImageZh2, isExternal: true, url: "http://bit.ly/2x7PctV" },
       { img: ImageZh3, isExternal: true, url: "http://bit.ly/3cLtKeL" },
+      { img: ImageZh4, isExternal: false, url: "https://wars.vote4.hk/world" },
     ],
     en: [
+      { img: ImageEn1, isExternal: true, url: "http://bit.ly/2x7PctV" },
       {
-        img: ImageEn1,
+        img: ImageEn2,
         isExternal: false,
         url: "https://wars.vote4.hk/en/world",
       },
-      { img: ImageEn2, isExternal: true, url: "http://bit.ly/3cLtKeL" },
     ],
   }
 
