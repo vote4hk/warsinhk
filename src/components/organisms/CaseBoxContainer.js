@@ -196,7 +196,6 @@ export const WarsCaseBoxContainer = React.forwardRef((props, ref) => {
     date = date.add(-1, "day")
   }
   const dates = _uniq(Object.values(dateMap))
-
   return (
     <>
       {dates.map((dateKey, index) => {
@@ -205,7 +204,7 @@ export const WarsCaseBoxContainer = React.forwardRef((props, ref) => {
         ).length
 
         return (
-          matchedCases && (
+          matchedCases > 0 && (
             <WarsGroupContainer>
               <GroupHeader variant="h6">
                 {dateKey} ({t("cases.box_view_cases", { cases: matchedCases })})
