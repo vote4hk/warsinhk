@@ -103,11 +103,22 @@ const StyledBox = styled(Box)`
   }
 `
 const WarsGroupContainer = styled(Box)`
+  background: ${props => props.theme.palette.background.paper};
+  padding: 16px;
   margin: 16px 0;
+  box-shadow: ${props =>
+    props.selected
+      ? "0px 2px 10px -1px rgba(0, 0, 0, 0.2), 0px 1px 10px 0px rgba(0, 0, 0, 0.14), 0px 1px 3px 0px rgba(0, 0, 0, 0.12)"
+      : "0px 2px 1px -1px rgba(0,0,0,0.2), 0px 1px 1px 0px rgba(0,0,0,0.14), 0px 1px 3px 0px rgba(0,0,0,0.12)"};
+
+  max-height: 80vh;
+  overflow-y: auto;
+  border-radius: 5px;
+  }
 `
 
 const GroupHeader = styled(Typography)`
-  margin-bottom: 4px;
+  margin-bottom: 8px;
 `
 
 const StyledContainer = styled(Box)`
@@ -117,21 +128,6 @@ const StyledContainer = styled(Box)`
 
   ${bps.down("sm")} {
     margin: 0 -4px;
-  }
-`
-const ExampleContainer = styled(Box)`
-  display: flex;
-  flex-wrap: wrap;
-  padding: 0 0 8px;
-  margin: 16px -8px 8px;
-  border-bottom: black 2px solid;
-
-  ${bps.down("sm")} {
-    margin: 16px -4px 8px;
-  }
-
-  ${StyledBox} {
-    cursor: default;
   }
 `
 
@@ -201,63 +197,8 @@ export const WarsCaseBoxContainer = React.forwardRef((props, ref) => {
   }
   const dates = _uniq(Object.values(dateMap))
 
-  const exampleCases = [
-    {
-      node: {
-        case_no: "群組",
-        status: "hospitalised",
-        group_id: 1,
-        gender: "-",
-      },
-    },
-    {
-      node: {
-        case_no: "嚴重",
-        status: "serious",
-        group_id: 0,
-        gender: "-",
-      },
-    },
-    {
-      node: {
-        case_no: "死亡",
-        status: "deceased",
-        group_id: 0,
-        gender: "-",
-      },
-    },
-    {
-      node: {
-        case_no: "出院",
-        status: "discharged",
-        group_id: 0,
-        gender: "-",
-      },
-    },
-    {
-      node: {
-        case_no: "男",
-        status: "hospitalised",
-        group_id: 0,
-        gender: "M",
-      },
-    },
-    {
-      node: {
-        case_no: "女",
-        status: "hospitalised",
-        group_id: 0,
-        gender: "F",
-      },
-    },
-  ]
   return (
     <>
-      <ExampleContainer>
-        {exampleCases.map(c => (
-          <WarsCaseBox cases={c} handleBoxClick={() => {}} />
-        ))}
-      </ExampleContainer>
       {dates.map((dateKey, index) => {
         let matchedCases = filteredCases.filter(
           ({ node }) => dateMap[node.confirmation_date] === dateKey

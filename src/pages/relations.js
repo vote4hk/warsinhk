@@ -18,6 +18,7 @@ import ContextStore from "@/contextStore"
 import { CASES_BOX_VIEW, CASES_CARD_VIEW } from "@/reducers/cases"
 import { Button } from "@material-ui/core"
 import Dialog from "@/components/atoms/Dialog"
+import Box from "@material-ui/core/Box"
 import _get from "lodash.get"
 
 const SelectedCardContainer = styled.div`
@@ -35,6 +36,24 @@ const SelectedCardContainer = styled.div`
   ${bps.up("sm")} {
     padding-left: 260px;
   }
+`
+
+const GroupingButtonContainer = styled(Box)`
+  display: flex;
+  flex-wrap: wrap;
+  padding: 0 0 8px;
+  margin: 16px -8px 8px;
+  border-bottom: black 2px solid;
+
+  ${bps.down("sm")} {
+    margin: 16px -4px 8px;
+  }
+`
+
+const ToggleGroupingButton = styled(props => (
+  <Button variant="outlined" color="primary" size="small" {...props} />
+))`
+  margin: 0px 4px 4px 8px;
 `
 
 const RelationPage = props => {
@@ -157,6 +176,33 @@ const RelationPage = props => {
     )
   }
 
+  const toggleGroupingButtons = [
+    {
+      i18n: "cases.toggle_date",
+      onClick: () => {
+        // TODO
+      },
+    },
+    {
+      i18n: "cases.toggle_area",
+      onClick: () => {
+        // TODO
+      },
+    },
+    {
+      i18n: "cases.toggle_group",
+      onClick: () => {
+        // TODO
+      },
+    },
+    {
+      i18n: "cases.toggle_status",
+      onClick: () => {
+        // TODO
+      },
+    },
+  ]
+
   const handleBoxClick = item => setSelectedCase(item)
 
   return (
@@ -206,6 +252,13 @@ const RelationPage = props => {
           onListFiltered={listFilteredHandler}
           filterWithOr={false}
         />
+        <GroupingButtonContainer>
+          {toggleGroupingButtons.map(btn => (
+            <ToggleGroupingButton onClick={btn.onClick}>
+              {t(btn.i18n)}
+            </ToggleGroupingButton>
+          ))}
+        </GroupingButtonContainer>
       </PageContent>
       {view === CASES_BOX_VIEW ? (
         <>
