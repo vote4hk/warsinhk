@@ -94,9 +94,13 @@ const getDateBeforeLastUpdatedDate = data => {
 }
 
 const getRanking = (data, date) =>
-  data.allBaiduInternationalData.edges
-    .filter(edge => edge.node.date === date)
-    .map(edge => ({ ...edge.node }))
+  Array.from(
+    new Set(
+      data.allBaiduInternationalData.edges
+        .filter(edge => edge.node.date === date)
+        .map(edge => ({ ...edge.node }))
+    )
+  )
 
 const getMostUpdatedRanking = data => {
   const date = getLastUpdatedDate(data)

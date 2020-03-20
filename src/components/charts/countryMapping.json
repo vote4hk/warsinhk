@@ -2374,5 +2374,148 @@
     "iso_code": 0,
     "latitude": "",
     "longitude": ""
+  },
+  {
+    "country_emoji": "🇬🇬",
+    "baidu_country_name": "根西島,格恩西島",
+    "baidu_country_name_translated": "根西島",
+    "country_en": "Guernsey",
+    "country_zh": "根西島",
+    "topo_country_names": "",
+    "iso_code": 831,
+    "latitude": 49.44,
+    "longitude": -2.58
+  },
+  {
+    "country_emoji": "🇰🇾",
+    "baidu_country_name": "开曼群岛",
+    "baidu_country_name_translated": "開曼群島",
+    "country_en": "Cayman Islands",
+    "country_zh": "開曼群島",
+    "topo_country_names": "",
+    "iso_code": 136,
+    "latitude": 19.31,
+    "longitude": -81.25
+  },
+  {
+    "country_emoji": "🇾🇹",
+    "baidu_country_name": "马约特",
+    "baidu_country_name_translated": "馬約特",
+    "country_en": "Mayotte",
+    "country_zh": "馬約特",
+    "topo_country_names": "",
+    "iso_code": 175,
+    "latitude": -12.8,
+    "longitude": 45.13
+  },
+  {
+    "country_emoji": "🇬🇵",
+    "baidu_country_name": "瓜地洛普",
+    "baidu_country_name_translated": "瓜德羅普",
+    "country_en": "Guadeloupe",
+    "country_zh": "瓜德羅普",
+    "topo_country_names": "",
+    "iso_code": 312,
+    "latitude": 16.99,
+    "longitude": -62.06
+  },
+  {
+    "country_emoji": "🇯🇪",
+    "baidu_country_name": "泽西岛",
+    "baidu_country_name_translated": "澤西島",
+    "country_en": "Jersey",
+    "country_zh": "美屬處女群島",
+    "topo_country_names": "",
+    "iso_code": 832,
+    "latitude": 49.21,
+    "longitude": -2.13
+  },
+  {
+    "country_emoji": "🇻🇮",
+    "baidu_country_name": "美属维尔京群岛",
+    "baidu_country_name_translated": "美屬處女群島,美屬維京群島,美屬維爾京群島",
+    "country_en": "United States Virgin Islands",
+    "country_zh": "美屬處女群島",
+    "topo_country_names": "",
+    "iso_code": 850,
+    "latitude": 18.34,
+    "longitude": -64.86
+  },
+  {
+    "country_emoji": "🇲🇫",
+    "baidu_country_name": "圣马丁岛",
+    "baidu_country_name_translated": "聖馬丁島",
+    "country_en": "Collectivity of Saint Martin",
+    "country_zh": "法屬聖馬丁島",
+    "topo_country_names": "",
+    "iso_code": 663,
+    "latitude": 18.07,
+    "longitude": -63.06
+  },
+  {
+    "country_emoji": "🇦🇼",
+    "baidu_country_name": "阿鲁巴",
+    "baidu_country_name_translated": "阿魯巴",
+    "country_en": "Aruba",
+    "country_zh": "阿魯巴",
+    "topo_country_names": "",
+    "iso_code": 533,
+    "latitude": 12.51,
+    "longitude": 70.0
+  },
+  {
+    "country_emoji": "🇨🇼",
+    "baidu_country_name": "库拉索",
+    "baidu_country_name_translated": "庫拉索",
+    "country_en": "Curaçao",
+    "country_zh": "庫拉索",
+    "topo_country_names": "",
+    "iso_code": 531,
+    "latitude": 12.16,
+    "longitude": -68.99
+  },
+  {
+    "country_emoji": "🇵🇫",
+    "baidu_country_name": "法属波利尼西亚",
+    "baidu_country_name_translated": "法屬波利尼西亞",
+    "country_en": "French Polynesia",
+    "country_zh": "法屬波利尼西亞",
+    "topo_country_names": "",
+    "iso_code": 258,
+    "latitude": -16.76,
+    "longitude": -151.44
+  },
+  {
+    "country_emoji": "🇬🇺",
+    "baidu_country_name": "关岛",
+    "baidu_country_name_translated": "關島",
+    "country_en": "Guam",
+    "country_zh": "關島",
+    "topo_country_names": "",
+    "iso_code": 316,
+    "latitude": 13.44,
+    "longitude": 144.79
+  },
+  {
+    "country_emoji": "🇷🇪",
+    "baidu_country_name": "留尼汪岛",
+    "baidu_country_name_translated": "留尼汪島",
+    "country_en": "Réunion",
+    "country_zh": "留尼旺",
+    "topo_country_names": "",
+    "iso_code": 638,
+    "latitude": -21.37,
+    "longitude": 55.27
+  },
+  {
+    "country_emoji": "🇧🇱",
+    "baidu_country_name": "圣巴泰勒米岛",
+    "baidu_country_name_translated": "聖巴泰勒米島",
+    "country_en": "Saint Barthélemy",
+    "country_zh": "聖巴泰勒米",
+    "topo_country_names": "",
+    "iso_code": 652,
+    "latitude": 17.91,
+    "longitude": -62.83
   }
 ]

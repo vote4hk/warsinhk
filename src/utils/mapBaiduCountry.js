@@ -5,12 +5,13 @@ const mapBaiduCountry = countryName => {
   // our data is not consistent, I put all the black magic here
   const cn = countryName.replace("剋", "克").replace("斯裏蘭卡", "斯里蘭卡")
 
-  const countryBySimplifiedChinese = find(countryMappingJSON, {
-    baidu_country_name: cn,
-  }) // find by simplified chinese
-  const countryByTraditionalChinese = find(countryMappingJSON, {
-    baidu_country_name_translated: cn,
-  }) // find by traditional chinese
+  const country = countryMappingJSON.find(e => {
+    const nameList = [
+      ...e["baidu_country_name"].split(","),
+      ...e["baidu_country_name_translated"].split(","),
+    ]
+    return nameList.includes(cn)
+  })
   const defaultCountry = {
     country_emoji: "",
     baidu_country_name: cn,
@@ -23,9 +24,7 @@ const mapBaiduCountry = countryName => {
     longitude: "",
   }
 
-  return (
-    countryBySimplifiedChinese || countryByTraditionalChinese || defaultCountry
-  )
+  return country || defaultCountry
 }
 
 export const getCountryFromISO = iso => {
