@@ -12,7 +12,6 @@ const gn = require("./gn")
 const poster = require("./poster-gallery")
 const GOOGLE_SPREADSHEET_ID = "14kreo2vRo1XCUXqFLcMApVtYmvkEzWBDm6b8fzJNKEc"
 const SHEET_ALERT_MASTER = "alert"
-const SHEET_LATEST_FIGURES_OVERIDE_MASTER = "latest_figures_overide"
 const LANGUAGES = ["zh", "en"]
 const { request } = require("graphql-request")
 const { getPath, getWarTipPath } = require("./src/utils/urlHelper")
@@ -34,6 +33,8 @@ const PUBLISHED_SPREADSHEET_WARS_CASES_LOCATION_URL =
   "https://docs.google.com/spreadsheets/d/e/2PACX-1vT6aoKk3iHmotqb5_iHggKc_3uAA901xVzwsllmNoOpGgRZ8VAA3TSxK6XreKzg_AUQXIkVX5rqb0Mo/pub?gid=0"
 const PUBLISHED_SPREADSHEET_BOT_WARS_LATEST_FIGURES_URL =
   "https://docs.google.com/spreadsheets/d/e/2PACX-1vTiCndDnXu6l5ZKq2aAVgU2xM3WGGW68XF-pEbLAloRbOzA1QwglLGJ6gTKjFbLQGhbH6GR2TsJKrO7/pub?gid=0"
+const PUBLISHED_OVERRIDE_MASTER_URL =
+  "https://docs.google.com/spreadsheets/d/e/2PACX-1vRr9LffEzwu48O-cvlxaDgBbZ2l8AG30EE8uEkLCVkV0ELBt-Kvs9-8pq1jkDVV6i9xGalxSrKEHP1c/pub?gid=0"
 const PUBLISHED_SPREADSHEET_FRIENDLY_LINK_URL =
   "https://docs.google.com/spreadsheets/d/e/2PACX-1vRrwN4gNtogizNkYKGzMXpa7GTNJhE_vkZuYiFraU7f-N7ZKiT-araG-0jb586kczxc9Ua6oht8SVcE/pub?gid=0"
 // const PUBLISHED_SPREADSHEET_WARS_CASES_LOCATION_599C_URL =
@@ -485,6 +486,12 @@ exports.sourceNodes = async props => {
     ),
     createPublishedGoogleSpreadsheetNode(
       props,
+      PUBLISHED_OVERRIDE_MASTER_URL,
+      "WarsLatestFiguresOverride",
+      { skipFirstLine: true, alwaysEnabled: true }
+    ),
+    createPublishedGoogleSpreadsheetNode(
+      props,
       PUBLISHED_SPREADSHEET_FRIENDLY_LINK_URL,
       "FriendlyLink",
       { skipFirstLine: true }
@@ -496,11 +503,6 @@ exports.sourceNodes = async props => {
       { skipFirstLine: true }
     ),
     createNode(props, SHEET_ALERT_MASTER, "Alert"),
-    createNode(
-      props,
-      SHEET_LATEST_FIGURES_OVERIDE_MASTER,
-      "WarsLatestFiguresOverride"
-    ),
     createAENode(props),
     createIMMDNode(props),
     createGNNode(props),

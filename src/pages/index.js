@@ -9,7 +9,7 @@ import Box from "@material-ui/core/Box"
 import Typography from "@material-ui/core/Typography"
 import Link from "@material-ui/core/Link"
 import Button from "@material-ui/core/Button"
-import { withLanguage, getLocalizedPath } from "../utils/i18n"
+import { getLocalizedPath } from "../utils/i18n"
 
 import SEO from "@components/templates/SEO"
 import Layout from "@components/templates/Layout"
@@ -254,11 +254,6 @@ export default function IndexPage({ data }) {
     [data]
   )
 
-  const remarksText = React.useMemo(
-    () => withLanguage(i18n, latestFiguresOverride, "remarks"),
-    [i18n, latestFiguresOverride]
-  )
-
   const latestCases = data.allWarsCase.edges
     .sort((a, b) => parseInt(b.node.case_no) - parseInt(a.node.case_no))
     .filter(
@@ -319,11 +314,6 @@ export default function IndexPage({ data }) {
                 overridedata={latestFiguresOverride}
               />
             </BasicCard>
-            {remarksText && (
-              <Typography variant="body2" color="textPrimary">
-                {remarksText}
-              </Typography>
-            )}
             {!isSSR() && (
               <React.Suspense fallback={<div />}>
                 <CarouselContainer>
@@ -528,15 +518,9 @@ export const WarsCaseQuery = graphql`
       edges {
         node {
           date
-          time
           confirmed
-          ruled_out
-          investigating
-          reported
           death
           discharged
-          remarks_zh
-          remarks_en
         }
       }
     }
