@@ -16,7 +16,7 @@ import { WarsCaseCard } from "@components/organisms/CaseCard"
 import InfiniteScroll from "@/components/modecules/InfiniteScroll"
 import ContextStore from "@/contextStore"
 import { CASES_BOX_VIEW, CASES_CARD_VIEW } from "@/reducers/cases"
-import { Button } from "@material-ui/core"
+import { Button, ButtonGroup } from "@material-ui/core"
 import Dialog from "@/components/atoms/Dialog"
 import Box from "@material-ui/core/Box"
 import _get from "lodash.get"
@@ -41,8 +41,8 @@ const SelectedCardContainer = styled.div`
 const GroupingButtonContainer = styled(Box)`
   display: flex;
   flex-wrap: wrap;
-  padding: 0 0 8px;
-  margin: 16px -8px 8px;
+  padding: 8px 0 16px;
+  margin: 8px 0px 0px 4px;
   border-bottom: black 2px solid;
 
   ${bps.down("sm")} {
@@ -52,9 +52,7 @@ const GroupingButtonContainer = styled(Box)`
 
 const ToggleGroupingButton = styled(props => (
   <Button variant="outlined" color="primary" size="small" {...props} />
-))`
-  margin: 0px 4px 4px 8px;
-`
+))``
 
 const RelationPage = props => {
   const { data } = props
@@ -253,11 +251,17 @@ const RelationPage = props => {
           filterWithOr={false}
         />
         <GroupingButtonContainer>
-          {toggleGroupingButtons.map(btn => (
-            <ToggleGroupingButton onClick={btn.onClick}>
-              {t(btn.i18n)}
-            </ToggleGroupingButton>
-          ))}
+          <ButtonGroup
+            size="small"
+            color="primary"
+            aria-label="small outlined button group"
+          >
+            {toggleGroupingButtons.map(btn => (
+              <ToggleGroupingButton onClick={btn.onClick}>
+                {t(btn.i18n)}
+              </ToggleGroupingButton>
+            ))}
+          </ButtonGroup>
         </GroupingButtonContainer>
       </PageContent>
       {view === CASES_BOX_VIEW ? (
