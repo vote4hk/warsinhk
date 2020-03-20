@@ -107,6 +107,11 @@ const RelationPage = props => {
   const [filteredCases, setFilteredCases] = useState(cases)
   const [selectedCase, setSelectedCase] = useState(null)
   const [showLegend, setShowLegend] = useState(false)
+  // 1: by date
+  // 2: by area
+  // 3: by group
+  // 4: by status
+  const [selectedGroupButton, setGroupButton] = useState(1)
 
   const handleClickOpen = () => {
     setShowLegend(true)
@@ -178,25 +183,25 @@ const RelationPage = props => {
     {
       i18n: "cases.toggle_date",
       onClick: () => {
-        // TODO
+        setGroupButton(1)
       },
     },
     {
       i18n: "cases.toggle_area",
       onClick: () => {
-        // TODO
+        setGroupButton(2)
       },
     },
     {
       i18n: "cases.toggle_group",
       onClick: () => {
-        // TODO
+        setGroupButton(3)
       },
     },
     {
       i18n: "cases.toggle_status",
       onClick: () => {
-        // TODO
+        setGroupButton(4)
       },
     },
   ]
@@ -269,6 +274,7 @@ const RelationPage = props => {
           <WarsCaseBoxContainer
             filteredCases={filteredCases}
             handleBoxClick={handleBoxClick}
+            selectedGroupButton={selectedGroupButton}
           />
           {selectedCase && (
             <SelectedCardContainer>
