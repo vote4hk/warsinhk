@@ -169,7 +169,7 @@ export const WarsCaseBoxLegend = React.forwardRef((props, ref) => {
 
 export const WarsCaseBoxContainer = React.forwardRef((props, ref) => {
   const { filteredCases, handleBoxClick, selectedGroupButton } = props
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
 
   if (selectedGroupButton === 1) {
     // **********************
@@ -245,8 +245,45 @@ export const WarsCaseBoxContainer = React.forwardRef((props, ref) => {
     // **********************
     // ** By Group
     // **********************
-    // TODO
-    return <></>
+    const groupedCases = _groupBy(
+      filteredCases,
+      ({ node: { group_id } }) => `${group_id}`
+    )
+
+    const casesByGroups = _map(groupedCases, (v, k) => ({
+      group_id: k,
+      group_name_en: _uniq(v.map(({ node }) => node.group_name_en))[0],
+      group_name_zh: _uniq(v.map(({ node }) => node.group_name_zh))[0],
+      cases: v,
+    }))
+
+    return (
+      <>
+        {casesByGroups.map((casesByGroup, index) => {
+          let { group_id, cases } = casesByGroup
+          let group
+
+          if (group_id === "null") {
+            group = t("cases.uncategorized")
+          } else {
+            group = withLanguage(i18n, casesByGroup, "group_name")
+          }
+
+          return (
+            <WarsGroupContainer index={index}>
+              <GroupHeader variant="h6">
+                {group} ({t("cases.box_view_cases", { cases: cases.length })})
+              </GroupHeader>
+              <StyledContainer>
+                {casesByGroup.cases.map(cases => (
+                  <WarsCaseBox cases={cases} handleBoxClick={handleBoxClick} />
+                ))}
+              </StyledContainer>
+            </WarsGroupContainer>
+          )
+        })}
+      </>
+    )
   } else if (selectedGroupButton === 4) {
     // **********************
     // ** By Status
@@ -270,14 +307,15 @@ export const WarsCaseBoxContainer = React.forwardRef((props, ref) => {
           }
 
           if (status === null || status === "") {
-            status = "uncategorized"
+            status = t("cases.uncategorized")
+          } else {
+            status = t(`cases.status_${status}`)
           }
 
           return (
             <WarsGroupContainer index={index}>
               <GroupHeader variant="h6">
-                {t(`cases.status_${status}`)} (
-                {t("cases.box_view_cases", { cases: cases.length })})
+                {status} ({t("cases.box_view_cases", { cases: cases.length })})
               </GroupHeader>
               <StyledContainer>
                 {casesByGroup.cases.map(cases => (
