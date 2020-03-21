@@ -210,10 +210,9 @@ export const WarsCaseBoxContainer = React.forwardRef((props, ref) => {
           let matchedCases = filteredCases.filter(
             ({ node }) => dateMap[node.confirmation_date] === dateKey
           ).length
-
           return (
             matchedCases > 0 && (
-              <WarsGroupContainer>
+              <WarsGroupContainer index={index}>
                 <GroupHeader variant="h6">
                   {dateKey} (
                   {t("cases.box_view_cases", { cases: matchedCases })})
@@ -258,17 +257,33 @@ export const WarsCaseBoxContainer = React.forwardRef((props, ref) => {
     )
     const casesByGroups = _map(groupedCases, (v, k) => ({
       status: k,
-      case: v,
+      cases: v,
     }))
 
     return (
       <>
         {casesByGroups.map((casesByGroup, index) => {
-          const { status } = casesByGroup
+          let { status, cases } = casesByGroup
+
+          if (cases.length === 0) {
+            return null
+          }
+
+          if (status === null || status === "") {
+            status = "uncategorized"
+          }
+
           return (
             <WarsGroupContainer index={index}>
-              <GroupHeader variant="h6">{status}</GroupHeader>
-              <StyledContainer>{/* TODO: */}</StyledContainer>
+              <GroupHeader variant="h6">
+                {t(`cases.status_${status}`)} (
+                {t("cases.box_view_cases", { cases: cases.length })})
+              </GroupHeader>
+              <StyledContainer>
+                {casesByGroup.cases.map(cases => (
+                  <WarsCaseBox cases={cases} handleBoxClick={handleBoxClick} />
+                ))}
+              </StyledContainer>
             </WarsGroupContainer>
           )
         })}
