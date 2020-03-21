@@ -18,7 +18,7 @@ const ConfirmedCasesSummary = props => {
   } = useStaticQuery(
     graphql`
       query {
-        status: allWarsCase(filter: { type_en: { eq: "Confirmed" } }) {
+        status: allWarsCase {
           group(field: status) {
             totalCount
             fieldValue
