@@ -18,7 +18,7 @@ import DatePicker from "@/components/organisms/DatePicker"
 import Theme from "@/ui/theme"
 import { trackCustomEvent } from "gatsby-plugin-google-analytics"
 import { createDedupOptions, filterByDate } from "@/utils/search"
-import MultiPurposeSearch from "../components/modecules/MultiPurposeSearch"
+import MultiPurposeSearch from "../components/molecules/MultiPurposeSearch"
 import { grey } from "@material-ui/core/colors"
 import { formatDateMDD, isSSR } from "@/utils"
 

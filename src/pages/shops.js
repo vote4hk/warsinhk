@@ -21,7 +21,7 @@ import { withLanguage } from "@/utils/i18n"
 import { bps } from "@/ui/theme"
 import { BasicFab } from "@components/atoms/Fab"
 import { ResponsiveWrapper } from "@components/atoms/ResponsiveWrapper"
-import MultiPurposeSearch from "../components/modecules/MultiPurposeSearch"
+import MultiPurposeSearch from "../components/molecules/MultiPurposeSearch"
 import { PageContent } from "../components/atoms/Container"
 import { Paragraph } from "@components/atoms/Text"
 

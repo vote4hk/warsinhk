@@ -12,7 +12,7 @@ import _flatten from "lodash.flatten"
 import _uniq from "lodash.uniq"
 import { getWarTipPath } from "@/utils/urlHelper"
 import { trackCustomEvent } from "gatsby-plugin-google-analytics"
-import InfiniteScroll from "@/components/modecules/InfiniteScroll"
+import InfiniteScroll from "@/components/molecules/InfiniteScroll"
 import { ResponsiveWrapper } from "@components/atoms/ResponsiveWrapper"
 
 const CardContainer = styled(Box)`

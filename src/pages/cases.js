@@ -7,11 +7,11 @@ import { graphql } from "gatsby"
 import { WarsCaseCard } from "@components/organisms/CaseCard"
 import { isSSR } from "@/utils"
 import { ResponsiveWrapper } from "@components/atoms/ResponsiveWrapper"
-import InfiniteScroll from "@/components/modecules/InfiniteScroll"
-import MultiPurposeSearch from "@/components/modecules/MultiPurposeSearch"
+import InfiniteScroll from "@/components/molecules/InfiniteScroll"
+import MultiPurposeSearch from "@/components/molecules/MultiPurposeSearch"
 import { createDedupOptions } from "@/utils/search"
 import { PageContent } from "../components/atoms/Container"
-import ConfirmedCasesSummary from "@/components/modecules/ConfirmedCasesSummary"
+import ConfirmedCasesSummary from "@/components/molecules/ConfirmedCasesSummary"
 
 const ConfirmedCasePage = props => {
   const { data, location } = props
