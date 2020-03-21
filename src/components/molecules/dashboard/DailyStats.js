@@ -66,15 +66,9 @@ export default props => {
           edges {
             node {
               date
-              time
               confirmed
-              ruled_out
-              investigating
-              reported
               death
               discharged
-              remarks_zh
-              remarks_en
             }
           }
         }
