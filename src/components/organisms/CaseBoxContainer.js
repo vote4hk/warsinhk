@@ -239,8 +239,44 @@ export const WarsCaseBoxContainer = React.forwardRef((props, ref) => {
     // **********************
     // ** By Area
     // **********************
-    // TODO
-    return <></>
+    const groupedCases = _groupBy(
+      filteredCases,
+      ({ node: { citizenship_en } }) => `${citizenship_en}`
+    )
+
+    const casesByGroups = _map(groupedCases, (v, k) => ({
+      citizenship_en: _uniq(v.map(({ node }) => node.citizenship_en))[0],
+      citizenship_zh: _uniq(v.map(({ node }) => node.citizenship_zh))[0],
+      cases: v,
+    }))
+
+    return (
+      <>
+        {casesByGroups.map((casesByGroup, index) => {
+          let { citizenship_en, cases } = casesByGroup
+          let area
+
+          if (citizenship_en === "#N/A") {
+            area = t("cases.uncategorized")
+          } else {
+            area = withLanguage(i18n, casesByGroup, "citizenship")
+          }
+
+          return (
+            <WarsGroupContainer index={index}>
+              <GroupHeader variant="h6">
+                {area} ({t("cases.box_view_cases", { cases: cases.length })})
+              </GroupHeader>
+              <StyledContainer>
+                {casesByGroup.cases.map(cases => (
+                  <WarsCaseBox cases={cases} handleBoxClick={handleBoxClick} />
+                ))}
+              </StyledContainer>
+            </WarsGroupContainer>
+          )
+        })}
+      </>
+    )
   } else if (selectedGroupButton === 3) {
     // **********************
     // ** By Group
