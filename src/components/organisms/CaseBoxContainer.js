@@ -6,6 +6,8 @@ import { mapColorForStatus } from "@/utils/colorHelper"
 import { bps } from "@/ui/theme"
 import _get from "lodash/get"
 import _uniq from "lodash/uniq"
+import _groupBy from "lodash/groupBy"
+import _map from "lodash/map"
 import * as moment from "moment"
 import { withLanguage } from "@/utils/i18n"
 import Typography from "@material-ui/core/Typography"
@@ -166,65 +168,111 @@ export const WarsCaseBoxLegend = React.forwardRef((props, ref) => {
 })
 
 export const WarsCaseBoxContainer = React.forwardRef((props, ref) => {
-  const { filteredCases, handleBoxClick } = props
+  const { filteredCases, handleBoxClick, selectedGroupButton } = props
   const { t } = useTranslation()
-  // Grouping Logic:
-  // 1. descending chronological order
-  // 2. First row: Most recent date's case
-  // 3. Other rows: Every 7 days a row eg. Feb 22- Feb 28, Feb 15 - Feb 21 etc
-  const lastConfirmedDate = _get(
-    filteredCases,
-    "[0].node.confirmation_date",
-    ""
-  )
-  const caseStartDate = moment("2020-01-21")
 
-  const dateMap = {
-    [lastConfirmedDate]: moment(lastConfirmedDate).format("M.DD"),
-  }
-  let date = moment(lastConfirmedDate).add(-1, "day")
-  let count = 0
-  let dateLabel = ""
-  while (date.isAfter(caseStartDate)) {
-    if (count % 7 === 0) {
-      dateLabel = `${moment(date)
-        .add(-7, "days")
-        .format("M.DD")} - ${date.format("M.DD")}`
+  if (selectedGroupButton === 1) {
+    // **********************
+    // ** By Date
+    // **********************
+
+    // Grouping Logic:
+    // 1. descending chronological order
+    // 2. First row: Most recent date's case
+    // 3. Other rows: Every 7 days a row eg. Feb 22- Feb 28, Feb 15 - Feb 21 etc
+    const lastConfirmedDate = _get(
+      filteredCases,
+      "[0].node.confirmation_date",
+      ""
+    )
+    const caseStartDate = moment("2020-01-21")
+
+    const dateMap = {
+      [lastConfirmedDate]: moment(lastConfirmedDate).format("M.DD"),
     }
-    dateMap[date.format("YYYY-MM-DD")] = dateLabel
-    count++
-    date = date.add(-1, "day")
-  }
-  const dates = _uniq(Object.values(dateMap))
-  return (
-    <>
-      {dates.map((dateKey, index) => {
-        let matchedCases = filteredCases.filter(
-          ({ node }) => dateMap[node.confirmation_date] === dateKey
-        ).length
+    let date = moment(lastConfirmedDate).add(-1, "day")
+    let count = 0
+    let dateLabel = ""
+    while (date.isAfter(caseStartDate)) {
+      if (count % 7 === 0) {
+        dateLabel = `${moment(date)
+          .add(-7, "days")
+          .format("M.DD")} - ${date.format("M.DD")}`
+      }
+      dateMap[date.format("YYYY-MM-DD")] = dateLabel
+      count++
+      date = date.add(-1, "day")
+    }
+    const dates = _uniq(Object.values(dateMap))
+    return (
+      <>
+        {dates.map((dateKey, index) => {
+          let matchedCases = filteredCases.filter(
+            ({ node }) => dateMap[node.confirmation_date] === dateKey
+          ).length
 
-        return (
-          matchedCases > 0 && (
-            <WarsGroupContainer>
-              <GroupHeader variant="h6">
-                {dateKey} ({t("cases.box_view_cases", { cases: matchedCases })})
-              </GroupHeader>
-              <StyledContainer>
-                {filteredCases
-                  .filter(
-                    ({ node }) => dateMap[node.confirmation_date] === dateKey
-                  )
-                  .map(cases => (
-                    <WarsCaseBox
-                      cases={cases}
-                      handleBoxClick={handleBoxClick}
-                    />
-                  ))}
-              </StyledContainer>
+          return (
+            matchedCases > 0 && (
+              <WarsGroupContainer>
+                <GroupHeader variant="h6">
+                  {dateKey} (
+                  {t("cases.box_view_cases", { cases: matchedCases })})
+                </GroupHeader>
+                <StyledContainer>
+                  {filteredCases
+                    .filter(
+                      ({ node }) => dateMap[node.confirmation_date] === dateKey
+                    )
+                    .map(cases => (
+                      <WarsCaseBox
+                        cases={cases}
+                        handleBoxClick={handleBoxClick}
+                      />
+                    ))}
+                </StyledContainer>
+              </WarsGroupContainer>
+            )
+          )
+        })}
+      </>
+    )
+  } else if (selectedGroupButton === 2) {
+    // **********************
+    // ** By Area
+    // **********************
+    // TODO
+    return <></>
+  } else if (selectedGroupButton === 3) {
+    // **********************
+    // ** By Group
+    // **********************
+    // TODO
+    return <></>
+  } else if (selectedGroupButton === 4) {
+    // **********************
+    // ** By Status
+    // **********************
+    const groupedCases = _groupBy(
+      filteredCases,
+      ({ node: { status } }) => `${status}`
+    )
+    const casesByGroups = _map(groupedCases, (v, k) => ({
+      status: k,
+      case: v,
+    }))
+
+    return (
+      <>
+        {casesByGroups.map((casesByGroup, index) => {
+          const { status } = casesByGroup
+          return (
+            <WarsGroupContainer index={index}>
+              <GroupHeader variant="h6">{status}</GroupHeader>
+              <StyledContainer>{/* TODO: */}</StyledContainer>
             </WarsGroupContainer>
           )
-        )
-      })}
-    </>
-  )
+        })}
+      </>
+    )
+  }
 })
