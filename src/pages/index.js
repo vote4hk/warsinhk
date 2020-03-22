@@ -2,7 +2,6 @@ import React, { Suspense } from "react"
 import { useTranslation } from "react-i18next"
 import styled from "styled-components"
 import Fab from "@material-ui/core/Fab"
-import Card from "@material-ui/core/Card"
 import Typography from "@material-ui/core/Typography"
 import SettingIcon from "@material-ui/icons/Dashboard"
 import SEO from "@components/templates/SEO"
@@ -18,8 +17,7 @@ import Checkbox from "@material-ui/core/Checkbox"
 import AlertMessage from "@components/organisms/AlertMessage"
 import _get from "lodash.get"
 
-const ModuleContainer = styled(Card)`
-  padding: 8px;
+const ModuleContainer = styled.div`
   margin-bottom: 8px;
 `
 
@@ -66,13 +64,14 @@ export default function IndexPage({ data }) {
     key,
     titleKey,
     component,
-    { rowSpan = 1 } = {}
+    { rowSpan = 1, showTitle = true } = {}
   ) => {
     components[key] = {
       id: key,
       title: t(titleKey),
       component,
       rowSpan,
+      showTitle,
     }
   }
 
@@ -81,7 +80,9 @@ export default function IndexPage({ data }) {
       const Component = components[key].component
       return (
         <ModuleContainer>
-          <Typography variant="h2">{components[key].title}</Typography>
+          {components[key].showTitle && (
+            <Typography variant="h2">{components[key].title}</Typography>
+          )}
           <Suspense fallback={<div>Loading...</div>}>
             <Component data={data} />
           </Suspense>
@@ -146,6 +147,20 @@ export default function IndexPage({ data }) {
           /* webpackPrefetch: true */ "@/components/molecules/dashboard/ConfirmedCaseDigestAge"
         )
       )
+    )
+
+    registerComponent(
+      "outbound_alert",
+      "dashboard.outbound_alert",
+      React.lazy(() =>
+        import(
+          /* webpackPrefetch: true */ "@/components/molecules/dashboard/OutboundAlert.js"
+        )
+      ),
+      {
+        rowSpan: 3,
+        showTitle: false,
+      }
     )
   }
 
