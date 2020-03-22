@@ -20,10 +20,10 @@ import CircularProgress from "@material-ui/core/CircularProgress"
 
 // default modules for user that doesn't configure at beginning. ORDER DOES MATTER!
 const DEFAULT_MODULES = [
+  "daily_stat",
   "carousel",
   "epidemic_chart",
   "outbound_alert",
-  "daily_stat",
   "confirmed_chart",
   "passenger_daily",
   "friendly_links",
