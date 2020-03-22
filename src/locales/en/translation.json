@@ -73,6 +73,8 @@
   "dashboard.confirmed": "Confirmed",
   "dashboard.investigating": "Investigating",
   "dashboard.reported": "Reported",
+  "dashboard.preliminary": "Preliminary",
+  "dashboard.probably": "Probable",
   "dashboard.source_chpgovhk": "Source: Centre for Health Protection",
   "dashboard.last_updated": "Last update: ",
   "dashboard.patient_age_format": "Age {{age}}",

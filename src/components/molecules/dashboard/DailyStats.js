@@ -55,6 +55,7 @@ export default props => {
               date
               time
               confirmed
+              probably
               ruled_out
               investigating
               reported
@@ -68,6 +69,10 @@ export default props => {
             node {
               date
               confirmed
+              probably
+              ruled_out
+              investigating
+              reported
               death
               discharged
             }
@@ -80,32 +85,39 @@ export default props => {
 
   let today, ytd
 
-  const [{ node: first }, { node: second }] = data.allBotWarsLatestFigures.edges
-  const latestFiguresOverride = data.allWarsLatestFiguresOverride.edges[0].node
-  const latestFigures = data.allBotWarsLatestFigures.edges[0].node
-  const overridedata = data.allWarsLatestFiguresOverride.edges[0].node
+  const [
+    { node: first_bot },
+    { node: second_bot },
+  ] = data.allBotWarsLatestFigures.edges
+  const [
+    { node: first },
+    { node: second },
+  ] = data.allWarsLatestFiguresOverride.edges
+  const must_increase_items = [
+    "confirmed",
+    "death",
+    "discharged",
+    "ruled_out",
+    "reported",
+  ]
 
   today = {
-    ...first,
-    confirmed: Math.max(overridedata.confirmed, first.confirmed),
-    discharged: Math.max(overridedata.discharged, first.discharged),
-    death: Math.max(overridedata.death, first.death),
+    ...first_bot,
+    probably: first.probably || first_bot.probably,
   }
 
-  if (
-    overridedata.date > first.date &&
-    (overridedata.confirmed > first.confirmed ||
-      overridedata.discharged > first.discharged ||
-      overridedata.death > first.death)
-  ) {
-    ytd = {
-      ...first,
-    }
-  } else {
-    ytd = {
-      ...second,
-    }
+  ytd = {
+    ...second_bot,
+    probably: second.probably || second_bot.probably,
   }
+
+  must_increase_items.forEach(dat => {
+    const desc_figures = [first[dat], first_bot[dat], second[dat]].sort(
+      (a, b) => b - a
+    )
+    today[dat] = desc_figures[0]
+    ytd[dat] = desc_figures[1]
+  })
 
   const dataArray = [
     {
@@ -124,9 +136,9 @@ export default props => {
       diff: today.confirmed - ytd.confirmed,
     },
     {
-      label: t("dashboard.investigating"),
-      today_stat: today.investigating,
-      diff: today.investigating - ytd.investigating,
+      label: t("dashboard.probably"),
+      today_stat: today.probably,
+      diff: today.probably - ytd.probably,
     },
     {
       label: t("dashboard.reported"),
@@ -147,9 +159,7 @@ export default props => {
       </Typography>
       <Typography variant="body2" color="textPrimary">
         {`${t("dashboard.last_updated")}${
-          latestFiguresOverride.date > latestFigures.date
-            ? latestFiguresOverride.date
-            : latestFigures.date
+          first.date > first_bot.date ? first.date : first_bot.date
         }`}
       </Typography>
       <DailyStatsContainer>

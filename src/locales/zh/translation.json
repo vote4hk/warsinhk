@@ -73,6 +73,8 @@
   "dashboard.confirmed": "確診",
   "dashboard.investigating": "住院檢查",
   "dashboard.reported": "累積懷疑",
+  "dashboard.preliminary": "初步確診",
+  "dashboard.probably": "疑似",
   "dashboard.source_chpgovhk": "資料來源：綜合衞生防護中心及媒體報道",
   "dashboard.last_updated": "最後更新：",
   "dashboard.patient_age_format": "{{age}} 歲",
