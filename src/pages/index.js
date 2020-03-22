@@ -21,6 +21,7 @@ import CircularProgress from "@material-ui/core/CircularProgress"
 // default modules for user that doesn't configure at beginning. ORDER DOES MATTER!
 const DEFAULT_MODULES = [
   "carousel",
+  "epidemic_chart",
   "outbound_alert",
   "daily_stat",
   "confirmed_chart",
@@ -222,6 +223,19 @@ export default function IndexPage({ data }) {
       ),
       {
         rowSpan: 6,
+      }
+    )
+
+    registerComponent(
+      "epidemic_chart",
+      "dashboard.epidemic_chart",
+      React.lazy(() =>
+        import(
+          /* webpackPrefetch: true */ "@/components/molecules/dashboard/EpidemicChart.js"
+        )
+      ),
+      {
+        rowSpan: 4,
       }
     )
   }
