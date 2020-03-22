@@ -112,9 +112,10 @@ export default props => {
   }
 
   must_increase_items.forEach(dat => {
-    const desc_figures = [first[dat], first_bot[dat], second[dat]].sort(
-      (a, b) => b - a
-    )
+    const desc_figures_unique = [
+      ...new Set([first[dat], first_bot[dat], second[dat]]),
+    ]
+    const desc_figures = desc_figures_unique.sort((a, b) => b - a)
     today[dat] = desc_figures[0]
     ytd[dat] = desc_figures[1]
   })
