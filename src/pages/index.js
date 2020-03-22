@@ -23,6 +23,7 @@ import { trackCustomEvent } from "gatsby-plugin-google-analytics"
 
 import { isSSR, formatNumber } from "@/utils"
 import { SessionWrapper, SplitWrapper } from "@components/atoms/Container"
+import EpidemicChart from "@/components/charts/StackedBarChart"
 
 import ImageZh1 from "@/images/banner/zh/dummies.png"
 import ImageZh2 from "@/images/banner/zh/searcher.png"
@@ -239,6 +240,66 @@ function PassengerStats({
   )
 }
 
+function epidemicCurve(allWarsCase) {
+  const listDate = [];
+  const startDate = "2020-01-18"
+  const date1 = new Date(startDate)
+  const date2 = new Date()
+  const diffTime = Math.abs(date2 - date1);
+  const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24))
+  const dateMove = new Date(startDate)
+  const strDate = startDate;
+  let d = startDate
+  let k = diffDays
+  while (k > 0){
+    d = dateMove.toISOString().slice(0,10)
+    console.log(d)
+    listDate.push(d)
+    dateMove.setDate(dateMove.getDate()+1)
+    k--
+  }
+
+  const { t } = useTranslation()
+  const transformedInitialData = listDate.reduce((result, d) => {
+    result[d] = {
+      imported: 0, 
+      imported_close_contact:0, 
+      local_possibly: 0,
+      local: 0,
+      local_close_contact: 0,
+      local_possibly_close_contact: 0,
+      label: d
+    }
+    return result
+  },{})
+  const transformedData = allWarsCase.edges.reduce((result, {node}) => {
+    if (node.classification != "-" && node.onset_date.toLowerCase() != "asymptomatic") {
+      result[node.onset_date][node.classification]++
+    }
+    return result
+  }, transformedInitialData)
+  return (
+    <div>
+      <SEO title="Charts" />
+      <EpidemicChart
+        keys={[
+          "imported",
+          "imported_close_contact",
+          "local",
+          "local_close_contact",
+          "local_possibly",
+          "local_possibly_close_contact"
+        ]}
+        keyToLabel={key => {
+          return t(`epidemic_chart.key_${key}`)
+        }}
+        data={Object.values(transformedData)}
+      />
+    </div>
+  )
+
+}
+
 export default function IndexPage({ data }) {
   const { i18n, t } = useTranslation()
 
@@ -353,7 +414,10 @@ export default function IndexPage({ data }) {
                 <ConfirmedCaseVisual />
               </React.Suspense>
             )}
-
+            <Typography variant="h2">{t("epidemic.title")}</Typography>
+            <BasicCard>
+            {epidemicCurve(data.fullWarsCase)}
+            </BasicCard>
             <Typography variant="h2">{t("dashboard.passenger")}</Typography>
 
             <Paragraph>{t("dashboard.reference_only")}</Paragraph>
@@ -514,6 +578,36 @@ export const WarsCaseQuery = graphql`
         }
       }
     }
+    fullWarsCase: allWarsCase(
+      sort: { order: DESC, fields: case_no }
+      filter: { enabled: { eq: "Y" } }
+    ) {
+      edges {
+        node {
+          case_no
+          onset_date
+          confirmation_date
+          gender
+          age
+          hospital_zh
+          hospital_en
+          status
+          status_zh
+          status_en
+          type_zh
+          type_en
+          citizenship_zh
+          citizenship_en
+          detail_zh
+          detail_en
+          classification
+          classification_zh
+          classification_en
+          source_url
+        }
+      }
+    }
+
     allWarsLatestFiguresOverride(sort: { order: DESC, fields: date }) {
       edges {
         node {
