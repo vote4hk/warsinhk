@@ -98,6 +98,7 @@
   "dashboard.airport": "機場",
   "dashboard.total": "總計",
   "dashboard.immd_remark": "最後更新：{{to}}（與{{from}}比較）",
+  "dashboard.settings": "選擇模組",
   "cases.title": "個案",
   "cases_visual.legendTitle": "確診宗數",
   "cases_visual.distribution": "18區確診個案分布",

@@ -92,6 +92,7 @@
   "dashboard.bridge": "HZM Bridge",
   "dashboard.airport": "Airport",
   "dashboard.total": "Total",
+  "dashboard.settings": "Select Modules",
   "dashboard.immd_remark": "Last update: {{to}}（Compared to {{from}})",
   "cases.title": "Cases",
   "cases_visual.legendTitle": "No. cases",
