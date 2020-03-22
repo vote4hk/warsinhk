@@ -193,6 +193,16 @@ const AboutUsPage = props => {
                 dangerouslySetInnerHTML={{ __html: t("about_us.sponsor_html") }}
               />
             </Grid>
+            <Grid item xs={12}>
+              <Typography variant="h3" style={{ marginBottom: 8 }}>
+                {t("about_us.contact_title")}
+              </Typography>
+              <Paragraph
+                dangerouslySetInnerHTML={{
+                  __html: t("about_us.contact_method"),
+                }}
+              />
+            </Grid>
           </Grid>
           <Paragraph
             dangerouslySetInnerHTML={{ __html: t("about_us.open_source") }}

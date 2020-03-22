@@ -175,6 +175,8 @@
   "about_us.wars_cases": "確診個案",
   "about_us.sponsor_title": "鳴謝",
   "about_us.sponsor_html": "感謝<a href='https://www.kintohub.com/' target='_blank'><img src=\"/images/kintohub_icon.svg\" style=\"width:30px; height:15px;\"></img>Kintohub</a>贊助部份伺服器開支",
+  "about_us.contact_title": "聯絡我們",
+  "about_us.contact_method": "電郵：<a href='mailto:chiangsumlui@gmail.com' target='_blank'>chiangsumlui@gmail.com</a>",
   "world.title": "全球疫情",
   "world.page_title": "全球疫情追蹤",
   "world.ranking_title": "確診國家",
