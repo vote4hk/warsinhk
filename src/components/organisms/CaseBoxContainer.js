@@ -123,6 +123,10 @@ const GroupHeader = styled(Typography)`
   margin-bottom: 8px;
 `
 
+const DescriptionContainer = styled(Box)`
+  margin: 10px 0px;
+`
+
 const StyledContainer = styled(Box)`
   display: flex;
   flex-wrap: wrap;
@@ -290,6 +294,12 @@ export const WarsCaseBoxContainer = React.forwardRef((props, ref) => {
       group_id: k,
       group_name_en: _uniq(v.map(({ node }) => node.group_name_en))[0],
       group_name_zh: _uniq(v.map(({ node }) => node.group_name_zh))[0],
+      group_description_en: _uniq(
+        v.map(({ node }) => node.group_description_en)
+      )[0],
+      group_description_zh: _uniq(
+        v.map(({ node }) => node.group_description_zh)
+      )[0],
       cases: v,
     }))
 
@@ -297,7 +307,7 @@ export const WarsCaseBoxContainer = React.forwardRef((props, ref) => {
       <>
         {casesByGroups.map((casesByGroup, index) => {
           let { group_id, cases } = casesByGroup
-          let group
+          let group, description
 
           if (group_id === "null") {
             group = t("cases.uncategorized")
@@ -305,11 +315,16 @@ export const WarsCaseBoxContainer = React.forwardRef((props, ref) => {
             group = withLanguage(i18n, casesByGroup, "group_name")
           }
 
+          description = withLanguage(i18n, casesByGroup, "group_description")
+
           return (
             <WarsGroupContainer index={index}>
               <GroupHeader variant="h6">
                 {group} ({t("cases.box_view_cases", { cases: cases.length })})
               </GroupHeader>
+              {description && (
+                <DescriptionContainer>{description}</DescriptionContainer>
+              )}
               <StyledContainer>
                 {casesByGroup.cases.map(cases => (
                   <WarsCaseBox cases={cases} handleBoxClick={handleBoxClick} />
