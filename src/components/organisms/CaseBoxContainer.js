@@ -59,6 +59,10 @@ const DescriptionContainer = styled(Box)`
   margin: 10px 0px;
 `
 
+const DescriptionContainer = styled(Box)`
+  margin: 10px 0px;
+`
+
 const StyledContainer = styled(Box)`
   display: flex;
   flex-wrap: wrap;
