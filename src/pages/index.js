@@ -241,38 +241,39 @@ function PassengerStats({
 }
 
 function epidemicCurve(t, allWarsCase) {
-  const listDate = [];
+  const listDate = []
   const startDate = "2020-01-18"
   const date1 = new Date(startDate)
   const date2 = new Date()
-  const diffTime = Math.abs(date2 - date1);
+  const diffTime = Math.abs(date2 - date1)
   const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24))
   const dateMove = new Date(startDate)
-  const strDate = startDate;
   let d = startDate
   let k = diffDays
-  while (k > 0){
-    d = dateMove.toISOString().slice(0,10)
-    console.log(d)
+  while (k > 0) {
+    d = dateMove.toISOString().slice(0, 10)
     listDate.push(d)
-    dateMove.setDate(dateMove.getDate()+1)
+    dateMove.setDate(dateMove.getDate() + 1)
     k--
   }
 
   const transformedInitialData = listDate.reduce((result, d) => {
     result[d] = {
-      imported: 0, 
-      imported_close_contact:0, 
+      imported: 0,
+      imported_close_contact: 0,
       local_possibly: 0,
       local: 0,
       local_close_contact: 0,
       local_possibly_close_contact: 0,
-      label: d
+      label: d,
     }
     return result
-  },{})
-  const transformedData = allWarsCase.edges.reduce((result, {node}) => {
-    if (node.classification != "-" && node.onset_date.toLowerCase() != "asymptomatic") {
+  }, {})
+  const transformedData = allWarsCase.edges.reduce((result, { node }) => {
+    if (
+      node.classification !== "-" &&
+      node.onset_date.toLowerCase() !== "asymptomatic"
+    ) {
       result[node.onset_date][node.classification]++
     }
     return result
@@ -287,7 +288,7 @@ function epidemicCurve(t, allWarsCase) {
           "local",
           "local_close_contact",
           "local_possibly",
-          "local_possibly_close_contact"
+          "local_possibly_close_contact",
         ]}
         keyToLabel={key => {
           return t(`epidemic_chart.key_${key}`)
@@ -296,7 +297,6 @@ function epidemicCurve(t, allWarsCase) {
       />
     </div>
   )
-
 }
 
 export default function IndexPage({ data }) {
@@ -413,9 +413,10 @@ export default function IndexPage({ data }) {
                 <ConfirmedCaseVisual />
               </React.Suspense>
             )}
-            <Typography variant="h2">{t("epidemic.title")}</Typography>
             <BasicCard>
-            {epidemicCurve(t, data.fullWarsCase)}
+              <Typography variant="h6">{t("epidemic.title")}</Typography>
+              {epidemicCurve(t, data.fullWarsCase)}
+              <Typography variant="body2">{t("epidemic.remarks")}</Typography>
             </BasicCard>
             <Typography variant="h2">{t("dashboard.passenger")}</Typography>
 
