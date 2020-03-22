@@ -16,6 +16,7 @@ import FormControlLabel from "@material-ui/core/FormControlLabel"
 import Checkbox from "@material-ui/core/Checkbox"
 import AlertMessage from "@components/organisms/AlertMessage"
 import _get from "lodash.get"
+import CircularProgress from "@material-ui/core/CircularProgress"
 
 const ModuleContainer = styled.div`
   margin-bottom: 8px;
@@ -53,6 +54,16 @@ const IndexContainer = styled.div`
   }
 `
 
+const ComponentLoading = styled(props => {
+  return (
+    <div className={props.className}>
+      <CircularProgress />
+    </div>
+  )
+})`
+  width: 100%;
+`
+
 export default function IndexPage({ data }) {
   const { t } = useTranslation()
 
@@ -84,7 +95,7 @@ export default function IndexPage({ data }) {
           {components[key].showTitle && (
             <Typography variant="h2">{components[key].title}</Typography>
           )}
-          <Suspense fallback={<div>Loading...</div>}>
+          <Suspense fallback={<ComponentLoading />}>
             <Component data={data} />
           </Suspense>
         </ModuleContainer>
