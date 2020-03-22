@@ -18,6 +18,17 @@ import AlertMessage from "@components/organisms/AlertMessage"
 import _get from "lodash.get"
 import CircularProgress from "@material-ui/core/CircularProgress"
 
+// default modules for user that doesn't configure at beginning. ORDER DOES MATTER!
+const DEFAULT_MODULES = [
+  "carousel",
+  "outbound_alert",
+  "daily_stat",
+  "confirmed_chart",
+  "passenger_daily",
+  "friendly_links",
+  "latest_cases",
+]
+
 const ModuleContainer = styled.div`
   margin-bottom: 8px;
 `
@@ -235,7 +246,8 @@ export default function IndexPage({ data }) {
     if (moduleString) {
       setModules(moduleString.split(","))
     } else {
-      setModules(["daily_stat", "confirmed_chart"])
+      // default modules
+      setModules(DEFAULT_MODULES)
     }
     // eslint-disable-line
   }, [])
