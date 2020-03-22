@@ -7,6 +7,7 @@ import Box from "@material-ui/core/Box"
 import { Hidden } from "@material-ui/core"
 import { bps } from "@/ui/theme"
 import { median } from "@/utils"
+import { BasicCard } from "@components/atoms/Card"
 
 const AgeWrapper = styled(Row)`
   flex-direction: row;
@@ -82,45 +83,47 @@ export default function ConfirmedCaseVisual(props) {
 
   const agePlot = (
     <>
-      <AgeWrapper>
-        <AgeBox>
-          <AgeTitle>{t(`cases_visual.age_range_title`)}</AgeTitle>
-          <Hidden mdUp>:&nbsp;</Hidden>
-          <DataValue>{`${t(`cases_visual.age_range`, {
-            min: WarsCaseData.ageArray[0].age,
-            max: WarsCaseData.ageArray[WarsCaseData.ageArray.length - 1].age,
-          })}`}</DataValue>
-          <Hidden smDown>{t("cases_visual.age_unit")}</Hidden>
-        </AgeBox>
-        <AgeBox>
-          <AgeTitle>{`${t(`cases_visual.median_age`, {
-            gender: t(`dashboard.gender_${WarsCaseData.male.fieldValue}`),
-          })}`}</AgeTitle>
-          <Hidden mdUp>:&nbsp;</Hidden>
-          <DataValue>
-            {median(
-              WarsCaseData.male.edges
-                .filter(e => e.node.age)
-                .map(e => parseInt(e.node.age))
-            )}
-          </DataValue>
-          <Hidden smDown>{t("cases_visual.age_unit")}</Hidden>
-        </AgeBox>
-        <AgeBox>
-          <AgeTitle>{`${t(`cases_visual.median_age`, {
-            gender: t(`dashboard.gender_${WarsCaseData.female.fieldValue}`),
-          })}`}</AgeTitle>
-          <Hidden mdUp>:&nbsp;</Hidden>
-          <DataValue>
-            {median(
-              WarsCaseData.female.edges
-                .filter(e => e.node.age)
-                .map(e => parseInt(e.node.age))
-            )}
-          </DataValue>
-          <Hidden smDown>{t("cases_visual.age_unit")}</Hidden>
-        </AgeBox>
-      </AgeWrapper>
+      <BasicCard>
+        <AgeWrapper>
+          <AgeBox>
+            <AgeTitle>{t(`cases_visual.age_range_title`)}</AgeTitle>
+            <Hidden mdUp>:&nbsp;</Hidden>
+            <DataValue>{`${t(`cases_visual.age_range`, {
+              min: WarsCaseData.ageArray[0].age,
+              max: WarsCaseData.ageArray[WarsCaseData.ageArray.length - 1].age,
+            })}`}</DataValue>
+            <Hidden smDown>{t("cases_visual.age_unit")}</Hidden>
+          </AgeBox>
+          <AgeBox>
+            <AgeTitle>{`${t(`cases_visual.median_age`, {
+              gender: t(`dashboard.gender_${WarsCaseData.male.fieldValue}`),
+            })}`}</AgeTitle>
+            <Hidden mdUp>:&nbsp;</Hidden>
+            <DataValue>
+              {median(
+                WarsCaseData.male.edges
+                  .filter(e => e.node.age)
+                  .map(e => parseInt(e.node.age))
+              )}
+            </DataValue>
+            <Hidden smDown>{t("cases_visual.age_unit")}</Hidden>
+          </AgeBox>
+          <AgeBox>
+            <AgeTitle>{`${t(`cases_visual.median_age`, {
+              gender: t(`dashboard.gender_${WarsCaseData.female.fieldValue}`),
+            })}`}</AgeTitle>
+            <Hidden mdUp>:&nbsp;</Hidden>
+            <DataValue>
+              {median(
+                WarsCaseData.female.edges
+                  .filter(e => e.node.age)
+                  .map(e => parseInt(e.node.age))
+              )}
+            </DataValue>
+            <Hidden smDown>{t("cases_visual.age_unit")}</Hidden>
+          </AgeBox>
+        </AgeWrapper>
+      </BasicCard>
     </>
   )
 

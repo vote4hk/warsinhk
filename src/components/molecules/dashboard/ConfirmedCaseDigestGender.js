@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next"
 import { useMediaQuery } from "react-responsive"
 import { useStaticQuery, graphql } from "gatsby"
 import Chart from "@components/atoms/Chart"
+import { BasicCard } from "@components/atoms/Card"
 
 export default props => {
   const { t } = useTranslation()
@@ -55,33 +56,35 @@ export default props => {
 
   const genderPlot = (
     <>
-      <Chart
-        data={{
-          columns: ["male", "female"].map(gender => [
-            t(`dashboard.gender_${WarsCaseData[gender].fieldValue}`),
-            WarsCaseData[gender].totalCount,
-          ]),
-          labels: isMobile,
-          type: isMobile ? "bar" : "donut",
-          groups: isMobile
-            ? [
-                ["male", "female"].map(gender => [
-                  t(`dashboard.gender_${WarsCaseData[gender].fieldValue}`),
-                ]),
-              ]
-            : undefined,
-        }}
-        color={{ pattern: GENDER_COLOR_LIST }}
-        bar={bar}
-        size={isMobile ? { height: 100 } : undefined}
-        tooltip={{
-          grouped: false,
-          format: {
-            title: () => t("cases_visual.gender"),
-          },
-        }}
-        axis={axis}
-      />
+      <BasicCard>
+        <Chart
+          data={{
+            columns: ["male", "female"].map(gender => [
+              t(`dashboard.gender_${WarsCaseData[gender].fieldValue}`),
+              WarsCaseData[gender].totalCount,
+            ]),
+            labels: isMobile,
+            type: isMobile ? "bar" : "donut",
+            groups: isMobile
+              ? [
+                  ["male", "female"].map(gender => [
+                    t(`dashboard.gender_${WarsCaseData[gender].fieldValue}`),
+                  ]),
+                ]
+              : undefined,
+          }}
+          color={{ pattern: GENDER_COLOR_LIST }}
+          bar={bar}
+          size={isMobile ? { height: 100 } : undefined}
+          tooltip={{
+            grouped: false,
+            format: {
+              title: () => t("cases_visual.gender"),
+            },
+          }}
+          axis={axis}
+        />
+      </BasicCard>
     </>
   )
 

@@ -8,6 +8,7 @@ import { formatNumber } from "@/utils"
 import { useStaticQuery, graphql } from "gatsby"
 import { Paragraph } from "@components/atoms/Text"
 import Link from "@material-ui/core/Link"
+import { BasicCard } from "@components/atoms/Card"
 
 const DailyStatsContainer = styled(Box)`
   display: flex;
@@ -165,23 +166,25 @@ export default () => {
           {t("dashboard.source_immd")}
         </Link>
       </Typography>
-      <DailyStatsContainer>
-        {dataArray.map((d, i) => (
-          <DailyStat key={i}>
-            <DailyStatFigureLabel>{d.label}</DailyStatFigureLabel>
-            <PassengerDailyStatFigure>
-              {formatNumber(d.today_stat)}
-            </PassengerDailyStatFigure>
-            <DailyChange badSign={d.diff > 0}>
-              {d.diff > 0
-                ? `▲ ${formatNumber(d.diff)}`
-                : d.diff < 0
-                ? `▼ ${formatNumber(Math.abs(d.diff))}`
-                : `-`}
-            </DailyChange>
-          </DailyStat>
-        ))}
-      </DailyStatsContainer>
+      <BasicCard>
+        <DailyStatsContainer>
+          {dataArray.map((d, i) => (
+            <DailyStat key={i}>
+              <DailyStatFigureLabel>{d.label}</DailyStatFigureLabel>
+              <PassengerDailyStatFigure>
+                {formatNumber(d.today_stat)}
+              </PassengerDailyStatFigure>
+              <DailyChange badSign={d.diff > 0}>
+                {d.diff > 0
+                  ? `▲ ${formatNumber(d.diff)}`
+                  : d.diff < 0
+                  ? `▼ ${formatNumber(Math.abs(d.diff))}`
+                  : `-`}
+              </DailyChange>
+            </DailyStat>
+          ))}
+        </DailyStatsContainer>
+      </BasicCard>
     </>
   )
 }
