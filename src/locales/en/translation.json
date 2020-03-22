@@ -183,5 +183,15 @@
   "world.border_shutdown_inbound": "Inbound",
   "world.border_shutdown_last_update": "Last update: {{date}}",
   "world.border_shutdown_more_info": "View more",
-  "world.border_shutdown_more_items": "{{items}} more ..."
+  "world.border_shutdown_more_items": "{{items}} more ...",
+  "epidemic.xAxis": "Onset date",
+  "epidemic.yAxis": "No. of cases",
+  "epidemic.title": "Epidemic Curve",
+  "epidemic.imported": "Imported",
+  "epidemic.imported_close_contact": "Close contact of imported case",
+  "epidemic.local": "Local",
+  "epidemic.local_close_contact": "Close contact of local case",
+  "epidemic.local_possibly": "Possibly local",
+  "epidemic.local_possibly_close_contact": "Close contact of possibly local case",
+  "epidemic.remarks": "Asymptomatic cases are not shown in this epidemic curve, source: CHP"
 }
