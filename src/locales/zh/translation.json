@@ -183,7 +183,7 @@
   "world.border_shutdown_more_info": "查看更多",
   "world.border_shutdown_more_items": "另外{{items}}個 ...",
   "epidemic.title": "流行病學曲線圖",
-  "epidemic.xAxis": "日期",
+  "epidemic.xAxis": "發病日期",
   "epidemic.yAxis": "病例",
   "epidemic.imported": "輸入個案",
   "epidemic.imported_close_contact": "輸入個案的密切接觸者",
@@ -191,5 +191,5 @@
   "epidemic.local_close_contact": "本地個案的密切接觸者",
   "epidemic.local_possibly": "可能本地個案",
   "epidemic.local_possibly_close_contact": "可能本地個案的密切接觸者",
-  "epidemic.remarks": "以發病日期計算，無病徵個案並未在流行曲線中顯示。"
+  "epidemic.remarks": "無病徵個案並未在流行曲線中顯示，資料來源：衞生防護中心。"
 }
