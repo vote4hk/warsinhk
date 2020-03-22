@@ -240,7 +240,7 @@ function PassengerStats({
   )
 }
 
-function epidemicCurve(allWarsCase) {
+function epidemicCurve(t, allWarsCase) {
   const listDate = [];
   const startDate = "2020-01-18"
   const date1 = new Date(startDate)
@@ -259,7 +259,6 @@ function epidemicCurve(allWarsCase) {
     k--
   }
 
-  const { t } = useTranslation()
   const transformedInitialData = listDate.reduce((result, d) => {
     result[d] = {
       imported: 0, 
@@ -416,7 +415,7 @@ export default function IndexPage({ data }) {
             )}
             <Typography variant="h2">{t("epidemic.title")}</Typography>
             <BasicCard>
-            {epidemicCurve(data.fullWarsCase)}
+            {epidemicCurve(t, data.fullWarsCase)}
             </BasicCard>
             <Typography variant="h2">{t("dashboard.passenger")}</Typography>
 
