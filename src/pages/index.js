@@ -17,12 +17,12 @@ import Checkbox from "@material-ui/core/Checkbox"
 import AlertMessage from "@components/organisms/AlertMessage"
 import _get from "lodash.get"
 import CircularProgress from "@material-ui/core/CircularProgress"
+import { trackCustomEvent } from "gatsby-plugin-google-analytics"
 
 // default modules for user that doesn't configure at beginning. ORDER DOES MATTER!
 const DEFAULT_MODULES = [
   "daily_stat",
   "carousel",
-  "epidemic_chart",
   "outbound_alert",
   "confirmed_chart",
   "passenger_daily",
@@ -249,6 +249,11 @@ export default function IndexPage({ data }) {
     }
     setModules([...modules])
     saveToLocalStorage(LOCAL_STORAGE_KEY_DASHBOARD, [...modules])
+    trackCustomEvent({
+      category: "dashboard",
+      action: "module_change",
+      label: modules.join(","),
+    })
   }
 
   // load the settings from localStorage
