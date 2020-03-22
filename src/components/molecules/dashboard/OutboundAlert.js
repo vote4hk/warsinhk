@@ -10,6 +10,7 @@ import styled from "styled-components"
 import { useTranslation } from "react-i18next"
 import { withLanguage, getLocalizedPath } from "@/utils/i18n"
 import _groupBy from "lodash.groupby"
+import { useStaticQuery, graphql } from "gatsby"
 
 const StyledTooltip = styled(props => (
   <Tooltip
@@ -89,11 +90,33 @@ const CountryChip = ({
 )
 
 const OutboundAlert = props => {
-  const { data } = props
-
+  const { allBorderShutdown } = useStaticQuery(
+    graphql`
+      query {
+        allBorderShutdown(
+          sort: { order: ASC, fields: [category, status_order] }
+        ) {
+          edges {
+            node {
+              last_update
+              iso_code
+              category
+              detail_zh
+              detail_en
+              status_zh
+              status_en
+              status_order
+              source_url_zh
+              source_url_en
+            }
+          }
+        }
+      }
+    `
+  )
   const { t, i18n } = useTranslation()
 
-  const countryNodes = data.map(d => {
+  const countryNodes = allBorderShutdown.edges.map(d => {
     const country = getCountryFromISO(Number(d.node.iso_code))
     return {
       last_update: d.node.last_update,
@@ -193,5 +216,7 @@ const OutboundAlert = props => {
     </Grid>
   )
 }
+
+//allBorderShutdown(sort: { order: ASC, fields: [category, status_order] }) {
 
 export default OutboundAlert

@@ -27,7 +27,6 @@ const StyledSplitWrapper = styled.div`
       flex: 1 0 calc(50% - 12px);
 
       &:nth-of-type(2) {
-        max-width: 600px;
         flex: 0 0 calc(50% - 12px);
         margin-left: 24px;
       }
