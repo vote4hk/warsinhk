@@ -7,6 +7,7 @@ import { bps } from "@/ui/theme"
 import { formatNumber } from "@/utils"
 import Link from "@material-ui/core/Link"
 import { useStaticQuery, graphql } from "gatsby"
+import { BasicCard } from "@components/atoms/Card"
 
 const DailyChange = styled(({ badSign, children, ...props }) => (
   <Typography {...props}>{children}</Typography>
@@ -20,7 +21,7 @@ const DailyChange = styled(({ badSign, children, ...props }) => (
   }};
 `
 
-const DailyStatsContainer = styled(Box)`
+const DailyStatsContainer = styled(BasicCard)`
   display: flex;
   justify-content: space-between;
 `

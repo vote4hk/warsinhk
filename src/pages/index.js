@@ -44,6 +44,7 @@ const IndexContainer = styled.div`
 
   .settingContainer {
     background-color: white;
+    padding: 8px;
   }
 
   h2 {
@@ -162,6 +163,45 @@ export default function IndexPage({ data }) {
         showTitle: false,
       }
     )
+
+    registerComponent(
+      "carousel",
+      "dashboard.carousel",
+      React.lazy(() =>
+        import(
+          /* webpackPrefetch: true */ "@/components/molecules/dashboard/Carousel.js"
+        )
+      ),
+      {
+        showTitle: false,
+      }
+    )
+
+    registerComponent(
+      "friendly_links",
+      "dashboard.friendly_links",
+      React.lazy(() =>
+        import(
+          /* webpackPrefetch: true */ "@/components/molecules/dashboard/FriendlyLinks.js"
+        )
+      ),
+      {
+        showTitle: false,
+      }
+    )
+
+    registerComponent(
+      "latest_cases",
+      "dashboard.latest_cases",
+      React.lazy(() =>
+        import(
+          /* webpackPrefetch: true */ "@/components/molecules/dashboard/LatestCases.js"
+        )
+      ),
+      {
+        rowSpan: 6,
+      }
+    )
   }
 
   const handleModuleChange = id => {
@@ -256,7 +296,12 @@ export default function IndexPage({ data }) {
           <Fab
             color="primary"
             className="fab"
-            onClick={() => setShowSettings(!showSettings)}
+            onClick={() => {
+              if (!showSettings) {
+                window.scrollTo(0, 0)
+              }
+              setShowSettings(!showSettings)
+            }}
           >
             <SettingIcon />
           </Fab>
