@@ -61,11 +61,26 @@ export default function ConfirmedCaseVisual(props) {
       node.classification !== "-" &&
       node.onset_date.toLowerCase() !== "asymptomatic"
     ) {
-      result[node.onset_date][node.classification]++
+      if (result[node.onset_date]) {
+        result[node.onset_date][node.classification]++
+      }
     }
     return result
   }, transformedInitialData)
-
+  // Remove the latest data if it is 0 (not updated)
+  let chartData = Object.values(transformedData)
+  let tail = chartData.length - 1
+  for (let i = chartData.length - 1; i > 0; i--) {
+    const sum = Object.keys(chartData[i])
+      .filter(k => k !== "label")
+      .reduce((c, v) => c + v, 0)
+    if (sum === 0) {
+      tail = i - 1
+    } else {
+      break
+    }
+  }
+  chartData = chartData.slice(0, tail)
   return (
     <>
       <EpidemicChart
@@ -80,7 +95,7 @@ export default function ConfirmedCaseVisual(props) {
         keyToLabel={key => {
           return t(`epidemic_chart.key_${key}`)
         }}
-        data={Object.values(transformedData)}
+        data={chartData}
       />
       <Typography variant="body2">{t("epidemic.remarks")}</Typography>
     </>
