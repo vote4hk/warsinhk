@@ -11,7 +11,7 @@ import {
   mapColorForClassification,
   mapColorForStatus,
 } from "@/utils/colorHelper"
-import { formatDateDDMM } from "@/utils"
+import { formatDateMDD } from "@/utils"
 import _get from "lodash.get"
 
 const CaseCard = styled.div`
@@ -99,8 +99,8 @@ const WarsCaseTrack = ({ i18n, t, track }) => {
               <Box>{withLanguage(i18n, tr.node, "action")}</Box>
               <Box>
                 {tr.node.start_date === tr.node.end_date
-                  ? tr.node.end_date
-                  : `${formatDateDDMM(tr.node.start_date)} - ${formatDateDDMM(
+                  ? formatDateMDD(tr.node.end_date)
+                  : `${formatDateMDD(tr.node.start_date)} - ${formatDateMDD(
                       tr.node.end_date
                     )}`}
               </Box>
