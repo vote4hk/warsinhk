@@ -2,155 +2,135 @@ import React from "react"
 import Typography from "@material-ui/core/Typography"
 import Box from "@material-ui/core/Box"
 import MuiLink from "@material-ui/core/Link"
-import { Link } from "gatsby"
 import styled from "styled-components"
 import { Row } from "@components/atoms/Row"
-import { withLanguage, getLocalizedPath } from "@/utils/i18n"
-import { Label } from "@components/atoms/Text"
+import { withLanguage } from "@/utils/i18n"
+// import { withLanguage, getLocalizedPath } from "@/utils/i18n"
 import { DefaultChip } from "@components/atoms/Chip"
 import {
   mapColorForClassification,
   mapColorForStatus,
 } from "@/utils/colorHelper"
 import { formatDateDDMM } from "@/utils"
-import * as d3 from "d3"
 import _get from "lodash.get"
 
-const colors = d3.scaleOrdinal(d3.schemeDark2).domain([0, 1, 2, 3, 4])
-
-const WarsCaseContainer = styled(Box)`
-  background: ${props => props.theme.palette.background.paper};
-  padding: 8px 16px;
+const CaseCard = styled.div`
   margin: 16px 0;
-  box-shadow: ${props =>
-    props.selected
-      ? "0px 2px 10px -1px rgba(0, 0, 0, 0.2), 0px 1px 10px 0px rgba(0, 0, 0, 0.14), 0px 1px 3px 0px rgba(0, 0, 0, 0.12)"
-      : "0px 2px 1px -1px rgba(0,0,0,0.2), 0px 1px 1px 0px rgba(0,0,0,0.14), 0px 1px 3px 0px rgba(0,0,0,0.12)"};
 
-  border-top: 3px ${props => props.statuscolor} solid;
-  max-height: 80vh;
-  overflow-y: auto;
-
-  a {
-    color: ${props => props.theme.palette.primary.main};
+  .header {
+    border-radius: 12px 12px 0 0;
+    padding: 12px 16px;
+    background: ${props => props.statuscolor};
+    color: #ffffff;
   }
-  .track-row {
-    border-top: 1px #ddd solid;
+
+  .content {
+    max-height: 70vh;
+    overflow-y: auto;
+    background: #ffffff;
+    border-radius: 0 0 12px 12px;
+    padding: 12px 16px 12px;
+  }
+
+  .basic-info {
+    padding-bottom: 12px;
+  }
+
+  .highlight {
+    margin: 12px 0 12px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+
+    label {
+      display: block;
+      font-size: 12px;
+      margin-bottom: 4px;
+    }
+
+    p {
+      font-weight: 400;
+    }
+  }
+
+  .detail {
+    border-top: 1px #cfcfcf solid;
+    padding: 16px 0 16px;
+
+    a {
+      display: inline-block;
+      margin-top: 6px;
+    }
+  }
+
+  .track-header {
+    color: #525252;
+    font-size: 14px;
+  }
+
+  .track-item {
     padding: 8px 0 8px;
+    border-top: 1px #cfcfcf solid;
   }
 
-  .wars-row {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 4px;
-    div:not(:first-child):last-child {
-      text-align: right;
-    }
-    b {
-      font-weight: 700;
-    }
+  .track-remarks {
+    color: #5c5c5c;
   }
-`
 
-const WarsCaseDetail = styled(Typography)`
-  margin-top: 20px;
-`
-
-const WarsCaseGroup = styled.div`
-  margin-top: 16px;
-  padding: 8px 16px;
-  background: #eee;
-  border-radius: 8px;
-
-  div:last-child {
+  .track-source {
     display: flex;
-    flex-wrap: wrap;
     justify-content: flex-start;
+    margin-top: 12px;
+    label {
+      border: 1px ${props => props.theme.palette.background.main} solid;
+      padding: 2px 6px;
+      margin-right: 6px;
+      font-size: ${props => props.theme.typography.smallFontSize}px;
+    }
   }
-`
-
-const WarsRow = styled(Row)`
-  margin-bottom: 8px;
-  div:not(:first-child):last-child {
-    text-align: right;
-  }
-  b {
-    font-weight: 700;
-  }
-`
-
-const StatusRow = styled(Row)`
-  margin: 8px 0 10px;
-`
-const WarsCaseTrackContainer = styled(Box)`
-  margin-top: 16px;
-`
-
-const CaseLabel = styled(Box)`
-  color: ${props => props.color};
-  background: white;
-  border: ${props => props.color} 1px solid;
-  padding: 2px 5px 2px;
-  margin-right: 4px;
-  border-radius: 2px;
-`
-const SourceRow = styled(Box)`
-  display: flex;
-  justify-content: flex-start;
-  margin-top: 8px;
-  font-size: ${props => props.theme.typography.smallFontSize}px;
 `
 const WarsCaseTrack = ({ i18n, t, track }) => {
   return (
-    <WarsCaseTrackContainer>
+    <>
       {track.map((tr, i) => {
         const remarksText = withLanguage(i18n, tr.node, "remarks")
         return (
-          <div key={i} className="track-row">
-            {tr.node.start_date && tr.node.end_date && (
-              <div className="wars-row">
-                <Box>
-                  {tr.node.start_date === tr.node.end_date
-                    ? tr.node.end_date
-                    : `${formatDateMDD(tr.node.start_date)} - ${formatDateMDD(
-                        tr.node.end_date
-                      )}`}
-                </Box>
-                <b>{withLanguage(i18n, tr.node, "action")}</b>
-              </div>
-            )}
-            <div className="wars-row">
-              <b>{withLanguage(i18n, tr.node, "location")}</b>
-              {(!tr.node.start_date || !tr.node.end_date) && (
-                <b>{withLanguage(i18n, tr.node, "action")}</b>
-              )}
-            </div>
+          <div key={i} className="track-item">
+            <Row className="track-header">
+              <Box>{withLanguage(i18n, tr.node, "action")}</Box>
+              <Box>
+                {tr.node.start_date === tr.node.end_date
+                  ? tr.node.end_date
+                  : `${formatDateDDMM(tr.node.start_date)} - ${formatDateDDMM(
+                      tr.node.end_date
+                    )}`}
+              </Box>
+            </Row>
+            <Row className="">
+              <Typography variant="body1">
+                {withLanguage(i18n, tr.node, "location")}
+              </Typography>
+            </Row>
             {remarksText && (
-              <div className="wars-row">
-                <Typography variant="body2">{remarksText}</Typography>
-              </div>
+              <Row className="track-remarks">
+                <Typography variant="body1">{remarksText}</Typography>
+              </Row>
             )}
-
-            <SourceRow>
+            <Row className="track-source">
               {tr.node.source_url_1 && (
                 <MuiLink target="_blank" href={tr.node.source_url_1}>
-                  <CaseLabel color={colors(2)}>
-                    {t("high_risk.source_1")}
-                  </CaseLabel>
+                  <label>{t("high_risk.source_1")}</label>
                 </MuiLink>
               )}
               {tr.node.source_url_2 && (
                 <MuiLink target="_blank" href={tr.node.source_url_2}>
-                  <CaseLabel color={colors(4)}>
-                    {t("high_risk.source_2")}
-                  </CaseLabel>
+                  <label>{t("high_risk.source_2")}</label>
                 </MuiLink>
               )}
-            </SourceRow>
+            </Row>
           </div>
         )
       })}
-    </WarsCaseTrackContainer>
+    </>
   )
 }
 
@@ -161,11 +141,13 @@ export const WarsCaseCard = React.forwardRef((props, ref) => {
     t,
     isSelected,
     patientTrack,
-    showViewMore = false,
+    // showViewMore = false,
   } = props
   const trackData = _get(patientTrack, "[0].edges", null)
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
+
+  console.log(props)
   const track = React.useMemo(
     () => trackData && <WarsCaseTrack i18n={i18n} t={t} track={trackData} />,
     [i18n, t, trackData]
@@ -173,110 +155,100 @@ export const WarsCaseCard = React.forwardRef((props, ref) => {
 
   const dateFormat = /\d{4}-\d{2}-\d{2}/g
   return (
-    <WarsCaseContainer
+    <CaseCard
       key={`case-${node.case_no}`}
       selected={isSelected}
       statuscolor={mapColorForStatus(node.status).main}
       ref={ref}
     >
-      <Row>
-        <Box>
-          {`#${node.case_no}`} ({withLanguage(i18n, node, "type")})
-        </Box>
-        <Box>
-          <DefaultChip
-            textcolor={mapColorForStatus(node.status).main}
-            bordercolor={mapColorForStatus(node.status).main}
-            size="small"
-            fontSize={14}
-            label={t(`cases.status_${node.status}`)}
-          />
-        </Box>
-      </Row>
-      <Row>
-        <Box>
-          <Typography variant="h6">
+      <Box className="header">
+        <Typography variant="h6">
+          {`#${node.case_no}`} ({withLanguage(i18n, node, "status")})
+        </Typography>
+      </Box>
+      <Box className="content">
+        <Row className="basic-info">
+          <Typography variant="h4">
             {node.age && t("dashboard.patient_age_format", { age: node.age })}{" "}
             {(node.gender === "M" || node.gender === "F") &&
               t(`dashboard.gender_${node.gender}`)}
           </Typography>
-        </Box>
-      </Row>
-      <StatusRow>
-        <Box>
-          {node.classification && (
-            <DefaultChip
-              bordercolor={mapColorForClassification(node.classification).main}
-              backgroundcolor={
-                mapColorForClassification(node.classification).main
-              }
-              textcolor={
-                mapColorForClassification(node.classification).contrastText
-              }
-              size="small"
-              fontSize={14}
-              label={withLanguage(i18n, node, "classification")}
-            />
-          )}
-        </Box>
-      </StatusRow>
-      <WarsRow>
-        {node.onset_date && (
           <Box>
-            <Label>{t("dashboard.patient_onset_date")}</Label>
-            <b>
-              {node.onset_date.match(dateFormat)
-                ? node.onset_date
-                : node.onset_date === "asymptomatic"
-                ? t("cases.asymptomatic")
-                : ""}
-            </b>
+            {node.classification && (
+              <DefaultChip
+                bordercolor={
+                  mapColorForClassification(node.classification).main
+                }
+                backgroundcolor={
+                  mapColorForClassification(node.classification).main
+                }
+                textcolor={
+                  mapColorForClassification(node.classification).contrastText
+                }
+                fontSize={14}
+                label={withLanguage(i18n, node, "classification")}
+              />
+            )}
           </Box>
-        )}
-        <Box>
-          <Label>{t("dashboard.patient_confirm_date")}</Label>
-          <b>{node.confirmation_date}</b>
-        </Box>
-      </WarsRow>
-      <WarsRow>
-        <Box>
-          <Label>{t("dashboard.patient_citizenship")}</Label>
-          <b>{withLanguage(i18n, node, "citizenship") || "-"}</b>
-        </Box>
-        <Box>
-          <Label>{t("dashboard.patient_hospital")}</Label>
-          <b>{withLanguage(i18n, node, "hospital") || "-"}</b>
-        </Box>
-      </WarsRow>
-      <Row>
-        <WarsCaseDetail>{withLanguage(i18n, node, "detail")}</WarsCaseDetail>
-      </Row>
-      {node.group_id && (
-        <WarsCaseGroup>
-          <Row>
-            <Typography variant="body2">
-              {withLanguage(i18n, node, "group_name")}
+        </Row>
+        <Row className="highlight">
+          {node.onset_date && (
+            <Box>
+              <label>{t("dashboard.patient_onset_date")}</label>
+              <Typography variant="body1">
+                {node.onset_date.match(dateFormat)
+                  ? node.onset_date
+                  : node.onset_date === "asymptomatic"
+                  ? t("cases.asymptomatic")
+                  : ""}
+              </Typography>
+            </Box>
+          )}
+          <Box>
+            <label>{t("dashboard.patient_confirm_date")}</label>
+            <Typography variant="body1">{node.confirmation_date}</Typography>
+          </Box>
+        </Row>
+        <Row className="highlight">
+          <Box>
+            <label>{t("dashboard.patient_citizenship")}</label>
+            <Typography variant="body1">
+              {withLanguage(i18n, node, "citizenship") || "-"}
             </Typography>
-          </Row>
-          <Row>{withLanguage(i18n, node, "group_description")}</Row>
-          <Row>
-            {node.group_related_cases.split(",").map(rc => (
-              <span>{`#${rc},`}</span>
-            ))}
-          </Row>
-        </WarsCaseGroup>
-      )}
-      <Row>
-        <MuiLink href={node.source_url} target="_blank">
-          {t("dashboard.source")}
-        </MuiLink>
-        {showViewMore && (
-          <Link to={getLocalizedPath(i18n, `/cases/#${node.case_no} `)}>
-            {t("cases.view_more")}
-          </Link>
-        )}
-      </Row>
-      {track}
-    </WarsCaseContainer>
+          </Box>
+          <Box>
+            <label>{t("dashboard.patient_hospital")}</label>
+            <Typography variant="body1">
+              {withLanguage(i18n, node, "hospital") || "-"}
+            </Typography>
+          </Box>
+        </Row>
+        <Row className="highlight">
+          <Box>
+            <label>{t("dashboard.group_name")}</label>
+            <Typography variant="body1">
+              {withLanguage(i18n, node, "group_name") || "-"}
+            </Typography>
+          </Box>
+        </Row>
+
+        <Box className="detail">
+          <Typography variant="body1">
+            {withLanguage(i18n, node, "detail")}
+          </Typography>
+          <MuiLink variant="body1" href={node.source_url} target="_blank">
+            {t("dashboard.source")}
+          </MuiLink>
+        </Box>
+        {track}
+        {/* <Row>
+          {showViewMore && (
+            <Link to={getLocalizedPath(i18n, `/cases/#${node.case_no} `)}>
+              {t("cases.view_more")}
+            </Link>
+          )}
+        </Row> */}
+      </Box>
+    </CaseCard>
   )
 })
