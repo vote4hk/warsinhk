@@ -213,7 +213,8 @@ export const WarsCaseCard = React.forwardRef((props, ref) => {
               {node.onset_date.match(dateFormat)
                 ? node.onset_date
                 : node.onset_date &&
-                  node.onset_date.toLowerCase() === "asymptomatic"
+                  (node.onset_date.toLowerCase() === "asymptomatic" ||
+                    node.onset_date.toLowerCase() === "-")
                 ? t("cases.asymptomatic")
                 : ""}
             </b>

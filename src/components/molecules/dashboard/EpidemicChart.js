@@ -59,7 +59,8 @@ export default function ConfirmedCaseVisual(props) {
   const transformedData = data.fullWarsCase.edges.reduce((result, { node }) => {
     if (
       node.classification !== "-" &&
-      node.onset_date.toLowerCase() !== "asymptomatic"
+      (node.onset_date.toLowerCase() !== "asymptomatic" ||
+        node.onset_date.toLowerCase() !== "-")
     ) {
       if (result[node.onset_date]) {
         result[node.onset_date][node.classification]++
