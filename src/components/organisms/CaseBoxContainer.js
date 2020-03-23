@@ -11,116 +11,43 @@ import _map from "lodash/map"
 import * as moment from "moment"
 import { withLanguage } from "@/utils/i18n"
 import Typography from "@material-ui/core/Typography"
+import MaleIcon from "@/components/icons/male.svg"
+import FemaleIcon from "@/components/icons/female.svg"
 
-const colorArray = [
-  "#1a237e",
-  "#ff74e0",
-  "#1b5e20",
-  "#00bfa5",
-  "#651fff",
-  "#E6B333",
-  "#3366E6",
-  "#999966",
-  "#99FF99",
-  "#B34D4D",
-  "#80B300",
-  "#809900",
-  "#E6B3B3",
-  "#6680B3",
-  "#66991A",
-  "#FF99E6",
-  "#CCFF1A",
-  "#FF1A66",
-  "#E6331A",
-  "#33FFCC",
-  "#66994D",
-  "#B366CC",
-  "#4D8000",
-  "#B33300",
-  "#CC80CC",
-  "#66664D",
-  "#991AFF",
-  "#E666FF",
-  "#4DB3FF",
-  "#1AB399",
-  "#E666B3",
-  "#33991A",
-  "#CC9999",
-  "#B3B31A",
-  "#00E680",
-  "#4D8066",
-  "#809980",
-  "#E6FF80",
-  "#1AFF33",
-  "#999933",
-  "#FF3380",
-  "#CCCC00",
-  "#66E64D",
-  "#4D80CC",
-  "#9900B3",
-  "#E64D66",
-  "#4DB380",
-  "#FF4D4D",
-  "#99E6E6",
-  "#6666FF",
-]
-
-const StyledBox = styled(Box)`
+const CaseAvatar = styled(Box)`
   cursor: pointer;
-  margin: 0 8px 10px;
   width: 32px;
   height: 32px;
-  font-size: 12px;
   font-weight: 900;
+  font-size: 11px;
   display: flex;
   justify-content: center;
   align-items: center;
-  color: ${props =>
-    props.gender === "M"
-      ? "#78bbce"
-      : props.gender === "F"
-      ? "#ffa5eb"
-      : "#fff"};
-  background: ${props => props.statuscolor || "transparent"};
-  border: 3px ${props => props.groupcolor} solid;
-  border-radius: 4px;
-  box-shadow: 0px 2px 1px -1px rgba(0, 0, 0, 0.2),
-    0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 1px 3px 0px rgba(0, 0, 0, 0.12);
+  margin-bottom: 16px;
+  position: relative;
+  width: 20%;
+  height: auto;
+  margin-bottom: 20px;
 
-  ${bps.down("sm")} {
-    position: relative;
-    width: calc((100% / 6) - 8px);
-    height: auto;
-    border-radius: 12px;
-    font-size: 15px;
-    padding-bottom: calc((100% / 6) - 8px - 10px);
-    margin: 0 4px 10px;
-    border-width: 5px;
+  g {
+    fill: ${props => props.statuscolor};
+  }
 
-    span {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-    }
+  .case-no {
+    position: absolute;
+    display: table;
+    margin: 2px auto;
+    color: ${props => props.statuscolor};
   }
 `
 const WarsGroupContainer = styled(Box)`
-  background: ${props => props.theme.palette.background.paper};
-  padding: 16px;
-  margin: 16px 0;
-  box-shadow: ${props =>
-    props.selected
-      ? "0px 2px 10px -1px rgba(0, 0, 0, 0.2), 0px 1px 10px 0px rgba(0, 0, 0, 0.14), 0px 1px 3px 0px rgba(0, 0, 0, 0.12)"
-      : "0px 2px 1px -1px rgba(0,0,0,0.2), 0px 1px 1px 0px rgba(0,0,0,0.14), 0px 1px 3px 0px rgba(0,0,0,0.12)"};
-
-  max-height: 80vh;
-  overflow-y: auto;
-  border-radius: 5px;
+  margin: 16px 0 16px;
+  border-bottom: 1px #cfcfcf solid;
   }
 `
 
 const GroupHeader = styled(Typography)`
-  margin-bottom: 8px;
+  margin-bottom: 16px;
 `
 
 const DescriptionContainer = styled(Box)`
@@ -144,31 +71,20 @@ export const WarsCaseBox = React.forwardRef((props, ref) => {
   } = props
 
   return (
-    <StyledBox
+    <CaseAvatar
       className={`wars_box_${node.case_no}`}
       statuscolor={mapColorForStatus(node.status).main}
-      groupcolor={colorArray[node.group_id || 0]}
-      gender={node.gender}
       onClick={e => handleBoxClick(node)}
     >
-      <span className="wars_box_case_number">{node.case_no}</span>
-    </StyledBox>
+      {node.gender === "F" ? <FemaleIcon /> : <MaleIcon />}
+      <span className="case-no">{node.case_no}</span>
+    </CaseAvatar>
   )
 })
 
 export const WarsCaseBoxLegend = React.forwardRef((props, ref) => {
-  const { caseGroup, i18n } = props
-  return (
-    <>
-      {caseGroup.map(({ node }, id) => {
-        return (
-          <li style={{ color: colorArray[id || 0] }}>
-            {withLanguage(i18n, node, "name")}
-          </li>
-        )
-      })}
-    </>
-  )
+  // const { caseGroup, i18n } = props
+  return <></>
 })
 
 export const WarsCaseBoxContainer = React.forwardRef((props, ref) => {
@@ -198,10 +114,15 @@ export const WarsCaseBoxContainer = React.forwardRef((props, ref) => {
     let count = 0
     let dateLabel = ""
     while (date.isAfter(caseStartDate)) {
-      if (count % 7 === 0) {
-        dateLabel = `${moment(date)
-          .add(-7, "days")
-          .format("M.DD")} - ${date.format("M.DD")}`
+      // Group by 7 days
+      // if (count % 7 === 0) {
+      //   dateLabel = `${moment(date)
+      //     .add(-7, "days")
+      //     .format("M.DD")} - ${date.format("M.DD")}`
+      // }
+      //
+      if (count % 1 === 0) {
+        dateLabel = date.format("M.DD")
       }
       dateMap[date.format("YYYY-MM-DD")] = dateLabel
       count++
