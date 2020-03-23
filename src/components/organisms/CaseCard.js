@@ -19,7 +19,7 @@ const CaseCard = styled.div`
 
   .header {
     border-radius: 12px 12px 0 0;
-    padding: 12px 16px;
+    padding: 16px;
     background: ${props => props.statuscolor};
     color: #ffffff;
   }
@@ -147,12 +147,12 @@ export const WarsCaseCard = React.forwardRef((props, ref) => {
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
 
-  console.log(props)
   const track = React.useMemo(
     () => trackData && <WarsCaseTrack i18n={i18n} t={t} track={trackData} />,
     [i18n, t, trackData]
   )
 
+  const groupName = withLanguage(i18n, node, "group_name")
   const dateFormat = /\d{4}-\d{2}-\d{2}/g
   return (
     <CaseCard
@@ -198,7 +198,8 @@ export const WarsCaseCard = React.forwardRef((props, ref) => {
               <Typography variant="body1">
                 {node.onset_date.match(dateFormat)
                   ? node.onset_date
-                  : node.onset_date === "asymptomatic"
+                  : node.onset_date.toLowerCase() === "asymptomatic" ||
+                    node.onset_date.toLowerCase() === "none"
                   ? t("cases.asymptomatic")
                   : ""}
               </Typography>
@@ -223,14 +224,14 @@ export const WarsCaseCard = React.forwardRef((props, ref) => {
             </Typography>
           </Box>
         </Row>
-        <Row className="highlight">
-          <Box>
-            <label>{t("dashboard.group_name")}</label>
-            <Typography variant="body1">
-              {withLanguage(i18n, node, "group_name") || "-"}
-            </Typography>
-          </Box>
-        </Row>
+        {groupName && (
+          <Row className="highlight">
+            <Box>
+              <label>{t("dashboard.group_name")}</label>
+              <Typography variant="body1">{groupName}</Typography>
+            </Box>
+          </Row>
+        )}
 
         <Box className="detail">
           <Typography variant="body1">
