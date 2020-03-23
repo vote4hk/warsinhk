@@ -13,7 +13,6 @@ import {
   WarsCaseBoxLegend,
 } from "@/components/organisms/CaseBoxContainer"
 import { WarsCaseCard } from "@components/organisms/CaseCard"
-import { RelationWarsCaseCard } from "@components/organisms/RelationCaseCard"
 import InfiniteScroll from "@/components/modecules/InfiniteScroll"
 import ContextStore from "@/contextStore"
 import { CASES_BOX_VIEW, CASES_CARD_VIEW } from "@/reducers/cases"
@@ -30,8 +29,16 @@ const SelectedCardContainer = styled.div`
   width: 100%;
   height: 100%;
   left: 0;
-  bottom: 0;
+  bottom: -60px;
   background: rgba(0, 0, 0, 0.15);
+  padding: 0 24px;
+  [class*="CaseCard"] {
+    max-width: 800px;
+  }
+
+  ${bps.up("sm")} {
+    padding-left: 260px;
+  }
 `
 
 const GroupingButtonContainer = styled(Box)`
@@ -164,10 +171,6 @@ const RelationPage = props => {
     />
   )
 
-  const renderRelationWarsCaseCard = node => (
-    <RelationWarsCaseCard node={node} i18n={i18n} t={t} key={node.case_no} />
-  )
-
   const LegendContent = i18n => {
     return (
       <>
@@ -278,7 +281,7 @@ const RelationPage = props => {
           />
           {selectedCase && (
             <SelectedCardContainer>
-              {renderRelationWarsCaseCard(selectedCase)}
+              {renderCaseCard(selectedCase)}
             </SelectedCardContainer>
           )}
           <Dialog
