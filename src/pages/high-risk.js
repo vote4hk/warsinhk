@@ -38,6 +38,7 @@ const HighRiskCardContainer = styled("div")`
         ? Theme.palette.secondary.main
         : props.theme.palette.background.paper}
     solid;
+  cursor: pointer;
 `
 
 const HighRiskCardTitle = styled(Box)``
