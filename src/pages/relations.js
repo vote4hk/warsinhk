@@ -165,9 +165,9 @@ const RelationPage = props => {
       key={node.case_no}
       // isSelected={selectedCase === item.node.case_no}
       // ref={selectedCase === item.node.case_no ? selectedCard : null}
-      // patientTrack={data.patient_track.group.filter(
-      //   t => t.fieldValue === node.case_no
-      // )}
+      patientTrack={data.patient_track.group.filter(
+        t => t.fieldValue === node.case_no
+      )}
     />
   )
 
