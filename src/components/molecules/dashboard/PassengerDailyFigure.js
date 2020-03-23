@@ -128,10 +128,7 @@ export default () => {
     { node: airport_today },
     { node: airport_ytd },
   ] = data.allImmdAirport.edges
-  const [
-    { node: total_today },
-    { node: total_ytd },
-  ] = data.allImmdShenzhenBay.edges
+  const [{ node: total_today }, { node: total_ytd }] = data.allImmdTotal.edges
   const dataArray = [
     {
       label: t("dashboard.airport"),
