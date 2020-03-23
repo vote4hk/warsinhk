@@ -60,7 +60,7 @@ export default function ConfirmedCaseVisual(props) {
     if (
       node.classification !== "-" &&
       (node.onset_date.toLowerCase() !== "asymptomatic" ||
-        node.onset_date.toLowerCase() !== "-")
+        node.onset_date.toLowerCase() !== "none")
     ) {
       if (result[node.onset_date]) {
         result[node.onset_date][node.classification]++
