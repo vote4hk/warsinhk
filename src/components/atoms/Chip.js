@@ -7,7 +7,7 @@ const StyledChip = styled(Chip)`
   background: ${props => props.backgroundcolor || "transparent"};
   color: ${props => props.textcolor};
   border: 1px ${props => props.bordercolor} solid;
-  padding: 3px 5px;
+  padding: ${props => props.padding || "3px 5px"};
 `
 
 export const DefaultChip = props => {
@@ -16,7 +16,7 @@ export const DefaultChip = props => {
       backgroundcolor={props.backgroundcolor}
       textcolor={props.textcolor}
       bordercolor={props.bordercolor}
-      size="small"
+      padding={props.padding}
       fontSize={props.fontSize}
       label={props.label}
     />

@@ -85,6 +85,7 @@
   "dashboard.patient_confirm_date": "Confirmed date",
   "dashboard.patient_citizenship": "Place of residence",
   "dashboard.patient_hospital": "Hospital admitted",
+  "dashboard.group_name": "Group",
   "dashboard.patient_status": "Status",
   "dashboard.source": "Source",
   "dashboard.passenger": "Arriving Passenger Traffic",

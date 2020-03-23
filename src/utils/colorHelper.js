@@ -1,4 +1,4 @@
-import { pink, teal, red, green, grey, indigo } from "@material-ui/core/colors"
+import { pink, teal, red, grey } from "@material-ui/core/colors"
 
 export const mapColorForClassification = classification => {
   const mapping = {
@@ -43,15 +43,15 @@ export const mapColorForClassification = classification => {
 export const mapColorForStatus = status => {
   const mapping = {
     hospitalised: {
-      main: indigo[900],
+      main: "#f99f02",
       contrastText: "#000",
     },
     discharged: {
-      main: green[700],
+      main: "#368e3b",
       contrastText: "#fff",
     },
     serious: {
-      main: red[600],
+      main: "#eb605e",
       contrastText: "#fff",
     },
     critical: {
@@ -59,7 +59,7 @@ export const mapColorForStatus = status => {
       contrastText: "#fff",
     },
     deceased: {
-      main: red["A700"],
+      main: "#767676",
       contrastText: "#fff",
     },
     default: {
