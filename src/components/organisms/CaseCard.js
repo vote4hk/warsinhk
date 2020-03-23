@@ -13,15 +13,25 @@ import {
 } from "@/utils/colorHelper"
 import { formatDateMDD } from "@/utils"
 import _get from "lodash.get"
+import CloseIcon from "@material-ui/icons/Close"
 
 const CaseCard = styled.div`
   margin: 16px 0;
 
   .header {
     border-radius: 12px 12px 0 0;
-    padding: 16px;
+    font-size: 16px;
+    font-weight: 700;
+    padding: 16px 16px 14px;
     background: ${props => props.statuscolor};
     color: #ffffff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    svg {
+      cursor: pointer;
+    }
   }
 
   .content {
@@ -141,6 +151,7 @@ export const WarsCaseCard = React.forwardRef((props, ref) => {
     t,
     isSelected,
     patientTrack,
+    handleClose = undefined,
     // showViewMore = false,
   } = props
   const trackData = _get(patientTrack, "[0].edges", null)
@@ -162,9 +173,10 @@ export const WarsCaseCard = React.forwardRef((props, ref) => {
       ref={ref}
     >
       <Box className="header">
-        <Typography variant="h6">
+        <Box>
           {`#${node.case_no}`} ({withLanguage(i18n, node, "status")})
-        </Typography>
+        </Box>
+        {handleClose && <CloseIcon onClick={e => handleClose(e)} />}
       </Box>
       <Box className="content">
         <Row className="basic-info">

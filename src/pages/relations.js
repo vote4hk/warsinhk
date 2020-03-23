@@ -168,6 +168,9 @@ const RelationPage = props => {
       patientTrack={data.patient_track.group.filter(
         t => t.fieldValue === node.case_no
       )}
+      handleClose={
+        view === CASES_BOX_VIEW ? e => setSelectedCase(null) : undefined
+      }
     />
   )
 
