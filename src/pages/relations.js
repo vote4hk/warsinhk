@@ -5,7 +5,7 @@ import SEO from "@/components/templates/SEO"
 import styled from "styled-components"
 import Layout from "@components/templates/Layout"
 import { graphql } from "gatsby"
-import MultiPurposeSearch from "@/components/modecules/MultiPurposeSearch"
+import MultiPurposeSearch from "@/components/molecules/MultiPurposeSearch"
 import { createDedupOptions, createDedupArrayOptions } from "@/utils/search"
 import { PageContent } from "../components/atoms/Container"
 import {
@@ -13,7 +13,7 @@ import {
   WarsCaseBoxLegend,
 } from "@/components/organisms/CaseBoxContainer"
 import { WarsCaseCard } from "@components/organisms/CaseCard"
-import InfiniteScroll from "@/components/modecules/InfiniteScroll"
+import InfiniteScroll from "@/components/molecules/InfiniteScroll"
 import ContextStore from "@/contextStore"
 import { CASES_BOX_VIEW, CASES_CARD_VIEW } from "@/reducers/cases"
 import { Button, ButtonGroup } from "@material-ui/core"
