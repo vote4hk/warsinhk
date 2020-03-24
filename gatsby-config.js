@@ -77,5 +77,6 @@ module.exports = {
     },
     // `gatsby-plugin-offline`,
     `gatsby-plugin-remove-serviceworker`,
+    `gatsby-plugin-remove-trailing-slashes`,
   ],
 }
