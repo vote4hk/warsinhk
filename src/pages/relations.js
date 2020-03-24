@@ -112,10 +112,14 @@ const RelationPage = props => {
   const [filteredCases, setFilteredCases] = useState(cases)
   const [selectedCase, setSelectedCase] = useState(null)
   const [showLegend, setShowLegend] = useState(false)
-  // 1: by date
-  // 2: by area
-  // 3: by group
-  // 4: by status
+  // 1: by date   : from latest to oldest
+  // 2: by date   : from oldest to latest
+  // 3: by area   : from greatest to least
+  // 4: by area   : from least to greatest
+  // 5: by group  : from more to less
+  // 6: by group  : from less to more
+  // 7: by status
+
   const [selectedGroupButton, setGroupButton] = useState(1)
 
   const handleClickOpen = () => {
@@ -189,8 +193,11 @@ const RelationPage = props => {
 
   const toggleGroupingButtons = [
     "cases.toggle_date",
+    "cases.toggle_date_reverse",
     "cases.toggle_area",
+    "cases.toggle_area_reverse",
     "cases.toggle_group",
+    "cases.toggle_group_reverse",
     "cases.toggle_status",
   ]
 

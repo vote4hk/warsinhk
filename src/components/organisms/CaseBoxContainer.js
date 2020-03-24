@@ -96,7 +96,19 @@ export const WarsCaseBoxContainer = React.forwardRef((props, ref) => {
   const { filteredCases, handleBoxClick, selectedGroupButton } = props
   const { t, i18n } = useTranslation()
 
-  if (selectedGroupButton === 1) {
+  // --------------------------------------
+  // selectedGroupButton
+  // --------------------------------------
+  // 1: by date   : from latest to oldest
+  // 2: by date   : from oldest to latest
+  // 3: by area   : from greatest to least
+  // 4: by area   : from least to greatest
+  // 5: by group  : from more to less
+  // 6: by group  : from less to more
+  // 7: by status
+  // --------------------------------------
+
+  if (selectedGroupButton === 1 || selectedGroupButton === 2) {
     // **********************
     // ** By Date
     // **********************
@@ -165,7 +177,7 @@ export const WarsCaseBoxContainer = React.forwardRef((props, ref) => {
         })}
       </>
     )
-  } else if (selectedGroupButton === 2) {
+  } else if (selectedGroupButton === 3 || selectedGroupButton === 4) {
     // **********************
     // ** By Area
     // **********************
@@ -207,7 +219,7 @@ export const WarsCaseBoxContainer = React.forwardRef((props, ref) => {
         })}
       </>
     )
-  } else if (selectedGroupButton === 3) {
+  } else if (selectedGroupButton === 5 || selectedGroupButton === 6) {
     // **********************
     // ** By Group
     // **********************
@@ -261,7 +273,7 @@ export const WarsCaseBoxContainer = React.forwardRef((props, ref) => {
         })}
       </>
     )
-  } else if (selectedGroupButton === 4) {
+  } else if (selectedGroupButton === 7) {
     // **********************
     // ** By Status
     // **********************
