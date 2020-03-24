@@ -2,7 +2,7 @@ import React from "react"
 import { useTranslation } from "react-i18next"
 import SEO from "@/components/templates/SEO"
 import Layout from "@components/templates/Layout"
-import { Typography, Link, Button } from "@material-ui/core"
+import { Typography, Button } from "@material-ui/core"
 import { graphql } from "gatsby"
 import styled from "styled-components"
 import Grid from "@material-ui/core/Grid"
@@ -13,18 +13,24 @@ import { FaFacebookF, FaGithubAlt } from "react-icons/fa"
 import Box from "@material-ui/core/Box"
 import { trackCustomEvent } from "gatsby-plugin-google-analytics"
 
-const Image = styled.img`
-  width: 64px;
-  height: 64px;
-  padding: 5px;
-  margin-right: 10px;
-  border-radius: 50px;
-`
-
 const CentreRow = styled.div`
   display: flex;
   align-items: center;
+  word-break: break-all;
+  padding: 3px;
+
+  img {
+    width: 60px;
+    height: 60px;
+    margin-right: 6px;
+    border-radius: 50px;
+    flex-shrink: 0;
+  }
 `
+
+const StyledLink = styled(CentreRow).attrs({
+  as: "a",
+})``
 
 const LinkBox = styled(Box)`
   button,
@@ -35,15 +41,14 @@ const LinkBox = styled(Box)`
 `
 const Contributor = ({ githubId }) => {
   return (
-    <Link href={`https://github.com/${githubId}`} target="_blank">
-      <CentreRow>
-        <Image
-          src={`https://avatars.githubusercontent.com/${githubId}?v=4&s=120`}
-          loading="lazy"
-        />
-        <Typography variant="h5">{githubId}</Typography>
-      </CentreRow>
-    </Link>
+    <StyledLink href={`https://github.com/${githubId}`} target="_blank">
+      <img
+        src={`https://avatars.githubusercontent.com/${githubId}?v=4&s=120`}
+        loading="lazy"
+        alt={githubId}
+      />
+      <Typography variant="h5">{githubId}</Typography>
+    </StyledLink>
   )
 }
 
@@ -51,10 +56,11 @@ const Volunteer = ({ siteUrl, item: { id, name } }) => {
   const baseUrl = `${siteUrl}/images/avatars`
   return (
     <CentreRow>
-      <Image
+      <img
         loading="lazy"
         src={`${baseUrl}/${id}.jpg`}
         onError={e => (e.target.src = `${baseUrl}/default.jpg`)}
+        alt={name}
       />
       <Typography variant="h5">{name}</Typography>
     </CentreRow>

@@ -1,25 +1,30 @@
 import React, { useState } from "react"
 import { useTranslation } from "react-i18next"
+import styled from "styled-components"
+import _get from "lodash.get"
+import Typography from "@material-ui/core/Typography"
+import { Button } from "@material-ui/core"
+import Select from "@material-ui/core/Select"
+import MenuItem from "@material-ui/core/MenuItem"
+
 import { bps } from "@/ui/theme"
 import SEO from "@/components/templates/SEO"
-import styled from "styled-components"
 import Layout from "@components/templates/Layout"
 import { graphql } from "gatsby"
 import MultiPurposeSearch from "@/components/molecules/MultiPurposeSearch"
 import { createDedupOptions, createDedupArrayOptions } from "@/utils/search"
-import { PageContent } from "../components/atoms/Container"
+import { PageContent } from "@/components/atoms/Container"
 import {
   WarsCaseBoxContainer,
   WarsCaseBoxLegend,
 } from "@/components/organisms/CaseBoxContainer"
 import { WarsCaseCard } from "@components/organisms/CaseCard"
 import InfiniteScroll from "@/components/molecules/InfiniteScroll"
+import ConfirmedCasesSummary from "@/components/molecules/ConfirmedCasesSummary"
+import { ResponsiveWrapper } from "@components/atoms/ResponsiveWrapper"
 import ContextStore from "@/contextStore"
 import { CASES_BOX_VIEW, CASES_CARD_VIEW } from "@/reducers/cases"
-import { Button, ButtonGroup } from "@material-ui/core"
 import Dialog from "@/components/atoms/Dialog"
-import Box from "@material-ui/core/Box"
-import _get from "lodash.get"
 
 const SelectedCardContainer = styled.div`
   display: flex;
@@ -41,21 +46,18 @@ const SelectedCardContainer = styled.div`
   }
 `
 
-const GroupingButtonContainer = styled(Box)`
-  display: flex;
-  flex-wrap: wrap;
-  padding: 8px 0 16px;
-  margin: 8px 0px 0px 4px;
-  border-bottom: black 2px solid;
+const SortedSelect = styled(Select)`
+  width: 100%;
+  background-color: white;
+  font-size: 12px;
+  padding: 4px 6px;
+  margin: 8px 0;
+  border: 1px solid hsl(0, 0%, 80%);
 
-  ${bps.down("sm")} {
-    margin: 16px -4px 8px;
+  &::before {
+    content: none;
   }
 `
-
-const ToggleGroupingButton = styled(props => (
-  <Button variant="outlined" color="primary" size="small" {...props} />
-))``
 
 const RelationPage = props => {
   const { data } = props
@@ -186,30 +188,10 @@ const RelationPage = props => {
   }
 
   const toggleGroupingButtons = [
-    {
-      i18n: "cases.toggle_date",
-      onClick: () => {
-        setGroupButton(1)
-      },
-    },
-    {
-      i18n: "cases.toggle_area",
-      onClick: () => {
-        setGroupButton(2)
-      },
-    },
-    {
-      i18n: "cases.toggle_group",
-      onClick: () => {
-        setGroupButton(3)
-      },
-    },
-    {
-      i18n: "cases.toggle_status",
-      onClick: () => {
-        setGroupButton(4)
-      },
-    },
+    "cases.toggle_date",
+    "cases.toggle_area",
+    "cases.toggle_group",
+    "cases.toggle_status",
   ]
 
   const handleBoxClick = item => setSelectedCase(item)
@@ -222,8 +204,10 @@ const RelationPage = props => {
         setSelectedCase(null)
       }
     >
-      <SEO />
+      <SEO title="ConfirmedCasePage" />
+      <Typography variant="h2">{t("cases.title")}</Typography>
       <PageContent>
+        <ConfirmedCasesSummary />
         <Button
           style={{ marginBottom: 8 }}
           variant="outlined"
@@ -261,19 +245,15 @@ const RelationPage = props => {
           onListFiltered={listFilteredHandler}
           filterWithOr={false}
         />
-        <GroupingButtonContainer>
-          <ButtonGroup
-            size="small"
-            color="primary"
-            aria-label="small outlined button group"
-          >
-            {toggleGroupingButtons.map(btn => (
-              <ToggleGroupingButton onClick={btn.onClick}>
-                {t(btn.i18n)}
-              </ToggleGroupingButton>
-            ))}
-          </ButtonGroup>
-        </GroupingButtonContainer>
+        <SortedSelect
+          value={selectedGroupButton}
+          onChange={event => setGroupButton(event.target.value)}
+          displayEmpty
+        >
+          {toggleGroupingButtons.map((groupBy, index) => (
+            <MenuItem value={index + 1}>{t(groupBy)}</MenuItem>
+          ))}
+        </SortedSelect>
       </PageContent>
       {view === CASES_BOX_VIEW ? (
         <>
@@ -295,11 +275,13 @@ const RelationPage = props => {
           />
         </>
       ) : (
-        <InfiniteScroll
-          list={filteredCases.map(c => c.node)}
-          step={{ mobile: 5, preload: preloadedCases }}
-          onItem={renderCaseCard}
-        />
+        <ResponsiveWrapper>
+          <InfiniteScroll
+            list={filteredCases.map(c => c.node)}
+            step={{ mobile: 5, preload: preloadedCases }}
+            onItem={renderCaseCard}
+          />
+        </ResponsiveWrapper>
       )}
     </Layout>
   )
