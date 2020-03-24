@@ -4,6 +4,7 @@ import { useTranslation } from "react-i18next"
 import { navigate } from "gatsby"
 import ContextStore from "@/contextStore"
 import ListItemText from "@material-ui/core/ListItemText"
+import { removePathTrailingSlash } from "@/utils/urlHelper"
 
 const LocaleButton = styled(ListItemText)`
   && {
@@ -20,10 +21,10 @@ function LanguageSwitcher(props, context) {
 
   const changeLanguage = lng => {
     if (lng === "en" && !fullPath.includes("/en")) {
-      fullPath = fullPath.replace("/", "/en/")
+      fullPath = removePathTrailingSlash(fullPath.replace("/", "/en/"))
       navigate(fullPath, { replace: true })
     } else if (lng === "zh" && fullPath.includes("/en")) {
-      fullPath = fullPath.replace("/en", "")
+      fullPath = removePathTrailingSlash(fullPath.replace("/en", ""))
       navigate(fullPath, { replace: true })
     }
   }

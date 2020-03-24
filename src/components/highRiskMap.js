@@ -12,7 +12,7 @@ import List from "react-virtualized/dist/es/List"
 import CellMeasurer, {
   CellMeasurerCache,
 } from "react-virtualized/dist/es/CellMeasurer"
-import Fullscreen from "react-full-screen";
+import Fullscreen from "react-full-screen"
 import ConfirmedCaseMarker from "./icons/confirmed_case.png"
 import HomeConfineesMarker from "./icons/home_confinees.png"
 import ClinicMarker from "./icons/clinic.png"
@@ -228,7 +228,6 @@ class HighRiskMap extends Component {
   mapPinTypeToMarker = (pinType, allPass14days) => {
     const type = allPass14days ? `${pinType}_pass14days` : pinType
     if (!this.iconMappings[type]) {
-      console.log(type)
       return this.icons.defaultMarker
     }
     return this.iconMappings[type]
@@ -471,7 +470,9 @@ class HighRiskMap extends Component {
   }
 
   toggleFullscreen(fullscreenEnabled) {
-    if (typeof fullscreenEnabled !== "boolean") { fullscreenEnabled = !this.state.fullscreenEnabled }
+    if (typeof fullscreenEnabled !== "boolean") {
+      fullscreenEnabled = !this.state.fullscreenEnabled
+    }
     this.setState({ fullscreenEnabled })
   }
 
@@ -496,8 +497,8 @@ class HighRiskMap extends Component {
             style={{
               position: "absolute",
               top: 0,
-              left: (useHorizontalLayout && !fullscreenEnabled) ? 480 : 0,
-              bottom: (useHorizontalLayout || fullscreenEnabled) ? 0 : height / 2,
+              left: useHorizontalLayout && !fullscreenEnabled ? 480 : 0,
+              bottom: useHorizontalLayout || fullscreenEnabled ? 0 : height / 2,
               right: 0,
               zIndex: 0,
             }}
@@ -562,42 +563,44 @@ class HighRiskMap extends Component {
                   this.toggleFullscreen()
                 }}
               >
-                {fullscreenEnabled ? <FullscreenExitIcon /> : <FullscreenIcon />}
+                {fullscreenEnabled ? (
+                  <FullscreenExitIcon />
+                ) : (
+                  <FullscreenIcon />
+                )}
               </IconButton>
             </div>
           </div>
-          {
-            !fullscreenEnabled && (
-              <div
-                style={{
-                  position: "absolute",
-                  top: useHorizontalLayout ? 56 : height / 2,
-                  left: 0,
-                  width: useHorizontalLayout ? 480 : width,
-                  height: useHorizontalLayout ? height - 56 : height / 2,
-                  backgroundColor: theme.palette.background.paper,
-                }}
-              >
-                <AutoSizer>
-                  {({ width, height }) => (
-                    <List
-                      ref={el => (this.list = el)}
-                      height={height}
-                      overscanRowCount={8}
-                      rowCount={this.props.filteredLocations.length}
-                      rowHeight={this.cache.rowHeight}
-                      rowRenderer={this.rowRenderer}
-                      deferredMeasurementCache={this.cache}
-                      width={width}
-                      scrollToIndex={this.state.scrollToIndex || 0}
-                      scrollToAlignment="start"
-                      activeDataPoint={this.state.activeDataPoint}
-                    />
-                  )}
-                </AutoSizer>
-              </div>
-            )
-          }
+          {!fullscreenEnabled && (
+            <div
+              style={{
+                position: "absolute",
+                top: useHorizontalLayout ? 56 : height / 2,
+                left: 0,
+                width: useHorizontalLayout ? 480 : width,
+                height: useHorizontalLayout ? height - 56 : height / 2,
+                backgroundColor: theme.palette.background.paper,
+              }}
+            >
+              <AutoSizer>
+                {({ width, height }) => (
+                  <List
+                    ref={el => (this.list = el)}
+                    height={height}
+                    overscanRowCount={8}
+                    rowCount={this.props.filteredLocations.length}
+                    rowHeight={this.cache.rowHeight}
+                    rowRenderer={this.rowRenderer}
+                    deferredMeasurementCache={this.cache}
+                    width={width}
+                    scrollToIndex={this.state.scrollToIndex || 0}
+                    scrollToAlignment="start"
+                    activeDataPoint={this.state.activeDataPoint}
+                  />
+                )}
+              </AutoSizer>
+            </div>
+          )}
           <div
             style={
               !useHorizontalLayout

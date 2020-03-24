@@ -1,4 +1,5 @@
 import _get from "lodash.get"
+import { removePathTrailingSlash } from "@/utils/urlHelper"
 
 export const withLanguage = (i18n, object, path) => {
   return (
@@ -7,5 +8,5 @@ export const withLanguage = (i18n, object, path) => {
 }
 
 export const getLocalizedPath = (i18n, path) => {
-  return i18n.language === "en" ? `/en${path}` : path
+  return removePathTrailingSlash(i18n.language === "en" ? `/en${path}` : path)
 }

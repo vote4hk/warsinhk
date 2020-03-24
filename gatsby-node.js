@@ -386,17 +386,21 @@ const createPublishedGoogleSpreadsheetNode = async (
 exports.onCreatePage = async ({ page, actions }) => {
   const { createPage, deletePage } = actions
   return new Promise(resolve => {
-    deletePage(page)
-    LANGUAGES.forEach(lang => {
-      createPage({
-        ...page,
-        path: getPath(lang, page.path),
-        context: {
-          ...page.context,
-          locale: lang,
-        },
+    // If it is already eng path we skip to re-generate the locale
+    if (!page.path.match(/^\/en/)) {
+      deletePage(page)
+      LANGUAGES.forEach(lang => {
+        createPage({
+          ...page,
+          path: getPath(lang, page.path),
+          context: {
+            ...page.context,
+            locale: lang,
+          },
+        })
       })
-    })
+    }
+
     resolve()
   })
 }
@@ -528,15 +532,8 @@ exports.createSchemaCustomization = ({ actions, schema }) => {
 
 exports.createPages = async ({ graphql, actions }) => {
   actions.createRedirect({
-    fromPath: `/en/hygiene-tips/`,
-    toPath: `/en/wars-tips/`,
-    redirectInBrowser: false,
-    isPermanent: true,
-  })
-
-  actions.createRedirect({
-    fromPath: `/hygiene-tips/`,
-    toPath: `/wars-tips/`,
+    fromPath: `/hygiene-tips`,
+    toPath: `/wars-tips`,
     redirectInBrowser: false,
     isPermanent: true,
   })

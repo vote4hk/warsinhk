@@ -33,8 +33,6 @@ export default props => {
       )
     )
 
-    console.log(max)
-
     const svg = d3
       .select(d3Container.current)
       .attr("width", width + margin.left + margin.right)

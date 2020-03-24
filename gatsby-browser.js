@@ -20,6 +20,7 @@ const Router = ({ path }) => {
   let actualPath = path
   // TODO: dynamic langauges from somewhere?
   actualPath = actualPath.replace(/^\/en(?!\w)/, "") || "/"
+
   useEffect(() => {
     dispatch({ type: ROUTE_CHANGE, path: actualPath, fullPath: path })
   }, [actualPath, path, dispatch])
