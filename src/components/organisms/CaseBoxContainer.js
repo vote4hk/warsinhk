@@ -145,7 +145,12 @@ export const WarsCaseBoxContainer = React.forwardRef((props, ref) => {
       count++
       date = date.add(-1, "day")
     }
-    const dates = _uniq(Object.values(dateMap))
+    let dates = _uniq(Object.values(dateMap))
+
+    if (selectedGroupButton === 2) {
+      dates = dates.reverse()
+    }
+
     return (
       <>
         {dates.map((dateKey, index) => {
@@ -186,11 +191,20 @@ export const WarsCaseBoxContainer = React.forwardRef((props, ref) => {
       ({ node: { citizenship_en } }) => `${citizenship_en}`
     )
 
-    const casesByGroups = _map(groupedCases, (v, k) => ({
+    let casesByGroups = _map(groupedCases, (v, k) => ({
       citizenship_en: _uniq(v.map(({ node }) => node.citizenship_en))[0],
       citizenship_zh: _uniq(v.map(({ node }) => node.citizenship_zh))[0],
       cases: v,
+      total: v.length,
     }))
+
+    if (selectedGroupButton === 3) {
+      casesByGroups = casesByGroups.sort((x, y) => y.total - x.total)
+    }
+
+    if (selectedGroupButton === 4) {
+      casesByGroups = casesByGroups.sort((x, y) => x.total - y.total)
+    }
 
     return (
       <>
@@ -228,7 +242,7 @@ export const WarsCaseBoxContainer = React.forwardRef((props, ref) => {
       ({ node: { group_id } }) => `${group_id}`
     )
 
-    const casesByGroups = _map(groupedCases, (v, k) => ({
+    let casesByGroups = _map(groupedCases, (v, k) => ({
       group_id: k,
       group_name_en: _uniq(v.map(({ node }) => node.group_name_en))[0],
       group_name_zh: _uniq(v.map(({ node }) => node.group_name_zh))[0],
@@ -239,7 +253,16 @@ export const WarsCaseBoxContainer = React.forwardRef((props, ref) => {
         v.map(({ node }) => node.group_description_zh)
       )[0],
       cases: v,
+      total: v.length,
     }))
+
+    if (selectedGroupButton === 5) {
+      casesByGroups = casesByGroups.sort((x, y) => y.total - x.total)
+    }
+
+    if (selectedGroupButton === 6) {
+      casesByGroups = casesByGroups.sort((x, y) => x.total - y.total)
+    }
 
     return (
       <>
