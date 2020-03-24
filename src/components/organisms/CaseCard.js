@@ -50,6 +50,7 @@ const CaseCard = styled.div`
     margin: 12px 0 12px;
     display: grid;
     grid-template-columns: repeat(2, 1fr);
+    align-items: start;
 
     label {
       display: block;
