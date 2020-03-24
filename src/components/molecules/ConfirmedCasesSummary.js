@@ -12,6 +12,16 @@ const SummaryBox = styled(Box)`
   }
 `
 
+const NumberTag = styled.span`
+  display: inline-block;
+  color: white;
+  font-size: 0.8rem;
+  background-color: ${props => props.color};
+  padding: 0px 4px;
+  margin-left: 2px;
+  border-radius: 6px;
+`
+
 const ConfirmedCasesSummary = props => {
   const {
     status: { group: status },
@@ -44,20 +54,24 @@ const ConfirmedCasesSummary = props => {
         .sort(
           (a, b) => statusOrdering[a.fieldValue] - statusOrdering[b.fieldValue]
         )
-        .map((v, i) => (
-          <Typography
-            key={i}
-            display="inline"
-            variant="body2"
-            style={{
-              color: mapColorForStatus(v.fieldValue).main,
-              fontWeight: 600,
-              marginRight: "0.5rem",
-            }}
-          >
-            {t(`cases.status_${v.fieldValue}`)}：{v.totalCount}
-          </Typography>
-        ))}
+        .map((v, i) => {
+          const color = mapColorForStatus(v.fieldValue).main
+          return (
+            <Typography
+              key={i}
+              display="inline"
+              variant="body2"
+              style={{
+                color,
+                fontWeight: 600,
+                marginRight: "0.6rem",
+              }}
+            >
+              {t(`cases.status_${v.fieldValue}`)}
+              <NumberTag color={color}>{v.totalCount}</NumberTag>
+            </Typography>
+          )
+        })}
     </SummaryBox>
   )
 }
