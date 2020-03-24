@@ -19,7 +19,7 @@ const StyledMediaCard = styled(Card)`
 `
 
 const StyledCardMedia = styled(CardMedia)`
-  height: 400px;
+  padding-bottom: 100%;
 `
 
 const StyledCardContent = styled(CardContent)`
