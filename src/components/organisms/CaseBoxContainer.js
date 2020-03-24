@@ -25,12 +25,17 @@ const CaseAvatar = styled(Box)`
   align-items: center;
   margin-bottom: 16px;
   position: relative;
-  width: 20%;
+  max-width: 70px;
+  width: calc(100% / 5);
   height: auto;
   margin-bottom: 20px;
 
   g {
     fill: ${props => props.statuscolor};
+  }
+
+  svg {
+    position: relative;
   }
 
   .case-no {
@@ -76,8 +81,8 @@ export const WarsCaseBox = React.forwardRef((props, ref) => {
       statuscolor={mapColorForStatus(node.status).main}
       onClick={e => handleBoxClick(node)}
     >
-      {node.gender === "F" ? <FemaleIcon /> : <MaleIcon />}
       <span className="case-no">{node.case_no}</span>
+      {node.gender === "F" ? <FemaleIcon /> : <MaleIcon />}
     </CaseAvatar>
   )
 })

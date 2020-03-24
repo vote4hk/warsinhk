@@ -225,15 +225,15 @@ export const WarsCaseCard = React.forwardRef((props, ref) => {
         </Row>
         <Row className="highlight">
           <Box>
-            <label>{t("dashboard.patient_citizenship")}</label>
-            <Typography variant="body1">
-              {withLanguage(i18n, node, "citizenship") || "-"}
-            </Typography>
-          </Box>
-          <Box>
             <label>{t("dashboard.patient_hospital")}</label>
             <Typography variant="body1">
               {withLanguage(i18n, node, "hospital") || "-"}
+            </Typography>
+          </Box>
+          <Box>
+            <label>{t("dashboard.patient_citizenship")}</label>
+            <Typography variant="body1">
+              {withLanguage(i18n, node, "citizenship") || "-"}
             </Typography>
           </Box>
         </Row>
