@@ -18,7 +18,7 @@ import AlertMessage from "@components/organisms/AlertMessage"
 import _get from "lodash.get"
 import CircularProgress from "@material-ui/core/CircularProgress"
 import { trackCustomEvent } from "gatsby-plugin-google-analytics"
-
+import { LeaderBoard } from "@components/molecules/LeaderBoard"
 // default modules for user that doesn't configure at beginning. ORDER DOES MATTER!
 const DEFAULT_MODULES = [
   "daily_stat",
@@ -291,6 +291,9 @@ export default function IndexPage({ data }) {
       <SEO title="Home" />
       <Layout>
         <IndexContainer>
+          <div style={{ width: "100%", marginBottom: 32 }}>
+            <LeaderBoard />
+          </div>
           {showSettings && (
             <ModuleContainer className="settingContainer">
               <FormControl component="fieldset">

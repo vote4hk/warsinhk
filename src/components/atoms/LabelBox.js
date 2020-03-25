@@ -7,8 +7,8 @@ const Container = styled.div`
   main {
     background: ${props => props.theme.palette.primary.main};
     color: ${props => props.theme.palette.primary.text};
-    width: ${props => props.width}px;
-    height: ${props => props.height}px;
+    width: 100%;
+    height: 100%;
     display: table;
 
     div {
@@ -25,7 +25,7 @@ const Container = styled.div`
   }
 `
 
-export function LeaderBoard(props) {
+export function LabelBox(props) {
   const { children, labelText, ...others } = props
   return (
     <Container {...others}>

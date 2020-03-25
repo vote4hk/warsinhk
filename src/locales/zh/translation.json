@@ -204,5 +204,6 @@
   "epidemic.local_close_contact": "本地個案的密切接觸者",
   "epidemic.local_possibly": "可能本地個案",
   "epidemic.local_possibly_close_contact": "可能本地個案的密切接觸者",
-  "epidemic.remarks": "無病徵個案並未在流行曲線中顯示，資料來源：衞生防護中心。"
+  "epidemic.remarks": "無病徵個案並未在流行曲線中顯示，資料來源：衞生防護中心。",
+  "ad.label": "廣告"
 }

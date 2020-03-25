@@ -197,5 +197,6 @@
   "epidemic.local_close_contact": "Close contact of local case",
   "epidemic.local_possibly": "Possibly local",
   "epidemic.local_possibly_close_contact": "Close contact of possibly local case",
-  "epidemic.remarks": "Asymptomatic cases are not shown in this epidemic curve, source: CHP"
+  "epidemic.remarks": "Asymptomatic cases are not shown in this epidemic curve, source: CHP",
+  "ad.label": "Ad"
 }
