@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next"
 import SEO from "@/components/templates/SEO"
 import Layout from "@components/templates/Layout"
 import Typography from "@material-ui/core/Typography"
+import LinearProgress from "@material-ui/core/LinearProgress"
 import { graphql } from "gatsby"
 import { WarsCaseCard } from "@components/organisms/CaseCard"
 import { isSSR } from "@/utils"
@@ -114,6 +115,7 @@ const ConfirmedCasePage = props => {
           onItem={infiniteScrollOnItem}
         />
       </ResponsiveWrapper>
+      <LinearProgress />
     </Layout>
   )
 }
