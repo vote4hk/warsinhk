@@ -3,6 +3,7 @@ import styled from "styled-components"
 import { LabelBox } from "@/components/atoms/LabelBox"
 import { useTranslation } from "react-i18next"
 import { bps } from "@/ui/theme"
+import { pushToDataLayer } from "@/utils"
 
 const ResponsiveLabelBox = styled(LabelBox)`
   ${bps.up("xs")} {
@@ -25,7 +26,14 @@ export function LeaderBoard(props) {
   const { t } = useTranslation()
 
   return (
-    <ResponsiveLabelBox labelText={t("ad.label")}>
+    <ResponsiveLabelBox
+      onClick={() => {
+        pushToDataLayer({
+          type: "ad_clicked",
+        })
+      }}
+      labelText={t("ad.label")}
+    >
       <div>LeaderBoard</div>
     </ResponsiveLabelBox>
   )

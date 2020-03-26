@@ -33,3 +33,13 @@ export const formatDateMDD = d => {
   }
   return d
 }
+
+export const pushToDataLayer = data => {
+  if (isSSR()) {
+    return
+  }
+  if (!window.dataLayer) {
+    window.dataLayer = []
+  }
+  window.dataLayer.push(data)
+}

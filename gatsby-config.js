@@ -1,6 +1,8 @@
 require("dotenv").config()
 
 const GOOGLE_TRACKING_ID = process.env.GOOGLE_TRACKING_ID || "UA-111111111-1"
+const GOOGLE_TAG_MANAGER_ID = process.env.GOOGLE_TAG_MANAGER_ID || ""
+
 const SITE_URL = process.env.SITE_URL || "https://wars.vote4.hk"
 module.exports = {
   // must be here for sitemap plugin lol
@@ -73,6 +75,21 @@ module.exports = {
         rule: {
           include: /\.svg$/,
         },
+      },
+    },
+    {
+      resolve: "gatsby-plugin-google-tagmanager",
+      options: {
+        id: GOOGLE_TAG_MANAGER_ID,
+
+        // Include GTM in development.
+        // Defaults to false meaning GTM will only be loaded in production.
+        includeInDevelopment: false,
+
+        // datalayer to be set before GTM is loaded
+        // should be an object or a function that is executed in the browser
+        // Defaults to null
+        defaultDataLayer: { platform: "gatsby" },
       },
     },
     // `gatsby-plugin-offline`,
