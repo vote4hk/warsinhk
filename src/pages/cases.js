@@ -138,8 +138,6 @@ export const ConfirmedCaseQuery = graphql`
           hospital_zh
           hospital_en
           status
-          status_zh
-          status_en
           type_zh
           type_en
           citizenship_zh
@@ -147,8 +145,6 @@ export const ConfirmedCaseQuery = graphql`
           detail_zh
           detail_en
           classification
-          classification_zh
-          classification_en
           source_url
         }
       }

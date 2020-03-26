@@ -200,7 +200,7 @@ export const WarsCaseCard = React.forwardRef((props, ref) => {
               }
               size="small"
               fontSize={14}
-              label={withLanguage(i18n, node, "classification")}
+              label={t(`epidemic.${node.classification}`)}
             />
           )}
         </Box>
