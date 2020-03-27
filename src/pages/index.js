@@ -23,6 +23,7 @@ import { trackCustomEvent } from "gatsby-plugin-google-analytics"
 const DEFAULT_MODULES = [
   "daily_stat",
   "carousel",
+  "important_information",
   "outbound_alert",
   "confirmed_chart",
   "passenger_daily",
@@ -125,6 +126,19 @@ export default function IndexPage({ data }) {
           /* webpackPrefetch: true */ "@/components/molecules/dashboard/DailyStats.js"
         )
       )
+    )
+
+    registerComponent(
+      "important_information",
+      "dashboard.important_information",
+      React.lazy(() =>
+        import(
+          /* webpackPrefetch: true */ "@/components/molecules/dashboard/ImportantInformation.js"
+        )
+      ),
+      {
+        showTitle: false,
+      }
     )
 
     registerComponent(
