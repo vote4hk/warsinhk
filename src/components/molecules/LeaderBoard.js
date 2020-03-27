@@ -29,7 +29,7 @@ export function LeaderBoard(props) {
     <ResponsiveLabelBox
       onClick={() => {
         pushToDataLayer({
-          type: "ad_clicked",
+          event: "ad_clicked_leaderboard",
         })
       }}
       labelText={t("ad.label")}
