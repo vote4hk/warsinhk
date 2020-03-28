@@ -68,10 +68,6 @@ const DescriptionContainer = styled(Box)`
   margin: 10px 0px;
 `
 
-const DescriptionContainer = styled(Box)`
-  margin: 10px 0px;
-`
-
 const StyledContainer = styled(Box)`
   display: flex;
   flex-wrap: wrap;
@@ -80,26 +76,6 @@ const StyledContainer = styled(Box)`
   ${bps.down("sm")} {
     margin: 0 -4px;
   }
-`
-const WarsGroupContainer = styled(Box)`
-  margin: 16px 0 0;
-`
-
-const GroupHeader = styled(Box)`
-  margin-bottom: 4px;
-`
-
-const StyledContainer = styled(Box)`
-  display: flex;
-  flex-wrap: wrap;
-  margin: 0 -8px;
-`
-const ExampleContainer = styled(Box)`
-  display: flex;
-  flex-wrap: wrap;
-  padding: 0 0 8px;
-  margin: 16px -8px 8px;
-  border-bottom: black 2px solid;
 `
 
 export const WarsCaseBox = React.forwardRef((props, ref) => {
@@ -112,8 +88,6 @@ export const WarsCaseBox = React.forwardRef((props, ref) => {
     <CaseAvatar
       className={`wars_box_${node.case_no}`}
       statuscolor={mapColorForStatus(node.status).main}
-      groupcolor={colorArray[node.group_id || 0]}
-      gender={node.gender}
       onClick={e => handleBoxClick(node)}
     >
       {node.classification === "imported" && <ImportIcon />}
