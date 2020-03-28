@@ -123,11 +123,6 @@ export const WarsCaseBox = React.forwardRef((props, ref) => {
   )
 })
 
-export const WarsCaseBoxLegend = React.forwardRef((props, ref) => {
-  // const { caseGroup, i18n } = props
-  return <></>
-})
-
 export const WarsCaseBoxContainer = React.forwardRef((props, ref) => {
   const { filteredCases, handleBoxClick, selectedGroupButton } = props
   const { t, i18n } = useTranslation()
