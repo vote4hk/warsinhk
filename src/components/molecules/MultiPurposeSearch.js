@@ -43,6 +43,10 @@ const MultiPurposeSearch = props => {
       fontSize: "12px",
       color: "#cccccc",
     }),
+    menu: () => ({
+      backgroundColor: "#FFF",
+      zIndex: 999,
+    }),
   }
 
   return (
