@@ -159,6 +159,7 @@
   "cases.toggle_group_reverse": "按群組(小至大)",
   "cases.toggle_status": "按情況",
   "cases.box_view_cases": "{{cases}}宗個案",
+  "cases.imported": "輸入個案",
   "datepicker.datepickerStartDatePlaceholder": "選擇",
   "datepicker.datepickerStartDateLabel": "由",
   "datepicker.datepickerEndDatePlaceholder": "選擇",

@@ -152,6 +152,7 @@
   "cases.toggle_group_reverse": "By Group(from less to more)",
   "cases.toggle_status": "By Status",
   "cases.box_view_cases": "{{cases}} cases",
+  "cases.imported": "Imported case",
   "datepicker.datepickerStartDatePlaceholder": "Select",
   "datepicker.datepickerStartDateLabel": "Start Date",
   "datepicker.datepickerEndDatePlaceholder": "Select",
