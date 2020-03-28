@@ -13,11 +13,10 @@ import { withLanguage } from "@/utils/i18n"
 import Typography from "@material-ui/core/Typography"
 import MaleIcon from "@/components/icons/male.svg"
 import FemaleIcon from "@/components/icons/female.svg"
+import ImportIcon from "@/components/icons/import.svg"
 
 const CaseAvatar = styled(Box)`
   cursor: pointer;
-  width: 32px;
-  height: 32px;
   font-weight: 900;
   font-size: 11px;
   display: flex;
@@ -27,15 +26,25 @@ const CaseAvatar = styled(Box)`
   position: relative;
   max-width: 70px;
   width: calc(100% / 5);
-  height: auto;
-  margin-bottom: 20px;
+  height: 32px;
+  margin-bottom: 30px;
 
   g {
     fill: ${props => props.statuscolor};
   }
 
-  svg {
-    position: relative;
+  svg.male,
+  svg.female {
+    position: absolute;
+  }
+
+  svg.imported {
+    position: absolute;
+    top: -8px;
+    right: 10px;
+    width: 16px;
+    height: 16px;
+    z-index: 1;
   }
 
   .case-no {
@@ -107,6 +116,7 @@ export const WarsCaseBox = React.forwardRef((props, ref) => {
       gender={node.gender}
       onClick={e => handleBoxClick(node)}
     >
+      {node.classification === "imported" && <ImportIcon />}
       <span className="case-no">{node.case_no}</span>
       {node.gender === "F" ? <FemaleIcon /> : <MaleIcon />}
     </CaseAvatar>
