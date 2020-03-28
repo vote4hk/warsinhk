@@ -110,7 +110,7 @@
   "importantInformation.had_hotline": "民政事務總署熱線： <b>2835 1473（24小時）</b>",
   "dashboard.isolation_beds": "隔離病床使用率",
   "cases.title": "個案",
-  "cases.isolation_bed": "負壓病床總數",
+  "cases.isolation_bed": "負壓病床總數: ",
   "cases_visual.legendTitle": "確診宗數",
   "cases_visual.distribution": "18區確診個案分布",
   "cases_visual.gender": "性別",

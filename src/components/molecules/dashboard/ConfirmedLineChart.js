@@ -17,7 +17,7 @@ export default props => {
         ) {
           edges {
             node {
-              date(formatString: "MM-DD")
+              date(formatString: "M.DD")
               confirmed
               discharged
               investigating
@@ -91,7 +91,7 @@ export default props => {
             {
               color: "#ff574f",
               "stroke-dasharray": "5, 2",
-              legend: t("cases.isolation_bed"),
+              legend: `${t("cases.isolation_bed")}${isolationBedCount}`,
               value: isolationBedCount,
             },
           ],

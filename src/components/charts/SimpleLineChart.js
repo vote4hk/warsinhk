@@ -76,7 +76,7 @@ export default props => {
           .tickFormat((d, i) => data.xaxis[i])
       )
       .selectAll("text")
-      .attr("transform", "translate(0,0)rotate(-45)")
+      .attr("transform", "rotate(-45)translate(0,0)")
       .style("text-anchor", "end")
       .style("fill", "#69a3b2")
 
@@ -220,7 +220,7 @@ export default props => {
       .attr("fill", "#fff")
       .attr("stroke", "#000")
       .attr("width", 100)
-      .attr("height", 80)
+      .attr("height", 50) // TODO: base on dataset size
       .attr("x", 0)
       .attr("y", 0)
       .attr("rx", 4)

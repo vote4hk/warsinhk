@@ -110,7 +110,7 @@
   "importantInformation.had_hotline": "Home Affairs Department Hotline: <b> 2835 1473 (24 hours)</b> ",
   "dashboard.isolation_beds": "Isolation Beds Usage",
   "cases.title": "Cases",
-  "cases.isolation_bed": "Total # of Isolation Beds",
+  "cases.isolation_bed": "Total # of Isolation Beds: ",
   "cases_visual.legendTitle": "No. cases",
   "cases_visual.distribution": "Confirmed cases in 18 districts",
   "cases_visual.gender": "Gender",
