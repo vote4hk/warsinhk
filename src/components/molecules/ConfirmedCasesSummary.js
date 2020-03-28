@@ -6,7 +6,7 @@ import styled from "styled-components"
 import { mapColorForStatus } from "@/utils/colorHelper"
 
 const SummaryBox = styled(Box)`
-  margin: 10px 0px;
+  margin: 16px 0px;
   p {
     margin-right: 8px;
   }

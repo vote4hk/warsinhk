@@ -33,10 +33,15 @@ const StyledExpansionPanelDetails = styled(ExpansionPanelDetails)`
   padding: 8px;
 `
 
-export const Accordion = ({ defaultExpanded = false, title, content }) => {
+export const Accordion = ({
+  defaultExpanded = false,
+  title,
+  content,
+  ...props
+}) => {
   return (
-    <Container>
-      <StyledExpansionPanel defaultExpanded>
+    <Container style={props.style}>
+      <StyledExpansionPanel defaultExpanded={defaultExpanded}>
         <StyledExpansionPanelSummary
           expandIcon={<ExpandMoreIcon />}
           aria-controls="content"
