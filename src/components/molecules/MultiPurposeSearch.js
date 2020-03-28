@@ -38,10 +38,15 @@ const MultiPurposeSearch = props => {
   }, [])
 
   const customStyles = {
+    control: () => ({
+      display: "flex",
+      backgroundColor: "#FFF",
+      border: "1px solid hsl(0, 0%, 80%)",
+      borderRadius: "6px",
+      padding: "2px 6px",
+    }),
     placeholder: () => ({
-      // none of react-select's styles are passed to <Control />
       fontSize: "12px",
-      color: "#cccccc",
     }),
     menu: () => ({
       backgroundColor: "#FFF",

@@ -69,6 +69,7 @@
   "search.citizenship": "現居地",
   "search.case_status": "患者狀態",
   "search.hospital": "入住醫院",
+  "search.group": "群組",
   "dashboard.death": "死亡",
   "dashboard.discharged": "出院",
   "dashboard.confirmed": "確診",

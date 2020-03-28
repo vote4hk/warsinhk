@@ -69,6 +69,7 @@
   "search.citizenship": "Place of Residence",
   "search.case_status": "Status",
   "search.hospital": "Hospital",
+  "search.group": "Group",
   "dashboard.death": "Death",
   "dashboard.discharged": "Discharged",
   "dashboard.confirmed": "Confirmed",
