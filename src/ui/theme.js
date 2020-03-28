@@ -57,7 +57,7 @@ export const typography = fontZoom => ({
   },
   h2: {
     fontFamily: headingFontFamily,
-    fontSize: 26 * fontZoom,
+    fontSize: 24 * fontZoom,
     fontWeight: 600,
   },
   h3: {

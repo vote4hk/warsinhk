@@ -29,6 +29,7 @@ const StyledBottomNavigation = styled(BottomNavigation)`
     margin-top: 3px;
     font-size: ${props => props.theme.typography.xsmallFontSize}px;
     line-height: ${props => (props.theme.typography.xsmallFontSize * 5) / 6}px;
+    font-weight: 700;
   }
   ${bps.down("md")} {
     .MuiBottomNavigationAction-root {
