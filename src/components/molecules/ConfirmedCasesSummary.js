@@ -8,7 +8,7 @@ import { mapColorForStatus } from "@/utils/colorHelper"
 const SummaryBox = styled(Box)`
   margin: 16px 0px;
   p {
-    margin-right: 8px;
+    margin-right: 12px;
   }
 `
 
@@ -16,9 +16,10 @@ const NumberTag = styled.span`
   display: inline-block;
   color: white;
   font-size: 0.8rem;
+  font-weight: 700;
   background-color: ${props => props.color};
-  padding: 0px 4px;
-  margin-left: 2px;
+  padding: 0px 6px;
+  margin-left: 6px;
   border-radius: 6px;
 `
 

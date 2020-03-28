@@ -43,7 +43,7 @@ const MultiPurposeSearch = props => {
       backgroundColor: "#FFF",
       border: "1px solid hsl(0, 0%, 80%)",
       borderRadius: "6px",
-      padding: "2px 6px",
+      padding: "2px",
     }),
     placeholder: () => ({
       fontSize: "12px",
