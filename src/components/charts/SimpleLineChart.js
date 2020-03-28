@@ -73,7 +73,7 @@ export default props => {
           .tickValues(
             xScale.domain().filter((_, i) => i % XAXIS_INTERVAL === 0)
           )
-          .tickFormat((d, i) => data.xaxis[i])
+          .tickFormat((d, i) => data.xaxis[i * XAXIS_INTERVAL])
       )
       .selectAll("text")
       .attr("transform", "rotate(-45)translate(0,0)")
