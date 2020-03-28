@@ -25,6 +25,14 @@ export const pageOptionsInitialState = {
 
 export const casesInitialState = {
   view: CASES_BOX_VIEW,
+  // 1: by date   : from latest to oldest
+  // 2: by date   : from oldest to latest
+  // 3: by area   : from greatest to least
+  // 4: by area   : from least to greatest
+  // 5: by group  : from more to less
+  // 6: by group  : from less to more
+  // 7: by status
+  group: 1,
 }
 
 const ContextStore = React.createContext({

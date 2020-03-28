@@ -24,7 +24,11 @@ import InfiniteScroll from "@/components/molecules/InfiniteScroll"
 import ConfirmedCasesSummary from "@/components/molecules/ConfirmedCasesSummary"
 import { ResponsiveWrapper } from "@components/atoms/ResponsiveWrapper"
 import ContextStore from "@/contextStore"
-import { CASES_BOX_VIEW, CASES_CARD_VIEW } from "@/reducers/cases"
+import {
+  CASES_BOX_VIEW,
+  CASES_CARD_VIEW,
+  CHANGE_TOGGLE_GROUP,
+} from "@/reducers/cases"
 import Dialog from "@/components/atoms/Dialog"
 
 const SelectedCardContainer = styled.div`
@@ -82,7 +86,7 @@ const RelationPage = props => {
   const {
     cases: {
       dispatch,
-      state: { view },
+      state: { view, group },
     },
   } = React.useContext(ContextStore)
 
@@ -130,15 +134,6 @@ const RelationPage = props => {
   const [filteredCases, setFilteredCases] = useState(cases)
   const [selectedCase, setSelectedCase] = useState(null)
   const [showLegend, setShowLegend] = useState(false)
-  // 1: by date   : from latest to oldest
-  // 2: by date   : from oldest to latest
-  // 3: by area   : from greatest to least
-  // 4: by area   : from least to greatest
-  // 5: by group  : from more to less
-  // 6: by group  : from less to more
-  // 7: by status
-
-  const [selectedGroupButton, setGroupButton] = useState(1)
 
   const handleClickOpen = () => {
     setShowLegend(true)
@@ -271,8 +266,14 @@ const RelationPage = props => {
           filterWithOr={false}
         />
         <SortedSelect
-          value={selectedGroupButton}
-          onChange={event => setGroupButton(event.target.value)}
+          value={group}
+          onChange={event => {
+            dispatch({
+              type: CHANGE_TOGGLE_GROUP,
+              group: event.target.value,
+            })
+          }}
+          // TODO: may add trackCustomEvent here
           displayEmpty
         >
           {toggleGroupingButtons.map((groupBy, index) => (
@@ -285,7 +286,7 @@ const RelationPage = props => {
           <WarsCaseBoxContainer
             filteredCases={filteredCases}
             handleBoxClick={handleBoxClick}
-            selectedGroupButton={selectedGroupButton}
+            selectedGroupButton={group}
           />
           {selectedCase && (
             <SelectedCardContainer>
