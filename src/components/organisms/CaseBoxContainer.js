@@ -29,7 +29,14 @@ const AvatarContainer = styled("div")`
   max-width: 70px;
   text-align: center;
   padding-bottom: 16px;
-  cursor: pointer;
+
+  svg {
+    cursor: pointer;
+  }
+
+  text {
+    font-weight: 700;
+  }
 `
 
 const DescriptionContainer = styled("div")`
