@@ -5,6 +5,7 @@ import { mapColorForStatus } from "@/utils/colorHelper"
 import _groupBy from "lodash/groupBy"
 import _orderBy from "lodash/orderBy"
 import _entries from "lodash/entries"
+import _findIndex from "lodash/findIndex"
 import * as moment from "moment"
 import { withLanguage } from "@/utils/i18n"
 import Typography from "@material-ui/core/Typography"
@@ -74,6 +75,19 @@ const orderByPolicies = {
   7: [["count"], ["desc"]],
 }
 
+const move = (from, to, ...arr) => {
+  return from === to ? arr : (arr.splice(to, 0, ...arr.splice(from, 1)), arr)
+}
+
+const reorderData = (key, groups) => {
+  const idx = _findIndex(groups, { key: key })
+
+  if (idx > -1 && groups.length > 0) {
+    return move(idx, groups.length - 1, ...groups)
+  }
+  return groups
+}
+
 const prepareData = ({ filteredCases, selectedGroupButton }, { t, i18n }) => {
   const titleByDate = ({ key, cases }) =>
     `${moment(key).format("M.DD")} (${t("cases.box_view_cases", {
@@ -113,6 +127,7 @@ const prepareData = ({ filteredCases, selectedGroupButton }, { t, i18n }) => {
   const getTitle = titlePolicies[selectedGroupButton]
 
   const groupByKey = groupByKeyMap[selectedGroupButton]
+
   const groups = _entries(_groupBy(filteredCases, groupByKey)).map(
     ([key, cases]) => ({
       key,
@@ -125,11 +140,22 @@ const prepareData = ({ filteredCases, selectedGroupButton }, { t, i18n }) => {
           : undefined,
     })
   )
-  return _orderBy(
+
+  var orderedGroups = _orderBy(
     groups,
     orderByPolicies[selectedGroupButton][0],
     orderByPolicies[selectedGroupButton][1]
   )
+
+  // put unclassified groups to the end
+  if (selectedGroupButton === 3 || selectedGroupButton === 4) {
+    orderedGroups = reorderData("Uncertain", orderedGroups)
+    orderedGroups = reorderData("#N/A", orderedGroups)
+  } else if (selectedGroupButton === 5 || selectedGroupButton === 6) {
+    orderedGroups = reorderData("null", orderedGroups)
+  }
+
+  return orderedGroups
 }
 
 class VirtulizedWarsCasesList extends React.Component {
