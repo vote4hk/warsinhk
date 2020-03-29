@@ -141,6 +141,7 @@
   "cases.type_self": "患者",
   "cases.type_relatives": "患者親友",
   "cases.status_hospitalised": "住院中",
+  "cases.status_pending_admission": "待入院",
   "cases.status_discharged": "出院",
   "cases.status_serious": "嚴重",
   "cases.status_critical": "危殆",

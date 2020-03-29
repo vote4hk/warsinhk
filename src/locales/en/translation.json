@@ -134,6 +134,7 @@
   "cases.type_self": "Patient",
   "cases.type_relatives": "Patient's relatives",
   "cases.status_hospitalised": "Hospitalised",
+  "cases.status_pending_admission": "Pending admission",
   "cases.status_discharged": "Discharged",
   "cases.status_serious": "Serious",
   "cases.status_critical": "Critical",

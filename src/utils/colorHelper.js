@@ -54,6 +54,10 @@ export const mapColorForStatus = status => {
       main: amber[700],
       contrastText: "#000",
     },
+    pending_admission: {
+      main: amber[900],
+      contrastText: "#000",
+    },
     discharged: {
       main: green[700],
       contrastText: "#fff",
