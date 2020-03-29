@@ -4,10 +4,8 @@ import Box from "@material-ui/core/Box"
 import styled from "styled-components"
 import { mapColorForStatus } from "@/utils/colorHelper"
 import { bps } from "@/ui/theme"
-import _get from "lodash/get"
-import _uniq from "lodash/uniq"
 import _groupBy from "lodash/groupBy"
-import _map from "lodash/map"
+import _orderBy from "lodash/orderBy"
 import * as moment from "moment"
 import { withLanguage } from "@/utils/i18n"
 import Typography from "@material-ui/core/Typography"
@@ -97,252 +95,107 @@ export const WarsCaseBox = React.forwardRef((props, ref) => {
   )
 })
 
-export const WarsCaseBoxContainer = React.forwardRef((props, ref) => {
-  const { filteredCases, handleBoxClick, selectedGroupButton } = props
-  const { t, i18n } = useTranslation()
+const groupByKeyMap = {
+  1: "node.confirmation_date",
+  2: "node.confirmation_date",
+  3: "node.citizenship_en",
+  4: "node.citizenship_en",
+  5: "node.group_id",
+  6: "node.group_id",
+  7: "node.status",
+}
+const orderByPolicies = {
+  1: [["key"], ["desc"]],
+  2: [["key"], ["asc"]],
+  3: [["count"], ["desc"]],
+  4: [["count"], ["asc"]],
+  5: [["count"], ["desc"]],
+  6: [["count"], ["asc"]],
+  7: [["count"], ["desc"]],
+}
 
-  // --------------------------------------
-  // selectedGroupButton
-  // --------------------------------------
-  // 1: by date   : from latest to oldest
-  // 2: by date   : from oldest to latest
-  // 3: by area   : from greatest to least
-  // 4: by area   : from least to greatest
-  // 5: by group  : from more to less
-  // 6: by group  : from less to more
-  // 7: by status
-  // --------------------------------------
+const prepareData = ({ filteredCases, selectedGroupButton }, { t, i18n }) => {
+  const titleByDate = ({ key, cases }) =>
+    `${moment(key).format("M.DD")} (${t("cases.box_view_cases", {
+      cases: cases.length,
+    })})`
+  const titleByArea = ({ key, cases }) =>
+    `${
+      key === "#N/A"
+        ? t("cases.uncategorized")
+        : withLanguage(i18n, cases[0].node, "citizenship")
+    } (${t("cases.box_view_cases", { cases: cases.length })})`
+  const titleByGroupName = ({ key, cases }) =>
+    `${
+      key === "null"
+        ? t("cases.uncategorized")
+        : withLanguage(i18n, cases[0].node, "group_name")
+    }  (${t("cases.box_view_cases", { cases: cases.length })})`
+  const titleByStatus = ({ key, cases }) =>
+    `${
+      key === "null" || key === "undefined"
+        ? t("cases.uncategorized")
+        : t(`cases.status_${key}`)
+    }  (${t("cases.box_view_cases", { cases: cases.length })})`
+  const titlePolicies = {
+    1: titleByDate,
+    2: titleByDate,
+    3: titleByArea,
+    4: titleByArea,
+    5: titleByGroupName,
+    6: titleByGroupName,
+    7: titleByStatus,
+  }
+  const getTitle = titlePolicies[selectedGroupButton]
 
-  if (selectedGroupButton === 1 || selectedGroupButton === 2) {
-    // **********************
-    // ** By Date
-    // **********************
+  const groupByKey = groupByKeyMap[selectedGroupButton]
+  const groups = Object.entries(_groupBy(filteredCases, groupByKey)).map(
+    ([key, cases]) => ({
+      key,
+      cases,
+      count: cases.length,
+      title: getTitle({ key, cases }),
+      description:
+        (selectedGroupButton === 5 || selectedGroupButton) === 6
+          ? withLanguage(i18n, cases[0].node, "group_description")
+          : undefined,
+    })
+  )
+  debugger;
+  return _orderBy(groups, orderByPolicies[selectedGroupButton][0], orderByPolicies[selectedGroupButton][1])
+}
 
-    // Grouping Logic:
-    // 1. descending chronological order
-    // 2. First row: Most recent date's case
-    // 3. Other rows: Every 7 days a row eg. Feb 22- Feb 28, Feb 15 - Feb 21 etc
-    const lastConfirmedDate = _get(
-      filteredCases,
-      "[0].node.confirmation_date",
-      ""
-    )
-    const caseStartDate = moment("2020-01-21")
-
-    const dateMap = {
-      [lastConfirmedDate]: moment(lastConfirmedDate).format("M.DD"),
-    }
-    let date = moment(lastConfirmedDate).add(-1, "day")
-    let count = 0
-    let dateLabel = ""
-    while (date.isAfter(caseStartDate)) {
-      // Group by 7 days
-      // if (count % 7 === 0) {
-      //   dateLabel = `${moment(date)
-      //     .add(-7, "days")
-      //     .format("M.DD")} - ${date.format("M.DD")}`
-      // }
-      //
-      if (count % 1 === 0) {
-        dateLabel = date.format("M.DD")
-      }
-      dateMap[date.format("YYYY-MM-DD")] = dateLabel
-      count++
-      date = date.add(-1, "day")
-    }
-    let dates = _uniq(Object.values(dateMap))
-
-    if (selectedGroupButton === 2) {
-      dates = dates.reverse()
-    }
-
+export const WarsCaseBoxContainer = React.forwardRef(
+  function WarsCaseBoxContainer(props, ref) {
+    const { handleBoxClick } = props
+    // --------------------------------------
+    // selectedGroupButton
+    // --------------------------------------
+    // 1: by date   : from latest to oldest
+    // 2: by date   : from oldest to latest
+    // 3: by area   : from greatest to least
+    // 4: by area   : from least to greatest
+    // 5: by group  : from more to less
+    // 6: by group  : from less to more
+    // 7: by status
+    // --------------------------------------
+    const displayingData = prepareData(props, useTranslation())
     return (
       <>
-        {dates.map((dateKey, index) => {
-          let matchedCases = filteredCases.filter(
-            ({ node }) => dateMap[node.confirmation_date] === dateKey
-          ).length
-          return (
-            matchedCases > 0 && (
-              <WarsGroupContainer index={index}>
-                <GroupHeader variant="h6">
-                  {dateKey} (
-                  {t("cases.box_view_cases", { cases: matchedCases })})
-                </GroupHeader>
-                <StyledContainer>
-                  {filteredCases
-                    .filter(
-                      ({ node }) => dateMap[node.confirmation_date] === dateKey
-                    )
-                    .map(cases => (
-                      <WarsCaseBox
-                        cases={cases}
-                        handleBoxClick={handleBoxClick}
-                      />
-                    ))}
-                </StyledContainer>
-              </WarsGroupContainer>
-            )
-          )
-        })}
-      </>
-    )
-  } else if (selectedGroupButton === 3 || selectedGroupButton === 4) {
-    // **********************
-    // ** By Area
-    // **********************
-    const groupedCases = _groupBy(
-      filteredCases,
-      ({ node: { citizenship_en } }) => `${citizenship_en}`
-    )
-
-    let casesByGroups = _map(groupedCases, (v, k) => ({
-      citizenship_en: _uniq(v.map(({ node }) => node.citizenship_en))[0],
-      citizenship_zh: _uniq(v.map(({ node }) => node.citizenship_zh))[0],
-      cases: v,
-      total: v.length,
-    }))
-
-    if (selectedGroupButton === 3) {
-      casesByGroups = casesByGroups.sort((x, y) => y.total - x.total)
-    }
-
-    if (selectedGroupButton === 4) {
-      casesByGroups = casesByGroups.sort((x, y) => x.total - y.total)
-    }
-
-    return (
-      <>
-        {casesByGroups.map((casesByGroup, index) => {
-          let { citizenship_en, cases } = casesByGroup
-          let area
-
-          if (citizenship_en === "#N/A") {
-            area = t("cases.uncategorized")
-          } else {
-            area = withLanguage(i18n, casesByGroup, "citizenship")
-          }
-
-          return (
-            <WarsGroupContainer index={index}>
-              <GroupHeader variant="h6">
-                {area} ({t("cases.box_view_cases", { cases: cases.length })})
-              </GroupHeader>
-              <StyledContainer>
-                {casesByGroup.cases.map(cases => (
-                  <WarsCaseBox cases={cases} handleBoxClick={handleBoxClick} />
-                ))}
-              </StyledContainer>
-            </WarsGroupContainer>
-          )
-        })}
-      </>
-    )
-  } else if (selectedGroupButton === 5 || selectedGroupButton === 6) {
-    // **********************
-    // ** By Group
-    // **********************
-    const groupedCases = _groupBy(
-      filteredCases,
-      ({ node: { group_id } }) => `${group_id}`
-    )
-
-    let casesByGroups = _map(groupedCases, (v, k) => ({
-      group_id: k,
-      group_name_en: _uniq(v.map(({ node }) => node.group_name_en))[0],
-      group_name_zh: _uniq(v.map(({ node }) => node.group_name_zh))[0],
-      group_description_en: _uniq(
-        v.map(({ node }) => node.group_description_en)
-      )[0],
-      group_description_zh: _uniq(
-        v.map(({ node }) => node.group_description_zh)
-      )[0],
-      cases: v,
-      total: v.length,
-    }))
-
-    if (selectedGroupButton === 5) {
-      casesByGroups = casesByGroups.sort((x, y) => y.total - x.total)
-    }
-
-    if (selectedGroupButton === 6) {
-      casesByGroups = casesByGroups.sort((x, y) => x.total - y.total)
-    }
-
-    return (
-      <>
-        {casesByGroups.map((casesByGroup, index) => {
-          let { group_id, cases } = casesByGroup
-          let group, description
-
-          if (group_id === "null") {
-            group = t("cases.uncategorized")
-          } else {
-            group = withLanguage(i18n, casesByGroup, "group_name")
-          }
-
-          description = withLanguage(i18n, casesByGroup, "group_description")
-
-          return (
-            <WarsGroupContainer index={index}>
-              <GroupHeader variant="h6">
-                {group} ({t("cases.box_view_cases", { cases: cases.length })})
-              </GroupHeader>
-              {description && (
-                <DescriptionContainer>{description}</DescriptionContainer>
-              )}
-              <StyledContainer>
-                {casesByGroup.cases.map(cases => (
-                  <WarsCaseBox cases={cases} handleBoxClick={handleBoxClick} />
-                ))}
-              </StyledContainer>
-            </WarsGroupContainer>
-          )
-        })}
-      </>
-    )
-  } else if (selectedGroupButton === 7) {
-    // **********************
-    // ** By Status
-    // **********************
-    const groupedCases = _groupBy(
-      filteredCases,
-      ({ node: { status } }) => `${status}`
-    )
-    const casesByGroups = _map(groupedCases, (v, k) => ({
-      status: k,
-      cases: v,
-    }))
-
-    return (
-      <>
-        {casesByGroups.map((casesByGroup, index) => {
-          let { status, cases } = casesByGroup
-
-          if (cases.length === 0) {
-            return null
-          }
-
-          if (status === null || status === "") {
-            status = t("cases.uncategorized")
-          } else {
-            status = t(`cases.status_${status}`)
-          }
-
-          return (
-            <WarsGroupContainer index={index}>
-              <GroupHeader variant="h6">
-                {status} ({t("cases.box_view_cases", { cases: cases.length })})
-              </GroupHeader>
-              <StyledContainer>
-                {casesByGroup.cases.map(cases => (
-                  <WarsCaseBox cases={cases} handleBoxClick={handleBoxClick} />
-                ))}
-              </StyledContainer>
-            </WarsGroupContainer>
-          )
-        })}
+        {displayingData.map((group, index) => (
+          <WarsGroupContainer index={index}>
+            <GroupHeader variant="h6">{group.title}</GroupHeader>
+            {group.description && (
+              <DescriptionContainer>{group.description}</DescriptionContainer>
+            )}
+            <StyledContainer>
+              {group.cases.map(cases => (
+                <WarsCaseBox cases={cases} handleBoxClick={handleBoxClick} />
+              ))}
+            </StyledContainer>
+          </WarsGroupContainer>
+        ))}
       </>
     )
   }
-})
+)
