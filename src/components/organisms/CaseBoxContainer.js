@@ -1,6 +1,5 @@
 import React from "react"
 import { useTranslation } from "react-i18next"
-import Box from "@material-ui/core/Box"
 import styled from "styled-components"
 import { mapColorForStatus } from "@/utils/colorHelper"
 import { bps } from "@/ui/theme"
@@ -15,7 +14,7 @@ import MaleIcon from "@/components/icons/male.svg"
 import FemaleIcon from "@/components/icons/female.svg"
 import ImportIcon from "@/components/icons/import.svg"
 
-const CaseAvatar = styled(Box)`
+const CaseAvatar = styled.div`
   cursor: pointer;
   font-weight: 900;
   font-size: 11px;
@@ -54,27 +53,27 @@ const CaseAvatar = styled(Box)`
     color: ${props => props.statuscolor};
   }
 `
-const WarsGroupContainer = styled(Box)`
+const WarsGroupContainer = styled.div`
   margin: 16px 0 16px;
   border-bottom: 1px #cfcfcf solid;
   }
-`
 
-const GroupHeader = styled(Typography)`
-  margin-bottom: 16px;
-`
+  .description {
+    margin: 10px 0px;
+  }
 
-const DescriptionContainer = styled(Box)`
-  margin: 10px 0px;
-`
+  .group-header {
+    margin-bottom: 16px;
+  }
 
-const StyledContainer = styled(Box)`
-  display: flex;
-  flex-wrap: wrap;
-  margin: 0 -8px;
+  .content {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0 -8px;
 
-  ${bps.down("sm")} {
-    margin: 0 -4px;
+    ${bps.down("sm")} {
+      margin: 0 -4px;
+    }
   }
 `
 
@@ -165,11 +164,11 @@ export const WarsCaseBoxContainer = React.forwardRef((props, ref) => {
           return (
             matchedCases > 0 && (
               <WarsGroupContainer index={index}>
-                <GroupHeader variant="h6">
+                <Typography variant="h6" className="group-header">
                   {dateKey} (
                   {t("cases.box_view_cases", { cases: matchedCases })})
-                </GroupHeader>
-                <StyledContainer>
+                </Typography>
+                <div className="content">
                   {filteredCases
                     .filter(
                       ({ node }) => dateMap[node.confirmation_date] === dateKey
@@ -180,7 +179,7 @@ export const WarsCaseBoxContainer = React.forwardRef((props, ref) => {
                         handleBoxClick={handleBoxClick}
                       />
                     ))}
-                </StyledContainer>
+                </div>
               </WarsGroupContainer>
             )
           )
@@ -225,14 +224,14 @@ export const WarsCaseBoxContainer = React.forwardRef((props, ref) => {
 
           return (
             <WarsGroupContainer index={index}>
-              <GroupHeader variant="h6">
+              <Typography variant="h6" className="group-header">
                 {area} ({t("cases.box_view_cases", { cases: cases.length })})
-              </GroupHeader>
-              <StyledContainer>
+              </Typography>
+              <div className="content">
                 {casesByGroup.cases.map(cases => (
                   <WarsCaseBox cases={cases} handleBoxClick={handleBoxClick} />
                 ))}
-              </StyledContainer>
+              </div>
             </WarsGroupContainer>
           )
         })}
@@ -285,17 +284,16 @@ export const WarsCaseBoxContainer = React.forwardRef((props, ref) => {
 
           return (
             <WarsGroupContainer index={index}>
-              <GroupHeader variant="h6">
+              <Typography variant="h6" className="group-header">
                 {group} ({t("cases.box_view_cases", { cases: cases.length })})
-              </GroupHeader>
-              {description && (
-                <DescriptionContainer>{description}</DescriptionContainer>
-              )}
-              <StyledContainer>
+              </Typography>
+              {description && <div class="description">{description}</div>}
+              <div className="content">
+                >
                 {casesByGroup.cases.map(cases => (
                   <WarsCaseBox cases={cases} handleBoxClick={handleBoxClick} />
                 ))}
-              </StyledContainer>
+              </div>
             </WarsGroupContainer>
           )
         })}
@@ -331,14 +329,14 @@ export const WarsCaseBoxContainer = React.forwardRef((props, ref) => {
 
           return (
             <WarsGroupContainer index={index}>
-              <GroupHeader variant="h6">
+              <Typography variant="h6" className="group-header">
                 {status} ({t("cases.box_view_cases", { cases: cases.length })})
-              </GroupHeader>
-              <StyledContainer>
+              </Typography>
+              <div className="content">
                 {casesByGroup.cases.map(cases => (
                   <WarsCaseBox cases={cases} handleBoxClick={handleBoxClick} />
                 ))}
-              </StyledContainer>
+              </div>
             </WarsGroupContainer>
           )
         })}
