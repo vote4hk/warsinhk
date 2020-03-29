@@ -13,7 +13,7 @@ import Typography from "@material-ui/core/Typography"
 import MaleIcon from "@/components/icons/male.svg"
 import FemaleIcon from "@/components/icons/female.svg"
 import ImportIcon from "@/components/icons/import.svg"
-
+import InfiniteScroll from "@/components/molecules/InfiniteScroll"
 const CaseAvatar = styled.div`
   cursor: pointer;
   font-weight: 900;
@@ -157,32 +157,38 @@ export const WarsCaseBoxContainer = React.forwardRef((props, ref) => {
 
     return (
       <>
-        {dates.map((dateKey, index) => {
-          let matchedCases = filteredCases.filter(
-            ({ node }) => dateMap[node.confirmation_date] === dateKey
-          ).length
-          return (
-            matchedCases > 0 && (
-              <WarsGroupContainer index={index}>
-                <Typography variant="h6" className="group-header">
-                  {dateKey} (
-                  {t("cases.box_view_cases", { cases: matchedCases })})
-                </Typography>
-                <div className="content">
-                  {filteredCases
-                    .filter(
-                      ({ node }) => dateMap[node.confirmation_date] === dateKey
-                    )
-                    .map(cases => (
-                      <WarsCaseBox
-                        cases={cases}
-                        handleBoxClick={handleBoxClick}
-                      />
-                    ))}
-                </div>
-              </WarsGroupContainer>
+        <InfiniteScroll
+          list={dates}
+          step={{ mobile: 2, preload: 5 }}
+          onItem={(dateKey, index) => {
+            let matchedCases = filteredCases.filter(
+              ({ node }) => dateMap[node.confirmation_date] === dateKey
+            ).length
+            return (
+              matchedCases > 0 && (
+                <WarsGroupContainer index={index}>
+                  <Typography variant="h6" className="group-header">
+                    {dateKey} (
+                    {t("cases.box_view_cases", { cases: matchedCases })})
+                  </Typography>
+                  <div className="content">
+                    {filteredCases
+                      .filter(
+                        ({ node }) =>
+                          dateMap[node.confirmation_date] === dateKey
+                      )
+                      .map(cases => (
+                        <WarsCaseBox
+                          cases={cases}
+                          handleBoxClick={handleBoxClick}
+                        />
+                      ))}
+                  </div>
+                </WarsGroupContainer>
+              )
             )
-          )
+          }}
+        />
         })}
       </>
     )
@@ -212,29 +218,36 @@ export const WarsCaseBoxContainer = React.forwardRef((props, ref) => {
 
     return (
       <>
-        {casesByGroups.map((casesByGroup, index) => {
-          let { citizenship_en, cases } = casesByGroup
-          let area
+        <InfiniteScroll
+          list={casesByGroups}
+          step={{ mobile: 2, preload: 5 }}
+          onItem={(casesByGroup, index) => {
+            let { citizenship_en, cases } = casesByGroup
+            let area
 
-          if (citizenship_en === "#N/A") {
-            area = t("cases.uncategorized")
-          } else {
-            area = withLanguage(i18n, casesByGroup, "citizenship")
-          }
+            if (citizenship_en === "#N/A") {
+              area = t("cases.uncategorized")
+            } else {
+              area = withLanguage(i18n, casesByGroup, "citizenship")
+            }
 
-          return (
-            <WarsGroupContainer index={index}>
-              <Typography variant="h6" className="group-header">
-                {area} ({t("cases.box_view_cases", { cases: cases.length })})
-              </Typography>
-              <div className="content">
-                {casesByGroup.cases.map(cases => (
-                  <WarsCaseBox cases={cases} handleBoxClick={handleBoxClick} />
-                ))}
-              </div>
-            </WarsGroupContainer>
-          )
-        })}
+            return (
+              <WarsGroupContainer index={index}>
+                <Typography variant="h6" className="group-header">
+                  {area} ({t("cases.box_view_cases", { cases: cases.length })})
+                </Typography>
+                <div className="content">
+                  {casesByGroup.cases.map(cases => (
+                    <WarsCaseBox
+                      cases={cases}
+                      handleBoxClick={handleBoxClick}
+                    />
+                  ))}
+                </div>
+              </WarsGroupContainer>
+            )
+          }}
+        />
       </>
     )
   } else if (selectedGroupButton === 5 || selectedGroupButton === 6) {
@@ -270,33 +283,40 @@ export const WarsCaseBoxContainer = React.forwardRef((props, ref) => {
 
     return (
       <>
-        {casesByGroups.map((casesByGroup, index) => {
-          let { group_id, cases } = casesByGroup
-          let group, description
+        <InfiniteScroll
+          list={casesByGroups}
+          step={{ mobile: 1, preload: 1 }}
+          onItem={(casesByGroup, index) => {
+            let { group_id, cases } = casesByGroup
+            let group, description
 
-          if (group_id === "null") {
-            group = t("cases.uncategorized")
-          } else {
-            group = withLanguage(i18n, casesByGroup, "group_name")
-          }
+            if (group_id === "null") {
+              group = t("cases.uncategorized")
+            } else {
+              group = withLanguage(i18n, casesByGroup, "group_name")
+            }
 
-          description = withLanguage(i18n, casesByGroup, "group_description")
+            description = withLanguage(i18n, casesByGroup, "group_description")
 
-          return (
-            <WarsGroupContainer index={index}>
-              <Typography variant="h6" className="group-header">
-                {group} ({t("cases.box_view_cases", { cases: cases.length })})
-              </Typography>
-              {description && <div class="description">{description}</div>}
-              <div className="content">
-                >
-                {casesByGroup.cases.map(cases => (
-                  <WarsCaseBox cases={cases} handleBoxClick={handleBoxClick} />
-                ))}
-              </div>
-            </WarsGroupContainer>
-          )
-        })}
+            return (
+              <WarsGroupContainer index={index}>
+                <Typography variant="h6" className="group-header">
+                  {group} ({t("cases.box_view_cases", { cases: cases.length })})
+                </Typography>
+                {description && <div class="description">{description}</div>}
+                <div className="content">
+                  >
+                  {casesByGroup.cases.map(cases => (
+                    <WarsCaseBox
+                      cases={cases}
+                      handleBoxClick={handleBoxClick}
+                    />
+                  ))}
+                </div>
+              </WarsGroupContainer>
+            )
+          }}
+        />
       </>
     )
   } else if (selectedGroupButton === 7) {
@@ -314,32 +334,40 @@ export const WarsCaseBoxContainer = React.forwardRef((props, ref) => {
 
     return (
       <>
-        {casesByGroups.map((casesByGroup, index) => {
-          let { status, cases } = casesByGroup
+        <InfiniteScroll
+          list={casesByGroups}
+          step={{ mobile: 1, preload: 1 }}
+          onItem={(casesByGroup, index) => {
+            let { status, cases } = casesByGroup
 
-          if (cases.length === 0) {
-            return null
-          }
+            if (cases.length === 0) {
+              return null
+            }
 
-          if (status === null || status === "") {
-            status = t("cases.uncategorized")
-          } else {
-            status = t(`cases.status_${status}`)
-          }
+            if (status === null || status === "") {
+              status = t("cases.uncategorized")
+            } else {
+              status = t(`cases.status_${status}`)
+            }
 
-          return (
-            <WarsGroupContainer index={index}>
-              <Typography variant="h6" className="group-header">
-                {status} ({t("cases.box_view_cases", { cases: cases.length })})
-              </Typography>
-              <div className="content">
-                {casesByGroup.cases.map(cases => (
-                  <WarsCaseBox cases={cases} handleBoxClick={handleBoxClick} />
-                ))}
-              </div>
-            </WarsGroupContainer>
-          )
-        })}
+            return (
+              <WarsGroupContainer index={index}>
+                <Typography variant="h6" className="group-header">
+                  {status} ({t("cases.box_view_cases", { cases: cases.length })}
+                  )
+                </Typography>
+                <div className="content">
+                  {casesByGroup.cases.map(cases => (
+                    <WarsCaseBox
+                      cases={cases}
+                      handleBoxClick={handleBoxClick}
+                    />
+                  ))}
+                </div>
+              </WarsGroupContainer>
+            )
+          }}
+        />
       </>
     )
   }
