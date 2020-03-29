@@ -2,10 +2,10 @@ import React from "react"
 import Typography from "@material-ui/core/Typography"
 import Box from "@material-ui/core/Box"
 import MuiLink from "@material-ui/core/Link"
+import { Link } from "gatsby"
 import styled from "styled-components"
 import { Row } from "@components/atoms/Row"
-import { withLanguage } from "@/utils/i18n"
-// import { withLanguage, getLocalizedPath } from "@/utils/i18n"
+import { withLanguage, getLocalizedPath } from "@/utils/i18n"
 import { DefaultChip } from "@components/atoms/Chip"
 import {
   mapColorForClassification,
@@ -65,11 +65,11 @@ const CaseCard = styled.div`
 
   .detail {
     border-top: 1px #cfcfcf solid;
+    line-height: 1.75rem;
     padding: 16px 0 16px;
 
     a {
-      display: inline-block;
-      margin-top: 6px;
+      color: ${props => props.theme.palette.primary.main};
     }
   }
 
@@ -123,7 +123,9 @@ const WarsCaseTrack = ({ i18n, t, track }) => {
             </Row>
             {remarksText && (
               <Row className="track-remarks">
-                <Typography variant="body1">{remarksText}</Typography>
+                <Typography variant="body1">
+                  {renderTextWithCaseLink(i18n, tr.node, "remarks")}
+                </Typography>
               </Row>
             )}
             <Row className="track-source">
@@ -139,6 +141,38 @@ const WarsCaseTrack = ({ i18n, t, track }) => {
               )}
             </Row>
           </div>
+        )
+      })}
+    </>
+  )
+}
+
+const renderTextWithCaseLink = (i18n, node, text = "detail") => {
+  let rawText = withLanguage(i18n, node, text)
+
+  let regexp = /#\d+/g
+  let relatedCases = [...rawText.matchAll(regexp)]
+  let splitedRawText = rawText.split(regexp)
+
+  return (
+    <>
+      {splitedRawText.map((str, i) => {
+        let caseNo = relatedCases[i] && relatedCases[i][0]
+
+        return (
+          <>
+            {str}
+            {caseNo && (
+              <Link
+                to={getLocalizedPath(
+                  i18n,
+                  `/cases/${caseNo.slice(1, caseNo.length)} `
+                )}
+              >
+                {caseNo}
+              </Link>
+            )}
+          </>
         )
       })}
     </>
@@ -248,20 +282,13 @@ export const WarsCaseCard = React.forwardRef((props, ref) => {
 
         <Box className="detail">
           <Typography variant="body1">
-            {withLanguage(i18n, node, "detail")}
+            {renderTextWithCaseLink(i18n, node, "detail")}
           </Typography>
           <MuiLink variant="body1" href={node.source_url} target="_blank">
             {t("dashboard.source")}
           </MuiLink>
         </Box>
         {track}
-        {/* <Row>
-          {showViewMore && (
-            <Link to={getLocalizedPath(i18n, `/cases/#${node.case_no} `)}>
-              {t("cases.view_more")}
-            </Link>
-          )}
-        </Row> */}
       </Box>
     </CaseCard>
   )
