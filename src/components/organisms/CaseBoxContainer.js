@@ -28,6 +28,7 @@ const AvatarContainer = styled("div")`
   max-width: 70px;
   text-align: center;
   padding-bottom: 16px;
+  cursor: pointer;
 `
 
 const DescriptionContainer = styled("div")`
