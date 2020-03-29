@@ -43,6 +43,8 @@ const PUBLISHED_SPREADSHEET_TRAVEL_ALERT_URL =
   "https://docs.google.com/spreadsheets/u/1/d/e/2PACX-1vQOnfZtGysW5qVe9FferSvhSODKa9ASH7SeqCGAGJSz8ZV7POm3kzFqfkbVAgryHKdj9WwLKXJai332/pub?gid=0"
 const PUBLISHED_SPREADSHEET_IMPORTANT_INFORMATION_URL =
   "https://docs.google.com/spreadsheets/d/e/2PACX-1vShepjZrGpn8QlN8R3QFrIVhWLg9l0F99wYR9khAnhmoydOP7hkS2_L1imCjH9nHkqVQf3xGrUAi8Na/pub?gid=0"
+const PUBLISHED_SPREADSHEET_SITE_CONFIG_URL =
+  "https://docs.google.com/spreadsheets/d/e/2PACX-1vRUN7eL0XjPbkcmxnWKPH9_AOiRiIVcH25nLkOgbfRN7y1gk9tBucufIcLWTFFjjgMJNQmOxIFeU_Sk/pub?gid=0"
 
 const GRAPHQL_URL = "https://api2.vote4.hk/v1/graphql"
 
@@ -512,6 +514,12 @@ exports.sourceNodes = async props => {
       props,
       PUBLISHED_SPREADSHEET_IMPORTANT_INFORMATION_URL,
       "ImportantInformation",
+      { skipFirstLine: true }
+    ),
+    createPublishedGoogleSpreadsheetNode(
+      props,
+      PUBLISHED_SPREADSHEET_SITE_CONFIG_URL,
+      "SiteConfig",
       { skipFirstLine: true }
     ),
     createNode(props, SHEET_ALERT_MASTER, "Alert"),

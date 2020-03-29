@@ -31,6 +31,8 @@ const DEFAULT_MODULES = [
   "latest_cases",
 ]
 
+const NEW_FEATURES = ["isolation_beds"]
+
 const ModuleContainer = styled.div`
   margin-bottom: 8px;
 `
@@ -252,6 +254,19 @@ export default function IndexPage({ data }) {
         rowSpan: 4,
       }
     )
+
+    registerComponent(
+      "isolation_beds",
+      "dashboard.isolation_beds",
+      React.lazy(() =>
+        import(
+          /* webpackPrefetch: true */ "@/components/molecules/dashboard/ConfirmedLineChart.js"
+        )
+      ),
+      {
+        rowSpan: 2,
+      }
+    )
   }
 
   const handleModuleChange = id => {
@@ -272,15 +287,32 @@ export default function IndexPage({ data }) {
 
   // load the settings from localStorage
   const LOCAL_STORAGE_KEY_DASHBOARD = "index-dashboard-module"
+  const LOCAL_STORAGE_KEY_DASHBOARD_NEW_MODULES = "index-dashboard-module-new"
   registerComponents()
 
   React.useEffect(() => {
     const moduleString = loadFromLocalStorage(LOCAL_STORAGE_KEY_DASHBOARD)
+    const loadedNewModules = loadFromLocalStorage(
+      LOCAL_STORAGE_KEY_DASHBOARD_NEW_MODULES
+    )
+    let newModules = []
+    if (loadedNewModules) {
+      const alreadyLoadedNewModules = loadedNewModules.split(",")
+      NEW_FEATURES.forEach(f => {
+        if (alreadyLoadedNewModules.indexOf(f) < 0) {
+          newModules.push(f)
+        }
+      })
+    } else {
+      newModules = NEW_FEATURES
+    }
+
+    saveToLocalStorage(LOCAL_STORAGE_KEY_DASHBOARD_NEW_MODULES, NEW_FEATURES)
     if (moduleString) {
-      setModules(moduleString.split(","))
+      setModules(moduleString.split(",").concat(newModules))
     } else {
       // default modules
-      setModules(DEFAULT_MODULES)
+      setModules(DEFAULT_MODULES.concat(newModules))
     }
     // eslint-disable-line
   }, [])

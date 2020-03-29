@@ -3,7 +3,7 @@ import * as d3 from "d3"
 import _max from "lodash.max"
 import _times from "lodash.times"
 
-const getHeight = width => Math.max((width * 2) / 3, 400)
+const getHeight = width => Math.max((width * 2) / 3, 300)
 
 export default props => {
   const [dimensions, setDimensions] = useState({ width: 0, height: 0 })
@@ -14,24 +14,30 @@ export default props => {
       return
     }
 
-    const margin = { top: 20, right: 20, bottom: 50, left: 20 }
+    const margin = { top: 20, right: 10, bottom: 50, left: 35 }
 
     const width = dimensions.width - margin.left - margin.right
     const height = getHeight(dimensions.width) - margin.top - margin.bottom
 
-    const max = _max(
-      data.datasets.map(dataset =>
+    const XAXIS_INTERVAL = width < 500 ? 7 : 3
+
+    const max =
+      Math.max(
         _max(
-          dataset.data.map(d =>
+          data.datasets.map(dataset =>
             _max(
-              Object.keys(d)
-                .filter(field => data.fields.indexOf(field) >= 0)
-                .map(key => d[key])
+              dataset.data.map(d =>
+                _max(
+                  Object.keys(d)
+                    .filter(field => data.fields.indexOf(field) >= 0)
+                    .map(key => d[key])
+                )
+              )
             )
           )
-        )
-      )
-    )
+        ),
+        _max(data.horizontalLines.map(l => l.value))
+      ) * 1.1
 
     const svg = d3
       .select(d3Container.current)
@@ -63,12 +69,14 @@ export default props => {
       .call(
         d3
           .axisBottom(xScale)
-          .tickFormat((d, i) =>
-            (data.xaxis.length - 1) % 3 === i % 3 ? data.xaxis[i] : ""
+          // https://github.com/d3/d3-axis/blob/master/README.md#axis_ticks
+          .tickValues(
+            xScale.domain().filter((_, i) => i % XAXIS_INTERVAL === 0)
           )
+          .tickFormat((d, i) => data.xaxis[i * XAXIS_INTERVAL])
       )
       .selectAll("text")
-      .attr("transform", "translate(0,0)rotate(-45)")
+      .attr("transform", "rotate(-45)translate(0,0)")
       .style("text-anchor", "end")
       .style("fill", "#69a3b2")
 
@@ -84,6 +92,27 @@ export default props => {
           .tickSizeInner(-width)
           .tickFormat("")
       )
+
+    // draw horizontal lines
+    data.horizontalLines.forEach((hLine, i) => {
+      svg
+        .append("line")
+        .attr("x1", margin.left)
+        .attr("y1", margin.top + yScale(hLine.value))
+        .attr("x2", margin.left + width)
+        .attr("y2", margin.top + yScale(hLine.value))
+        .style("stroke", hLine.color)
+        .attr("stroke-dasharray", hLine["stroke-dasharray"])
+
+      svg
+        .append("text")
+        .attr("width", 100)
+        .attr("x", margin.left + width)
+        .attr("y", margin.top + yScale(hLine.value) - 4)
+        .style("text-anchor", "end")
+        .attr("fill", hLine.color)
+        .text(hLine.legend)
+    })
 
     // 7. d3's line generator
     const lineFunc = d3
@@ -132,11 +161,11 @@ export default props => {
         .attr("opacity", styles.opactiy || 1.0)
     }
 
-    data.datasets.forEach(dataset =>
+    data.datasets.forEach((dataset, i) =>
       drawLine(
         dataset.data.map(d =>
           Object.keys(d)
-            .filter(field => data.fields.indexOf(field) >= 0)
+            .filter(field => data.fields.indexOf(field) === i)
             .map(key => d[key])
         ),
         null,
@@ -144,75 +173,142 @@ export default props => {
       )
     )
 
-    // if (data.constituency[0] !== null) {
-    //   drawLine(data.constituency, labels.constituency, {
-    //     color: COLOR_CONSTITUENCY,
-    //   })
-    //   drawLine(data.district, labels.district, {
-    //     color: COLOR_DISTRICT,
-    //     'stroke-dasharray': '5, 2',
-    //     opactiy: 0.8,
-    //   })
-    //   drawLine(data.total, labels.total, {
-    //     color: COLOR_TOTAL,
-    //     'stroke-dasharray': '5, 5',
-    //     opactiy: 0.5,
-    //   })
+    if (data.showLegend) {
+      //Legend
+      const legend = svg
+        .selectAll(".legend")
+        .data(data.datasets)
+        .enter()
+        .append("g")
+        .attr("class", "legend")
+        .attr(
+          "transform",
+          (d, i) => `translate(${margin.left + 20}, ${margin.top + i * 24})`
+        )
 
-    //   const lastIndex = _.findLastIndex(data.constituency, c => c !== null)
-    //   svg
-    //     .append('g')
-    //     .append('text')
-    //     .attr('font-size', '12px')
-    //     .style('text-anchor', 'middle')
-    //     .style('fill', COLOR_CONSTITUENCY)
-    //     .text(data.current)
-    //     .attr('x', xScale(lastIndex) + margin.left)
-    //     .attr('y', yScale(data.constituency[lastIndex]) + margin.top - 8)
-    // } else {
-    //   svg
-    //     .append('g')
-    //     .append('text')
-    //     .attr('font-size', '30px')
-    //     .style('text-anchor', 'middle')
-    //     .style('fill', COLOR_CONSTITUENCY)
-    //     .text(t('turnont_chart.no_data'))
-    //     .attr(
-    //       'transform',
-    //       `translate(${width / 2 + margin.left},${height / 2 +
-    //       margin.top})rotate(-30)`
-    //     )
-    // }
+      legend
+        .append("rect")
+        .attr("width", 14)
+        .attr("height", 14)
+        .style("fill", function(d, i) {
+          return d.line.color
+        })
 
-    // //Legend
-    // const legend = svg
-    //   .selectAll('.legend')
-    //   .data(Object.values(labels))
-    //   .enter()
-    //   .append('g')
-    //   .attr('class', 'legend')
-    //   .attr('transform', (d, i) => `translate(${margin.left + i * 140}, 0)`)
+      legend
+        .append("text")
+        .attr("x", 16)
+        .attr("y", 7)
+        .attr("dy", ".35em")
+        .style("text-anchor", "start")
+        .style("fill", function(d, i) {
+          return d.line.color
+        })
+        .text(function(d) {
+          return d.line.legend
+        })
+    }
 
-    // legend
-    //   .append('rect')
-    //   .attr('width', 14)
-    //   .attr('height', 14)
-    //   .style('fill', function (d, i) {
-    //     return [COLOR_CONSTITUENCY, COLOR_DISTRICT, COLOR_TOTAL][i]
-    //   })
+    // Tooltip rendering
+    const TOOLTIP_WIDTH = 100
+    const tooltip = svg
+      .append("g")
+      .attr("display", "none")
+      .attr("class", "tooltip")
 
-    // legend
-    //   .append('text')
-    //   .attr('x', 16)
-    //   .attr('y', 7)
-    //   .attr('dy', '.35em')
-    //   .style('text-anchor', 'start')
-    //   .style('fill', function (d, i) {
-    //     return [COLOR_CONSTITUENCY, COLOR_DISTRICT, COLOR_TOTAL][i]
-    //   })
-    //   .text(function (d) {
-    //     return d
-    //   })
+    tooltip
+      .append("rect")
+      .attr("fill", "#fff")
+      .attr("stroke", "#000")
+      .attr("width", 100)
+      .attr("height", 50) // TODO: base on dataset size
+      .attr("x", 0)
+      .attr("y", 0)
+      .attr("rx", 4)
+      .attr("ry", 4)
+
+    tooltip
+      .append("text")
+      .attr("class", "title")
+      .attr("width", 100)
+      .attr("height", 35)
+      .attr("dy", ".35em")
+      .attr("font-size", 14)
+      .attr("x", 4)
+      .attr("y", 12)
+      .text("date")
+
+    tooltip
+      .selectAll(".legend")
+      .data(data.datasets)
+      .enter()
+      .append("text")
+      .attr("class", "figures")
+      .attr("width", 100)
+      .attr("height", 35)
+      .attr("dy", ".35em")
+      .attr("font-size", 12)
+      .style("text-anchor", "start")
+
+    const tooltipLine = svg.append("line")
+    const tipBox = svg
+      .append("rect")
+      .attr("width", width)
+      .attr("height", height)
+      .attr("x", margin.left)
+      .attr("y", margin.top)
+      .attr("opacity", 0)
+      .on("mousemove", drawTooltip)
+      .on("mouseout", removeTooltip)
+      .on("mouseclick", drawTooltip)
+
+    function drawTooltip() {
+      const band = xScale.step()
+      const coord = d3.mouse(tipBox.node())
+
+      coord[0] -= margin.left
+      coord[1] -= margin.top
+      const xIndex = Math.max(Math.round(coord[0] / band), 0)
+
+      // const date = Math.floor((xScale.invert(d3.mouse(tipBox.node())[0]) + 5) / 10) * 10;
+
+      tooltipLine
+        .attr("stroke", "black")
+        .attr("stroke-dasharray", "5, 2")
+        .attr("x1", margin.left + xScale(xIndex))
+        .attr("x2", margin.left + xScale(xIndex))
+        .attr("y1", margin.top + 0)
+        .attr("y2", margin.top + height)
+
+      let tooltipX = margin.left + xScale(xIndex) + 20
+      tooltipX =
+        tooltipX > width - TOOLTIP_WIDTH
+          ? tooltipX - TOOLTIP_WIDTH - 40
+          : tooltipX
+
+      tooltip
+        .attr("display", "block")
+        .attr(
+          "transform",
+          `translate(${tooltipX}, ${Math.min(
+            height - 100,
+            margin.top + coord[1] - 20
+          )})`
+        )
+        .selectAll(".figures")
+        .attr("x", 4)
+        .attr("y", (d, i) => 35 + i * 16)
+        .attr("fill", d => d.line.color)
+        .text((d, i) => `${d.line.legend}: ${d.data[xIndex][data.fields[i]]}`)
+
+      tooltip.select(".title").text(data.xaxis[xIndex])
+      // .style('color', d => d.line.color)
+      // .text(d => d.line.legend);
+    }
+
+    function removeTooltip() {
+      if (tooltip) tooltip.attr("display", "none")
+      if (tooltipLine) tooltipLine.attr("stroke", "none")
+    }
   }
 
   useEffect(() => {
