@@ -577,6 +577,54 @@ exports.createPages = async ({ graphql, actions }) => {
           }
         }
       }
+      allWarsCase {
+        edges {
+          node {
+            case_no
+            onset_date
+            confirmation_date
+            gender
+            age
+            hospital_zh
+            hospital_en
+            status
+            status_zh
+            status_en
+            type_zh
+            type_en
+            citizenship_zh
+            citizenship_en
+            detail_zh
+            detail_en
+            classification
+            classification_zh
+            classification_en
+            source_url
+          }
+        }
+      }
+      patient_track: allWarsCaseLocation(
+        sort: { order: DESC, fields: end_date }
+      ) {
+        group(field: case___case_no) {
+          fieldValue
+          edges {
+            node {
+              case_no
+              start_date
+              end_date
+              location_zh
+              location_en
+              action_zh
+              action_en
+              remarks_zh
+              remarks_en
+              source_url_1
+              source_url_2
+            }
+          }
+        }
+      }
     }
   `)
   result.data.allWarsTip.edges.forEach(({ node }) => {
@@ -608,6 +656,20 @@ exports.createPages = async ({ graphql, actions }) => {
           },
         })
       }
+    })
+  })
+
+  // onCreatePage will do the localization
+  result.data.allWarsCase.edges.forEach(({ node }) => {
+    const uri = `/cases/${node.case_no}`
+    actions.createPage({
+      path: uri,
+      component: path.resolve(`./src/templates/case.js`),
+      context: {
+        uri,
+        node,
+        patient_track: result.data.patient_track,
+      },
     })
   })
 }
