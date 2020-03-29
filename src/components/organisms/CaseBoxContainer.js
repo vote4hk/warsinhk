@@ -131,32 +131,6 @@ const prepareData = ({ filteredCases, selectedGroupButton }, { t, i18n }) => {
   )
 }
 
-const WarsCaseBoxContainerComponent = props =>
-  // --------------------------------------
-  // selectedGroupButton
-  // --------------------------------------
-  // 1: by date   : from latest to oldest
-  // 2: by date   : from oldest to latest
-  // 3: by area   : from greatest to least
-  // 4: by area   : from least to greatest
-  // 5: by group  : from more to less
-  // 6: by group  : from less to more
-  // 7: by status
-  // --------------------------------------
-  prepareData(props, useTranslation()).map((group, index) => (
-    <WarsGroupContainer index={index}>
-      <GroupHeader variant="h6">{group.title}</GroupHeader>
-      {group.description && (
-        <DescriptionContainer>{group.description}</DescriptionContainer>
-      )}
-      <StyledContainer>
-        {group.cases.map(cases => (
-          <WarsCaseBox cases={cases} handleBoxClick={props.handleBoxClick} />
-        ))}
-      </StyledContainer>
-    </WarsGroupContainer>
-  ))
-
 class VirtulizedWarsCasesList extends React.Component {
   rowRenderer = ({ index, key, style }) => (
     <div key={key} style={{ ...style, overflow: "hidden" }}>
@@ -201,7 +175,11 @@ class VirtulizedWarsCasesList extends React.Component {
     return result
   }
   componentDidUpdate(prevProps) {
-    if ((prevProps.width !== this.props.width || prevProps.data !== this.props.data )&& this.list)
+    if (
+      (prevProps.width !== this.props.width ||
+        prevProps.data !== this.props.data) &&
+      this.list
+    )
       this.list.recomputeRowHeights()
   }
   render() {
@@ -224,6 +202,17 @@ class VirtulizedWarsCasesList extends React.Component {
 }
 
 const VirtulizedWarsCasesContainer = props => {
+  // --------------------------------------
+  // selectedGroupButton
+  // --------------------------------------
+  // 1: by date   : from latest to oldest
+  // 2: by date   : from oldest to latest
+  // 3: by area   : from greatest to least
+  // 4: by area   : from least to greatest
+  // 5: by group  : from more to less
+  // 6: by group  : from less to more
+  // 7: by status
+  // --------------------------------------
   const groups = prepareData(props, useTranslation())
   return (
     <WindowScroller>
