@@ -376,7 +376,7 @@ const RelationPage = props => {
           onListFiltered={listFilteredHandler}
           filterWithOr={false}
         />
-        <DefaultSelect
+        {view === CASES_BOX_VIEW && <DefaultSelect
           value={selectedGroupButton}
           onChange={event => setGroupButton(event.target.value)}
           displayEmpty
@@ -385,7 +385,7 @@ const RelationPage = props => {
           {toggleGroupingButtons.map((groupBy, index) => (
             <MenuItem value={index + 1}>{t(groupBy)}</MenuItem>
           ))}
-        </DefaultSelect>
+        </DefaultSelect>}
       </PageContent>
       {view === CASES_BOX_VIEW ? (
         <>
