@@ -238,6 +238,7 @@ const VirtulizedWarsCasesContainer = props => {
                 isScrolling={isScrolling}
                 onScroll={onChildScroll}
                 scrollTop={scrollTop}
+                handleBoxClick={props.handleBoxClick}
               />
             )
           }}
