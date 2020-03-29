@@ -1,58 +1,19 @@
 import React from "react"
 import { useTranslation } from "react-i18next"
-import Box from "@material-ui/core/Box"
 import styled from "styled-components"
 import { mapColorForStatus } from "@/utils/colorHelper"
-import { bps } from "@/ui/theme"
 import _groupBy from "lodash/groupBy"
 import _orderBy from "lodash/orderBy"
+import _entries from "lodash/entries"
 import * as moment from "moment"
 import { withLanguage } from "@/utils/i18n"
 import Typography from "@material-ui/core/Typography"
-import MaleIcon from "@/components/icons/male.svg"
-import FemaleIcon from "@/components/icons/female.svg"
-import ImportIcon from "@/components/icons/import.svg"
+import AutoSizer from "react-virtualized/dist/es/AutoSizer"
+import WindowScroller from "react-virtualized/dist/es/WindowScroller"
+import List from "react-virtualized/dist/es/List"
+import { CaseAvatar } from "@/components/atoms/CaseAvatar"
 
-const CaseAvatar = styled(Box)`
-  cursor: pointer;
-  font-weight: 900;
-  font-size: 11px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-bottom: 16px;
-  position: relative;
-  max-width: 70px;
-  width: calc(100% / 5);
-  height: 32px;
-  margin-bottom: 30px;
-
-  g {
-    fill: ${props => props.statuscolor};
-  }
-
-  svg.male,
-  svg.female {
-    position: absolute;
-  }
-
-  svg.imported {
-    position: absolute;
-    top: -8px;
-    right: 10px;
-    width: 16px;
-    height: 16px;
-    z-index: 1;
-  }
-
-  .case-no {
-    position: absolute;
-    display: table;
-    margin: 2px auto;
-    color: ${props => props.statuscolor};
-  }
-`
-const WarsGroupContainer = styled(Box)`
+const WarsGroupContainer = styled("div")`
   margin: 16px 0 16px;
   border-bottom: 1px #cfcfcf solid;
   }
@@ -61,39 +22,37 @@ const WarsGroupContainer = styled(Box)`
 const GroupHeader = styled(Typography)`
   margin-bottom: 16px;
 `
+const AvatarContainer = styled("div")`
+  display: inline-block;
+  width: calc(100% / 5);
+  max-width: 70px;
+  text-align: center;
+  padding-bottom: 16px;
+`
 
-const DescriptionContainer = styled(Box)`
+const DescriptionContainer = styled("div")`
   margin: 10px 0px;
 `
 
-const StyledContainer = styled(Box)`
-  display: flex;
-  flex-wrap: wrap;
-  margin: 0 -8px;
+const StyledContainer = "div"
 
-  ${bps.down("sm")} {
-    margin: 0 -4px;
-  }
-`
-
-export const WarsCaseBox = React.forwardRef((props, ref) => {
+export const WarsCaseBox = props => {
   const {
     cases: { node },
     handleBoxClick,
   } = props
-
   return (
-    <CaseAvatar
-      className={`wars_box_${node.case_no}`}
-      statuscolor={mapColorForStatus(node.status).main}
-      onClick={e => handleBoxClick(node)}
-    >
-      {node.classification === "imported" && <ImportIcon />}
-      <span className="case-no">{node.case_no}</span>
-      {node.gender === "F" ? <FemaleIcon /> : <MaleIcon />}
-    </CaseAvatar>
+    <AvatarContainer>
+      <CaseAvatar
+        sex={node.gender}
+        color={mapColorForStatus(node.status).main}
+        code={node.case_no}
+        onClick={e => handleBoxClick(node)}
+        isImported={node.classification === "imported"}
+      />
+    </AvatarContainer>
   )
-})
+}
 
 const groupByKeyMap = {
   1: "node.confirmation_date",
@@ -124,13 +83,17 @@ const prepareData = ({ filteredCases, selectedGroupButton }, { t, i18n }) => {
       key === "#N/A"
         ? t("cases.uncategorized")
         : withLanguage(i18n, cases[0].node, "citizenship")
-    } (${t("cases.box_view_cases", { cases: cases.length })})`
+    } (${t("cases.box_view_cases", {
+      cases: cases.length,
+    })})`
   const titleByGroupName = ({ key, cases }) =>
     `${
       key === "null"
         ? t("cases.uncategorized")
         : withLanguage(i18n, cases[0].node, "group_name")
-    }  (${t("cases.box_view_cases", { cases: cases.length })})`
+    }  (${t("cases.box_view_cases", {
+      cases: cases.length,
+    })})`
   const titleByStatus = ({ key, cases }) =>
     `${
       key === "null" || key === "undefined"
@@ -149,7 +112,7 @@ const prepareData = ({ filteredCases, selectedGroupButton }, { t, i18n }) => {
   const getTitle = titlePolicies[selectedGroupButton]
 
   const groupByKey = groupByKeyMap[selectedGroupButton]
-  const groups = Object.entries(_groupBy(filteredCases, groupByKey)).map(
+  const groups = _entries(_groupBy(filteredCases, groupByKey)).map(
     ([key, cases]) => ({
       key,
       cases,
@@ -161,41 +124,127 @@ const prepareData = ({ filteredCases, selectedGroupButton }, { t, i18n }) => {
           : undefined,
     })
   )
-  debugger;
-  return _orderBy(groups, orderByPolicies[selectedGroupButton][0], orderByPolicies[selectedGroupButton][1])
+  return _orderBy(
+    groups,
+    orderByPolicies[selectedGroupButton][0],
+    orderByPolicies[selectedGroupButton][1]
+  )
 }
 
-export const WarsCaseBoxContainer = React.forwardRef(
-  function WarsCaseBoxContainer(props, ref) {
-    const { handleBoxClick } = props
-    // --------------------------------------
-    // selectedGroupButton
-    // --------------------------------------
-    // 1: by date   : from latest to oldest
-    // 2: by date   : from oldest to latest
-    // 3: by area   : from greatest to least
-    // 4: by area   : from least to greatest
-    // 5: by group  : from more to less
-    // 6: by group  : from less to more
-    // 7: by status
-    // --------------------------------------
-    const displayingData = prepareData(props, useTranslation())
-    return (
-      <>
-        {displayingData.map((group, index) => (
-          <WarsGroupContainer index={index}>
-            <GroupHeader variant="h6">{group.title}</GroupHeader>
-            {group.description && (
-              <DescriptionContainer>{group.description}</DescriptionContainer>
-            )}
-            <StyledContainer>
-              {group.cases.map(cases => (
-                <WarsCaseBox cases={cases} handleBoxClick={handleBoxClick} />
-              ))}
-            </StyledContainer>
-          </WarsGroupContainer>
+const WarsCaseBoxContainerComponent = props =>
+  // --------------------------------------
+  // selectedGroupButton
+  // --------------------------------------
+  // 1: by date   : from latest to oldest
+  // 2: by date   : from oldest to latest
+  // 3: by area   : from greatest to least
+  // 4: by area   : from least to greatest
+  // 5: by group  : from more to less
+  // 6: by group  : from less to more
+  // 7: by status
+  // --------------------------------------
+  prepareData(props, useTranslation()).map((group, index) => (
+    <WarsGroupContainer index={index}>
+      <GroupHeader variant="h6">{group.title}</GroupHeader>
+      {group.description && (
+        <DescriptionContainer>{group.description}</DescriptionContainer>
+      )}
+      <StyledContainer>
+        {group.cases.map(cases => (
+          <WarsCaseBox cases={cases} handleBoxClick={props.handleBoxClick} />
         ))}
-      </>
+      </StyledContainer>
+    </WarsGroupContainer>
+  ))
+
+class VirtulizedWarsCasesList extends React.Component {
+  rowRenderer = ({ index, key, style }) => (
+    <div key={key} style={{ ...style, overflow: "hidden" }}>
+      <WarsGroupContainer index={index}>
+        <GroupHeader variant="h6">{this.props.data[index].title}</GroupHeader>
+        {this.props.data[index].description && (
+          <DescriptionContainer>
+            {this.props.data[index].description}
+          </DescriptionContainer>
+        )}
+        <StyledContainer>
+          {this.props.data[index].cases.map(cases => (
+            <WarsCaseBox
+              cases={cases}
+              handleBoxClick={this.props.handleBoxClick}
+            />
+          ))}
+        </StyledContainer>
+      </WarsGroupContainer>
+    </div>
+  )
+  rowHeight = ({ index }) => {
+    const width = this.props.width
+    const titleHeight = 36
+    const rowHeight = 70
+    const margin = 16 + 16
+    const itemCountPerRow = width < 350 ? 5 : (width / 70) | 0
+    const fontSize = 14
+    const lineHeight = 1.43
+    const group = this.props.data[index]
+    const numberOfRows = Math.ceil(group.count / itemCountPerRow)
+    const descriptionTextEstimation = group.description
+      ? Math.ceil((group.description.length * fontSize) / width) *
+        fontSize *
+        lineHeight
+      : 0
+    const result =
+      rowHeight * numberOfRows +
+      titleHeight +
+      margin +
+      descriptionTextEstimation
+    return result
+  }
+  componentDidUpdate(prevProps) {
+    if ((prevProps.width !== this.props.width || prevProps.data !== this.props.data )&& this.list)
+      this.list.recomputeRowHeights()
+  }
+  render() {
+    return (
+      <List
+        ref={el => (this.list = el)}
+        rowHeight={this.rowHeight}
+        rowRenderer={this.rowRenderer}
+        width={this.props.width}
+        height={this.props.height}
+        rowCount={this.props.data.length}
+        isScrolling={this.props.isScrolling}
+        onScroll={this.props.onChildScroll}
+        scrollTop={this.props.scrollTop}
+        style={{ outline: "none" }}
+        autoHeight
+      />
     )
   }
-)
+}
+
+const VirtulizedWarsCasesContainer = props => {
+  const groups = prepareData(props, useTranslation())
+  return (
+    <WindowScroller>
+      {({ height, isScrolling, onChildScroll, scrollTop }) => (
+        <AutoSizer disableHeight>
+          {({ width }) => {
+            return (
+              <VirtulizedWarsCasesList
+                data={groups}
+                width={width}
+                height={height}
+                isScrolling={isScrolling}
+                onScroll={onChildScroll}
+                scrollTop={scrollTop}
+              />
+            )
+          }}
+        </AutoSizer>
+      )}
+    </WindowScroller>
+  )
+}
+
+export const WarsCaseBoxContainer = React.memo(VirtulizedWarsCasesContainer)
