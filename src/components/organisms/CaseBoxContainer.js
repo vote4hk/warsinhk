@@ -43,8 +43,6 @@ const DescriptionContainer = styled("div")`
   margin: 10px 0px;
 `
 
-const StyledContainer = "div"
-
 export const WarsCaseBox = props => {
   const {
     cases: { node },
@@ -175,14 +173,15 @@ class VirtulizedWarsCasesList extends React.Component {
             {this.props.data[index].description}
           </DescriptionContainer>
         )}
-        <StyledContainer>
-          {this.props.data[index].cases.map(cases => (
+        <div>
+          {this.props.data[index].cases.map((cases, index) => (
             <WarsCaseBox
+              key={index}
               cases={cases}
               handleBoxClick={this.props.handleBoxClick}
             />
           ))}
-        </StyledContainer>
+        </div>
       </WarsGroupContainer>
     </div>
   )

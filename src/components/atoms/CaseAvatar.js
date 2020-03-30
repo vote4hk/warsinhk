@@ -12,12 +12,7 @@ const FemaleSvgIcon = ({ color }) => (
 const ImportedMark = () => (
   <g transform="translate(30,0)">
     <g transform="scale(0.35, 0.35)">
-      <circle
-        fill="#505096"
-        cx="23"
-        cy="23"
-        r="23"
-      ></circle>
+      <circle fill="#505096" cx="23" cy="23" r="23"></circle>
       <path
         d="M23.0507812,27.7941889 L20.625,25.440678 L32.484375,25.440678 C33.921875,25.440678 35,24.3075061 35,23 C35,21.6924939 33.8320312,20.559322 32.484375,20.559322 L20.625,20.559322 L23.0507812,18.2058111 C24.0390625,17.2469734 24.0390625,15.6779661 23.0507812,14.7191283 C22.0625,13.7602906 20.4453125,13.7602906 19.4570312,14.7191283 L12.71875,21.2566586 C12.2695312,21.6924939 12,22.3026634 12,23 C12,23.6973366 12.2695312,24.3075061 12.71875,24.7433414 L19.4570312,31.2808717 C20.4453125,32.2397094 22.0625,32.2397094 23.0507812,31.2808717 C24.0390625,30.3220339 24.0390625,28.7530266 23.0507812,27.7941889 Z"
         id="Path"
@@ -36,7 +31,6 @@ export const CaseAvatar = ({
   const Icon = sex === "F" ? FemaleSvgIcon : MaleSvgIcon
   return (
     <svg
-      class="male"
       width="48px"
       height="48px"
       viewBox="0 0 48 48"
@@ -45,8 +39,15 @@ export const CaseAvatar = ({
       {...props}
     >
       <Icon color={color} />
-      {isImported && <ImportedMark/>}
-      <text x={24} y={24} textAnchor="middle" alignmentBaseline="middle" fontSize="11" fill={color}>
+      {isImported && <ImportedMark />}
+      <text
+        x={24}
+        y={24}
+        textAnchor="middle"
+        alignmentBaseline="middle"
+        fontSize="11"
+        fill={color}
+      >
         {code}
       </text>
     </svg>

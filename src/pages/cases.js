@@ -311,8 +311,8 @@ const RelationPage = props => {
         }
         content={
           <LegendContent>
-            {items.map(item => (
-              <div className="item">
+            {items.map((item, index) => (
+              <div className="item" key={index}>
                 {item.icon}
                 <span>{item.text}</span>
               </div>
@@ -348,7 +348,7 @@ const RelationPage = props => {
         <Typography variant="h2">{t("cases.title")}</Typography>
         <span>
           <BoxViewIcon
-            className={view === CASES_BOX_VIEW && "active"}
+            className={view === CASES_BOX_VIEW ? "active" : ""}
             onClick={() => {
               dispatch({
                 type: CASES_BOX_VIEW,
@@ -356,7 +356,7 @@ const RelationPage = props => {
             }}
           />
           <CardViewIcon
-            className={view === CASES_CARD_VIEW && "active"}
+            className={view === CASES_CARD_VIEW ? "active" : ""}
             onClick={() => {
               dispatch({
                 type: CASES_CARD_VIEW,
@@ -376,16 +376,20 @@ const RelationPage = props => {
           onListFiltered={listFilteredHandler}
           filterWithOr={false}
         />
-        {view === CASES_BOX_VIEW && <DefaultSelect
-          value={selectedGroupButton}
-          onChange={event => setGroupButton(event.target.value)}
-          displayEmpty
-          IconComponent={SortIcon}
-        >
-          {toggleGroupingButtons.map((groupBy, index) => (
-            <MenuItem value={index + 1}>{t(groupBy)}</MenuItem>
-          ))}
-        </DefaultSelect>}
+        {view === CASES_BOX_VIEW && (
+          <DefaultSelect
+            value={selectedGroupButton}
+            onChange={event => setGroupButton(event.target.value)}
+            displayEmpty
+            IconComponent={SortIcon}
+          >
+            {toggleGroupingButtons.map((groupBy, index) => (
+              <MenuItem key={index} value={index + 1}>
+                {t(groupBy)}
+              </MenuItem>
+            ))}
+          </DefaultSelect>
+        )}
       </PageContent>
       {view === CASES_BOX_VIEW ? (
         <>
