@@ -3,6 +3,7 @@ import { useMediaQuery } from "@material-ui/core"
 import { bps } from "@/ui/theme"
 import PropTypes from "prop-types"
 import { useTranslation } from "react-i18next"
+import Loading from "@components/atoms/Loading"
 
 const InfiniteScroll = ({ list, onItem, step }) => {
   const { mobile = 5, desktop = 20, preload = 5 } = step
@@ -44,7 +45,12 @@ const InfiniteScroll = ({ list, onItem, step }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [list, itemSize, i18n.language]
   )
-  return <>{elements}</>
+  return (
+    <>
+      {elements}
+      {loadMore && <Loading />}
+    </>
+  )
 }
 
 InfiniteScroll.propTypes = {

@@ -220,7 +220,6 @@ export const CaseAvatar = ({
   const Icon = sex === "F" ? FemaleSvgIcon : MaleSvgIcon
   return (
     <svg
-      class="male"
       width="48px"
       height="60px"
       viewBox="0 0 48 60"
