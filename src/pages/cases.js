@@ -1,5 +1,6 @@
 import React, { useState } from "react"
 import { useTranslation } from "react-i18next"
+import { useMediaQuery } from "react-responsive"
 import styled from "styled-components"
 import _get from "lodash.get"
 import Typography from "@material-ui/core/Typography"
@@ -29,6 +30,32 @@ import QuestionIcon from "@/components/icons/question.svg"
 import BoxViewIcon from "@/components/icons/box_view.svg"
 import CardViewIcon from "@/components/icons/card_view.svg"
 import SortIcon from "@/components/icons/sort.svg"
+
+const TwoColumnsWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+
+  ${bps.up("lg")} {
+    flex-direction: row;
+
+    > * {
+      flex: 0 0 calc(50% - 20px);
+    }
+  }
+
+  > ${ResponsiveWrapper} {
+    height: 100%;
+
+    ${bps.up("lg")} {
+      margin-top: -16px;
+      margin-left: 40px;
+
+      > [class*="Card"] {
+        flex: 0 0 calc(50% - 16px);
+      }
+    }
+  }
+`
 
 const TitleContainer = styled.div`
   display: flex;
@@ -311,8 +338,8 @@ const RelationPage = props => {
         }
         content={
           <LegendContent>
-            {items.map(item => (
-              <div className="item">
+            {items.map((item, index) => (
+              <div className="item" key={index}>
                 {item.icon}
                 <span>{item.text}</span>
               </div>
@@ -335,6 +362,8 @@ const RelationPage = props => {
 
   const handleBoxClick = item => setSelectedCase(item)
 
+  const isMobile = useMediaQuery({ maxWidth: 960 })
+
   return (
     <Layout
       onClick={e =>
@@ -348,7 +377,7 @@ const RelationPage = props => {
         <Typography variant="h2">{t("cases.title")}</Typography>
         <span>
           <BoxViewIcon
-            className={view === CASES_BOX_VIEW && "active"}
+            className={view === CASES_BOX_VIEW ? "active" : ""}
             onClick={() => {
               dispatch({
                 type: CASES_BOX_VIEW,
@@ -356,7 +385,7 @@ const RelationPage = props => {
             }}
           />
           <CardViewIcon
-            className={view === CASES_CARD_VIEW && "active"}
+            className={view === CASES_CARD_VIEW ? "active" : ""}
             onClick={() => {
               dispatch({
                 type: CASES_CARD_VIEW,
@@ -367,48 +396,58 @@ const RelationPage = props => {
       </TitleContainer>
       <PageContent>
         <ConfirmedCasesSummary />
-        {view === CASES_BOX_VIEW && <Legend />}
-        <MultiPurposeSearch
-          list={data.allWarsCase.edges}
-          placeholder={t("search.case_placeholder")}
-          options={options}
-          searchKey="case"
-          onListFiltered={listFilteredHandler}
-          filterWithOr={false}
-        />
-        {view === CASES_BOX_VIEW && <DefaultSelect
-          value={selectedGroupButton}
-          onChange={event => setGroupButton(event.target.value)}
-          displayEmpty
-          IconComponent={SortIcon}
-        >
-          {toggleGroupingButtons.map((groupBy, index) => (
-            <MenuItem value={index + 1}>{t(groupBy)}</MenuItem>
-          ))}
-        </DefaultSelect>}
-      </PageContent>
-      {view === CASES_BOX_VIEW ? (
-        <>
-          <WarsCaseBoxContainer
-            filteredCases={filteredCases}
-            handleBoxClick={handleBoxClick}
-            selectedGroupButton={selectedGroupButton}
-          />
-          {selectedCase && (
-            <SelectedCardContainer>
-              {renderCaseCard(selectedCase)}
-            </SelectedCardContainer>
+        <TwoColumnsWrapper>
+          <div>
+            {view === CASES_BOX_VIEW && <Legend />}
+            <MultiPurposeSearch
+              list={data.allWarsCase.edges}
+              placeholder={t("search.case_placeholder")}
+              options={options}
+              searchKey="case"
+              onListFiltered={listFilteredHandler}
+              filterWithOr={false}
+            />
+            {view === CASES_BOX_VIEW && (
+              <DefaultSelect
+                value={selectedGroupButton}
+                onChange={event => setGroupButton(event.target.value)}
+                displayEmpty
+                IconComponent={SortIcon}
+              >
+                {toggleGroupingButtons.map((groupBy, index) => (
+                  <MenuItem key={index} value={index + 1}>
+                    {t(groupBy)}
+                  </MenuItem>
+                ))}
+              </DefaultSelect>
+            )}
+            {(view === CASES_BOX_VIEW || !isMobile) && (
+              <>
+                <WarsCaseBoxContainer
+                  filteredCases={filteredCases}
+                  handleBoxClick={handleBoxClick}
+                  selectedGroupButton={selectedGroupButton}
+                />
+                {selectedCase && (
+                  <SelectedCardContainer>
+                    {renderCaseCard(selectedCase)}
+                  </SelectedCardContainer>
+                )}
+              </>
+            )}
+          </div>
+          {/* Hide and allow toggle for CASES_BOX_VIEW at mobile view */}
+          {(view === CASES_CARD_VIEW || !isMobile) && (
+            <ResponsiveWrapper>
+              <InfiniteScroll
+                list={filteredCases.map(c => c.node)}
+                step={{ preload: preloadedCases }}
+                onItem={renderCaseCard}
+              />
+            </ResponsiveWrapper>
           )}
-        </>
-      ) : (
-        <ResponsiveWrapper>
-          <InfiniteScroll
-            list={filteredCases.map(c => c.node)}
-            step={{ mobile: 5, preload: preloadedCases }}
-            onItem={renderCaseCard}
-          />
-        </ResponsiveWrapper>
-      )}
+        </TwoColumnsWrapper>
+      </PageContent>
     </Layout>
   )
 }
