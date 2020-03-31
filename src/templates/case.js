@@ -21,6 +21,7 @@ export default ({ pageContext }) => {
         patientTrack={patient_track.group.filter(
           t => t.fieldValue === node.case_no
         )}
+        backToCase={true}
       />
     </Layout>
   )

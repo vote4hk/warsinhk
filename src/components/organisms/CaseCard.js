@@ -14,6 +14,8 @@ import {
 import { formatDateMDD } from "@/utils"
 import _get from "lodash.get"
 import CloseIcon from "@material-ui/icons/Close"
+import ChevronLeftRoundedIcon from "@material-ui/icons/ChevronLeftRounded"
+import ChevronRightRoundedIcon from "@material-ui/icons/ChevronRightRounded"
 
 const CaseCard = styled.div`
   margin: 16px 0;
@@ -26,11 +28,17 @@ const CaseCard = styled.div`
     background: ${props => props.statuscolor};
     color: #ffffff;
     display: flex;
-    justify-content: space-between;
+    justify-content: ${props =>
+      props.backToCase ? "flex-start" : "space-between"};
     align-items: center;
 
     svg {
       cursor: pointer;
+    }
+
+    a {
+      color: white;
+      line-height: 0;
     }
   }
 
@@ -187,7 +195,8 @@ export const WarsCaseCard = React.forwardRef((props, ref) => {
     isSelected,
     patientTrack,
     handleClose = undefined,
-    // showViewMore = false,
+    showViewMore = false,
+    backToCase = false,
   } = props
   const trackData = _get(patientTrack, "[0].edges", null)
 
@@ -206,12 +215,23 @@ export const WarsCaseCard = React.forwardRef((props, ref) => {
       selected={isSelected}
       statuscolor={mapColorForStatus(node.status).main}
       ref={ref}
+      backToCase={backToCase}
     >
       <Box className="header">
+        {backToCase && (
+          <Link to={getLocalizedPath(i18n, `/cases`)}>
+            <ChevronLeftRoundedIcon />
+          </Link>
+        )}
         <Box>
           {`#${node.case_no}`} ({withLanguage(i18n, node, "status")})
         </Box>
         {handleClose && <CloseIcon onClick={e => handleClose(e)} />}
+        {showViewMore && (
+          <Link to={getLocalizedPath(i18n, `/cases`)}>
+            <ChevronRightRoundedIcon />
+          </Link>
+        )}
       </Box>
       <Box className="content">
         <Row className="basic-info">
