@@ -22,6 +22,7 @@ import ContextStore from "@/contextStore"
 import { CASES_BOX_VIEW, CASES_CARD_VIEW } from "@/reducers/cases"
 import { Accordion } from "@components/atoms/Accordion"
 import { DefaultSelect } from "@components/atoms/Select"
+import { trackCustomEvent } from "gatsby-plugin-google-analytics"
 import MaleIcon from "@/components/icons/male.svg"
 import FemaleIcon from "@/components/icons/female.svg"
 import ImportIcon from "@/components/icons/import.svg"
@@ -348,7 +349,15 @@ const RelationPage = props => {
     "cases.toggle_status",
   ]
 
-  const handleBoxClick = item => setSelectedCase(item)
+  const handleBoxClick = item => {
+    setSelectedCase(item)
+
+    trackCustomEvent({
+      category: "cases",
+      action: "click_avatar",
+      label: item.case_no,
+    })
+  }
 
   return (
     <Layout
@@ -368,6 +377,11 @@ const RelationPage = props => {
               dispatch({
                 type: CASES_BOX_VIEW,
               })
+              trackCustomEvent({
+                category: "cases",
+                action: "toggle_view",
+                label: "BOX_VIEW",
+              })
             }}
           />
           <CardViewIcon
@@ -375,6 +389,11 @@ const RelationPage = props => {
             onClick={() => {
               dispatch({
                 type: CASES_CARD_VIEW,
+              })
+              trackCustomEvent({
+                category: "cases",
+                action: "toggle_view",
+                label: "CARD_VIEW",
               })
             }}
           />
@@ -394,7 +413,14 @@ const RelationPage = props => {
         {view === CASES_BOX_VIEW && (
           <DefaultSelect
             value={selectedGroupButton}
-            onChange={event => setGroupButton(event.target.value)}
+            onChange={event => {
+              setGroupButton(event.target.value)
+              trackCustomEvent({
+                category: "cases",
+                action: "set_grouping",
+                label: toggleGroupingButtons[event.target.value - 1],
+              })
+            }}
             displayEmpty
             IconComponent={SortIcon}
           >
