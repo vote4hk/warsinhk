@@ -255,7 +255,10 @@ function ResponsiveDrawer(props) {
             {mapIcon("menu")}
           </IconButton>
           <AppTitle variant="h1" noWrap>
-            <Link className={classes.appTitleLink} href="/">
+            <Link
+              className={classes.appTitleLink}
+              href={getLocalizedPath(i18n, "/")}
+            >
               {t("site.title")}
             </Link>
           </AppTitle>
