@@ -42,12 +42,12 @@ const ConfirmedCasesSummary = props => {
   const { t } = useTranslation()
 
   const statusOrdering = {
-    deceased: 10,
-    critical: 20,
-    serious: 30,
-    hospitalised: 40,
-    pending_admission: 50,
-    discharged: 60,
+    discharged: 10,
+    pending_admission: 20,
+    hospitalised: 30,
+    serious: 40,
+    critical: 50,
+    deceased: 60,
     "": 70,
   }
 

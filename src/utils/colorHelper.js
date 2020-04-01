@@ -43,11 +43,11 @@ export const mapColorForClassification = classification => {
 export const mapColorForStatus = status => {
   const mapping = {
     hospitalised: {
-      main: "#f99f02",
+      main: amber[900],
       contrastText: "#000",
     },
     pending_admission: {
-      main: amber[900],
+      main: "#f99f02",
       contrastText: "#000",
     },
     discharged: {

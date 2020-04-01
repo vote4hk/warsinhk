@@ -246,14 +246,6 @@ const RelationPage = props => {
         text: t("dashboard.gender_F"),
       },
       {
-        icon: <ImportIcon />,
-        text: t("cases.imported"),
-      },
-      {
-        icon: <UnknownIcon />,
-        text: t("cases.unknown"),
-      },
-      {
         icon: (
           <Circle
             width={48}
@@ -312,6 +304,14 @@ const RelationPage = props => {
           />
         ),
         text: t("cases.status_deceased"),
+      },
+      {
+        icon: <ImportIcon />,
+        text: t("cases.imported"),
+      },
+      {
+        icon: <UnknownIcon />,
+        text: t("cases.unknown"),
       },
     ]
 
