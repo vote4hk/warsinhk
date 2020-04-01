@@ -177,8 +177,9 @@ class VirtulizedWarsCasesList extends React.Component {
           </DescriptionContainer>
         )}
         <StyledContainer>
-          {this.props.data[index].cases.map(cases => (
+          {this.props.data[index].cases.map((cases, i) => (
             <WarsCaseBox
+              key={i}
               cases={cases}
               handleBoxClick={this.props.handleBoxClick}
             />

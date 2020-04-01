@@ -123,7 +123,7 @@ const Circle = styled.div`
   display: inline-block;
 `
 
-const RelationPage = props => {
+const CasesPage = props => {
   const { data } = props
   const {
     cases: {
@@ -327,8 +327,8 @@ const RelationPage = props => {
         }
         content={
           <LegendContent>
-            {items.map(item => (
-              <div className="item">
+            {items.map((item, i) => (
+              <div key={i} className="item">
                 {item.icon}
                 <span>{item.text}</span>
               </div>
@@ -425,7 +425,9 @@ const RelationPage = props => {
             IconComponent={SortIcon}
           >
             {toggleGroupingButtons.map((groupBy, index) => (
-              <MenuItem value={index + 1}>{t(groupBy)}</MenuItem>
+              <MenuItem key={index} value={index + 1}>
+                {t(groupBy)}
+              </MenuItem>
             ))}
           </DefaultSelect>
         )}
@@ -456,9 +458,9 @@ const RelationPage = props => {
   )
 }
 
-export default RelationPage
+export default CasesPage
 
-export const RelationPageQuery = graphql`
+export const CasesPageQuery = graphql`
   query {
     allWarsCase {
       edges {
