@@ -190,7 +190,7 @@ class VirtulizedWarsCasesList extends React.Component {
   rowHeight = ({ index }) => {
     const width = this.props.width
     const titleHeight = 36
-    const rowHeight = 96
+    const rowHeight = 80
     const margin = 16 + 16
     const itemCountPerRow = width < 350 ? 5 : (width / 70) | 0
     const fontSize = 14
