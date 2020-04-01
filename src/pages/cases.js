@@ -268,6 +268,16 @@ const RelationPage = props => {
           <Circle
             width={48}
             height={48}
+            bgColor={mapColorForStatus("pending_admission").main}
+          />
+        ),
+        text: t("cases.status_pending_admission"),
+      },
+      {
+        icon: (
+          <Circle
+            width={48}
+            height={48}
             bgColor={mapColorForStatus("hospitalised").main}
           />
         ),
