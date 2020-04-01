@@ -90,7 +90,10 @@ const StyledIconButton = styled(IconButton)`
   svg:hover {
     fill: ${props => props.theme.palette.primary.main};
   }
-}
+`
+
+const AboutButton = styled(UnstyledLink)`
+  margin: 10px 20px;
 `
 
 function ResponsiveDrawer(props) {
@@ -116,7 +119,6 @@ function ResponsiveDrawer(props) {
           <ListItemIcon>{mapIcon("translate")}</ListItemIcon>
           <LanguageSwitcher />
         </LanguageSwitcherContainer>
-
         <Divider />
         <List style={{ padding: "10px 20px" }}>
           <UnstyledLink
@@ -185,21 +187,20 @@ function ResponsiveDrawer(props) {
 
   const drawerFooter = () => (
     <div>
-      <UnstyledLink
-        to={getLocalizedPath(i18n, "/about-us")}
-        activeClassName={"active"}
-        style={{ margin: "10px 20px" }}
-      >
-        <ListItem>
-          <ListItemIcon>
-            {mapIcon("sentiment_satisfied", { color: "secondary" })}
-          </ListItemIcon>
-          <ListItemText
-            primaryTypographyProps={{ color: "secondary" }}
-            primary={t("about_us.title")}
-          />
-        </ListItem>
-      </UnstyledLink>
+        <AboutButton
+          to={getLocalizedPath(i18n, "/about-us")}
+          activeClassName={"active"}
+        >
+          <ListItem>
+            <ListItemIcon>
+              {mapIcon("sentiment_satisfied", { color: "secondary" })}
+            </ListItemIcon>
+            <ListItemText
+              primaryTypographyProps={{ color: "secondary" }}
+              primary={t("about_us.title")}
+            />
+          </ListItem>
+        </AboutButton>
     </div>
   )
 
@@ -244,7 +245,7 @@ function ResponsiveDrawer(props) {
 
   return (
     <div className={`${classes.root} ${className}`}>
-      <AppBar position="fixed" className={classes.appBar}>
+      <AppBar position="fixed" className={classes.appBar} elevation={0}>
         <Toolbar className={classes.appToolBar}>
           <IconButton
             color="inherit"
