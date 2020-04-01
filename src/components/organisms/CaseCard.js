@@ -7,6 +7,7 @@ import styled from "styled-components"
 import { Row } from "@components/atoms/Row"
 import { withLanguage, getLocalizedPath } from "@/utils/i18n"
 import { DefaultChip } from "@components/atoms/Chip"
+import { bps } from "@/ui/theme"
 import {
   mapColorForClassification,
   mapColorForStatus,
@@ -19,6 +20,10 @@ import ChevronRightRoundedIcon from "@material-ui/icons/ChevronRightRounded"
 
 const CaseCard = styled.div`
   margin: 16px 0;
+  ${bps.up("xs")} {
+    min-width: 320px;
+  }
+  min-width: 360px;
 
   .header {
     border-radius: 12px 12px 0 0;
