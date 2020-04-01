@@ -7,8 +7,11 @@ import { mapColorForStatus } from "@/utils/colorHelper"
 
 const SummaryBox = styled(Box)`
   margin: 16px 0px;
+  line-height: 1.5rem;
+
   p {
     margin-right: 12px;
+    inline-block
   }
 `
 
