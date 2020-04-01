@@ -187,20 +187,20 @@ function ResponsiveDrawer(props) {
 
   const drawerFooter = () => (
     <div>
-        <AboutButton
-          to={getLocalizedPath(i18n, "/about-us")}
-          activeClassName={"active"}
-        >
-          <ListItem>
-            <ListItemIcon>
-              {mapIcon("sentiment_satisfied", { color: "secondary" })}
-            </ListItemIcon>
-            <ListItemText
-              primaryTypographyProps={{ color: "secondary" }}
-              primary={t("about_us.title")}
-            />
-          </ListItem>
-        </AboutButton>
+      <AboutButton
+        to={getLocalizedPath(i18n, "/about-us")}
+        activeClassName={"active"}
+      >
+        <ListItem>
+          <ListItemIcon>
+            {mapIcon("sentiment_satisfied", { color: "secondary" })}
+          </ListItemIcon>
+          <ListItemText
+            primaryTypographyProps={{ color: "secondary" }}
+            primary={t("about_us.title")}
+          />
+        </ListItem>
+      </AboutButton>
     </div>
   )
 
