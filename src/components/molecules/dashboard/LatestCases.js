@@ -23,6 +23,8 @@ export default function ConfirmedCaseVisual(props) {
               hospital_zh
               hospital_en
               status
+              status_zh
+              status_en
               type_zh
               type_en
               citizenship_zh

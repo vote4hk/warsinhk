@@ -243,7 +243,7 @@ function ResponsiveDrawer(props) {
 
   return (
     <div className={`${classes.root} ${className}`}>
-      <AppBar position="fixed" className={classes.appBar}>
+      <AppBar position="fixed" className={classes.appBar} elevation={0}>
         <Toolbar className={classes.appToolBar}>
           <IconButton
             color="inherit"

@@ -6,10 +6,21 @@ import styled from "styled-components"
 import { mapColorForStatus } from "@/utils/colorHelper"
 
 const SummaryBox = styled(Box)`
-  margin: 10px 0px;
+  margin: 16px 0px;
   p {
-    margin-right: 8px;
+    margin-right: 12px;
   }
+`
+
+const NumberTag = styled.span`
+  display: inline-block;
+  color: white;
+  font-size: 0.8rem;
+  font-weight: 700;
+  background-color: ${props => props.color};
+  padding: 0px 6px;
+  margin-left: 6px;
+  border-radius: 6px;
 `
 
 const ConfirmedCasesSummary = props => {
@@ -46,20 +57,24 @@ const ConfirmedCasesSummary = props => {
         .sort(
           (a, b) => statusOrdering[a.fieldValue] - statusOrdering[b.fieldValue]
         )
-        .map((v, i) => (
-          <Typography
-            key={i}
-            display="inline"
-            variant="body2"
-            style={{
-              color: mapColorForStatus(v.fieldValue).main,
-              fontWeight: 600,
-              marginRight: "0.5rem",
-            }}
-          >
-            {t(`cases.status_${v.fieldValue}`)}：{v.totalCount}
-          </Typography>
-        ))}
+        .map((v, i) => {
+          const color = mapColorForStatus(v.fieldValue).main
+          return (
+            <Typography
+              key={i}
+              display="inline"
+              variant="body2"
+              style={{
+                color,
+                fontWeight: 600,
+                marginRight: "0.6rem",
+              }}
+            >
+              {t(`cases.status_${v.fieldValue}`)}
+              <NumberTag color={color}>{v.totalCount}</NumberTag>
+            </Typography>
+          )
+        })}
     </SummaryBox>
   )
 }

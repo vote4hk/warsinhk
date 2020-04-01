@@ -20,8 +20,8 @@ export const FONT_FAMILY = [
 
 export const palette = {
   primary: {
-    main: "#1a237e",
-    light: "#534bae",
+    main: "#505096",
+    light: "#f5f5f6",
     dark: "#000051",
     text: "#ffffff",
     contrastText: "#ffffff",
@@ -52,12 +52,12 @@ export const typography = fontZoom => ({
   fontFamily: FONT_FAMILY.join(","),
   h1: {
     fontFamily: headingFontFamily,
-    fontSize: 21.5 * fontZoom,
+    fontSize: 20 * fontZoom,
     fontWeight: 600,
   },
   h2: {
     fontFamily: headingFontFamily,
-    fontSize: 26 * fontZoom,
+    fontSize: 24 * fontZoom,
     fontWeight: 600,
   },
   h3: {

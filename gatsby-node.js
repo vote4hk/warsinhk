@@ -45,6 +45,8 @@ const PUBLISHED_SPREADSHEET_IMPORTANT_INFORMATION_URL =
   "https://docs.google.com/spreadsheets/d/e/2PACX-1vShepjZrGpn8QlN8R3QFrIVhWLg9l0F99wYR9khAnhmoydOP7hkS2_L1imCjH9nHkqVQf3xGrUAi8Na/pub?gid=0"
 const PUBLISHED_SPREADSHEET_SITE_CONFIG_URL =
   "https://docs.google.com/spreadsheets/d/e/2PACX-1vRUN7eL0XjPbkcmxnWKPH9_AOiRiIVcH25nLkOgbfRN7y1gk9tBucufIcLWTFFjjgMJNQmOxIFeU_Sk/pub?gid=0"
+const PUBLISHED_SPREADSHEET_WARS_CASES_RELATIONSHIP_URL =
+  "https://docs.google.com/spreadsheets/d/e/2PACX-1vQS7Aay-dZbemZAxbW1oVrC5QKnT9wPjd55hSGGnXGj8_jdZJa9dsKYI--dTv4EU--xt_HGIDZsdNEw/pub?gid=0"
 
 const GRAPHQL_URL = "https://api2.vote4.hk/v1/graphql"
 
@@ -510,6 +512,13 @@ exports.sourceNodes = async props => {
       "BorderShutdown",
       { skipFirstLine: true }
     ),
+    createNode(props, SHEET_ALERT_MASTER, "Alert"),
+    createNode(
+      props,
+      PUBLISHED_SPREADSHEET_TRAVEL_ALERT_URL,
+      "BorderShutdown",
+      { skipFirstLine: true }
+    ),
     createPublishedGoogleSpreadsheetNode(
       props,
       PUBLISHED_SPREADSHEET_IMPORTANT_INFORMATION_URL,
@@ -520,6 +529,12 @@ exports.sourceNodes = async props => {
       props,
       PUBLISHED_SPREADSHEET_SITE_CONFIG_URL,
       "SiteConfig",
+      { skipFirstLine: true }
+    ),
+    createPublishedGoogleSpreadsheetNode(
+      props,
+      PUBLISHED_SPREADSHEET_WARS_CASES_RELATIONSHIP_URL,
+      "WarsCaseRelation",
       { skipFirstLine: true }
     ),
     createNode(props, SHEET_ALERT_MASTER, "Alert"),
@@ -570,6 +585,54 @@ exports.createPages = async ({ graphql, actions }) => {
           }
         }
       }
+      allWarsCase {
+        edges {
+          node {
+            case_no
+            onset_date
+            confirmation_date
+            gender
+            age
+            hospital_zh
+            hospital_en
+            status
+            status_zh
+            status_en
+            type_zh
+            type_en
+            citizenship_zh
+            citizenship_en
+            detail_zh
+            detail_en
+            classification
+            classification_zh
+            classification_en
+            source_url
+          }
+        }
+      }
+      patient_track: allWarsCaseLocation(
+        sort: { order: DESC, fields: end_date }
+      ) {
+        group(field: case___case_no) {
+          fieldValue
+          edges {
+            node {
+              case_no
+              start_date
+              end_date
+              location_zh
+              location_en
+              action_zh
+              action_en
+              remarks_zh
+              remarks_en
+              source_url_1
+              source_url_2
+            }
+          }
+        }
+      }
     }
   `)
   result.data.allWarsTip.edges.forEach(({ node }) => {
@@ -601,6 +664,20 @@ exports.createPages = async ({ graphql, actions }) => {
           },
         })
       }
+    })
+  })
+
+  // onCreatePage will do the localization
+  result.data.allWarsCase.edges.forEach(({ node }) => {
+    const uri = `/cases/${node.case_no}`
+    actions.createPage({
+      path: uri,
+      component: path.resolve(`./src/templates/case.js`),
+      context: {
+        uri,
+        node,
+        patient_track: result.data.patient_track,
+      },
     })
   })
 }

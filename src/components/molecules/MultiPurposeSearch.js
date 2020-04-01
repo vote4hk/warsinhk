@@ -13,7 +13,14 @@ import {
 import { saveToLocalStorage, loadFromLocalStorage } from "@/utils"
 
 const MultiPurposeSearch = props => {
-  const { options, list, placeholder, onListFiltered, searchKey } = props
+  const {
+    options,
+    list,
+    placeholder,
+    onListFiltered,
+    searchKey,
+    filterWithOr = true,
+  } = props
 
   const [filters, setFilters] = useState([])
   const [histories, setHistories] = useState([])
@@ -31,10 +38,19 @@ const MultiPurposeSearch = props => {
   }, [])
 
   const customStyles = {
+    control: () => ({
+      display: "flex",
+      backgroundColor: "#FFF",
+      border: "1px solid hsl(0, 0%, 80%)",
+      borderRadius: "6px",
+      padding: "2px",
+    }),
     placeholder: () => ({
-      // none of react-select's styles are passed to <Control />
       fontSize: "12px",
-      color: "#cccccc",
+    }),
+    menu: () => ({
+      backgroundColor: "#FFF",
+      zIndex: 999,
     }),
   }
 
@@ -65,7 +81,9 @@ const MultiPurposeSearch = props => {
           }
           setHistories(historiesToSave)
           saveToLocalStorage(searchKey, JSON.stringify(historiesToSave))
-          onListFiltered(filterValues(i18n, list, selectedArray))
+          onListFiltered(filterValues(i18n, list, selectedArray, filterWithOr))
+        } else if (selectedArray && selectedArray.length > 0) {
+          onListFiltered(filterValues(i18n, list, selectedArray, filterWithOr))
         } else {
           // return whole list if input is empty
           onListFiltered(list)

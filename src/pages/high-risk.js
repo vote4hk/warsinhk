@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useState, useRef, useEffect } from "react"
 import SEO from "@/components/templates/SEO"
 import Layout from "@components/templates/Layout"
 import { useTranslation } from "react-i18next"
@@ -166,7 +166,7 @@ export const CaseRow = ({ c, i18n, t, pass14days }) => (
               />
             )}
             {c.case && (
-              <Link to={getLocalizedPath(i18n, `/cases/#${c.case_no} `)}>
+              <Link to={getLocalizedPath(i18n, `/cases/${c.case_no} `)}>
                 <CaseLabel color={colors(1)}>{`#${c.case_no}`}</CaseLabel>
               </Link>
             )}
@@ -219,14 +219,14 @@ const useStyle = makeStyles(theme => {
       top: 56,
       left: 0,
       right: 0,
-      bottom: 60,
+      bottom: 0,
       overflow: "hidden",
     },
     [`${theme.breakpoints.up("sm")}`]: {
       fullPageContent: {
         top: 64,
-        left: 240,
-        bottom: 0,
+        left: 0,
+        bottom: -60,
       },
     },
   }
@@ -290,6 +290,26 @@ const HighRiskPage = ({ data }) => {
   })
 
   const [filteredLocations, setFilteredLocations] = useState(groupedLocations)
+  const container = useRef(null)
+  const [fullscreenEnabled, setFullPageState] = useState(false)
+  const toggleFullScreen = async () => {
+    if (!container.current || !document.fullscreenEnabled) return
+    if (!document.fullscreenElement) {
+      await container.current.requestFullscreen().catch()
+    } else {
+      await document.exitFullscreen().catch()
+    }
+    setFullPageState(Boolean(document.fullscreenElement))
+  }
+
+  useEffect(() => {
+    const onfullscreenchange = () => {
+      setFullPageState(Boolean(document.fullscreenElement))
+    }
+    document.addEventListener("fullscreenchange", onfullscreenchange)
+    return () =>
+      document.removeEventListener("fullscreenchange", onfullscreenchange)
+  })
   const filteredOptionsWithDate = filteredLocations
     .filter(loc => filterByDate(loc.node, searchStartDate, searchEndDate))
     .sort((a, b) => {
@@ -328,7 +348,7 @@ const HighRiskPage = ({ data }) => {
   return (
     <Layout>
       <SEO title="HighRiskPage" />
-      <div className={fullPageContent}>
+      <div ref={container} className={fullPageContent}>
         {/* SSR do not show the map */}
         {!isSSR() && (
           <AutoSizer defaultWidth={800} defaultHeight={600}>
@@ -342,6 +362,7 @@ const HighRiskPage = ({ data }) => {
                   height={height}
                   width={width}
                   dateFilterEnabled={searchStartDate && searchEndDate}
+                  fullscreenEnabled={fullscreenEnabled}
                   datePicker={
                     <DatePicker
                       startDate={searchStartDate}
@@ -361,6 +382,7 @@ const HighRiskPage = ({ data }) => {
                       }}
                     />
                   }
+                  toggleFullScreen={toggleFullScreen}
                   renderCard={({ node, isActive }) => {
                     return (
                       <HighRiskCardItem
