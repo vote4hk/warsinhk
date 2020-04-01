@@ -21,11 +21,27 @@ const ImportedMark = () => (
     </g>
   </g>
 )
+const UnknownMark = () => (
+  <g transform="translate(30,0)">
+    <g transform="scale(0.85, 0.85)">
+      <g id="Group-36-Copy-7" fill="#B71C1C">
+        <circle id="Combined-Shape" cx="10" cy="10" r="10"></circle>
+      </g>
+      <path
+        d="M10.978,11.539 C10.783,9.732 13.617,9.511 13.617,7.6 C13.617,5.871 12.239,5 10.354,5 C8.963,5 7.819,5.624 7,6.586 L8.066,7.574 C8.664,6.898 9.34,6.547 10.146,6.547 C11.16,6.547 11.784,6.989 11.784,7.769 C11.784,9.03 9.028,9.498 9.301,11.539 L10.978,11.539 Z M10.146,14.997 C10.926,14.997 11.498,14.464 11.498,13.71 C11.498,12.956 10.926,12.436 10.146,12.436 C9.366,12.436 8.794,12.956 8.794,13.71 C8.794,14.464 9.366,14.997 10.146,14.997 Z"
+        id="？"
+        fill="#FFFFFF"
+        fill-rule="nonzero"
+      ></path>
+    </g>
+  </g>
+)
 export const CaseAvatar = ({
   color = "#A2A2A2",
   sex = "M",
   code,
   isImported,
+  isUnknown,
   ...props
 }) => {
   const Icon = sex === "F" ? FemaleSvgIcon : MaleSvgIcon
@@ -40,6 +56,7 @@ export const CaseAvatar = ({
     >
       <Icon color={color} />
       {isImported && <ImportedMark />}
+      {isUnknown && <UnknownMark />}
       <text
         x={24}
         y={24}

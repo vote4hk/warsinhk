@@ -56,6 +56,7 @@ export const WarsCaseBox = props => {
         code={node.case_no}
         onClick={e => handleBoxClick(node)}
         isImported={node.classification === "imported"}
+        isUnknown={node.classification === "local_unknown_source"}
       />
     </AvatarContainer>
   )

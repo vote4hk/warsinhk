@@ -26,6 +26,7 @@ import { DefaultSelect } from "@components/atoms/Select"
 import MaleIcon from "@/components/icons/male.svg"
 import FemaleIcon from "@/components/icons/female.svg"
 import ImportIcon from "@/components/icons/import.svg"
+import UnknownIcon from "@/components/icons/unknown.svg"
 import QuestionIcon from "@/components/icons/question.svg"
 import BoxViewIcon from "@/components/icons/box_view.svg"
 import CardViewIcon from "@/components/icons/card_view.svg"
@@ -274,6 +275,10 @@ const RelationPage = props => {
       {
         icon: <ImportIcon />,
         text: t("cases.imported"),
+      },
+      {
+        icon: <UnknownIcon />,
+        text: t("cases.unknown"),
       },
       {
         icon: (

@@ -154,6 +154,7 @@
   "cases.toggle_status": "By Status",
   "cases.box_view_cases": "{{cases}} cases",
   "cases.imported": "Imported case",
+  "cases.unknown": "Unknown source",
   "datepicker.datepickerStartDatePlaceholder": "Select",
   "datepicker.datepickerStartDateLabel": "Start Date",
   "datepicker.datepickerEndDatePlaceholder": "Select",
