@@ -4,6 +4,24 @@ import _uniq from "lodash.uniq"
 import _isEqual from "lodash.isequal"
 import _flatten from "lodash.flatten"
 
+// Helper function for filterSearchOptions()
+const getSizeInSearchOptions = (options, size) => {
+  if (options.some(e => e.field === "case_no")) {
+    size = 3
+  }
+  return size
+}
+
+export const createCasesOptions = (edges, field) => {
+  return edges
+    .map(({ node }) => node.case_no)
+    .map(v => ({
+      label: v,
+      value: v,
+      field,
+    }))
+}
+
 export const createDedupOptions = (i18n, edges, field) => {
   return _uniq(edges.map(({ node }) => withLanguage(i18n, node, field)))
     .filter(v => v !== "#N/A" && v !== "-" && v !== "")
@@ -30,6 +48,10 @@ export const containsText = (i18n, node, text, fields) => {
   if (typeof text === "string") {
     return fields
       .map(field => {
+        // Specific check for case number
+        if (field === "case_no" && node.case_no === text) {
+          return true
+        }
         const value = withLanguage(i18n, node, field)
         if (typeof value === "string") {
           return value.toLowerCase().indexOf(text.toLowerCase()) >= 0
@@ -67,14 +89,18 @@ export const searchDate = (
   return true
 }
 
-export const filterSearchOptions = (options, text, size) =>
-  options.map(option => ({
+export const filterSearchOptions = (options, text, size) => {
+  return options.map(option => ({
     ...option,
     options: _uniqBy(
       option.options.filter(opt => searchText(opt.label, text)),
       "label"
-    ).slice(0, option.defaultSize || size),
+    ).slice(
+      0,
+      option.defaultSize || getSizeInSearchOptions(option.options, size)
+    ),
   }))
+}
 
 export const filterByDate = (node, search_start_date, search_end_date) => {
   const { start_date, end_date } = node

@@ -11,7 +11,11 @@ import SEO from "@/components/templates/SEO"
 import Layout from "@components/templates/Layout"
 import { graphql } from "gatsby"
 import MultiPurposeSearch from "@/components/molecules/MultiPurposeSearch"
-import { createDedupOptions, createDedupArrayOptions } from "@/utils/search"
+import {
+  createCasesOptions,
+  createDedupOptions,
+  createDedupArrayOptions,
+} from "@/utils/search"
 import { mapColorForStatus } from "@/utils/colorHelper"
 import { PageContent } from "@/components/atoms/Container"
 import { WarsCaseBoxContainer } from "@/components/organisms/CaseBoxContainer"
@@ -231,6 +235,10 @@ const RelationPage = props => {
     {
       label: t("search.hospital"),
       options: createDedupOptions(i18n, filteredCases, "hospital"),
+    },
+    {
+      label: t("search.case_no"),
+      options: createCasesOptions(filteredCases, "case_no"),
     },
   ]
 
