@@ -4,7 +4,7 @@ import routeReducer from "@/reducers/route"
 import pageOptionsReducer, {
   FONT_ZOOM_LOCALSTORAGE_KEY,
 } from "@/reducers/pageOptions"
-import casesReducer, { CASES_BOX_VIEW } from "@/reducers/cases"
+import casesReducer, { CASES_CARD_VIEW } from "@/reducers/cases"
 import { loadFromLocalStorage } from "@/utils"
 
 export const drawerInitialState = {
@@ -24,7 +24,7 @@ export const pageOptionsInitialState = {
 }
 
 export const casesInitialState = {
-  view: CASES_BOX_VIEW,
+  view: CASES_CARD_VIEW,
   // 1: by date   : from latest to oldest
   // 2: by date   : from oldest to latest
   // 3: by area   : from greatest to least
