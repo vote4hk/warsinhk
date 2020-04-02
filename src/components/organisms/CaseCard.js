@@ -71,6 +71,10 @@ const CaseCard = styled.div`
       margin-bottom: 4px;
     }
 
+    div:first-child {
+      padding-right: 8px;
+    }
+
     p {
       font-weight: 400;
     }
@@ -161,7 +165,7 @@ const WarsCaseTrack = ({ i18n, t, track }) => {
 }
 
 const renderTextWithCaseLink = (i18n, node, text = "detail") => {
-  let rawText = withLanguage(i18n, node, text)
+  let rawText = withLanguage(i18n, node, text, true)
 
   let regexp = /#\d+/g
   let relatedCases = [...rawText.matchAll(regexp)]
@@ -212,6 +216,10 @@ export const WarsCaseCard = React.forwardRef((props, ref) => {
     [i18n, t, trackData]
   )
 
+  const statusText = withLanguage(i18n, node, "status")
+  const hospitalText = withLanguage(i18n, node, "hospital")
+  const citizenshipText = withLanguage(i18n, node, "citizenship")
+
   const groupName = withLanguage(i18n, node, "group_name")
   const dateFormat = /\d{4}-\d{2}-\d{2}/g
   return (
@@ -229,7 +237,12 @@ export const WarsCaseCard = React.forwardRef((props, ref) => {
           </Link>
         )}
         <Box>
-          {`#${node.case_no}`} ({withLanguage(i18n, node, "status")})
+          {`#${node.case_no}`}{" "}
+          {`(${
+            statusText && statusText !== "#N/A" && statusText !== "-"
+              ? statusText
+              : t("cases.status_pending_update")
+          })`}
         </Box>
         {handleClose && <CloseIcon onClick={e => handleClose(e)} />}
         {showViewMore && (
@@ -286,13 +299,16 @@ export const WarsCaseCard = React.forwardRef((props, ref) => {
           <Box>
             <label>{t("dashboard.patient_hospital")}</label>
             <Typography variant="body1">
-              {withLanguage(i18n, node, "hospital") || "-"}
+              {(hospitalText && hospitalText !== "#N/A" && hospitalText) || "-"}
             </Typography>
           </Box>
           <Box>
             <label>{t("dashboard.patient_citizenship")}</label>
             <Typography variant="body1">
-              {withLanguage(i18n, node, "citizenship") || "-"}
+              {(citizenshipText &&
+                citizenshipText !== "#N/A" &&
+                citizenshipText) ||
+                "-"}
             </Typography>
           </Box>
         </Row>
@@ -309,9 +325,11 @@ export const WarsCaseCard = React.forwardRef((props, ref) => {
           <Typography variant="body1">
             {renderTextWithCaseLink(i18n, node, "detail")}
           </Typography>
-          <MuiLink variant="body1" href={node.source_url} target="_blank">
-            {t("dashboard.source")}
-          </MuiLink>
+          {node.source_url && (
+            <MuiLink variant="body1" href={node.source_url} target="_blank">
+              {t("dashboard.source")}
+            </MuiLink>
+          )}
         </Box>
         {track}
       </Box>

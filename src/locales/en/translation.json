@@ -146,6 +146,7 @@
   "cases.status_critical": "Critical",
   "cases.status_deceased": "Deceased",
   "cases.uncategorized": "Uncategorized",
+  "cases.status_pending_update": "Pending update",
   "cases.box_view": "Overview",
   "cases.card_view": "List view",
   "cases.legend": "Legend",

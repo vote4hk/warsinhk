@@ -17,7 +17,7 @@ const SummaryBox = styled(Box)`
 
 const NumberTag = styled.span`
   display: inline-block;
-  color: white;
+  color: ${props => props.tagcolor};
   font-size: 0.8rem;
   font-weight: 700;
   background-color: ${props => props.color};
@@ -74,7 +74,12 @@ const ConfirmedCasesSummary = props => {
               }}
             >
               {t(`cases.status_${v.fieldValue}`)}
-              <NumberTag color={color}>{v.totalCount}</NumberTag>
+              <NumberTag
+                color={color}
+                tagcolor={mapColorForStatus(v.fieldValue).contrastText}
+              >
+                {v.totalCount}
+              </NumberTag>
             </Typography>
           )
         })}
