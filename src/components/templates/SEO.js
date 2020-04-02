@@ -12,7 +12,7 @@ import ContextStore from "@/contextStore"
 import { useTranslation } from "react-i18next"
 import _isEmpty from "lodash.isempty"
 
-const SEO = ({ meta, uri }) => {
+const SEO = ({ meta, uri, titleOveride }) => {
   const { t, i18n } = useTranslation()
 
   const {
@@ -40,12 +40,18 @@ const SEO = ({ meta, uri }) => {
     `
   )
   const currentPage = configJson.pages.find(p => p.to === path) || {}
-  let title = _isEmpty(currentPage) ? t("index.title") : t(currentPage.title)
-  if (_isEmpty(currentPage) && !uri) {
-    console.error(
-      `cannot look up page title. check the settings for path: ${path}`
-    )
+  let title = ""
+  if (titleOveride) {
+    title = titleOveride
+  } else {
+    title = _isEmpty(currentPage) ? t("index.title") : t(currentPage.title)
+    if (_isEmpty(currentPage) && !uri) {
+      console.error(
+        `cannot look up page title. check the settings for path: ${path}`
+      )
+    }
   }
+
   const image = `${site.siteMetadata.siteUrl}/images/og_share${
     i18n.language === "zh" ? "" : `_${i18n.language}`
   }.png`
@@ -62,7 +68,7 @@ const SEO = ({ meta, uri }) => {
       }}
       title={title}
       titleTemplate={`%s | ${t("site.title")}`}
-      meta={[
+      meta={(meta || []).concat([
         {
           name: `description`,
           content: t("site.description"),
@@ -127,7 +133,7 @@ const SEO = ({ meta, uri }) => {
           name: "mobile-web-app-capable",
           content: "yes",
         },
-      ].concat(meta || [])}
+      ])}
     >
       <script
         src="https://widget.rss.app/v1/list.js"

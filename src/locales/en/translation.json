@@ -112,6 +112,8 @@
   "importantInformation.chp_hotline": "Centre for Health Protection Hotline: <b> 2125 1111 / 2125 1122 (8 am to 12 midnight)</b>",
   "importantInformation.had_hotline": "Home Affairs Department Hotline: <b> 2835 1473 (24 hours)</b> ",
   "dashboard.isolation_beds": "Isolation Beds Usage",
+  "case.title": "Case Information",
+  "case.case_no": "Case #{{case_no}}",
   "cases.title": "Cases",
   "cases.isolation_bed": "Total # of Isolation Beds: ",
   "cases_visual.legendTitle": "No. cases",

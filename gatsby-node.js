@@ -357,7 +357,7 @@ const createPublishedGoogleSpreadsheetNode = async (
   // All table has first row reserved
   const result = await fetch(
     `${publishedURL}&single=true&output=csv&headers=0${
-    skipFirstLine ? "&range=A2:ZZ" : ""
+      skipFirstLine ? "&range=A2:ZZ" : ""
     }`
   )
   const data = await result.text()
@@ -611,7 +611,7 @@ exports.createPages = async ({ graphql, actions }) => {
           }
         }
       }
-      patient_track: allWarsCaseLocation(
+      patientTrack: allWarsCaseLocation(
         sort: { order: DESC, fields: end_date }
       ) {
         group(field: case___case_no) {
@@ -667,23 +667,24 @@ exports.createPages = async ({ graphql, actions }) => {
     })
   })
 
-  console.log(`creating ${result.data.allWarsCase.edges.length} page`);
   // somehow onCreatePage is not triggering.. so we need to specify here
   result.data.allWarsCase.edges.forEach(({ node }) => {
     LANGUAGES.forEach(lang => {
-      const uri = getPath(lang, `/cases/${node.case_no}`);
+      const uri = getPath(lang, `/cases/${node.case_no}`)
       actions.createPage({
         path: uri,
         component: path.resolve(`./src/templates/case.js`),
         context: {
           uri,
           node,
-          patient_track: result.data.patient_track,
+          patientGroup: result.data.patientTrack.group.filter(
+            pt => pt.fieldValue === node.case_no
+          ),
+          locale: lang,
         },
       })
-    });
-
+    })
   })
 
-  return Promise.resolve(null);
+  return Promise.resolve(null)
 }

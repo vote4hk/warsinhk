@@ -112,6 +112,8 @@
   "importantInformation.chp_hotline": "衞生防護中心熱線： <b>2125 1111 / 2125 1122（上午8時至午夜12時）</b> ",
   "importantInformation.had_hotline": "民政事務總署熱線： <b>2835 1473（24小時）</b>",
   "dashboard.isolation_beds": "隔離病床使用率",
+  "case.title": "個案追踪",
+  "case.case_no": "個案 #{{case_no}}",
   "cases.title": "個案",
   "cases.isolation_bed": "負壓病床總數: ",
   "cases_visual.legendTitle": "確診宗數",
