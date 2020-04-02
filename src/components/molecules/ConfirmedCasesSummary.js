@@ -11,7 +11,7 @@ const SummaryBox = styled(Box)`
 
   p {
     margin-right: 12px;
-    inline-block
+    display: inline-block;
   }
 `
 
