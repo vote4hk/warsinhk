@@ -90,7 +90,10 @@ const StyledIconButton = styled(IconButton)`
   svg:hover {
     fill: ${props => props.theme.palette.primary.main};
   }
-}
+`
+
+const AboutButton = styled(UnstyledLink)`
+  margin: 10px 20px;
 `
 
 function ResponsiveDrawer(props) {
@@ -116,7 +119,6 @@ function ResponsiveDrawer(props) {
           <ListItemIcon>{mapIcon("translate")}</ListItemIcon>
           <LanguageSwitcher />
         </LanguageSwitcherContainer>
-
         <Divider />
         <List style={{ padding: "10px 20px" }}>
           <UnstyledLink
@@ -185,7 +187,7 @@ function ResponsiveDrawer(props) {
 
   const drawerFooter = () => (
     <div>
-      <UnstyledLink
+      <AboutButton
         to={getLocalizedPath(i18n, "/about-us")}
         activeClassName={"active"}
       >
@@ -198,7 +200,7 @@ function ResponsiveDrawer(props) {
             primary={t("about_us.title")}
           />
         </ListItem>
-      </UnstyledLink>
+      </AboutButton>
     </div>
   )
 
