@@ -29,7 +29,7 @@ import NotListedLocationIcon from "@material-ui/icons/NotListedLocationRounded"
 import { trackCustomEvent } from "gatsby-plugin-google-analytics"
 import styled, { createGlobalStyle } from "styled-components"
 import { bps } from "@/ui/theme"
-import { Loader, Sprite, Container } from "pixi.js"
+import { Loader, Sprite, Container } from "pixi.js-legacy"
 
 const limit = 1.5
 const minLat = 22.3600556 - limit
