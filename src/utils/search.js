@@ -12,24 +12,34 @@ const getSizeInSearchOptions = (options, size) => {
   return size
 }
 
-export const createCasesOptions = (edges, field) => {
-  return edges
-    .map(({ node }) => node.case_no)
-    .map(v => ({
-      label: v,
-      value: v,
-      field,
-    }))
-}
-
-export const createDedupOptions = (i18n, edges, field) => {
-  return _uniq(edges.map(({ node }) => withLanguage(i18n, node, field)))
-    .filter(v => v !== "#N/A" && v !== "-" && v !== "")
-    .map(v => ({
-      label: v,
-      value: v,
-      field,
-    }))
+export const createDedupOptions = (
+  i18n,
+  edges,
+  field,
+  sort_by_value = false
+) => {
+  if (!i18n) {
+    let r = edges
+      .map(({ node }) => node[field] || "")
+      .map(v => ({
+        label: v,
+        value: v,
+        field,
+      }))
+    if (sort_by_value) {
+      return r.sort((e1, e2) => e1.value - e2.value)
+    } else {
+      return r
+    }
+  } else {
+    return _uniq(edges.map(({ node }) => withLanguage(i18n, node, field)))
+      .filter(v => v !== "#N/A" && v !== "-" && v !== "")
+      .map(v => ({
+        label: v,
+        value: v,
+        field,
+      }))
+  }
 }
 
 export const createDedupArrayOptions = (i18n, edges, field) => {
