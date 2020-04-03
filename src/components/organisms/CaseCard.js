@@ -168,7 +168,14 @@ const renderTextWithCaseLink = (i18n, node, text = "detail") => {
   let rawText = withLanguage(i18n, node, text, true)
 
   let regexp = /#\d+/g
-  let relatedCases = [...rawText.matchAll(regexp)]
+  let relatedCases = []
+  let m
+  do {
+    m = regexp.exec(rawText)
+    if (m) {
+      relatedCases.push(m)
+    }
+  } while (m)
   let splitedRawText = rawText.split(regexp)
 
   return (
