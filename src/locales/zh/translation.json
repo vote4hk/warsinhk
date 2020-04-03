@@ -64,7 +64,7 @@
   "search.location": "航班／場所",
   "search.pharmacy": "藥房",
   "search.placeholder": "搜尋地區／航班／場所",
-  "search.case_placeholder": "搜尋分類／現居地／狀態／醫院／編號",
+  "search.case_placeholder": "搜尋群組／分類／現居地／狀態／醫院／編號...",
   "search.classification": "個案分類",
   "search.citizenship": "現居地",
   "search.case_status": "患者狀態",

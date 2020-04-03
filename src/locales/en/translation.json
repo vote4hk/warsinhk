@@ -64,7 +64,7 @@
   "search.location": "Flight / Location",
   "search.placeholder": "Search for district / flight no. / location",
   "search.pharmacy": "Pharmacy",
-  "search.case_placeholder": "Search by Case Classification / Place of Residence / Status / Hospital / Case Number",
+  "search.case_placeholder": "Search case details...",
   "search.classification": "Case Classification",
   "search.citizenship": "Place of Residence",
   "search.case_status": "Status",
