@@ -45,8 +45,8 @@ All contributions are welcome.
 ### Pull Requests
 
 - Please follow our pull request template when creating a pull request. Make sure your pull request fulfils our requirement.
-- Please create a new branch (for each PR) based on the latest `dev` or the feature branch and name it either `feat/<meaningful_name>`, `fix/<meaningful_name>` or `refak/<meaningful_name>`.
-- Please follow our naming convention `🌟[feat/fix/refak]: [summary]` (pick your favourite emoji 😉) for pull request title.
+- Please create a new branch (for each PR) based on the latest `dev` or the feature branch and name it either `feat/<meaningful_name>` or `fix/<meaningful_name>`.
+- Please follow our naming convention `🌟[feat/fix]: [summary]` (pick your favourite emoji 😉) for pull request title.
 
 ### Communcation
 
@@ -166,3 +166,7 @@ yarn build
 ## License
 
 This software is released under [the MIT License](https://github.com/wingkwong/warsinhk/blob/master/LICENSE).
+
+## Special Thanks
+
+Thanks to <img src="https://wars.vote4.hk/images/kintohub_icon.svg" style="width:30px; height:15px;">Kintohub for the sponsorship on our server cost.
