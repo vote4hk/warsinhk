@@ -233,6 +233,10 @@ const RelationPage = props => {
       label: t("search.hospital"),
       options: createDedupOptions(i18n, filteredCases, "hospital"),
     },
+    {
+      label: t("search.case_no"),
+      options: createDedupOptions(null, filteredCases, "case_no", true),
+    },
   ]
 
   // Calculate how much cards we should preload in order to scorll to that position
