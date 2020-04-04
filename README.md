@@ -180,6 +180,13 @@ Try to build to see if there are any errors.
 yarn build
 ```
 
+## 📍 Data
+
+The data is updated automatically every 5 minutes. The information are all open for use. If you wish to cite anything from this site, please credit us as `wars.vote4.hk - COVID-19 in HK`.
+
+- [High-risk Areas](https://docs.google.com/spreadsheets/d/e/2PACX-1vT6aoKk3iHmotqb5_iHggKc_3uAA901xVzwsllmNoOpGgRZ8VAA3TSxK6XreKzg_AUQXIkVX5rqb0Mo/pub?gid=0&range=A2:ZZ)
+- [Confirmed Cases](https://docs.google.com/spreadsheets/d/e/2PACX-1vSr2xYotDgnAq6bqm5Nkjq9voHBKzKNWH2zvTRx5LU0jnpccWykvEF8iB_0g7Tzo2pwzkTuM3ETlr_h/pub?gid=0&range=A2:ZZ)
+
 ## 📄 License
 
 This software is released under [the MIT License](https://github.com/nandiheath/warsinhk/blob/master/LICENSE).
