@@ -2,10 +2,10 @@
 <h1>
   Fight for freedom, Stand from Wuhan
 </h1>
-This is the repository for <a href="https://wars.vote4.hk" target="_blank">wars.vote4.hk</a>
+This is the repository for <a href="https://wars.vote4.hk">wars.vote4.hk</a>
 <br/>
 <br/>
-<a href="https://wars.vote4.hk/" target="_blank">
+<a href="https://wars.vote4.hk/">
   <img height="480" src="https://github.com/nandiheath/warsinhk/blob/master/static/images/og_share_en.png?raw=true">
 </a>
 </div>
@@ -30,7 +30,7 @@ Your site is now running at `http://localhost:8000`!
 
 **Note:**
 
-- You'll also see a second link: \_`http://localhost:8000/___graphql`\_. This is a tool you can use to experiment with querying your data. Learn more about using this tool in the [Gatsby tutorial](https://www.gatsbyjs.org/tutorial/part-five/#introducing-graphiql).
+- You'll also see a second link: `http://localhost:8000/___graphql`. This is a tool you can use to experiment with querying your data. Learn more about using this tool in the [Gatsby tutorial](https://www.gatsbyjs.org/tutorial/part-five/#introducing-graphiql).
 - Gatsby requires Node.js 10.13.0 or higher. If your version is below the required one, try to upgrade it or use [`nvm`](https://github.com/nvm-sh/nvm) to switch to the desired version.
 
 ## 🌟 How to contribute
@@ -169,4 +169,4 @@ This software is released under [the MIT License](https://github.com/nandiheath/
 
 ## 💡 Special Thanks
 
-Thanks to <a href="https://www.kintohub.com/" target="_blank"><img src="https://wars.vote4.hk/images/kintohub_icon.svg" style="width:30px; height:15px;">Kintohub</a> for the sponsorship on our server cost.
+Thanks to <a href="https://www.kintohub.com/"><img src="https://wars.vote4.hk/images/kintohub_icon.svg" style="width:30px; height:15px;">Kintohub</a> for the sponsorship on our server cost.
