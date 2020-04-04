@@ -1,59 +1,98 @@
 import React from "react"
 import { useTranslation } from "react-i18next"
-import styled from "styled-components"
-import Box from "@material-ui/core/Box"
-import Typography from "@material-ui/core/Typography"
-import { bps } from "@/ui/theme"
-import { formatNumber } from "@/utils"
-import Link from "@material-ui/core/Link"
 import { useStaticQuery, graphql } from "gatsby"
-import { BasicCard } from "@components/atoms/Card"
+import MiniLineChart from "@/components/charts/MiniLineChart"
+import styled from "styled-components"
+import Grid from "@material-ui/core/Grid"
+import { formatNumber } from "@/utils"
+import { mapColorForStatus } from "@/utils/colorHelper"
+import { bps, palette } from "@/ui/theme"
+import Typography from "@material-ui/core/Typography"
+import Link from "@material-ui/core/Link"
+import useMediaQuery from "@material-ui/core/useMediaQuery"
+const CHIP_SIZE = 7
 
-const DailyChange = styled(({ badSign, children, ...props }) => (
-  <Typography {...props}>{children}</Typography>
-))`
-  font-size: 14px;
-  font-weight: 700;
-  color: ${props => {
-    return props.badSign
-      ? props.theme.palette.secondary.dark
-      : props.theme.palette.trafficLight.green
-  }};
-`
+const ChartContainer = styled.div`
+  position: relative;
+  background-color: white;
+  border-radius: 8px;
+  overflow: hidden;
+  width: 100%;
+  height: 75px;
 
-const DailyStatsContainer = styled(BasicCard)`
-  display: flex;
-  justify-content: space-between;
-`
-
-const DailyStat = styled(Box)`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`
-const DailyStatFigureLabel = styled(Typography)`
-  text-align: center;
-  font-size: ${props => props.theme.typography.xsmallFontSize};
-
-  ${bps.down("sm")} {
-    font-size: 11px;
+  &::before {
+    content: "";
+    position: absolute;
+    width: ${CHIP_SIZE * 2}px;
+    height: ${CHIP_SIZE * 5.5}px;
+    top: -${CHIP_SIZE} px;
+    left: -${CHIP_SIZE}px;
+    background-color: ${props => props.color};
+    border-radius: 0 0   ${CHIP_SIZE * 1.25}px 0;
   }
-`
 
-const DailyStatFigure = styled(Typography)`
-  font-size: 25px;
-  font-weight: 700;
+  .title, .figure {
+    position: absolute;
+    left: 20px;
+  }
+
+  .title {
+    top: 6px;
+    padding-right: 5px;
+    font-size: 12px;
+    line-height: 12px;
+    font-weight: 500;
+    word-wrap: break-word:
+    
+    ${bps.up("md")} {
+      font-size: 14px;
+    }
+  }
+
+  .figure {
+    top: 26px;
+    font-size: 22px;
+    font-weight: 700;
+  }
+
+  .change-figure {
+    position: absolute;
+    left: 0px;
+    
+    bottom: -12px;
+    font-size: 11px;
+    
+    ${bps.up("md")} {
+      bottom: -16px;
+      font-size: 14px;
+    }
+    font-weight: 500;
+  }
+
+  .arrow {
+    color: #d1d1d1;
+  }
+
+  .mini-chart {
+    position: absolute;
+    left: ${props => (props.columns === 6 ? "60px" : "30px")};
+    ${bps.up("md")} {
+      width: ${props => (props.columns === 6 ? "100px" : "75px")};
+    }
+  }
 `
 
 export default props => {
   const data = useStaticQuery(
     graphql`
       query {
-        allBotWarsLatestFigures(sort: { order: DESC, fields: date }) {
+        allWarsLatestFiguresOverride(
+          sort: { order: DESC, fields: date }
+          filter: { date: { gt: "2020-01-20" } }
+        ) {
           edges {
             node {
               date
-              time
               confirmed
               probably
               ruled_out
@@ -64,87 +103,176 @@ export default props => {
             }
           }
         }
-        allWarsLatestFiguresOverride(sort: { order: DESC, fields: date }) {
-          edges {
-            node {
-              date
-              confirmed
-              probably
-              ruled_out
-              investigating
-              reported
-              death
-              discharged
-            }
-          }
+        pendingAdmission: allWarsCase(
+          filter: { status: { eq: "pending_admission" } }
+        ) {
+          totalCount
         }
       }
     `
   )
   const { t } = useTranslation()
+  const isMidScreen = useMediaQuery(bps.up("md"))
 
-  let today, ytd
+  const getDataForChart = ({ node }) => {
+    const data = {
+      ...node,
+    }
+    Object.keys(data).forEach(key => {
+      if (!isNaN(parseInt(data[key], 0))) {
+        data[key] = parseInt(data[key], 0)
+      }
+    })
+    return data
+  }
+
+  const max = data.allWarsLatestFiguresOverride.edges
+    .map(getDataForChart)
+    .map(({ confirmed, discharged, death }) =>
+      Math.max(confirmed, discharged, death)
+    )
+    .reduce((c, v) => Math.max(c, v), 0)
 
   const [
-    { node: first_bot },
-    { node: second_bot },
-  ] = data.allBotWarsLatestFigures.edges
-  const [
-    { node: first },
+    { node: latest },
     { node: second },
   ] = data.allWarsLatestFiguresOverride.edges
-  const must_increase_items = [
-    "confirmed",
-    "death",
-    "discharged",
-    "ruled_out",
-    "reported",
-  ]
 
-  today = {
-    ...first_bot,
-    probably: first.probably || first_bot.probably,
+  const getLastFigureByField = field => {
+    return formatNumber(
+      data.allWarsLatestFiguresOverride.edges
+        .map(getDataForChart)
+        .map(data => data[field] || 0)
+        .reverse()
+        .pop()
+    )
+  }
+  const getDiffByField = field => {
+    const array = data.allWarsLatestFiguresOverride.edges
+      .map(getDataForChart)
+      .map(data => data[field] || 0)
+
+    if (array.length > 1) {
+      const diff = array[0] - array[1]
+      return diff > 0 ? (
+        <span>
+          <span className="arrow">▲</span> {formatNumber(diff)}
+        </span>
+      ) : diff < 0 ? (
+        <span>
+          <span className="arrow">▼</span> {formatNumber(Math.abs(diff))}
+        </span>
+      ) : (
+        <span>-</span>
+      )
+    }
+    return 0
   }
 
-  ytd = {
-    ...second_bot,
-    probably: second.probably || second_bot.probably,
-  }
-
-  must_increase_items.forEach(dat => {
-    const desc_figures_unique = [...new Set([first[dat], second[dat]])]
-    const desc_figures = desc_figures_unique.sort((a, b) => b - a)
-    today[dat] = desc_figures[0]
-    ytd[dat] = desc_figures[1]
-  })
-
-  const dataArray = [
-    {
-      label: t("dashboard.death"),
-      today_stat: today.death || 0,
-      diff: today.death - ytd.death,
-    },
-    {
-      label: t("dashboard.discharged"),
-      today_stat: today.discharged || 0,
-      diff: today.discharged - ytd.discharged,
-    },
-    {
-      label: t("dashboard.confirmed"),
-      today_stat: today.confirmed,
-      diff: today.confirmed - ytd.confirmed,
-    },
-    {
-      label: t("dashboard.probably"),
-      today_stat: today.probably,
-      diff: today.probably - ytd.probably,
-    },
-    {
-      label: t("dashboard.reported"),
-      today_stat: today.reported,
-      diff: today.reported - ytd.reported,
-    },
+  const chartsData = [
+    [
+      {
+        title: t("dashboard.confirmed"),
+        field: "confirmed",
+        color: palette.primary.main,
+        trend: true,
+        columns: 6,
+      },
+      {
+        title: t("cases.status_discharged"),
+        field: "discharged",
+        color: mapColorForStatus("discharged").main,
+        trend: true,
+        columns: 6,
+      },
+    ],
+    [
+      {
+        title: t("cases.status_deceased"),
+        field: "death",
+        color: mapColorForStatus("deceased").main,
+        trend: true,
+        columns: 4,
+      },
+      {
+        title: t("cases.status_hospitalised"),
+        field: "hospitalised",
+        color: mapColorForStatus("hospitalised").main,
+        value:
+          latest.confirmed -
+          (latest.death || second.death) -
+          (latest.discharged || second.discharged) -
+          (data.pendingAdmission.totalCount || 0),
+        trend: false,
+        columns: 4,
+      },
+      {
+        title: t("cases.status_pending_admission"),
+        field: "pending_admission",
+        color: mapColorForStatus("pending_admission").main,
+        value: data.pendingAdmission.totalCount,
+        trend: false,
+        columns: 4,
+      },
+    ],
   ]
+
+  const renderChart = props => {
+    const renderStats = props => {
+      const { title, field, color, value, columns = 12, index } = props
+      return (
+        <Grid xs={columns} item>
+          <ChartContainer color={color} columns={columns} key={index}>
+            <div className="title">{title}</div>
+            <div className="figure">
+              {value || getLastFigureByField(field)}
+              {!value && (
+                <span className="change-figure">{getDiffByField(field)}</span>
+              )}
+            </div>
+
+            {!value && (
+              <div className="mini-chart">
+                <MiniLineChart
+                  data={{
+                    showLegend: false,
+                    xaxis: data.allWarsLatestFiguresOverride.edges
+                      .map(({ node }) => node.date)
+                      .reverse(),
+                    fields: [field],
+                    max,
+                    datasets: [
+                      {
+                        line: {
+                          color,
+                        },
+                        data: data.allWarsLatestFiguresOverride.edges
+                          .map(getDataForChart)
+                          .reverse(),
+                      },
+                    ],
+                  }}
+                />
+              </div>
+            )}
+          </ChartContainer>
+        </Grid>
+      )
+    }
+    if (Array.isArray(props)) {
+      return (
+        <Grid container spacing={1}>
+          {props.map(prop => renderStats(prop))}
+        </Grid>
+      )
+    }
+
+    return (
+      <Grid container spacing={1}>
+        {renderStats(props)}
+      </Grid>
+    )
+  }
 
   return (
     <>
@@ -157,29 +285,15 @@ export default props => {
         </Link>
       </Typography>
       <Typography variant="body2" color="textPrimary">
-        {`${t("dashboard.last_updated")}${
-          first.date > first_bot.date ? first.date : first_bot.date
-        }`}
+        {`${t("dashboard.last_updated")}${latest.date}`}
       </Typography>
-      <DailyStatsContainer>
-        {dataArray.map((d, i) => (
-          <DailyStat key={i}>
-            <DailyStatFigureLabel>{d.label}</DailyStatFigureLabel>
-            <DailyStatFigure>{formatNumber(d.today_stat)}</DailyStatFigure>
-            <DailyChange
-              badSign={
-                d.label === t("dashboard.discharged") ? false : d.diff > 0
-              }
-            >
-              {d.diff > 0
-                ? `▲ ${formatNumber(d.diff)}`
-                : d.diff < 0
-                ? `▼ ${formatNumber(Math.abs(d.diff))}`
-                : `-`}
-            </DailyChange>
-          </DailyStat>
+      <Grid style={{ marginTop: 8 }} container spacing={1}>
+        {chartsData.map((c, index) => (
+          <Grid item xs={isMidScreen ? 6 : 12} key={index}>
+            {renderChart(c)}
+          </Grid>
         ))}
-      </DailyStatsContainer>
+      </Grid>
     </>
   )
 }

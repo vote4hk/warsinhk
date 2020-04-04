@@ -2,7 +2,7 @@ import React, { useRef, useState, useEffect, useLayoutEffect } from "react"
 import * as d3 from "d3"
 import _times from "lodash.times"
 
-const getHeight = width => width
+const getHeight = width => "75" // hardcode lol, why dynamic
 
 export default props => {
   const [dimensions, setDimensions] = useState({ width: 0, height: 0 })
@@ -13,7 +13,7 @@ export default props => {
       return
     }
 
-    const margin = { top: 10, right: 10, bottom: 10, left: 10 }
+    const margin = { top: 20, right: 12, bottom: 20, left: 10 }
 
     const width = dimensions.width - margin.left - margin.right
     const height = getHeight(dimensions.width) - margin.top - margin.bottom
@@ -23,7 +23,7 @@ export default props => {
     const svg = d3
       .select(d3Container.current)
       .attr("width", width + margin.left + margin.right)
-      .attr("height", height + margin.top + margin.bottom)
+      .attr("height", height)
 
     svg.selectAll("g").remove()
 
@@ -53,7 +53,7 @@ export default props => {
         .datum(validData)
         .attr("fill", "none")
         .attr("stroke", styles.color)
-        .attr("stroke-width", 3)
+        .attr("stroke-width", 2)
         .attr("opacity", styles.opactiy || 1.0)
         .attr("stroke-dashoffset", width * 2)
         .attr("stroke-dasharray", [width * 2, width * 2])
@@ -74,7 +74,7 @@ export default props => {
         .attr("transform", `translate(${margin.left}, ${margin.top})`)
         .attr("cx", xScale(index))
         .attr("cy", yScale(validData[index]))
-        .attr("r", 5)
+        .attr("r", 4)
         .attr("opacity", 0)
         .transition()
         .delay(animTime - 500)

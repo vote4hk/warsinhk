@@ -226,10 +226,5 @@
   "epidemic.local_close_contact": "Close contact of local case",
   "epidemic.local_possibly": "Possibly local",
   "epidemic.local_possibly_close_contact": "Close contact of possibly local case",
-  "epidemic.remarks": "Asymptomatic cases are not shown in this epidemic curve, source: CHP",
-  "tredning.accu_confirmed": "Confirmed",
-  "tredning.discharged": "Discharged",
-  "tredning.death": "Death",
-  "tredning.awaiting": "Pending Hosp.",
-  "tredning.hospitalized": "Hospitalised"
+  "epidemic.remarks": "Asymptomatic cases are not shown in this epidemic curve, source: CHP"
 }

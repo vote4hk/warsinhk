@@ -267,19 +267,6 @@ export default function IndexPage({ data }) {
         rowSpan: 2,
       }
     )
-
-    registerComponent(
-      "trend_charts",
-      "dashboard.trend_charts",
-      React.lazy(() =>
-        import(
-          /* webpackPrefetch: true */ "@/components/molecules/dashboard/TrendLineCharts.js"
-        )
-      ),
-      {
-        rowSpan: 1,
-      }
-    )
   }
 
   const handleModuleChange = id => {
