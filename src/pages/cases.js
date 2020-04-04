@@ -150,7 +150,7 @@ const CasesPage = props => {
       groupArray.push({
         ...node,
         related_cases: node.case_no,
-        case_no: nodeCase,
+        case_no: parseInt(nodeCase),
       })
     })
   })
@@ -166,7 +166,7 @@ const CasesPage = props => {
     ]
     groupKeys.forEach(k => {
       node[`group_${k}`] = _get(
-        groupArray.find(g => g.case_no === node.case_no),
+        groupArray.find(g => parseInt(g.case_no) === parseInt(node.case_no)),
         k,
         null
       )
