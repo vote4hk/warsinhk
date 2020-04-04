@@ -190,7 +190,7 @@ const renderTextWithCaseLink = (i18n, node, text = "detail") => {
               <Link
                 to={getLocalizedPath(
                   i18n,
-                  `/cases/${caseNo.slice(1, caseNo.length)} `
+                  `/cases/${caseNo.slice(1, caseNo.length)}`
                 )}
               >
                 {caseNo}
