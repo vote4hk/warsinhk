@@ -52,10 +52,10 @@ const Contributor = ({ githubId }) => {
   )
 }
 
-const Volunteer = ({ siteUrl, item: { id, name } }) => {
+const Volunteer = ({ siteUrl, item: { id, name, url } }) => {
   const baseUrl = `${siteUrl}/images/avatars`
-  return (
-    <CentreRow>
+  const renderAvatar = () => (
+    <>
       <img
         loading="lazy"
         src={`${baseUrl}/${id}.jpg`}
@@ -63,6 +63,17 @@ const Volunteer = ({ siteUrl, item: { id, name } }) => {
         alt={name}
       />
       <Typography variant="h5">{name}</Typography>
+    </>
+  )
+  return (
+    <CentreRow>
+      {url ? (
+        <StyledLink href={url} target="_blank">
+          {renderAvatar()}
+        </StyledLink>
+      ) : (
+        renderAvatar()
+      )}
     </CentreRow>
   )
 }
@@ -330,6 +341,7 @@ export const AboutUsQuery = graphql`
         designers {
           id
           name
+          url
         }
       }
     }
