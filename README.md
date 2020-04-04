@@ -31,11 +31,28 @@ Your site is now running at `http://localhost:8000`!
 **Note:**
 
 - You'll also see a second link: `http://localhost:8000/___graphql`. This is a tool you can use to experiment with querying your data. Learn more about using this tool in the [Gatsby tutorial](https://www.gatsbyjs.org/tutorial/part-five/#introducing-graphiql).
-- Gatsby requires Node.js 10.13.0 or higher. If your version is below the required one, try to upgrade it or use [`nvm`](https://github.com/nvm-sh/nvm) to switch to the desired version.
+- Gatsby requires Node.js 10.13.0 or higher. If your version is below the required one, try to upgrade it or following the below steps to switch to the desired version using [`nvm`](https://github.com/nvm-sh/nvm):
+  Run the following command to use the version from inside the `.nvmrc` file
+  ```bash
+  nvm use
+  ```
+  If the specified version is not found, please run the following command to install
+  ```bash
+  nvm install
+  ```
 
 ## 🌟 How to contribute
 
 All contributions are welcome.
+
+### For Volunteers:
+
+- Apply through [Google Form](https://docs.google.com/forms/d/e/1FAIpQLSfO8BPKrJVIN21Di2-xOHP_iSAcDv_kxNa6EfanshsSwo6bQw/viewform).
+- Submit Github Issues for reporting bugs. (See below `Issues` section for more).
+
+### For Developers:
+
+- See below `Development` section for more.
 
 ### Issues
 
@@ -73,7 +90,7 @@ We are using [react-i18next](https://react.i18next.com/) to assert that the inte
 
 The translation json files for `en` and `zh` are located at `src/locales/en/translation.json` and `src/locales/zh/translation.json` respectively. By default, `zh` is used. If you have changes to the wordings, please make sure they are added or updated in both json files.
 
-Examples:
+**Examples:**
 
 src/locales/en/translation.json
 
