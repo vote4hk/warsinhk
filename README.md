@@ -48,7 +48,7 @@ All contributions are welcome.
 - Please create a new branch (for each PR) based on the latest `dev` or the feature branch and name it either `feat/<meaningful_name>` or `fix/<meaningful_name>`.
 - Please follow our naming convention `🌟[feat/fix]: [summary]` (pick your favourite emoji 😉) for pull request title.
 
-### Communcation
+### Communication
 
 - We make communication in a Telegram Group. Feel free to join us by clicking [here](https://t.me/joinchat/BwXunhP9xMWBmopAFrvD8A).
 
@@ -69,7 +69,7 @@ Please setup `dev` repo `github.com/nandiheath/warsinhk` as `upstream` and `git 
 
 ### Internationalization (i18n)
 
-We are using [react-i18next](https://react.i18next.com/) to assert that needed translations get loaded or that your content gets rendered when the language changes.
+We are using [react-i18next](https://react.i18next.com/) to assert that the internationalized content can be loaded or that it gets rendered when the language changes.
 
 The translation json files for `en` and `zh` are located at `src/locales/en/translation.json` and `src/locales/zh/translation.json` respectively. By default, `zh` is used. If you have changes to the wordings, please make sure they are added or updated in both json files.
 
@@ -163,10 +163,10 @@ Try to build to see if there are any errors.
 yarn build
 ```
 
-## License
+## 📄 License
 
-This software is released under [the MIT License](https://github.com/wingkwong/warsinhk/blob/master/LICENSE).
+This software is released under [the MIT License](https://github.com/nandiheath/warsinhk/blob/master/LICENSE).
 
-## Special Thanks
+## 💡 Special Thanks
 
-Thanks to <img src="https://wars.vote4.hk/images/kintohub_icon.svg" style="width:30px; height:15px;">Kintohub for the sponsorship on our server cost.
+Thanks to <a href="https://www.kintohub.com/" target="_blank"><img src="https://wars.vote4.hk/images/kintohub_icon.svg" style="width:30px; height:15px;">Kintohub</a> for the sponsorship on our server cost.
