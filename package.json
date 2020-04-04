@@ -1,9 +1,31 @@
 {
-  "name": "gatsby-starter-default",
+  "name": "warsinhk",
   "private": true,
-  "description": "A simple starter to get up and developing quickly with Gatsby",
+  "description": "Static website for wars.vote4.hk",
   "version": "0.1.0",
-  "author": "Kyle Mathews <mathews.kyle@gmail.com>",
+  "author": "nandiheath (https://github.com/nandiheath)",
+  "contributors": [
+    "csvke (https://github.com/csvke)",
+    "cswbrian (https://github.com/cswbrian)",
+    "dhoeric (https://github.com/dhoeric)",
+    "elvinyhlee (https://github.com/elvinyhlee)",
+    "fionnachan (https://github.com/fionnachan)",
+    "gotoAndDie (https://github.com/gotoAndDie)",
+    "himphen (https://github.com/himphen)",
+    "hosiukeung (https://github.com/hosiukeung)",
+    "howawong (https://github.com/howawong)",
+    "jasonhk (https://github.com/jasonhk)",
+    "johnhorsema (https://github.com/johnhorsema)",
+    "kalvin807 (https://github.com/kalvin807)",
+    "khmak3 (https://github.com/khmak3)",
+    "openhealthhk (https://github.com/openhealthhk)",
+    "poyea (https://github.com/poyea)",
+    "rogerso (https://github.com/rogerso)",
+    "tonyhhyip (https://github.com/tonyhhyip)",
+    "wingkwong (https://github.com/wingkwong)",
+    "yookoala (https://github.com/yookoala)",
+    "yshing (https://github.com/yshing)"
+  ],
   "dependencies": {
     "@datepicker-react/styled": "^2.3.1",
     "@material-ui/core": "^4.8.3",
@@ -90,7 +112,7 @@
     "prettier": "^1.19.1"
   },
   "keywords": [
-    "gatsby"
+    "warsinhk"
   ],
   "husky": {
     "hooks": {
@@ -120,9 +142,9 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/gatsbyjs/gatsby-starter-default"
+    "url": "https://github.com/nandiheath/warsinhk"
   },
   "bugs": {
-    "url": "https://github.com/gatsbyjs/gatsby/issues"
+    "url": "https://github.com/nandiheath/warsinhk/issues"
   }
 }
