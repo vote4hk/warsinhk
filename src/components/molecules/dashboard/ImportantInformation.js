@@ -6,7 +6,6 @@ import { BasicCard } from "@components/atoms/Card"
 import { withLanguage } from "@/utils/i18n"
 
 const ImportantInformationContainer = styled(BasicCard)`
-  padding: 24px;
   font-size: 16px;
 
   a {
