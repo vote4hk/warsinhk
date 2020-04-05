@@ -31,7 +31,8 @@ function isWebShareAPISupported() {
   return (
     "share" in navigator &&
     typeof navigator.share === "function" &&
-    "canShare" in navigator && typeof navigator.canShare === "function"
+    "canShare" in navigator &&
+    typeof navigator.canShare === "function"
   )
 }
 
@@ -91,6 +92,11 @@ function ShareButton(props) {
 
   function getPageUrl() {
     let url = `${site.siteMetadata.siteUrl}${fullPath}`
+
+    if (props.caseId) {
+      url = `${site.siteMetadata.siteUrl}${fullPath}/${props.caseId}`
+    }
+
     if (!isSSR()) {
       url = url + decodeURIComponent(window.location.hash)
     }
