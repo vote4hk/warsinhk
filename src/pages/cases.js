@@ -66,7 +66,7 @@ const SelectedCardContainer = styled.div`
   width: 100%;
   height: 100%;
   left: 0;
-  bottom: -60px;
+  bottom: -56px;
   background: rgba(0, 0, 0, 0.15);
   padding: 0 24px;
   z-index: 1000;

@@ -28,7 +28,7 @@ import { Paragraph } from "@components/atoms/Text"
 const FabContainer = styled(Box)`
   && {
     ${bps.down("xs")} {
-      bottom: 136px;
+      bottom: 96px;
     }
     bottom: 32px;
     right: 16px;
@@ -200,7 +200,8 @@ const ShopsPage = props => {
   return (
     <>
       <SEO title="ShopsPage" />
-      <Layout>
+      {/* For stepper */}
+      <Layout style={{ paddingBottom: 64 }}>
         <FabContainer>
           <Link href="https://t.me/findmasks" target="_blank">
             <BasicFab title={t("dodgy_shops.find_mask")} icon="search" />

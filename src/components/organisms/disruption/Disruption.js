@@ -2,9 +2,6 @@ import React from "react"
 import styled from "styled-components"
 import {
   Box,
-  Card,
-  CardActions,
-  CardContent,
   CardHeader,
   Chip,
   Collapse,
@@ -12,12 +9,13 @@ import {
   Link,
   Typography,
 } from "@material-ui/core"
+import { BasicCard } from "@components/atoms/Card"
 import { useTranslation } from "react-i18next"
 import { withLanguage } from "@/utils/i18n"
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore"
 import { Row } from "@components/atoms/Row"
 
-const DisruptionCard = styled(Card)`
+const DisruptionCard = styled(BasicCard)`
   margin-top: 1rem;
   margin-bottom: 1rem;
 
@@ -27,15 +25,15 @@ const DisruptionCard = styled(Card)`
   }
 `
 const DisruptionCardHeader = styled(CardHeader)`
-  padding-bottom: 0px;
+  padding: 8px 0px 0px;
+  font-weight: 700;
 `
-const DisruptionCardContent = styled(CardContent)`
+const DisruptionCardContent = styled.div`
   padding-top: 0.5rem;
   padding-bottom: 0.5rem;
 `
-const DisruptionCardActions = styled(CardActions)`
-  padding-top: 0rem;
-  padding-bottom: 0rem;
+const DisruptionCardActions = styled.div`
+  display: flex;
   justify-content: flex-end;
 `
 const DisruptionDetail = styled(Typography)`
@@ -44,7 +42,6 @@ const DisruptionDetail = styled(Typography)`
   padding-bottom: 0.5rem;
 `
 const DisruptionAction = styled(Box)`
-  padding-left: 0.5rem;
   flex-grow: 1;
 `
 const InvertedExpandMoreIcon = styled(ExpandMoreIcon)`
