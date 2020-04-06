@@ -251,7 +251,9 @@ export const WarsCaseCard = React.forwardRef((props, ref) => {
               ? statusText
               : t("cases.status_pending_update")
           })`}
-          {handleClose && <ShareButton caseId={node.case_no} />}
+          {handleClose && !showViewMore && (
+            <ShareButton caseId={node.case_no} />
+          )}
         </Box>
         {handleClose && <CloseIcon onClick={e => handleClose(e)} />}
         {showViewMore && (
@@ -259,7 +261,9 @@ export const WarsCaseCard = React.forwardRef((props, ref) => {
             <ChevronRightRoundedIcon />
           </Link>
         )}
-        {!handleClose && !backToCase && <ShareButton caseId={node.case_no} />}
+        {!handleClose && !backToCase && !showViewMore && (
+          <ShareButton caseId={node.case_no} />
+        )}
       </Box>
       <Box className="content">
         <Row className="basic-info">
