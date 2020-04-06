@@ -27,11 +27,18 @@ const StyledCopyIcon = styled(CopyIcon)`
   }
 `
 
+const StyledIconButton = styled(IconButton)`
+  && {
+    padding: 0px;
+  }
+`
+
 function isWebShareAPISupported() {
   return (
     "share" in navigator &&
     typeof navigator.share === "function" &&
-    "canShare" in navigator && typeof navigator.canShare === "function"
+    "canShare" in navigator &&
+    typeof navigator.canShare === "function"
   )
 }
 
@@ -91,6 +98,11 @@ function ShareButton(props) {
 
   function getPageUrl() {
     let url = `${site.siteMetadata.siteUrl}${fullPath}`
+
+    if (props.caseId) {
+      url = `${site.siteMetadata.siteUrl}${fullPath}/${props.caseId}`
+    }
+
     if (!isSSR()) {
       url = url + decodeURIComponent(window.location.hash)
     }
@@ -138,7 +150,7 @@ function ShareButton(props) {
 
   return (
     <>
-      <IconButton
+      <StyledIconButton
         color="inherit"
         aria-label="Share"
         aria-controls="share-menu"
@@ -146,7 +158,7 @@ function ShareButton(props) {
         onClick={handleShareButtonClick}
       >
         <ShareIcon />
-      </IconButton>
+      </StyledIconButton>
       <Menu
         id="share-menu"
         anchorEl={anchorEl}

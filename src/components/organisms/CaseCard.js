@@ -17,6 +17,7 @@ import _get from "lodash.get"
 import CloseIcon from "@material-ui/icons/Close"
 import ChevronLeftRoundedIcon from "@material-ui/icons/ChevronLeftRounded"
 import ChevronRightRoundedIcon from "@material-ui/icons/ChevronRightRounded"
+import ShareButton from "@/components/organisms/ShareButton"
 
 const CaseCard = styled.div`
   margin: 16px 0;
@@ -250,12 +251,18 @@ export const WarsCaseCard = React.forwardRef((props, ref) => {
               ? statusText
               : t("cases.status_pending_update")
           })`}
+          {handleClose && !showViewMore && (
+            <ShareButton caseId={node.case_no} />
+          )}
         </Box>
         {handleClose && <CloseIcon onClick={e => handleClose(e)} />}
         {showViewMore && (
           <Link to={getLocalizedPath(i18n, `/cases`)}>
             <ChevronRightRoundedIcon />
           </Link>
+        )}
+        {!handleClose && !backToCase && !showViewMore && (
+          <ShareButton caseId={node.case_no} />
         )}
       </Box>
       <Box className="content">
