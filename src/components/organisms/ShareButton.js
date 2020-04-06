@@ -27,6 +27,12 @@ const StyledCopyIcon = styled(CopyIcon)`
   }
 `
 
+const StyledIconButton = styled(IconButton)`
+  && {
+    padding: 0px;
+  }
+`
+
 function isWebShareAPISupported() {
   return (
     "share" in navigator &&
@@ -144,7 +150,7 @@ function ShareButton(props) {
 
   return (
     <>
-      <IconButton
+      <StyledIconButton
         color="inherit"
         aria-label="Share"
         aria-controls="share-menu"
@@ -152,7 +158,7 @@ function ShareButton(props) {
         onClick={handleShareButtonClick}
       >
         <ShareIcon />
-      </IconButton>
+      </StyledIconButton>
       <Menu
         id="share-menu"
         anchorEl={anchorEl}
