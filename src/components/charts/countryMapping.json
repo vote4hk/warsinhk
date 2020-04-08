@@ -8,7 +8,8 @@
     "topo_country_names": "Afghanistan",
     "iso_code": 4,
     "latitude": 33,
-    "longitude": 65
+    "longitude": 65,
+    "population": 37172386.0
   },
   {
     "country_emoji": "🇦🇱",
@@ -19,7 +20,8 @@
     "topo_country_names": "Albania",
     "iso_code": 8,
     "latitude": 41,
-    "longitude": 20
+    "longitude": 20,
+    "population": 2866376.0
   },
   {
     "country_emoji": "🇩🇿",
@@ -30,7 +32,8 @@
     "topo_country_names": "Algeria",
     "iso_code": 12,
     "latitude": 28,
-    "longitude": 3
+    "longitude": 3,
+    "population": 42228429.0
   },
   {
     "country_emoji": "🇦🇩",
@@ -41,7 +44,8 @@
     "topo_country_names": "",
     "iso_code": 20,
     "latitude": 42.5,
-    "longitude": 1.6
+    "longitude": 1.6,
+    "population": 77006.0
   },
   {
     "country_emoji": "🇦🇴",
@@ -52,7 +56,8 @@
     "topo_country_names": "Angola",
     "iso_code": 24,
     "latitude": -12.5,
-    "longitude": 18.5
+    "longitude": 18.5,
+    "population": 30809762.0
   },
   {
     "country_emoji": "🇦🇬",
@@ -63,7 +68,8 @@
     "topo_country_names": "",
     "iso_code": 28,
     "latitude": 17.05,
-    "longitude": -61.8
+    "longitude": -61.8,
+    "population": 96286.0
   },
   {
     "country_emoji": "🇦🇷",
@@ -74,7 +80,8 @@
     "topo_country_names": "Argentina",
     "iso_code": 32,
     "latitude": -34,
-    "longitude": -64
+    "longitude": -64,
+    "population": 44494502.0
   },
   {
     "country_emoji": "🇦🇲",
@@ -85,7 +92,8 @@
     "topo_country_names": "Armenia",
     "iso_code": 51,
     "latitude": 40,
-    "longitude": 45
+    "longitude": 45,
+    "population": 2951776.0
   },
   {
     "country_emoji": "🇦🇺",
@@ -96,7 +104,8 @@
     "topo_country_names": "Australia",
     "iso_code": 36,
     "latitude": -27,
-    "longitude": 133
+    "longitude": 133,
+    "population": 24992369.0
   },
   {
     "country_emoji": "🇦🇹",
@@ -107,7 +116,8 @@
     "topo_country_names": "Austria",
     "iso_code": 40,
     "latitude": 47.3333,
-    "longitude": 13.3333
+    "longitude": 13.3333,
+    "population": 8847037.0
   },
   {
     "country_emoji": "🇦🇿",
@@ -118,7 +128,8 @@
     "topo_country_names": "Azerbaijan",
     "iso_code": 31,
     "latitude": 40.5,
-    "longitude": 47.5
+    "longitude": 47.5,
+    "population": 9942334.0
   },
   {
     "country_emoji": "🇧🇸",
@@ -129,7 +140,8 @@
     "topo_country_names": "Bahamas",
     "iso_code": 44,
     "latitude": 24.25,
-    "longitude": -76
+    "longitude": -76,
+    "population": null
   },
   {
     "country_emoji": "🇧🇭",
@@ -140,7 +152,8 @@
     "topo_country_names": "",
     "iso_code": 48,
     "latitude": 26,
-    "longitude": 50.55
+    "longitude": 50.55,
+    "population": 1569439.0
   },
   {
     "country_emoji": "🇧🇩",
@@ -151,7 +164,8 @@
     "topo_country_names": "Bangladesh",
     "iso_code": 50,
     "latitude": 24,
-    "longitude": 90
+    "longitude": 90,
+    "population": 161356039.0
   },
   {
     "country_emoji": "🇧🇧",
@@ -162,7 +176,8 @@
     "topo_country_names": "",
     "iso_code": 52,
     "latitude": 13.1667,
-    "longitude": -59.5333
+    "longitude": -59.5333,
+    "population": 286641.0
   },
   {
     "country_emoji": "🇧🇾",
@@ -173,7 +188,8 @@
     "topo_country_names": "Belarus",
     "iso_code": 112,
     "latitude": 53,
-    "longitude": 28
+    "longitude": 28,
+    "population": 9485386.0
   },
   {
     "country_emoji": "🇧🇪",
@@ -184,7 +200,8 @@
     "topo_country_names": "Belgium",
     "iso_code": 56,
     "latitude": 50.8333,
-    "longitude": 4
+    "longitude": 4,
+    "population": 11422068.0
   },
   {
     "country_emoji": "🇧🇿",
@@ -195,7 +212,8 @@
     "topo_country_names": "Belize",
     "iso_code": 84,
     "latitude": 17.25,
-    "longitude": -88.75
+    "longitude": -88.75,
+    "population": 383071.0
   },
   {
     "country_emoji": "🇧🇯",
@@ -206,7 +224,8 @@
     "topo_country_names": "Benin",
     "iso_code": 204,
     "latitude": 9.5,
-    "longitude": 2.25
+    "longitude": 2.25,
+    "population": 11485048.0
   },
   {
     "country_emoji": "🇧🇹",
@@ -217,7 +236,8 @@
     "topo_country_names": "Bhutan",
     "iso_code": 64,
     "latitude": 27.5,
-    "longitude": 90.5
+    "longitude": 90.5,
+    "population": 754394.0
   },
   {
     "country_emoji": "🇧🇴",
@@ -228,7 +248,8 @@
     "topo_country_names": "Bolivia",
     "iso_code": 68,
     "latitude": -17,
-    "longitude": -65
+    "longitude": -65,
+    "population": 11353142.0
   },
   {
     "country_emoji": "🇧🇦",
@@ -239,7 +260,8 @@
     "topo_country_names": "Bosnia and Herz.",
     "iso_code": 70,
     "latitude": 44,
-    "longitude": 18
+    "longitude": 18,
+    "population": 3323929.0
   },
   {
     "country_emoji": "🇧🇼",
@@ -250,7 +272,8 @@
     "topo_country_names": "Botswana",
     "iso_code": 72,
     "latitude": -22,
-    "longitude": 24
+    "longitude": 24,
+    "population": 2254126.0
   },
   {
     "country_emoji": "🇧🇷",
@@ -261,7 +284,8 @@
     "topo_country_names": "Brazil",
     "iso_code": 76,
     "latitude": -10,
-    "longitude": -55
+    "longitude": -55,
+    "population": 209469333.0
   },
   {
     "country_emoji": "🇧🇳",
@@ -272,7 +296,8 @@
     "topo_country_names": "Brunei",
     "iso_code": 96,
     "latitude": 4.5,
-    "longitude": 114.6667
+    "longitude": 114.6667,
+    "population": null
   },
   {
     "country_emoji": "🇧🇬",
@@ -283,7 +308,8 @@
     "topo_country_names": "Bulgaria",
     "iso_code": 100,
     "latitude": 43,
-    "longitude": 25
+    "longitude": 25,
+    "population": 7024216.0
   },
   {
     "country_emoji": "🇧🇫",
@@ -294,7 +320,8 @@
     "topo_country_names": "Burkina Faso",
     "iso_code": 854,
     "latitude": 13,
-    "longitude": -2
+    "longitude": -2,
+    "population": 19751535.0
   },
   {
     "country_emoji": "🇧🇮",
@@ -305,7 +332,8 @@
     "topo_country_names": "Burundi",
     "iso_code": 108,
     "latitude": -3.5,
-    "longitude": 30
+    "longitude": 30,
+    "population": 11175378.0
   },
   {
     "country_emoji": "🇰🇭",
@@ -316,7 +344,8 @@
     "topo_country_names": "Cambodia",
     "iso_code": 116,
     "latitude": 13,
-    "longitude": 105
+    "longitude": 105,
+    "population": 16249798.0
   },
   {
     "country_emoji": "🇨🇲",
@@ -327,7 +356,8 @@
     "topo_country_names": "Cameroon",
     "iso_code": 120,
     "latitude": 6,
-    "longitude": 12
+    "longitude": 12,
+    "population": 25216237.0
   },
   {
     "country_emoji": "🇨🇦",
@@ -338,7 +368,8 @@
     "topo_country_names": "Canada",
     "iso_code": 124,
     "latitude": 60,
-    "longitude": -95
+    "longitude": -95,
+    "population": 37058856.0
   },
   {
     "country_emoji": "🇨🇻",
@@ -349,7 +380,8 @@
     "topo_country_names": "",
     "iso_code": 132,
     "latitude": 16,
-    "longitude": -24
+    "longitude": -24,
+    "population": null
   },
   {
     "country_emoji": "🇨🇫",
@@ -360,7 +392,8 @@
     "topo_country_names": "Central African Rep.",
     "iso_code": 140,
     "latitude": 7,
-    "longitude": 21
+    "longitude": 21,
+    "population": 4666377.0
   },
   {
     "country_emoji": "🇹🇩",
@@ -371,7 +404,8 @@
     "topo_country_names": "Chad",
     "iso_code": 148,
     "latitude": 15,
-    "longitude": 19
+    "longitude": 19,
+    "population": 15477751.0
   },
   {
     "country_emoji": "🇨🇱",
@@ -382,7 +416,8 @@
     "topo_country_names": "Chile",
     "iso_code": 152,
     "latitude": -30,
-    "longitude": -71
+    "longitude": -71,
+    "population": 18729160.0
   },
   {
     "country_emoji": "🇨🇳",
@@ -393,7 +428,8 @@
     "topo_country_names": "China",
     "iso_code": 156,
     "latitude": 35,
-    "longitude": 105
+    "longitude": 105,
+    "population": 1392730000.0
   },
   {
     "country_emoji": "🇨🇴",
@@ -404,7 +440,8 @@
     "topo_country_names": "Colombia",
     "iso_code": 170,
     "latitude": 4,
-    "longitude": -72
+    "longitude": -72,
+    "population": 49648685.0
   },
   {
     "country_emoji": "🇰🇲",
@@ -415,7 +452,8 @@
     "topo_country_names": "",
     "iso_code": "",
     "latitude": "",
-    "longitude": ""
+    "longitude": "",
+    "population": 832322.0
   },
   {
     "country_emoji": "🇨🇰",
@@ -426,7 +464,8 @@
     "topo_country_names": "",
     "iso_code": 184,
     "latitude": -21.2333,
-    "longitude": -159.7667
+    "longitude": -159.7667,
+    "population": null
   },
   {
     "country_emoji": "🇨🇷",
@@ -437,7 +476,8 @@
     "topo_country_names": "Costa Rica",
     "iso_code": 188,
     "latitude": 10,
-    "longitude": -84
+    "longitude": -84,
+    "population": 4999441.0
   },
   {
     "country_emoji": "🇨🇮",
@@ -448,7 +488,8 @@
     "topo_country_names": "Côte d'Ivoire",
     "iso_code": 384,
     "latitude": 8,
-    "longitude": -5
+    "longitude": -5,
+    "population": null
   },
   {
     "country_emoji": "🇭🇷",
@@ -459,7 +500,8 @@
     "topo_country_names": "Croatia",
     "iso_code": 191,
     "latitude": 45.1667,
-    "longitude": 15.5
+    "longitude": 15.5,
+    "population": 4089400.0
   },
   {
     "country_emoji": "🇨🇺",
@@ -470,7 +512,8 @@
     "topo_country_names": "Cuba",
     "iso_code": 192,
     "latitude": 21.5,
-    "longitude": -80
+    "longitude": -80,
+    "population": 11338138.0
   },
   {
     "country_emoji": "🇨🇾",
@@ -481,7 +524,8 @@
     "topo_country_names": "Cyprus",
     "iso_code": 196,
     "latitude": 35,
-    "longitude": 33
+    "longitude": 33,
+    "population": 1189265.0
   },
   {
     "country_emoji": "🇨🇿",
@@ -492,7 +536,8 @@
     "topo_country_names": "Czechia",
     "iso_code": 203,
     "latitude": 49.75,
-    "longitude": 15.5
+    "longitude": 15.5,
+    "population": 10625695.0
   },
   {
     "country_emoji": "🇨🇩",
@@ -503,7 +548,8 @@
     "topo_country_names": "Dem. Rep. Congo",
     "iso_code": 180,
     "latitude": 0,
-    "longitude": 25
+    "longitude": 25,
+    "population": null
   },
   {
     "country_emoji": "🇩🇰",
@@ -514,7 +560,8 @@
     "topo_country_names": "Denmark",
     "iso_code": 208,
     "latitude": 56,
-    "longitude": 10
+    "longitude": 10,
+    "population": 5797446.0
   },
   {
     "country_emoji": "🇩🇯",
@@ -525,7 +572,8 @@
     "topo_country_names": "Djibouti",
     "iso_code": 262,
     "latitude": 11.5,
-    "longitude": 43
+    "longitude": 43,
+    "population": 958920.0
   },
   {
     "country_emoji": "🇩🇲",
@@ -536,7 +584,8 @@
     "topo_country_names": "",
     "iso_code": 212,
     "latitude": 15.4167,
-    "longitude": -61.3333
+    "longitude": -61.3333,
+    "population": 71625.0
   },
   {
     "country_emoji": "🇩🇴",
@@ -547,7 +596,8 @@
     "topo_country_names": "Dominican Rep.",
     "iso_code": 214,
     "latitude": 19,
-    "longitude": -70.6667
+    "longitude": -70.6667,
+    "population": 10627165.0
   },
   {
     "country_emoji": "🇹🇱",
@@ -558,7 +608,8 @@
     "topo_country_names": "Timor-Leste",
     "iso_code": 626,
     "latitude": -8.55,
-    "longitude": 125.5167
+    "longitude": 125.5167,
+    "population": null
   },
   {
     "country_emoji": "🇪🇨",
@@ -569,7 +620,8 @@
     "topo_country_names": "Ecuador",
     "iso_code": 218,
     "latitude": -2,
-    "longitude": -77.5
+    "longitude": -77.5,
+    "population": 17084357.0
   },
   {
     "country_emoji": "🇪🇬",
@@ -580,7 +632,8 @@
     "topo_country_names": "Egypt",
     "iso_code": 818,
     "latitude": 27,
-    "longitude": 30
+    "longitude": 30,
+    "population": null
   },
   {
     "country_emoji": "🇸🇻",
@@ -591,7 +644,8 @@
     "topo_country_names": "El Salvador",
     "iso_code": 222,
     "latitude": 13.8333,
-    "longitude": -88.9167
+    "longitude": -88.9167,
+    "population": 6420744.0
   },
   {
     "country_emoji": "🇬🇶",
@@ -602,7 +656,8 @@
     "topo_country_names": "Eq. Guinea",
     "iso_code": 226,
     "latitude": 2,
-    "longitude": 10
+    "longitude": 10,
+    "population": 1308974.0
   },
   {
     "country_emoji": "🇪🇷",
@@ -613,7 +668,8 @@
     "topo_country_names": "Eritrea",
     "iso_code": 232,
     "latitude": 15,
-    "longitude": 39
+    "longitude": 39,
+    "population": null
   },
   {
     "country_emoji": "🇪🇪",
@@ -624,7 +680,8 @@
     "topo_country_names": "Estonia",
     "iso_code": 233,
     "latitude": 59,
-    "longitude": 26
+    "longitude": 26,
+    "population": 1320884.0
   },
   {
     "country_emoji": "🇪🇹",
@@ -635,7 +692,8 @@
     "topo_country_names": "Ethiopia",
     "iso_code": 231,
     "latitude": 8,
-    "longitude": 38
+    "longitude": 38,
+    "population": 109224559.0
   },
   {
     "country_emoji": "🇫🇯",
@@ -646,7 +704,8 @@
     "topo_country_names": "Fiji",
     "iso_code": 242,
     "latitude": -18,
-    "longitude": 175
+    "longitude": 175,
+    "population": 883483.0
   },
   {
     "country_emoji": "🇫🇮",
@@ -657,7 +716,8 @@
     "topo_country_names": "Finland",
     "iso_code": 246,
     "latitude": 64,
-    "longitude": 26
+    "longitude": 26,
+    "population": 5518050.0
   },
   {
     "country_emoji": "🇫🇷",
@@ -668,7 +728,8 @@
     "topo_country_names": "France",
     "iso_code": 250,
     "latitude": 46,
-    "longitude": 2
+    "longitude": 2,
+    "population": 66987244.0
   },
   {
     "country_emoji": "🇬🇫",
@@ -679,7 +740,8 @@
     "topo_country_names": "French Guiana",
     "iso_code": 254,
     "latitude": 4,
-    "longitude": -53
+    "longitude": -53,
+    "population": null
   },
   {
     "country_emoji": "🇬🇦",
@@ -690,7 +752,8 @@
     "topo_country_names": "Gabon",
     "iso_code": 266,
     "latitude": -1,
-    "longitude": 11.75
+    "longitude": 11.75,
+    "population": 2119275.0
   },
   {
     "country_emoji": "🇬🇲",
@@ -701,7 +764,8 @@
     "topo_country_names": "Gambia",
     "iso_code": 270,
     "latitude": 13.4667,
-    "longitude": -16.5667
+    "longitude": -16.5667,
+    "population": null
   },
   {
     "country_emoji": "🇬🇪",
@@ -712,7 +776,8 @@
     "topo_country_names": "Georgia",
     "iso_code": 268,
     "latitude": 42,
-    "longitude": 43.5
+    "longitude": 43.5,
+    "population": 3731000.0
   },
   {
     "country_emoji": "🇩🇪",
@@ -723,7 +788,8 @@
     "topo_country_names": "Germany",
     "iso_code": 276,
     "latitude": 51,
-    "longitude": 9
+    "longitude": 9,
+    "population": 82927922.0
   },
   {
     "country_emoji": "🇬🇮",
@@ -734,7 +800,8 @@
     "topo_country_names": "Gibraltar",
     "iso_code": 292,
     "latitude": 36,
-    "longitude": -5
+    "longitude": -5,
+    "population": 33718.0
   },
   {
     "country_emoji": "🇬🇭",
@@ -745,7 +812,8 @@
     "topo_country_names": "Ghana",
     "iso_code": 288,
     "latitude": 8,
-    "longitude": -2
+    "longitude": -2,
+    "population": 29767108.0
   },
   {
     "country_emoji": "🇬🇷",
@@ -756,7 +824,8 @@
     "topo_country_names": "Greece",
     "iso_code": 300,
     "latitude": 39,
-    "longitude": 22
+    "longitude": 22,
+    "population": 10727668.0
   },
   {
     "country_emoji": "🇬🇩",
@@ -767,7 +836,8 @@
     "topo_country_names": "",
     "iso_code": "",
     "latitude": "",
-    "longitude": ""
+    "longitude": "",
+    "population": 111454.0
   },
   {
     "country_emoji": "🇬🇹",
@@ -778,7 +848,8 @@
     "topo_country_names": "Guatemala",
     "iso_code": 320,
     "latitude": 15.5,
-    "longitude": -90.25
+    "longitude": -90.25,
+    "population": 17247807.0
   },
   {
     "country_emoji": "🇬🇳",
@@ -789,7 +860,8 @@
     "topo_country_names": "Guinea",
     "iso_code": 324,
     "latitude": 11,
-    "longitude": -10
+    "longitude": -10,
+    "population": 12414318.0
   },
   {
     "country_emoji": "🇬🇼",
@@ -800,7 +872,8 @@
     "topo_country_names": "Guinea-Bissau",
     "iso_code": 624,
     "latitude": 12,
-    "longitude": -15
+    "longitude": -15,
+    "population": 1874309.0
   },
   {
     "country_emoji": "🇬🇾",
@@ -811,7 +884,8 @@
     "topo_country_names": "Guyana",
     "iso_code": 328,
     "latitude": 5,
-    "longitude": -59
+    "longitude": -59,
+    "population": 779004.0
   },
   {
     "country_emoji": "🇭🇹",
@@ -822,7 +896,8 @@
     "topo_country_names": "Haiti",
     "iso_code": 332,
     "latitude": 19,
-    "longitude": -72.4167
+    "longitude": -72.4167,
+    "population": 11123176.0
   },
   {
     "country_emoji": "🇭🇳",
@@ -833,7 +908,8 @@
     "topo_country_names": "Honduras",
     "iso_code": 340,
     "latitude": 15,
-    "longitude": -86.5
+    "longitude": -86.5,
+    "population": 9587522.0
   },
   {
     "country_emoji": "🇭🇺",
@@ -844,7 +920,8 @@
     "topo_country_names": "Hungary",
     "iso_code": 348,
     "latitude": 47,
-    "longitude": 20
+    "longitude": 20,
+    "population": 9768785.0
   },
   {
     "country_emoji": "🇮🇸",
@@ -855,7 +932,8 @@
     "topo_country_names": "Iceland",
     "iso_code": 352,
     "latitude": 65,
-    "longitude": -18
+    "longitude": -18,
+    "population": 353574.0
   },
   {
     "country_emoji": "🇮🇳",
@@ -866,7 +944,8 @@
     "topo_country_names": "India",
     "iso_code": 356,
     "latitude": 20,
-    "longitude": 77
+    "longitude": 77,
+    "population": 1352617328.0
   },
   {
     "country_emoji": "🇮🇩",
@@ -877,7 +956,8 @@
     "topo_country_names": "Indonesia",
     "iso_code": 360,
     "latitude": -5,
-    "longitude": 120
+    "longitude": 120,
+    "population": 267663435.0
   },
   {
     "country_emoji": "🇮🇷",
@@ -888,7 +968,8 @@
     "topo_country_names": "Iran",
     "iso_code": 364,
     "latitude": 32,
-    "longitude": 53
+    "longitude": 53,
+    "population": null
   },
   {
     "country_emoji": "🇮🇶",
@@ -899,7 +980,8 @@
     "topo_country_names": "Iraq",
     "iso_code": 368,
     "latitude": 33,
-    "longitude": 44
+    "longitude": 44,
+    "population": 38433600.0
   },
   {
     "country_emoji": "🇮🇪",
@@ -910,7 +992,8 @@
     "topo_country_names": "Ireland",
     "iso_code": 372,
     "latitude": 53,
-    "longitude": -8
+    "longitude": -8,
+    "population": 4853506.0
   },
   {
     "country_emoji": "🇮🇱",
@@ -921,7 +1004,8 @@
     "topo_country_names": "Israel",
     "iso_code": 376,
     "latitude": 31.5,
-    "longitude": 34.75
+    "longitude": 34.75,
+    "population": 8883800.0
   },
   {
     "country_emoji": "🇮🇹",
@@ -932,7 +1016,8 @@
     "topo_country_names": "Italy",
     "iso_code": 380,
     "latitude": 42.8333,
-    "longitude": 12.8333
+    "longitude": 12.8333,
+    "population": 60431283.0
   },
   {
     "country_emoji": "🇯🇲",
@@ -943,7 +1028,8 @@
     "topo_country_names": "Jamaica",
     "iso_code": 388,
     "latitude": 18.25,
-    "longitude": -77.5
+    "longitude": -77.5,
+    "population": 2934855.0
   },
   {
     "country_emoji": "🇯🇵",
@@ -954,7 +1040,8 @@
     "topo_country_names": "Japan",
     "iso_code": 392,
     "latitude": 36,
-    "longitude": 138
+    "longitude": 138,
+    "population": 126529100.0
   },
   {
     "country_emoji": "🇯🇴",
@@ -965,7 +1052,8 @@
     "topo_country_names": "Jordan",
     "iso_code": 400,
     "latitude": 31,
-    "longitude": 36
+    "longitude": 36,
+    "population": 9956011.0
   },
   {
     "country_emoji": "🇰🇿",
@@ -976,7 +1064,8 @@
     "topo_country_names": "Kazakhstan",
     "iso_code": 398,
     "latitude": 48,
-    "longitude": 68
+    "longitude": 68,
+    "population": 18276499.0
   },
   {
     "country_emoji": "🇰🇪",
@@ -987,7 +1076,8 @@
     "topo_country_names": "Kenya",
     "iso_code": 404,
     "latitude": 1,
-    "longitude": 38
+    "longitude": 38,
+    "population": 51393010.0
   },
   {
     "country_emoji": "🇰🇮",
@@ -998,7 +1088,8 @@
     "topo_country_names": "",
     "iso_code": 296,
     "latitude": 1.4167,
-    "longitude": 173
+    "longitude": 173,
+    "population": 115847.0
   },
   {
     "country_emoji": "🇽🇰",
@@ -1009,7 +1100,8 @@
     "topo_country_names": "Kosovo",
     "iso_code": "",
     "latitude": "",
-    "longitude": ""
+    "longitude": "",
+    "population": 1845300.0
   },
   {
     "country_emoji": "🇰🇼",
@@ -1020,7 +1112,8 @@
     "topo_country_names": "Kuwait",
     "iso_code": 414,
     "latitude": 29.3375,
-    "longitude": 47.6581
+    "longitude": 47.6581,
+    "population": 4137309.0
   },
   {
     "country_emoji": "🇰🇬",
@@ -1031,7 +1124,8 @@
     "topo_country_names": "Kyrgyzstan",
     "iso_code": 417,
     "latitude": 41,
-    "longitude": 75
+    "longitude": 75,
+    "population": null
   },
   {
     "country_emoji": "🇱🇦",
@@ -1042,7 +1136,8 @@
     "topo_country_names": "Laos",
     "iso_code": 418,
     "latitude": 18,
-    "longitude": 105
+    "longitude": 105,
+    "population": null
   },
   {
     "country_emoji": "🇱🇻",
@@ -1053,7 +1148,8 @@
     "topo_country_names": "Latvia",
     "iso_code": 428,
     "latitude": 57,
-    "longitude": 25
+    "longitude": 25,
+    "population": 1926542.0
   },
   {
     "country_emoji": "🇱🇧",
@@ -1064,7 +1160,8 @@
     "topo_country_names": "Lebanon",
     "iso_code": 422,
     "latitude": 33.8333,
-    "longitude": 35.8333
+    "longitude": 35.8333,
+    "population": 6848925.0
   },
   {
     "country_emoji": "🇱🇸",
@@ -1075,7 +1172,8 @@
     "topo_country_names": "Lesotho",
     "iso_code": 426,
     "latitude": -29.5,
-    "longitude": 28.5
+    "longitude": 28.5,
+    "population": 2108132.0
   },
   {
     "country_emoji": "🇱🇷",
@@ -1086,7 +1184,8 @@
     "topo_country_names": "Liberia",
     "iso_code": 430,
     "latitude": 6.5,
-    "longitude": -9.5
+    "longitude": -9.5,
+    "population": 4818977.0
   },
   {
     "country_emoji": "🇱🇾",
@@ -1097,7 +1196,8 @@
     "topo_country_names": "Libya",
     "iso_code": 434,
     "latitude": 25,
-    "longitude": 17
+    "longitude": 17,
+    "population": 6678567.0
   },
   {
     "country_emoji": "🇱🇮",
@@ -1108,7 +1208,8 @@
     "topo_country_names": "",
     "iso_code": 438,
     "latitude": 47.1667,
-    "longitude": 9.5333
+    "longitude": 9.5333,
+    "population": 37910.0
   },
   {
     "country_emoji": "🇱🇹",
@@ -1119,7 +1220,8 @@
     "topo_country_names": "Lithuania",
     "iso_code": 440,
     "latitude": 56,
-    "longitude": 24
+    "longitude": 24,
+    "population": 2789533.0
   },
   {
     "country_emoji": "🇱🇺",
@@ -1130,7 +1232,8 @@
     "topo_country_names": "Luxembourg",
     "iso_code": 442,
     "latitude": 49.75,
-    "longitude": 6.1667
+    "longitude": 6.1667,
+    "population": 607728.0
   },
   {
     "country_emoji": "🇲🇰",
@@ -1141,7 +1244,8 @@
     "topo_country_names": "Macedonia",
     "iso_code": 807,
     "latitude": 41.8333,
-    "longitude": 22
+    "longitude": 22,
+    "population": null
   },
   {
     "country_emoji": "🇲🇬",
@@ -1152,7 +1256,8 @@
     "topo_country_names": "Madagascar",
     "iso_code": 450,
     "latitude": -20,
-    "longitude": 47
+    "longitude": 47,
+    "population": 26262368.0
   },
   {
     "country_emoji": "🇲🇼",
@@ -1163,7 +1268,8 @@
     "topo_country_names": "Malawi",
     "iso_code": 454,
     "latitude": -13.5,
-    "longitude": 34
+    "longitude": 34,
+    "population": 18143315.0
   },
   {
     "country_emoji": "🇲🇾",
@@ -1174,7 +1280,8 @@
     "topo_country_names": "Malaysia",
     "iso_code": 458,
     "latitude": 2.5,
-    "longitude": 112.5
+    "longitude": 112.5,
+    "population": 31528585.0
   },
   {
     "country_emoji": "🇲🇻",
@@ -1185,7 +1292,8 @@
     "topo_country_names": "",
     "iso_code": 462,
     "latitude": 3.25,
-    "longitude": 73
+    "longitude": 73,
+    "population": 515696.0
   },
   {
     "country_emoji": "🇲🇱",
@@ -1196,7 +1304,8 @@
     "topo_country_names": "Mali",
     "iso_code": 466,
     "latitude": 17,
-    "longitude": -4
+    "longitude": -4,
+    "population": 19077690.0
   },
   {
     "country_emoji": "🇲🇹",
@@ -1207,7 +1316,8 @@
     "topo_country_names": "",
     "iso_code": 470,
     "latitude": 35.8333,
-    "longitude": 14.5833
+    "longitude": 14.5833,
+    "population": 483530.0
   },
   {
     "country_emoji": "🇲🇭",
@@ -1218,7 +1328,8 @@
     "topo_country_names": "",
     "iso_code": "",
     "latitude": "",
-    "longitude": ""
+    "longitude": "",
+    "population": 58413.0
   },
   {
     "country_emoji": "🇲🇶",
@@ -1229,7 +1340,8 @@
     "topo_country_names": "Martinique",
     "iso_code": 474,
     "latitude": 15,
-    "longitude": -61
+    "longitude": -61,
+    "population": null
   },
   {
     "country_emoji": "🇲🇷",
@@ -1240,7 +1352,8 @@
     "topo_country_names": "Mauritania",
     "iso_code": 478,
     "latitude": 20,
-    "longitude": -12
+    "longitude": -12,
+    "population": 4403319.0
   },
   {
     "country_emoji": "🇲🇺",
@@ -1251,7 +1364,8 @@
     "topo_country_names": "",
     "iso_code": 480,
     "latitude": -20.2833,
-    "longitude": 57.55
+    "longitude": 57.55,
+    "population": 1265303.0
   },
   {
     "country_emoji": "🇲🇽",
@@ -1262,7 +1376,8 @@
     "topo_country_names": "Mexico",
     "iso_code": 484,
     "latitude": 23,
-    "longitude": -102
+    "longitude": -102,
+    "population": 126190788.0
   },
   {
     "country_emoji": "🇫🇲",
@@ -1273,7 +1388,8 @@
     "topo_country_names": "",
     "iso_code": "",
     "latitude": "",
-    "longitude": ""
+    "longitude": "",
+    "population": null
   },
   {
     "country_emoji": "🇲🇩",
@@ -1284,7 +1400,8 @@
     "topo_country_names": "Moldova",
     "iso_code": 498,
     "latitude": 47,
-    "longitude": 29
+    "longitude": 29,
+    "population": 3545883.0
   },
   {
     "country_emoji": "🇲🇨",
@@ -1295,7 +1412,8 @@
     "topo_country_names": "",
     "iso_code": 492,
     "latitude": 43.7333,
-    "longitude": 7.4
+    "longitude": 7.4,
+    "population": 38682.0
   },
   {
     "country_emoji": "🇲🇳",
@@ -1306,7 +1424,8 @@
     "topo_country_names": "Mongolia",
     "iso_code": 496,
     "latitude": 46,
-    "longitude": 105
+    "longitude": 105,
+    "population": 3170208.0
   },
   {
     "country_emoji": "🇲🇪",
@@ -1317,7 +1436,8 @@
     "topo_country_names": "Montenegro",
     "iso_code": 499,
     "latitude": 42,
-    "longitude": 19
+    "longitude": 19,
+    "population": 622345.0
   },
   {
     "country_emoji": "🇲🇦",
@@ -1328,7 +1448,8 @@
     "topo_country_names": "Morocco",
     "iso_code": 504,
     "latitude": 32,
-    "longitude": -5
+    "longitude": -5,
+    "population": 36029138.0
   },
   {
     "country_emoji": "🇲🇿",
@@ -1339,7 +1460,8 @@
     "topo_country_names": "Mozambique",
     "iso_code": 508,
     "latitude": -18.25,
-    "longitude": 35
+    "longitude": 35,
+    "population": 29495962.0
   },
   {
     "country_emoji": "🇲🇲",
@@ -1350,7 +1472,8 @@
     "topo_country_names": "Myanmar",
     "iso_code": 104,
     "latitude": 22,
-    "longitude": 98
+    "longitude": 98,
+    "population": 53708395.0
   },
   {
     "country_emoji": "🇳🇦",
@@ -1361,7 +1484,8 @@
     "topo_country_names": "Namibia",
     "iso_code": 516,
     "latitude": -22,
-    "longitude": 17
+    "longitude": 17,
+    "population": 2448255.0
   },
   {
     "country_emoji": "🇳🇷",
@@ -1372,7 +1496,8 @@
     "topo_country_names": "",
     "iso_code": 520,
     "latitude": -0.5333,
-    "longitude": 166.9167
+    "longitude": 166.9167,
+    "population": 12704.0
   },
   {
     "country_emoji": "🇳🇵",
@@ -1383,7 +1508,8 @@
     "topo_country_names": "Nepal",
     "iso_code": 524,
     "latitude": 28,
-    "longitude": 84
+    "longitude": 84,
+    "population": 28087871.0
   },
   {
     "country_emoji": "🇳🇱",
@@ -1394,7 +1520,8 @@
     "topo_country_names": "Netherlands",
     "iso_code": 528,
     "latitude": 52.5,
-    "longitude": 5.75
+    "longitude": 5.75,
+    "population": 17231017.0
   },
   {
     "country_emoji": "🇳🇿",
@@ -1405,7 +1532,8 @@
     "topo_country_names": "New Zealand",
     "iso_code": 554,
     "latitude": -41,
-    "longitude": 174
+    "longitude": 174,
+    "population": 4885500.0
   },
   {
     "country_emoji": "🇳🇮",
@@ -1416,7 +1544,8 @@
     "topo_country_names": "Nicaragua",
     "iso_code": 558,
     "latitude": 13,
-    "longitude": -85
+    "longitude": -85,
+    "population": 6465513.0
   },
   {
     "country_emoji": "🇳🇪",
@@ -1427,7 +1556,8 @@
     "topo_country_names": "Niger",
     "iso_code": 562,
     "latitude": 16,
-    "longitude": 8
+    "longitude": 8,
+    "population": 22442948.0
   },
   {
     "country_emoji": "🇳🇬",
@@ -1438,7 +1568,8 @@
     "topo_country_names": "Nigeria",
     "iso_code": 566,
     "latitude": 10,
-    "longitude": 8
+    "longitude": 8,
+    "population": 195874740.0
   },
   {
     "country_emoji": "🇳🇺",
@@ -1449,7 +1580,8 @@
     "topo_country_names": "",
     "iso_code": 570,
     "latitude": -19.0333,
-    "longitude": -169.8667
+    "longitude": -169.8667,
+    "population": null
   },
   {
     "country_emoji": "🇰🇵",
@@ -1460,7 +1592,8 @@
     "topo_country_names": "North Korea",
     "iso_code": 408,
     "latitude": 40,
-    "longitude": 127
+    "longitude": 127,
+    "population": null
   },
   {
     "country_emoji": "🇳🇴",
@@ -1471,7 +1604,8 @@
     "topo_country_names": "Norway",
     "iso_code": 578,
     "latitude": 62,
-    "longitude": 10
+    "longitude": 10,
+    "population": 5314336.0
   },
   {
     "country_emoji": "🇴🇲",
@@ -1482,7 +1616,8 @@
     "topo_country_names": "Oman",
     "iso_code": 512,
     "latitude": 21,
-    "longitude": 57
+    "longitude": 57,
+    "population": 4829483.0
   },
   {
     "country_emoji": "🇵🇰",
@@ -1493,7 +1628,8 @@
     "topo_country_names": "Pakistan",
     "iso_code": 586,
     "latitude": 30,
-    "longitude": 70
+    "longitude": 70,
+    "population": 212215030.0
   },
   {
     "country_emoji": "🇵🇼",
@@ -1504,7 +1640,8 @@
     "topo_country_names": "",
     "iso_code": 585,
     "latitude": 7.5,
-    "longitude": 134.5
+    "longitude": 134.5,
+    "population": 17907.0
   },
   {
     "country_emoji": "🇵🇦",
@@ -1515,7 +1652,8 @@
     "topo_country_names": "Panama",
     "iso_code": 591,
     "latitude": 9,
-    "longitude": -80
+    "longitude": -80,
+    "population": 4176873.0
   },
   {
     "country_emoji": "🇵🇬",
@@ -1526,7 +1664,8 @@
     "topo_country_names": "Papua New Guinea",
     "iso_code": 598,
     "latitude": -6,
-    "longitude": 147
+    "longitude": 147,
+    "population": 8606316.0
   },
   {
     "country_emoji": "🇵🇾",
@@ -1537,7 +1676,8 @@
     "topo_country_names": "Paraguay",
     "iso_code": 600,
     "latitude": -23,
-    "longitude": -58
+    "longitude": -58,
+    "population": 6956071.0
   },
   {
     "country_emoji": "🇵🇪",
@@ -1548,7 +1688,8 @@
     "topo_country_names": "Peru",
     "iso_code": 604,
     "latitude": -10,
-    "longitude": -76
+    "longitude": -76,
+    "population": 31989256.0
   },
   {
     "country_emoji": "🇵🇭",
@@ -1559,7 +1700,8 @@
     "topo_country_names": "Philippines",
     "iso_code": 608,
     "latitude": 13,
-    "longitude": 122
+    "longitude": 122,
+    "population": 106651922.0
   },
   {
     "country_emoji": "🇵🇱",
@@ -1570,7 +1712,8 @@
     "topo_country_names": "Poland",
     "iso_code": 616,
     "latitude": 52,
-    "longitude": 20
+    "longitude": 20,
+    "population": 37978548.0
   },
   {
     "country_emoji": "🇵🇹",
@@ -1581,7 +1724,8 @@
     "topo_country_names": "Portugal",
     "iso_code": 620,
     "latitude": 39.5,
-    "longitude": -8
+    "longitude": -8,
+    "population": 10281762.0
   },
   {
     "country_emoji": "🇶🇦",
@@ -1592,7 +1736,8 @@
     "topo_country_names": "Qatar",
     "iso_code": 634,
     "latitude": 25.5,
-    "longitude": 51.25
+    "longitude": 51.25,
+    "population": 2781677.0
   },
   {
     "country_emoji": "🇹🇼",
@@ -1603,7 +1748,8 @@
     "topo_country_names": "Taiwan",
     "iso_code": 158,
     "latitude": 23.5,
-    "longitude": 121
+    "longitude": 121,
+    "population": null
   },
   {
     "country_emoji": "🇨🇬",
@@ -1614,7 +1760,8 @@
     "topo_country_names": "Congo",
     "iso_code": 178,
     "latitude": -1,
-    "longitude": 15
+    "longitude": 15,
+    "population": null
   },
   {
     "country_emoji": "🇷🇴",
@@ -1625,7 +1772,8 @@
     "topo_country_names": "Romania",
     "iso_code": 642,
     "latitude": 46,
-    "longitude": 25
+    "longitude": 25,
+    "population": 19473936.0
   },
   {
     "country_emoji": "🇷🇺",
@@ -1636,7 +1784,8 @@
     "topo_country_names": "Russia",
     "iso_code": 643,
     "latitude": 60,
-    "longitude": 100
+    "longitude": 100,
+    "population": null
   },
   {
     "country_emoji": "🇷🇼",
@@ -1647,7 +1796,8 @@
     "topo_country_names": "Rwanda",
     "iso_code": 646,
     "latitude": -2,
-    "longitude": 30
+    "longitude": 30,
+    "population": 12301939.0
   },
   {
     "country_emoji": "🇰🇳",
@@ -1658,7 +1808,8 @@
     "topo_country_names": "",
     "iso_code": 659,
     "latitude": 17.3333,
-    "longitude": -62.75
+    "longitude": -62.75,
+    "population": null
   },
   {
     "country_emoji": "🇱🇨",
@@ -1669,7 +1820,8 @@
     "topo_country_names": "",
     "iso_code": 662,
     "latitude": 13.8833,
-    "longitude": -61.1333
+    "longitude": -61.1333,
+    "population": null
   },
   {
     "country_emoji": "🇻🇨",
@@ -1680,7 +1832,8 @@
     "topo_country_names": "",
     "iso_code": 670,
     "latitude": 13.25,
-    "longitude": -61.2
+    "longitude": -61.2,
+    "population": null
   },
   {
     "country_emoji": "🇼🇸",
@@ -1691,7 +1844,8 @@
     "topo_country_names": "",
     "iso_code": 882,
     "latitude": -13.5833,
-    "longitude": -172.3333
+    "longitude": -172.3333,
+    "population": 196130.0
   },
   {
     "country_emoji": "🇸🇲",
@@ -1702,7 +1856,8 @@
     "topo_country_names": "",
     "iso_code": 674,
     "latitude": 43.7667,
-    "longitude": 12.4167
+    "longitude": 12.4167,
+    "population": 33785.0
   },
   {
     "country_emoji": "🇸🇹",
@@ -1713,7 +1868,8 @@
     "topo_country_names": "",
     "iso_code": 678,
     "latitude": 1,
-    "longitude": 7
+    "longitude": 7,
+    "population": 211028.0
   },
   {
     "country_emoji": "🇸🇦",
@@ -1724,7 +1880,8 @@
     "topo_country_names": "Saudi Arabia",
     "iso_code": 682,
     "latitude": 25,
-    "longitude": 45
+    "longitude": 45,
+    "population": 33699947.0
   },
   {
     "country_emoji": "🇸🇳",
@@ -1735,7 +1892,8 @@
     "topo_country_names": "Senegal",
     "iso_code": 686,
     "latitude": 14,
-    "longitude": -14
+    "longitude": -14,
+    "population": 15854360.0
   },
   {
     "country_emoji": "🇷🇸",
@@ -1746,7 +1904,8 @@
     "topo_country_names": "Serbia",
     "iso_code": 688,
     "latitude": 44,
-    "longitude": 21
+    "longitude": 21,
+    "population": 6982084.0
   },
   {
     "country_emoji": "🇸🇨",
@@ -1757,7 +1916,8 @@
     "topo_country_names": "",
     "iso_code": 690,
     "latitude": -4.5833,
-    "longitude": 55.6667
+    "longitude": 55.6667,
+    "population": 96762.0
   },
   {
     "country_emoji": "🇸🇱",
@@ -1768,7 +1928,8 @@
     "topo_country_names": "Sierra Leone",
     "iso_code": 694,
     "latitude": 8.5,
-    "longitude": -11.5
+    "longitude": -11.5,
+    "population": 7650154.0
   },
   {
     "country_emoji": "🇸🇬",
@@ -1779,7 +1940,8 @@
     "topo_country_names": "",
     "iso_code": 702,
     "latitude": 1.3667,
-    "longitude": 103.8
+    "longitude": 103.8,
+    "population": 5638676.0
   },
   {
     "country_emoji": "🇸🇰",
@@ -1790,7 +1952,8 @@
     "topo_country_names": "Slovakia",
     "iso_code": 703,
     "latitude": 48.6667,
-    "longitude": 19.5
+    "longitude": 19.5,
+    "population": null
   },
   {
     "country_emoji": "🇸🇮",
@@ -1801,7 +1964,8 @@
     "topo_country_names": "Slovenia",
     "iso_code": 705,
     "latitude": 46,
-    "longitude": 15
+    "longitude": 15,
+    "population": 2067372.0
   },
   {
     "country_emoji": "🇸🇧",
@@ -1812,7 +1976,8 @@
     "topo_country_names": "Solomon Is.",
     "iso_code": 90,
     "latitude": -8,
-    "longitude": 159
+    "longitude": 159,
+    "population": 652858.0
   },
   {
     "country_emoji": "🇸🇴",
@@ -1823,7 +1988,8 @@
     "topo_country_names": "Somalia",
     "iso_code": 706,
     "latitude": 10,
-    "longitude": 49
+    "longitude": 49,
+    "population": 15008154.0
   },
   {
     "country_emoji": "🇿🇦",
@@ -1834,7 +2000,8 @@
     "topo_country_names": "South Africa",
     "iso_code": 710,
     "latitude": -29,
-    "longitude": 24
+    "longitude": 24,
+    "population": 57779622.0
   },
   {
     "country_emoji": "🇰🇷",
@@ -1845,7 +2012,8 @@
     "topo_country_names": "South Korea",
     "iso_code": 410,
     "latitude": 37,
-    "longitude": 127.5
+    "longitude": 127.5,
+    "population": null
   },
   {
     "country_emoji": "🇸🇸",
@@ -1856,7 +2024,8 @@
     "topo_country_names": "S. Sudan",
     "iso_code": 728,
     "latitude": 4.859363,
-    "longitude": 31.571251
+    "longitude": 31.571251,
+    "population": 10975920.0
   },
   {
     "country_emoji": "🇪🇸",
@@ -1867,7 +2036,8 @@
     "topo_country_names": "Spain",
     "iso_code": 724,
     "latitude": 40,
-    "longitude": -4
+    "longitude": -4,
+    "population": 46723749.0
   },
   {
     "country_emoji": "🇱🇰",
@@ -1878,7 +2048,8 @@
     "topo_country_names": "Sri Lanka",
     "iso_code": 144,
     "latitude": 7,
-    "longitude": 81
+    "longitude": 81,
+    "population": 21670000.0
   },
   {
     "country_emoji": "🇸🇩",
@@ -1889,7 +2060,8 @@
     "topo_country_names": "Sudan",
     "iso_code": 729,
     "latitude": 15.564836,
-    "longitude": 32.529831
+    "longitude": 32.529831,
+    "population": 41801533.0
   },
   {
     "country_emoji": "🇸🇷",
@@ -1900,7 +2072,8 @@
     "topo_country_names": "Suriname",
     "iso_code": 740,
     "latitude": 4,
-    "longitude": -56
+    "longitude": -56,
+    "population": 575991.0
   },
   {
     "country_emoji": "🇸🇿",
@@ -1911,7 +2084,8 @@
     "topo_country_names": "",
     "iso_code": 748,
     "latitude": -26.5,
-    "longitude": 31.5
+    "longitude": 31.5,
+    "population": null
   },
   {
     "country_emoji": "🇸🇪",
@@ -1922,7 +2096,8 @@
     "topo_country_names": "Sweden",
     "iso_code": 752,
     "latitude": 62,
-    "longitude": 15
+    "longitude": 15,
+    "population": 10183175.0
   },
   {
     "country_emoji": "🇨🇭",
@@ -1933,7 +2108,8 @@
     "topo_country_names": "Switzerland",
     "iso_code": 756,
     "latitude": 47,
-    "longitude": 8
+    "longitude": 8,
+    "population": 8516543.0
   },
   {
     "country_emoji": "🇸🇾",
@@ -1944,7 +2120,8 @@
     "topo_country_names": "Syria",
     "iso_code": 760,
     "latitude": 35,
-    "longitude": 38
+    "longitude": 38,
+    "population": null
   },
   {
     "country_emoji": "🇹🇯",
@@ -1955,7 +2132,8 @@
     "topo_country_names": "Tajikistan",
     "iso_code": 762,
     "latitude": 39,
-    "longitude": 71
+    "longitude": 71,
+    "population": 9100837.0
   },
   {
     "country_emoji": "🇹🇿",
@@ -1966,7 +2144,8 @@
     "topo_country_names": "Tanzania",
     "iso_code": 834,
     "latitude": -6,
-    "longitude": 35
+    "longitude": 35,
+    "population": 56318348.0
   },
   {
     "country_emoji": "🇹🇭",
@@ -1977,7 +2156,8 @@
     "topo_country_names": "Thailand",
     "iso_code": 764,
     "latitude": 15,
-    "longitude": 100
+    "longitude": 100,
+    "population": 69428524.0
   },
   {
     "country_emoji": "🇹🇬",
@@ -1988,7 +2168,8 @@
     "topo_country_names": "Togo",
     "iso_code": 768,
     "latitude": 8,
-    "longitude": 1.1667
+    "longitude": 1.1667,
+    "population": 7889094.0
   },
   {
     "country_emoji": "🇹🇴",
@@ -1999,7 +2180,8 @@
     "topo_country_names": "",
     "iso_code": 776,
     "latitude": -20,
-    "longitude": -175
+    "longitude": -175,
+    "population": 103197.0
   },
   {
     "country_emoji": "🇹🇹",
@@ -2010,7 +2192,8 @@
     "topo_country_names": "Trinidad and Tobago",
     "iso_code": 780,
     "latitude": 11,
-    "longitude": -61
+    "longitude": -61,
+    "population": 1389858.0
   },
   {
     "country_emoji": "🇹🇳",
@@ -2021,7 +2204,8 @@
     "topo_country_names": "Tunisia",
     "iso_code": 788,
     "latitude": 34,
-    "longitude": 9
+    "longitude": 9,
+    "population": 11565204.0
   },
   {
     "country_emoji": "🇹🇷",
@@ -2032,7 +2216,8 @@
     "topo_country_names": "Turkey",
     "iso_code": 792,
     "latitude": 39,
-    "longitude": 35
+    "longitude": 35,
+    "population": 82319724.0
   },
   {
     "country_emoji": "🇹🇲",
@@ -2043,7 +2228,8 @@
     "topo_country_names": "Turkmenistan",
     "iso_code": 795,
     "latitude": 40,
-    "longitude": 60
+    "longitude": 60,
+    "population": 5850908.0
   },
   {
     "country_emoji": "🇹🇻",
@@ -2054,7 +2240,8 @@
     "topo_country_names": "",
     "iso_code": 798,
     "latitude": -8,
-    "longitude": 178
+    "longitude": 178,
+    "population": 11508.0
   },
   {
     "country_emoji": "🇺🇬",
@@ -2065,7 +2252,8 @@
     "topo_country_names": "Uganda",
     "iso_code": 800,
     "latitude": 1,
-    "longitude": 32
+    "longitude": 32,
+    "population": 42723139.0
   },
   {
     "country_emoji": "🇺🇦",
@@ -2076,7 +2264,8 @@
     "topo_country_names": "Ukraine",
     "iso_code": 804,
     "latitude": 49,
-    "longitude": 32
+    "longitude": 32,
+    "population": 44622516.0
   },
   {
     "country_emoji": "🇦🇪",
@@ -2087,7 +2276,8 @@
     "topo_country_names": "United Arab Emirates",
     "iso_code": 784,
     "latitude": 24,
-    "longitude": 54
+    "longitude": 54,
+    "population": 9630959.0
   },
   {
     "country_emoji": "🇬🇧",
@@ -2098,7 +2288,8 @@
     "topo_country_names": "United Kingdom",
     "iso_code": 826,
     "latitude": 54,
-    "longitude": -2
+    "longitude": -2,
+    "population": 66488991.0
   },
   {
     "country_emoji": "🇺🇸",
@@ -2109,7 +2300,8 @@
     "topo_country_names": "United States of America",
     "iso_code": 840,
     "latitude": 38,
-    "longitude": -97
+    "longitude": -97,
+    "population": 327167434.0
   },
   {
     "country_emoji": "🇺🇾",
@@ -2120,7 +2312,8 @@
     "topo_country_names": "Uruguay",
     "iso_code": 858,
     "latitude": -33,
-    "longitude": -56
+    "longitude": -56,
+    "population": 3449299.0
   },
   {
     "country_emoji": "🇺🇿",
@@ -2131,7 +2324,8 @@
     "topo_country_names": "Uzbekistan",
     "iso_code": 860,
     "latitude": 41,
-    "longitude": 64
+    "longitude": 64,
+    "population": 32955400.0
   },
   {
     "country_emoji": "🇻🇺",
@@ -2142,7 +2336,8 @@
     "topo_country_names": "Vanuatu",
     "iso_code": 548,
     "latitude": -16,
-    "longitude": 167
+    "longitude": 167,
+    "population": 292680.0
   },
   {
     "country_emoji": "🇻🇦",
@@ -2153,7 +2348,8 @@
     "topo_country_names": "",
     "iso_code": 336,
     "latitude": 41.9,
-    "longitude": 12.45
+    "longitude": 12.45,
+    "population": null
   },
   {
     "country_emoji": "🇻🇪",
@@ -2164,7 +2360,8 @@
     "topo_country_names": "Venezuela",
     "iso_code": 862,
     "latitude": 8,
-    "longitude": -66
+    "longitude": -66,
+    "population": null
   },
   {
     "country_emoji": "🇻🇳",
@@ -2175,7 +2372,8 @@
     "topo_country_names": "Vietnam",
     "iso_code": 704,
     "latitude": 16,
-    "longitude": 106
+    "longitude": 106,
+    "population": 95540395.0
   },
   {
     "country_emoji": "🇪🇭",
@@ -2186,7 +2384,8 @@
     "topo_country_names": "W. Sahara",
     "iso_code": 732,
     "latitude": 24.5,
-    "longitude": -13
+    "longitude": -13,
+    "population": null
   },
   {
     "country_emoji": "🇾🇪",
@@ -2197,7 +2396,8 @@
     "topo_country_names": "Yemen",
     "iso_code": 887,
     "latitude": 15,
-    "longitude": 48
+    "longitude": 48,
+    "population": null
   },
   {
     "country_emoji": "🇿🇲",
@@ -2208,7 +2408,8 @@
     "topo_country_names": "Zambia",
     "iso_code": 894,
     "latitude": -15,
-    "longitude": 30
+    "longitude": 30,
+    "population": 17351822.0
   },
   {
     "country_emoji": "🇿🇼",
@@ -2219,7 +2420,8 @@
     "topo_country_names": "Zimbabwe",
     "iso_code": 716,
     "latitude": -20,
-    "longitude": 30
+    "longitude": 30,
+    "population": 14439018.0
   },
   {
     "country_emoji": "🇭🇰",
@@ -2230,7 +2432,8 @@
     "topo_country_names": "",
     "iso_code": 344,
     "latitude": 22.25,
-    "longitude": 114.1667
+    "longitude": 114.1667,
+    "population": null
   },
   {
     "country_emoji": "",
@@ -2241,7 +2444,8 @@
     "topo_country_names": "Antarctica",
     "iso_code": 10,
     "latitude": -90,
-    "longitude": 0
+    "longitude": 0,
+    "population": null
   },
   {
     "country_emoji": "",
@@ -2252,7 +2456,8 @@
     "topo_country_names": "Falkland Is.",
     "iso_code": 238,
     "latitude": -51.75,
-    "longitude": -59
+    "longitude": -59,
+    "population": null
   },
   {
     "country_emoji": "🇫🇴",
@@ -2263,7 +2468,8 @@
     "topo_country_names": "Faroe Islands",
     "iso_code": 234,
     "latitude": 62,
-    "longitude": -7
+    "longitude": -7,
+    "population": 48497.0
   },
   {
     "country_emoji": "",
@@ -2274,7 +2480,8 @@
     "topo_country_names": "Fr. S. Antarctic Lands",
     "iso_code": 260,
     "latitude": -43,
-    "longitude": 67
+    "longitude": 67,
+    "population": null
   },
   {
     "country_emoji": "🇵🇷",
@@ -2285,7 +2492,8 @@
     "topo_country_names": "Puerto Rico",
     "iso_code": 630,
     "latitude": 18.25,
-    "longitude": -66.5
+    "longitude": -66.5,
+    "population": 3195153.0
   },
   {
     "country_emoji": "",
@@ -2296,7 +2504,8 @@
     "topo_country_names": "N. Cyprus",
     "iso_code": "",
     "latitude": "",
-    "longitude": ""
+    "longitude": "",
+    "population": null
   },
   {
     "country_emoji": "",
@@ -2307,7 +2516,8 @@
     "topo_country_names": "New Caledonia",
     "iso_code": 540,
     "latitude": -21.5,
-    "longitude": 165.5
+    "longitude": 165.5,
+    "population": null
   },
   {
     "country_emoji": "🇵🇸",
@@ -2318,7 +2528,8 @@
     "topo_country_names": "Palestine",
     "iso_code": 275,
     "latitude": 32,
-    "longitude": 35.25
+    "longitude": 35.25,
+    "population": null
   },
   {
     "country_emoji": "",
@@ -2329,7 +2540,8 @@
     "topo_country_names": "eSwatini",
     "iso_code": 748,
     "latitude": -26.5,
-    "longitude": 31.5
+    "longitude": 31.5,
+    "population": null
   },
   {
     "country_emoji": "🇲🇴",
@@ -2340,7 +2552,8 @@
     "topo_country_names": "",
     "iso_code": 446,
     "latitude": 22.1667,
-    "longitude": 113.55
+    "longitude": 113.55,
+    "population": null
   },
   {
     "country_emoji": "🚢",
@@ -2351,7 +2564,8 @@
     "topo_country_names": "",
     "iso_code": "",
     "latitude": 35.443707,
-    "longitude": 139.638031
+    "longitude": 139.638031,
+    "population": null
   },
   {
     "country_emoji": "🇬🇱",
@@ -2362,7 +2576,8 @@
     "topo_country_names": "Greenland",
     "iso_code": 304,
     "latitude": 72,
-    "longitude": -40
+    "longitude": -40,
+    "population": 56025.0
   },
   {
     "country_emoji": "🌎",
@@ -2373,7 +2588,8 @@
     "topo_country_names": "",
     "iso_code": 0,
     "latitude": "",
-    "longitude": ""
+    "longitude": "",
+    "population": null
   },
   {
     "country_emoji": "🇬🇬",
@@ -2384,7 +2600,8 @@
     "topo_country_names": "",
     "iso_code": 831,
     "latitude": 49.44,
-    "longitude": -2.58
+    "longitude": -2.58,
+    "population": null
   },
   {
     "country_emoji": "🇰🇾",
@@ -2395,7 +2612,8 @@
     "topo_country_names": "",
     "iso_code": 136,
     "latitude": 19.31,
-    "longitude": -81.25
+    "longitude": -81.25,
+    "population": 64174.0
   },
   {
     "country_emoji": "🇾🇹",
@@ -2406,7 +2624,8 @@
     "topo_country_names": "",
     "iso_code": 175,
     "latitude": -12.8,
-    "longitude": 45.13
+    "longitude": 45.13,
+    "population": null
   },
   {
     "country_emoji": "🇬🇵",
@@ -2417,7 +2636,8 @@
     "topo_country_names": "",
     "iso_code": 312,
     "latitude": 16.99,
-    "longitude": -62.06
+    "longitude": -62.06,
+    "population": null
   },
   {
     "country_emoji": "🇯🇪",
@@ -2428,7 +2648,8 @@
     "topo_country_names": "",
     "iso_code": 832,
     "latitude": 49.21,
-    "longitude": -2.13
+    "longitude": -2.13,
+    "population": null
   },
   {
     "country_emoji": "🇻🇮",
@@ -2439,7 +2660,8 @@
     "topo_country_names": "",
     "iso_code": 850,
     "latitude": 18.34,
-    "longitude": -64.86
+    "longitude": -64.86,
+    "population": null
   },
   {
     "country_emoji": "🇲🇫",
@@ -2450,7 +2672,8 @@
     "topo_country_names": "",
     "iso_code": 663,
     "latitude": 18.07,
-    "longitude": -63.06
+    "longitude": -63.06,
+    "population": null
   },
   {
     "country_emoji": "🇦🇼",
@@ -2461,7 +2684,8 @@
     "topo_country_names": "",
     "iso_code": 533,
     "latitude": 12.51,
-    "longitude": 70.0
+    "longitude": 70.0,
+    "population": 105845.0
   },
   {
     "country_emoji": "🇨🇼",
@@ -2472,7 +2696,8 @@
     "topo_country_names": "",
     "iso_code": 531,
     "latitude": 12.16,
-    "longitude": -68.99
+    "longitude": -68.99,
+    "population": null
   },
   {
     "country_emoji": "🇵🇫",
@@ -2483,7 +2708,8 @@
     "topo_country_names": "",
     "iso_code": 258,
     "latitude": -16.76,
-    "longitude": -151.44
+    "longitude": -151.44,
+    "population": 277679.0
   },
   {
     "country_emoji": "🇬🇺",
@@ -2494,7 +2720,8 @@
     "topo_country_names": "",
     "iso_code": 316,
     "latitude": 13.44,
-    "longitude": 144.79
+    "longitude": 144.79,
+    "population": 165768.0
   },
   {
     "country_emoji": "🇷🇪",
@@ -2505,7 +2732,8 @@
     "topo_country_names": "",
     "iso_code": 638,
     "latitude": -21.37,
-    "longitude": 55.27
+    "longitude": 55.27,
+    "population": null
   },
   {
     "country_emoji": "🇧🇱",
@@ -2516,7 +2744,8 @@
     "topo_country_names": "",
     "iso_code": 652,
     "latitude": 17.91,
-    "longitude": -62.83
+    "longitude": -62.83,
+    "population": null
   },
   {
     "country_emoji": "🇲🇱",
@@ -2527,7 +2756,8 @@
     "topo_country_names": "",
     "iso_code": 223,
     "latitude": 12.65,
-    "longitude": -8
+    "longitude": -8,
+    "population": 19077690.0
   },
   {
     "country_emoji": "🇧🇲",
@@ -2538,7 +2768,8 @@
     "topo_country_names": "",
     "iso_code": 223,
     "latitude": 32.93,
-    "longitude": -64.782
+    "longitude": -64.782,
+    "population": 63968.0
   },
   {
     "country_emoji": "🇮🇲",
@@ -2549,7 +2780,8 @@
     "topo_country_names": "",
     "iso_code": 44,
     "latitude": 54.251186,
-    "longitude": -4.463196
+    "longitude": -4.463196,
+    "population": 84077.0
   },
   {
     "country_emoji": "🇳🇨",
@@ -2560,6 +2792,7 @@
     "topo_country_names": "",
     "iso_code": 687,
     "latitude": -21.2107283,
-    "longitude": 165.8517014
+    "longitude": 165.8517014,
+    "population": 284060.0
   }
 ]
