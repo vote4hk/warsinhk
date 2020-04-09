@@ -1,5 +1,4 @@
 import React from "react"
-import find from "lodash.find"
 import * as d3 from "d3"
 import Tooltip from "@material-ui/core/Tooltip"
 import Typography from "@material-ui/core/Typography"
@@ -30,40 +29,58 @@ const WorldMap = ({ data }) => {
   const geographies = feature(worldJson, worldJson.objects.countries).features
   const { i18n, t } = useTranslation()
 
-  const countries = data.map(d => {
-    const country = mapBaiduCountry(d.area)
-    return {
-      iso: country.iso_code,
-      name: withLanguage(i18n, country, "country"),
-      emoji: country.country_emoji,
-      coordinates: [country.longitude, country.latitude],
-      confirmed: d.confirmed,
-      died: d.died,
-      cured: d.crued,
-    }
-  })
+  const countriesMap = React.useMemo(
+    () =>
+      new Map(
+        data.map(d => {
+          const country = mapBaiduCountry(d.area)
+          const perMillion =
+            country.population > 0
+              ? (d.confirmed / country.population) * 1000000
+              : -1
+          return [
+            country.iso_code,
+            {
+              iso: country.iso_code,
+              name: withLanguage(i18n, country, "country"),
+              emoji: country.country_emoji,
+              coordinates: [country.longitude, country.latitude],
+              confirmed: d.confirmed,
+              died: d.died,
+              cured: d.crued,
+              perMillion: perMillion,
+            },
+          ]
+        })
+      ),
+    [data, i18n]
+  )
+
+  const countries = [...countriesMap.values()]
 
   const handleCountryClick = countryIndex => {
     setHoverCountry(geographies[countryIndex].id)
   }
 
-  const getTransparencyByCountryDeath = countryIso => {
-    const country = find(countries, { iso: countryIso })
-    return getTransparency(country ? country.died * 1 : 0)
+  const getIntensityByConfirmedMillion = countryIso => {
+    const country = countriesMap.get(countryIso)
+    return getIntensity(country ? country.perMillion * 1 : 0)
   }
 
-  const getTransparency = num => {
+  const getIntensity = num => {
     switch (true) {
-      case num <= 10:
+      case num <= 0:
         return 0.1
-      case num > 10 && num <= 50:
-        return 0.3
-      case num > 50 && num <= 100:
-        return 0.5
-      case num > 100 && num <= 500:
+      case num < 50:
+        return 0.2
+      case num < 200:
+        return 0.4
+      case num < 500:
         return 0.6
-      case num > 500:
+      case num < 1000:
         return 0.8
+      case num >= 1000:
+        return 1
       default:
         return 0
     }
@@ -72,13 +89,13 @@ const WorldMap = ({ data }) => {
   const getRadius = num => {
     switch (true) {
       case num <= 10:
-        return 2
+        return 1
       case num > 10 && num <= 50:
-        return 5
+        return 3
       case num > 50 && num <= 100:
-        return 7
+        return 5
       case num > 100 && num <= 500:
-        return 10
+        return 7
       case num > 500:
         return 15
       default:
@@ -102,25 +119,24 @@ const WorldMap = ({ data }) => {
 
   return (
     <svg width="100%" viewBox="0 0 800 450">
-      <g>
-        {geographies.map((d, i) => (
-          <path
-            key={`path-${i}`}
-            d={d3.geoPath().projection(projection)(d)}
-            fill={
-              hoveredCountry === d.id
-                ? "rgba(38,50,56,0.2)"
-                : `rgba(38,50,56, ${getTransparencyByCountryDeath(
-                    Number(d.id)
-                  )})`
-            }
-            stroke="#FFFFFF"
-            strokeWidth={0.5}
-            onMouseOver={() => handleCountryClick(i)}
-            onMouseOut={() => setHoverCountry("")}
-          />
-        ))}
-      </g>
+      {geographies.map((d, i) => (
+        <path
+          key={`path-${i}`}
+          d={d3.geoPath().projection(projection)(d)}
+          fill={
+            hoveredCountry === d.id
+              ? `rgba(38,50,56,0.1)`
+              : `rgba(38,50,56,${getIntensityByConfirmedMillion(Number(d.id))})`
+          }
+          stroke={
+            hoveredCountry === d.id ? `rgba(38,50,56,1)` : `rgba(255,255,255,1)`
+          }
+          strokeWidth={hoveredCountry === d.id ? `1` : `0.5`}
+          boxShadow={"0"}
+          onMouseOver={() => handleCountryClick(i)}
+          onMouseOut={() => setHoverCountry("")}
+        />
+      ))}
       <g>
         {countries.map((country, i) => (
           <StyledTooltip
@@ -138,7 +154,7 @@ const WorldMap = ({ data }) => {
                   : 0
               }
               r={getRadius(country.confirmed)}
-              fill={`rgba(207, 7, 7, ${getTransparency(country.confirmed)})`}
+              fill={`rgba(207, 7, 7, 0.5)`}
               stroke="#FFFFFF"
               className="marker"
             />

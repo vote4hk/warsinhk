@@ -375,6 +375,7 @@ const WorldPage = props => {
             <Link
               href="https://voice.baidu.com/act/newpneumonia/newpneumonia"
               target="_blank"
+              rel="noopener noreferrer"
               children={t("world.source_who")}
             />
           </Typography>
