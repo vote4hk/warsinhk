@@ -149,7 +149,6 @@ const WorldMap = ({ data }) => {
 
   React.useEffect(() => {
     if (svgRef.current != null) {
-      console.log(svgRef)
       const selection = d3.select(svgRef.current)
       const zoom = d3
         .zoom()
