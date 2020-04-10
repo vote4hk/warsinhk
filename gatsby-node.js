@@ -16,6 +16,7 @@ const LANGUAGES = ["zh", "en"]
 const { request } = require("graphql-request")
 const { getPath, getWarTipPath } = require("./src/utils/urlHelper")
 const isDebug = process.env.DEBUG_MODE === "true"
+const _get = require("lodash/get")
 
 const PUBLISHED_SPREADSHEET_HIGH_RISK_URL =
   "https://docs.google.com/spreadsheets/d/e/2PACX-1vRbmRntCQ1cNkKd5eL3ZVBfgqX_lvQIdJIWxTTQdvSHd_3oIj_6yXOp48qAKdi-Pp-HqXdrrz1gysUr/pub?gid=0"
@@ -611,6 +612,17 @@ exports.createPages = async ({ graphql, actions }) => {
           }
         }
       }
+      allWarsCaseRelation {
+        edges {
+          node {
+            case_no
+            name_zh
+            name_en
+            description_zh
+            description_en
+          }
+        }
+      }
       patientTrack: allWarsCaseLocation(
         sort: { order: DESC, fields: end_date }
       ) {
@@ -667,10 +679,38 @@ exports.createPages = async ({ graphql, actions }) => {
     })
   })
 
+  const groupArray = []
+  result.data.allWarsCaseRelation.edges.forEach(({ node }, id) => {
+    node.id = id + 1
+    node.case_no.split(",").forEach(nodeCase => {
+      groupArray.push({
+        ...node,
+        related_cases: node.case_no,
+        case_no: parseInt(nodeCase),
+      })
+    })
+  })
+
   // somehow onCreatePage is not triggering.. so we need to specify here
   result.data.allWarsCase.edges.forEach(({ node }) => {
     LANGUAGES.forEach(lang => {
       const uri = getPath(lang, `/cases/${node.case_no}`)
+      const groupKeys = [
+        "name_zh",
+        "name_en",
+        "description_zh",
+        "description_en",
+        "id",
+        "related_cases",
+      ]
+      groupKeys.forEach(k => {
+        node[`group_${k}`] = _get(
+          groupArray.find(g => parseInt(g.case_no) === parseInt(node.case_no)),
+          k,
+          null
+        )
+      })
+
       actions.createPage({
         path: uri,
         component: path.resolve(`./src/templates/case.js`),

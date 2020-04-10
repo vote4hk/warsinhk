@@ -18,6 +18,8 @@ import CloseIcon from "@material-ui/icons/Close"
 import ChevronLeftRoundedIcon from "@material-ui/icons/ChevronLeftRounded"
 import ChevronRightRoundedIcon from "@material-ui/icons/ChevronRightRounded"
 import ShareButton from "@/components/organisms/ShareButton"
+import { DefaultTooltip } from "@/components/atoms/Tooltip"
+import HelpOutlineRoundedIcon from "@material-ui/icons/HelpOutlineRounded"
 
 const CaseCard = styled.div`
   margin: 16px 0;
@@ -60,17 +62,17 @@ const CaseCard = styled.div`
     padding-bottom: 12px;
   }
 
+  label {
+    display: block;
+    font-size: 12px;
+    margin-bottom: 4px;
+  }
+
   .highlight {
     margin: 12px 0 12px;
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     align-items: start;
-
-    label {
-      display: block;
-      font-size: 12px;
-      margin-bottom: 4px;
-    }
 
     div:first-child {
       padding-right: 8px;
@@ -78,7 +80,16 @@ const CaseCard = styled.div`
 
     p {
       font-weight: 400;
+      display: inline-flex;
+      align-self: center;
     }
+  }
+
+  .question_mark {
+    margin-left: 4px;
+    top: 0.125em;
+    position: relative;
+    font-size: 1.125rem;
   }
 
   .detail {
@@ -229,6 +240,7 @@ export const WarsCaseCard = React.forwardRef((props, ref) => {
   const citizenshipText = withLanguage(i18n, node, "citizenship")
 
   const groupName = withLanguage(i18n, node, "group_name")
+  const groupDescriptionName = withLanguage(i18n, node, "group_description")
   const dateFormat = /\d{4}-\d{2}-\d{2}/g
   return (
     <CaseCard
@@ -327,10 +339,25 @@ export const WarsCaseCard = React.forwardRef((props, ref) => {
           </Box>
         </Row>
         {groupName && (
-          <Row className="highlight">
+          <Row className="group">
             <Box>
               <label>{t("dashboard.group_name")}</label>
-              <Typography variant="body1">{groupName}</Typography>
+              <Typography variant="body1">
+                {groupName}
+                {groupDescriptionName && (
+                  <DefaultTooltip
+                    title={<>{groupDescriptionName}</>}
+                    enterTouchDelay={10}
+                    leaveTouchDelay={5000}
+                    interactive
+                  >
+                    <HelpOutlineRoundedIcon
+                      fontSize="inherit"
+                      className="question_mark"
+                    />
+                  </DefaultTooltip>
+                )}
+              </Typography>
             </Box>
           </Row>
         )}

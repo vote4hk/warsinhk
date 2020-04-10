@@ -6,26 +6,11 @@ import Typography from "@material-ui/core/Typography"
 import outboundIcon from "@components/icons/outbound.png"
 import inboundIcon from "@components/icons/inbound.png"
 import { getCountryFromISO } from "@/utils/mapBaiduCountry"
-import Tooltip from "@material-ui/core/Tooltip"
 import styled from "styled-components"
 import { useTranslation } from "react-i18next"
 import { withLanguage } from "@/utils/i18n"
 import _groupBy from "lodash.groupby"
-
-const StyledTooltip = styled(props => (
-  <Tooltip
-    classes={{ popper: props.className, tooltip: "tooltip" }}
-    {...props}
-  />
-))`
-  & .tooltip {
-    background-color: white;
-    color: rgba(0, 0, 0, 0.87);
-    font-size: 16px;
-    border-radius: 14px;
-    padding: 10px;
-  }
-`
+import { DefaultTooltip } from "@/components/atoms/Tooltip"
 
 const Chip = styled("div")`
   color: white;
@@ -65,7 +50,7 @@ const CountryChip = ({
   source_url,
 }) => (
   <Grid item style={{ padding: 5 }}>
-    <StyledTooltip
+    <DefaultTooltip
       title={
         <>
           {detail}
@@ -92,7 +77,7 @@ const CountryChip = ({
       interactive
     >
       <Chip>{`${country_emoji}${country_name}`}</Chip>
-    </StyledTooltip>
+    </DefaultTooltip>
   </Grid>
 )
 
