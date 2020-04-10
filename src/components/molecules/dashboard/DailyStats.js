@@ -219,19 +219,19 @@ export default props => {
 
   const renderChart = props => {
     const renderStats = props => {
-      const { title, field, color, value, columns = 12, index } = props
+      const { title, field, color, trend, value, columns = 12, index } = props
       return (
         <Grid xs={columns} item>
           <ChartContainer color={color} columns={columns} key={index}>
             <div className="title">{title}</div>
             <div className="figure">
               {value || getLastFigureByField(field)}
-              {!value && (
+              {trend && (
                 <span className="change-figure">{getDiffByField(field)}</span>
               )}
             </div>
 
-            {!value && (
+            {trend && (
               <div className="mini-chart">
                 <MiniLineChart
                   data={{
