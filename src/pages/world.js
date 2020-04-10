@@ -67,7 +67,7 @@ const BoardPaper = withStyles({
     margin: 0,
     width: "100%",
     minHeight: 130,
-    radius: 12,
+    borderRadius: 12,
     boxShadow: "0 0 0",
   },
 })(Paper)
@@ -78,7 +78,7 @@ const RankingPaper = withStyles({
     margin: 0,
     width: "100%",
     height: "100vh",
-    radius: 12,
+    borderRadius: 12,
     boxShadow: "0 0 0",
   },
 })(Paper)
@@ -315,10 +315,12 @@ const WorldRanking = props => {
                 const deathNumber = formatNumber(row.deathNumber)
                 const perMillion =
                   country.population > 1000000
-                    ? Math.floor(
-                        (row.confirmedFigures / country.population) * 1000000
+                    ? formatNumber(
+                        Math.floor(
+                          (row.confirmedFigures / country.population) * 1000000
+                        )
                       )
-                    : 0
+                    : "0"
 
                 return (
                   <TableRow key={row.country}>
@@ -372,7 +374,7 @@ const WorldRanking = props => {
                         textAlign: "right",
                       }}
                     >
-                      {perMillion === 0 ? "-" : perMillion}
+                      {perMillion === "0" ? "-" : perMillion}
                     </TableCell>
                   </TableRow>
                 )
