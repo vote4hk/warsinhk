@@ -217,6 +217,8 @@
   "world.border_shutdown_last_update": "Last update: {{date}}",
   "world.border_shutdown_more_info": "View more",
   "world.border_shutdown_more_items": "{{items}} more ...",
+  "world.per_million_confirmed_case": "Infected per Million people",
+  "world.per_million_confirmed_case_short": "Infected /1M pop",
   "epidemic.xAxis": "Onset date",
   "epidemic.yAxis": "No. of cases",
   "epidemic.imported": "Imported",
