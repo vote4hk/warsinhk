@@ -1,13 +1,14 @@
-import React from "react"
-import { useTranslation } from "react-i18next"
-import SEO from "@/components/templates/SEO"
-import Layout from "@components/templates/Layout"
-import Typography from "@material-ui/core/Typography"
-import Grid from "@material-ui/core/Grid"
-import { graphql } from "gatsby"
+import BorderShutdown from "@/components/charts/BorderShutdown"
 import Box from "@material-ui/core/Box"
+import DecreaseIcon from "@/components/icons/decrease.svg"
+import Grid from "@material-ui/core/Grid"
+import IncreaseIcon from "@/components/icons/increase.svg"
+import Layout from "@components/templates/Layout"
 import Link from "@material-ui/core/Link"
 import Paper from "@material-ui/core/Paper"
+import React from "react"
+import SEO from "@/components/templates/SEO"
+import Tab from "@material-ui/core/Tab"
 import Table from "@material-ui/core/Table"
 import TableBody from "@material-ui/core/TableBody"
 import TableCell from "@material-ui/core/TableCell"
@@ -15,14 +16,13 @@ import TableContainer from "@material-ui/core/TableContainer"
 import TableHead from "@material-ui/core/TableHead"
 import TableRow from "@material-ui/core/TableRow"
 import Tabs from "@material-ui/core/Tabs"
-import Tab from "@material-ui/core/Tab"
-import { withStyles } from "@material-ui/core/styles"
-import IncreaseIcon from "@/components/icons/increase.svg"
-import DecreaseIcon from "@/components/icons/decrease.svg"
+import Typography from "@material-ui/core/Typography"
 import WorldMap from "@/components/charts/WorldMap"
-import BorderShutdown from "@/components/charts/BorderShutdown"
-import mapBaiduCountry from "@/utils/mapBaiduCountry"
 import { formatNumber } from "@/utils"
+import { graphql } from "gatsby"
+import mapBaiduCountry from "@/utils/mapBaiduCountry"
+import { useTranslation } from "react-i18next"
+import { withStyles } from "@material-ui/core/styles"
 
 const TabPanel = props => {
   const { children, value, index, ...other } = props
@@ -77,7 +77,7 @@ const RankingPaper = withStyles({
     padding: 0,
     margin: 0,
     width: "100%",
-    height: "75vh",
+    height: "100vh",
     radius: 12,
     boxShadow: "0 0 0",
   },
@@ -287,6 +287,17 @@ const WorldRanking = props => {
                 >
                   {t("world.ranking_died")}
                 </TableCell>
+                <TableCell
+                  style={{
+                    fontSize: 15,
+                    color: "#767676",
+                    padding: 5,
+                    textAlign: "right",
+                    maxWidth: "100px",
+                  }}
+                >
+                  {t("world.per_million_confirmed_case_short")}
+                </TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -302,6 +313,12 @@ const WorldRanking = props => {
                     : country.country_en
                 const confirmedFigures = formatNumber(row.confirmedFigures)
                 const deathNumber = formatNumber(row.deathNumber)
+                const perMillion =
+                  country.population > 1000000
+                    ? Math.floor(
+                        (row.confirmedFigures / country.population) * 1000000
+                      )
+                    : 0
 
                 return (
                   <TableRow key={row.country}>
@@ -347,6 +364,16 @@ const WorldRanking = props => {
                     >
                       {deathNumber === "0" ? "-" : deathNumber}
                     </TableCell>
+                    <TableCell
+                      style={{
+                        fontSize: 16,
+                        borderBottom: 0,
+                        padding: "7px 4px",
+                        textAlign: "right",
+                      }}
+                    >
+                      {perMillion === 0 ? "-" : perMillion}
+                    </TableCell>
                   </TableRow>
                 )
               })}
@@ -375,6 +402,7 @@ const WorldPage = props => {
             <Link
               href="https://voice.baidu.com/act/newpneumonia/newpneumonia"
               target="_blank"
+              rel="noopener noreferrer"
               children={t("world.source_who")}
             />
           </Typography>
