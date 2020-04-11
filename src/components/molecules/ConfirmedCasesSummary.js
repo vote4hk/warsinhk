@@ -51,7 +51,8 @@ const ConfirmedCasesSummary = props => {
     serious: 40,
     critical: 50,
     deceased: 60,
-    "": 70,
+    asymptomatic: 70,
+    "": 80,
   }
 
   return (

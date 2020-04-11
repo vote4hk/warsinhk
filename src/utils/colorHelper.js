@@ -66,6 +66,10 @@ export const mapColorForStatus = status => {
       main: grey[700],
       contrastText: "#fff",
     },
+    asymptomatic: {
+      main: "#4f5096",
+      contrastText: "#fff",
+    },
     default: {
       main: "#cfcfcf",
       contrastText: "#fff",
