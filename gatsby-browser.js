@@ -39,17 +39,15 @@ export const wrapPageElement = ({ element, props }) => {
 // Wrap the theme
 export const wrapRootElement = ({ element }) => {
   console.log(`
-  --------------------------------------
-  Fight for freedom, Stand from MO HONG!
-  --------------------------------------
+  -----------------------------
+  COVID-19 in HK｜武漢肺炎民間資訊
+  -----------------------------
 
   We are waiting for your commit :)
   
   GitHub Repo:
   https://github.com/nandiheath/warsinhk
-
-  Telegram:
-  https://t.me/joinchat/BwXunhP9xMWBmopAFrvD8A
+  
   `)
 
   return <RootLayout>{element}</RootLayout>

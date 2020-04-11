@@ -1,6 +1,6 @@
 <div align="center">
 <h1>
-  Fight for freedom, Stand from Wuhan
+  COVID-19 in HK｜武漢肺炎民間資訊
 </h1>
 This is the repository for <a href="https://wars.vote4.hk">wars.vote4.hk</a>
 <br/>
