@@ -311,6 +311,16 @@ const CasesPage = props => {
         text: t("cases.status_deceased"),
       },
       {
+        icon: (
+          <Circle
+            width={48}
+            height={48}
+            bgColor={mapColorForStatus("asymptomatic").main}
+          />
+        ),
+        text: t("cases.status_asymptomatic"),
+      },
+      {
         icon: <ImportIcon />,
         text: t("cases.imported"),
       },
