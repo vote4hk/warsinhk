@@ -27,8 +27,9 @@ const NumberTag = styled.span`
 `
 
 const ConfirmedCasesSummary = props => {
-  const {
+  var {
     status: { group: status },
+    asymptomatic: { group: asymptomatic },
   } = useStaticQuery(
     graphql`
       query {
@@ -38,9 +39,19 @@ const ConfirmedCasesSummary = props => {
             fieldValue
           }
         }
+        asymptomatic: allWarsCase(
+          filter: { onset_date: { eq: "asymptomatic" } }
+        ) {
+          group(field: onset_date) {
+            fieldValue
+            totalCount
+          }
+        }
       }
     `
   )
+
+  status = [...status, asymptomatic[0]]
 
   const { t } = useTranslation()
 
