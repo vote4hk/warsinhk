@@ -27,7 +27,7 @@ const NumberTag = styled.span`
 `
 
 const ConfirmedCasesSummary = props => {
-  var {
+  let {
     status: { group: status },
     asymptomatic: { group: asymptomatic },
   } = useStaticQuery(
@@ -40,7 +40,7 @@ const ConfirmedCasesSummary = props => {
           }
         }
         asymptomatic: allWarsCase(
-          filter: { onset_date: { eq: "asymptomatic" } }
+          filter: { onset_date: { in: ["asymptomatic", "none"] } }
         ) {
           group(field: onset_date) {
             fieldValue
@@ -50,6 +50,20 @@ const ConfirmedCasesSummary = props => {
       }
     `
   )
+
+  // count the "none" also
+  asymptomatic = [
+    asymptomatic.reduce(
+      (c, v) => ({
+        fieldValue: "asymptomatic",
+        totalCount: c.totalCount + v.totalCount,
+      }),
+      {
+        fieldValue: "asymptomatic",
+        totalCount: 0,
+      }
+    ),
+  ]
 
   status = [...status, asymptomatic[0]]
 
