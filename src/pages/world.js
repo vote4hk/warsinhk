@@ -313,14 +313,13 @@ const WorldRanking = props => {
                     : country.country_en
                 const confirmedFigures = formatNumber(row.confirmedFigures)
                 const deathNumber = formatNumber(row.deathNumber)
-                const perMillion =
-                  country.population > 1000000
-                    ? formatNumber(
-                        Math.floor(
-                          (row.confirmedFigures / country.population) * 1000000
-                        )
+                const perMillion = country.population
+                  ? formatNumber(
+                      Math.floor(
+                        (row.confirmedFigures / country.population) * 1000000
                       )
-                    : "0"
+                    )
+                  : "-"
 
                 return (
                   <TableRow key={row.country}>
