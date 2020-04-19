@@ -6,7 +6,7 @@ This is the repository for <a href="https://covid19.vote4.hk">wars.vote4.hk | co
 <br/>
 <br/>
 <a href="https://covid19.vote4.hk/">
-  <img height="480" src="https://github.com/nandiheath/warsinhk/blob/master/static/images/og_share_en.png?raw=true">
+  <img height="480" src="https://github.com/nandiheath/warsinhk/blob/master/static/images/screenshot.jpg?raw=true">
 </a>
 </div>
 
