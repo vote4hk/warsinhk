@@ -2,10 +2,10 @@
 <h1>
   COVID-19 in HK｜武漢肺炎民間資訊
 </h1>
-This is the repository for <a href="https://wars.vote4.hk">wars.vote4.hk</a>
+This is the repository for <a href="https://covid19.vote4.hk">wars.vote4.hk | covid19.vote4.hk</a>
 <br/>
 <br/>
-<a href="https://wars.vote4.hk/">
+<a href="https://covid19.vote4.hk/">
   <img height="480" src="https://github.com/nandiheath/warsinhk/blob/master/static/images/og_share_en.png?raw=true">
 </a>
 </div>
@@ -76,7 +76,7 @@ All contributions are welcome.
 | Purpose     | Branch  | URL                        | Remarks                                                                                       |
 | ----------- | ------- | -------------------------- | --------------------------------------------------------------------------------------------- |
 | Development | dev     | https://wars-dev.vote4.hk/ | Default development branch. All pull requests will be reviewed and then merged to this branch |
-| Production  | master  | https://wars.vote4.hk/     | Only pull requests created by administrators are allowed                                      |
+| Production  | master  | https://covid19.vote4.hk/  | Only pull requests created by administrators are allowed                                      |
 | Hotfix      | fix/\*  | None                       | Fixes created by the administrators                                                           |
 | Feature     | feat/\* | None                       | Features branch before merging to Development branch                                          |
 
