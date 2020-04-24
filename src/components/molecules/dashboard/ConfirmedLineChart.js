@@ -10,7 +10,7 @@ export default props => {
   const data = useStaticQuery(
     graphql`
       query {
-        allBotWarsLatestFigures(
+        dailyFigures: allWarsLatestFiguresOverride(
           sort: { order: DESC, fields: date }
           filter: { date: { gt: "2020-01-20" } }
           skip: 0
@@ -83,9 +83,7 @@ export default props => {
       <SimpleLineChart
         data={{
           showLegend: false,
-          xaxis: data.allBotWarsLatestFigures.edges
-            .map(({ node }) => node.date)
-            .reverse(),
+          xaxis: data.dailyFigures.edges.map(({ node }) => node.date).reverse(),
           fields: ["hospitalised"],
           horizontalLines: [
             {
@@ -102,9 +100,7 @@ export default props => {
                 color: "#ff574f",
                 // 'stroke-dasharray': '5, 2',
               },
-              data: data.allBotWarsLatestFigures.edges
-                .map(getDataForChart)
-                .reverse(),
+              data: data.dailyFigures.edges.map(getDataForChart).reverse(),
             },
           ],
         }}
