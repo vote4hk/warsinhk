@@ -26,6 +26,11 @@ export default props => {
             }
           }
         }
+        pendingAdmission: allWarsCase(
+          filter: { status: { eq: "pending_admission" } }
+        ) {
+          totalCount
+        }
         allSiteConfig(
           filter: {
             key: { in: ["isolation_beds.helmet", "isolation_beds.count"] }
@@ -45,17 +50,21 @@ export default props => {
   const { i18n, t } = useTranslation()
 
   const getDataForChart = ({ node }) => {
-    const data = {
+    const chartData = {
       ...node,
     }
-    Object.keys(data).forEach(key => {
-      if (!isNaN(parseInt(data[key], 0))) {
-        data[key] = parseInt(data[key], 0)
+    Object.keys(chartData).forEach(key => {
+      if (!isNaN(parseInt(chartData[key], 0))) {
+        chartData[key] = parseInt(chartData[key], 0)
       }
     })
     return {
-      ...data,
-      hospitalised: data.confirmed - data.discharged,
+      ...chartData,
+      hospitalised:
+        chartData.confirmed -
+        chartData.death -
+        chartData.discharged -
+        (data.pendingAdmission.totalCount || 0),
     }
   }
 
