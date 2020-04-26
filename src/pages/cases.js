@@ -285,6 +285,16 @@ const CasesPage = props => {
           <Circle
             width={48}
             height={48}
+            bgColor={mapColorForStatus("hospitalised_again").main}
+          />
+        ),
+        text: t("cases.status_hospitalised_again"),
+      },
+      {
+        icon: (
+          <Circle
+            width={48}
+            height={48}
             bgColor={mapColorForStatus("serious").main}
           />
         ),

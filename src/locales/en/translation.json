@@ -147,6 +147,7 @@
   "cases.status_critical": "Critical",
   "cases.status_deceased": "Deceased",
   "cases.status_asymptomatic": "Asymptomatic",
+  "cases.status_hospitalised_again": "Hospitalised again",
   "cases.uncategorized": "Uncategorized",
   "cases.status_pending_update": "Pending update",
   "cases.box_view": "Overview",
