@@ -73,6 +73,7 @@ const ConfirmedCasesSummary = props => {
     discharged: 10,
     pending_admission: 20,
     hospitalised: 30,
+    hospitalised_again: 35,
     serious: 40,
     critical: 50,
     deceased: 60,

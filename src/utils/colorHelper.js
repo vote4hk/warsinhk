@@ -1,4 +1,4 @@
-import { pink, teal, red, grey, amber } from "@material-ui/core/colors"
+import { pink, teal, red, grey, amber, orange } from "@material-ui/core/colors"
 
 export const mapColorForClassification = classification => {
   const mapping = {
@@ -44,6 +44,10 @@ export const mapColorForStatus = status => {
   const mapping = {
     hospitalised: {
       main: amber[900],
+      contrastText: "#fff",
+    },
+    hospitalised_again: {
+      main: orange[900],
       contrastText: "#fff",
     },
     pending_admission: {

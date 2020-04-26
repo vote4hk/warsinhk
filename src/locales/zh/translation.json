@@ -154,6 +154,7 @@
   "cases.status_critical": "危殆",
   "cases.status_deceased": "死亡",
   "cases.status_asymptomatic": "無病徵",
+  "cases.status_hospitalised_again": "再入院",
   "cases.uncategorized": "未分類",
   "cases.status_pending_update": "待更新",
   "cases.box_view": "總覽",
