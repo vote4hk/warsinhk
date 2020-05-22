@@ -514,12 +514,6 @@ exports.sourceNodes = async props => {
       { skipFirstLine: true }
     ),
     createNode(props, SHEET_ALERT_MASTER, "Alert"),
-    createNode(
-      props,
-      PUBLISHED_SPREADSHEET_TRAVEL_ALERT_URL,
-      "BorderShutdown",
-      { skipFirstLine: true }
-    ),
     createPublishedGoogleSpreadsheetNode(
       props,
       PUBLISHED_SPREADSHEET_IMPORTANT_INFORMATION_URL,
