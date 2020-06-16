@@ -110,7 +110,7 @@
   "dashboard.friendly_links": "相關網站",
   "dashboard.epidemic_chart": "流行病學曲線圖",
   "dashboard.important_information": "重要消息",
-  "importantInformation.chp_hotline": "衞生防護中心熱線： <b><a href=\"tel:21251111\">2125 1111</a> / <a href=\"tel:21251122\">2125 1122</a>（上午8時至午夜12時）</b> ",
+  "importantInformation.chp_hotline": "衞生防護中心熱線： <b><a href=\"tel:21251111\">2125 1111</a> / <a href=\"tel:21251122\">2125 1122</a>（上午9時至下午六時）</b> ",
   "importantInformation.had_hotline": "民政事務總署熱線： <b><a href=\"tel:28351473\">2835 1473</a>（24小時）</b>",
   "dashboard.isolation_beds": "隔離病床使用率",
   "case.title": "個案追蹤",
