@@ -46,6 +46,10 @@ export const mapColorForStatus = status => {
       main: amber[900],
       contrastText: "#fff",
     },
+    stable: {
+      main: amber[900],
+      contrastText: "#fff",
+    },
     hospitalised_again: {
       main: orange[900],
       contrastText: "#fff",
