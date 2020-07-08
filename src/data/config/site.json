@@ -68,7 +68,7 @@
       "title": "poster_gallery.title",
       "to": "/poster-gallery",
       "icon": "poster_gallery",
-      "sideMenu": true,
+      "sideMenu": false,
       "bottomNav": false
     },
     {
