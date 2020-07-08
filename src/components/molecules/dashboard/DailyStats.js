@@ -58,6 +58,7 @@ const ChartContainer = styled.div`
   .change-figure {
     position: absolute;
     left: 0px;
+    width: 50px;
     
     bottom: -12px;
     font-size: 11px;

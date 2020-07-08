@@ -139,6 +139,7 @@
   "disruption.last_updated": "Last update: {{date}}",
   "cases.type_self": "Patient",
   "cases.type_relatives": "Patient's relatives",
+  "cases.status_-": "Unclassified",
   "cases.status_": "Unclassified",
   "cases.status_hospitalised": "Hospitalised",
   "cases.status_stable": "Stable",

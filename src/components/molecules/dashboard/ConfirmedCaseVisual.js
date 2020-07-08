@@ -51,7 +51,16 @@ export default function ConfirmedCaseVisual(props) {
           0,
           Math.max.apply(
             null,
-            citizenshipDistrict.map(i => i.totalCount)
+            citizenshipDistrict
+              .filter(
+                i =>
+                  !(
+                    i.fieldValue === "不明" ||
+                    i.fieldValue === "境外" ||
+                    i.fieldValue === "香港"
+                  )
+              )
+              .map(i => i.totalCount)
           ),
         ]}
         values={citizenshipDistrict.map(i => i.totalCount)}

@@ -48,6 +48,16 @@ const CaseCard = styled.div`
       color: white;
       line-height: 0;
     }
+
+    .share-close {
+      display: flex;
+
+      svg:first-child {
+        width: 20px;
+        height: 20px;
+        margin-right: 8px;
+      }
+    }
   }
 
   .content {
@@ -263,11 +273,13 @@ export const WarsCaseCard = React.forwardRef((props, ref) => {
               ? statusText
               : t("cases.status_pending_update")
           })`}
+        </Box>
+        <div className="share-close">
           {handleClose && !showViewMore && (
             <ShareButton caseId={node.case_no} />
           )}
-        </Box>
-        {handleClose && <CloseIcon onClick={e => handleClose(e)} />}
+          {handleClose && <CloseIcon onClick={e => handleClose(e)} />}
+        </div>
         {showViewMore && (
           <Link to={getLocalizedPath(i18n, `/cases`)}>
             <ChevronRightRoundedIcon />

@@ -10,13 +10,13 @@ const path = require("path")
 const ae = require("./ae")
 const gn = require("./gn")
 const poster = require("./poster-gallery")
-const GOOGLE_SPREADSHEET_ID = "14kreo2vRo1XCUXqFLcMApVtYmvkEzWBDm6b8fzJNKEc"
-const SHEET_ALERT_MASTER = "alert"
+// const GOOGLE_SPREADSHEET_ID = "14kreo2vRo1XCUXqFLcMApVtYmvkEzWBDm6b8fzJNKEc"
 const LANGUAGES = ["zh", "en"]
 const { request } = require("graphql-request")
 const { getPath, getWarTipPath } = require("./src/utils/urlHelper")
 const isDebug = process.env.DEBUG_MODE === "true"
 const _get = require("lodash/get")
+const moment = require("moment")
 
 const PUBLISHED_SPREADSHEET_HIGH_RISK_URL =
   "https://docs.google.com/spreadsheets/d/e/2PACX-1vRbmRntCQ1cNkKd5eL3ZVBfgqX_lvQIdJIWxTTQdvSHd_3oIj_6yXOp48qAKdi-Pp-HqXdrrz1gysUr/pub?gid=0"
@@ -48,6 +48,8 @@ const PUBLISHED_SPREADSHEET_SITE_CONFIG_URL =
   "https://docs.google.com/spreadsheets/d/e/2PACX-1vRUN7eL0XjPbkcmxnWKPH9_AOiRiIVcH25nLkOgbfRN7y1gk9tBucufIcLWTFFjjgMJNQmOxIFeU_Sk/pub?gid=0"
 const PUBLISHED_SPREADSHEET_WARS_CASES_RELATIONSHIP_URL =
   "https://docs.google.com/spreadsheets/d/e/2PACX-1vQS7Aay-dZbemZAxbW1oVrC5QKnT9wPjd55hSGGnXGj8_jdZJa9dsKYI--dTv4EU--xt_HGIDZsdNEw/pub?gid=0"
+const PUBLISHED_SPREADSHEET_ALERT_URL =
+  "https://docs.google.com/spreadsheets/d/e/2PACX-1vRWN6o99FDJN4KsnAyq9KeWKEerF2_v1Z0wWbKiHPI0_Whuf00ZLW2n-GfoXciKgVXkBSoBEz6IhreC/pub?gid=0"
 
 const GRAPHQL_URL = "https://api2.vote4.hk/v1/graphql"
 
@@ -99,10 +101,18 @@ const createWorldCasesNode = async ({
   createNodeId,
   createContentDigest,
 }) => {
+  const lastWeek = moment()
+    .add(-10, "days")
+    .format("YYYY-MM-DD")
   const type = "BaiduInternationalData"
 
   const query = `{
     wars_BaiduInternationalData (
+      where: {
+        date: { 
+          _gt: "${lastWeek}"
+        }
+      }
       distinct_on: [date, area]
       order_by: [
         {date: desc},
@@ -121,6 +131,11 @@ const createWorldCasesNode = async ({
 
   const baiduChinaQuery = `{
     wars_BaiduChinaData (
+      where: {
+        date: { 
+          _gt: "${lastWeek}"
+        }
+      }
       distinct_on: [date, area, city]
         order_by: [
           {date: desc},
@@ -321,33 +336,33 @@ const createPosterNode = async ({
   })
 }
 
-const createNode = async (
-  { actions: { createNode }, createNodeId, createContentDigest },
-  sheetName,
-  type
-) => {
-  // All table has first row reserved
-  const result = await fetch(
-    `https://docs.google.com/spreadsheets/d/${GOOGLE_SPREADSHEET_ID}/gviz/tq?tqx=out:csv&sheet=${sheetName}&range=A2:ZZ&headers=0`
-  )
-  const data = await result.text()
-  const records = await csv2json().fromString(data)
-  records.forEach((p, i) => {
-    // create node for build time data example in the docs
-    const meta = {
-      // required fields
-      id: createNodeId(`${type.toLowerCase()}-${i}`),
-      parent: null,
-      children: [],
-      internal: {
-        type,
-        contentDigest: createContentDigest(p),
-      },
-    }
-    const node = Object.assign({}, p, meta)
-    createNode(node)
-  })
-}
+// const createNode = async (
+//   { actions: { createNode }, createNodeId, createContentDigest },
+//   sheetName,
+//   type
+// ) => {
+//   // All table has first row reserved
+//   const result = await fetch(
+//     `https://docs.google.com/spreadsheets/d/${GOOGLE_SPREADSHEET_ID}/gviz/tq?tqx=out:csv&sheet=${sheetName}&range=A2:ZZ&headers=0`
+//   )
+//   const data = await result.text()
+//   const records = await csv2json().fromString(data)
+//   records.forEach((p, i) => {
+//     // create node for build time data example in the docs
+//     const meta = {
+//       // required fields
+//       id: createNodeId(`${type.toLowerCase()}-${i}`),
+//       parent: null,
+//       children: [],
+//       internal: {
+//         type,
+//         contentDigest: createContentDigest(p),
+//       },
+//     }
+//     const node = Object.assign({}, p, meta)
+//     createNode(node)
+//   })
+// }
 
 const createPublishedGoogleSpreadsheetNode = async (
   { actions: { createNode }, createNodeId, createContentDigest },
@@ -513,7 +528,12 @@ exports.sourceNodes = async props => {
       "BorderShutdown",
       { skipFirstLine: true }
     ),
-    createNode(props, SHEET_ALERT_MASTER, "Alert"),
+    createPublishedGoogleSpreadsheetNode(
+      props,
+      PUBLISHED_SPREADSHEET_ALERT_URL,
+      "Alert",
+      { skipFirstLine: true }
+    ),
     createPublishedGoogleSpreadsheetNode(
       props,
       PUBLISHED_SPREADSHEET_IMPORTANT_INFORMATION_URL,
@@ -532,7 +552,6 @@ exports.sourceNodes = async props => {
       "WarsCaseRelation",
       { skipFirstLine: true }
     ),
-    createNode(props, SHEET_ALERT_MASTER, "Alert"),
     createAENode(props),
     createIMMDNode(props),
     createGNNode(props),
