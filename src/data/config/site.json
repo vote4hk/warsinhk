@@ -16,13 +16,6 @@
       "bottomNav": true
     },
     {
-      "title": "world.title",
-      "to": "/world",
-      "icon": "world",
-      "sideMenu": true,
-      "bottomNav": true
-    },
-    {
       "title": "disruption.title",
       "to": "/disruption",
       "icon": "disruption",
