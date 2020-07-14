@@ -26,7 +26,7 @@ const DEFAULT_MODULES = [
   "important_information",
   "outbound_alert",
   "confirmed_chart",
-  // "passenger_daily",
+  "passenger_daily",
   "friendly_links",
   "latest_cases",
 ]
@@ -169,15 +169,15 @@ export default function IndexPage({ data }) {
       }
     )
 
-    // registerComponent(
-    //   "passenger_daily",
-    //   "dashboard.daily_passengers",
-    //   React.lazy(() =>
-    //     import(
-    //       /* webpackPrefetch: true */ "@/components/molecules/dashboard/PassengerDailyFigure"
-    //     )
-    //   )
-    // )
+    registerComponent(
+      "passenger_daily",
+      "dashboard.daily_passengers",
+      React.lazy(() =>
+        import(
+          /* webpackPrefetch: true */ "@/components/molecules/dashboard/PassengerDailyFigure"
+        )
+      )
+    )
 
     registerComponent(
       "confirmed_digest_age",
