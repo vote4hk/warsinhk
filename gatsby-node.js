@@ -101,10 +101,18 @@ const createWorldCasesNode = async ({
   createNodeId,
   createContentDigest,
 }) => {
+  const lastWeek = moment()
+    .add(-10, "days")
+    .format("YYYY-MM-DD")
   const type = "BaiduInternationalData"
 
   const query = `{
     wars_BaiduInternationalData (
+      where: {
+        date: { 
+          _gt: "${lastWeek}"
+        }
+      }
       distinct_on: [date, area]
       order_by: [
         {date: desc},
@@ -123,6 +131,11 @@ const createWorldCasesNode = async ({
 
   const baiduChinaQuery = `{
     wars_BaiduChinaData (
+      where: {
+        date: { 
+          _gt: "${lastWeek}"
+        }
+      }
       distinct_on: [date, area, city]
         order_by: [
           {date: desc},
