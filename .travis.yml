@@ -1,20 +1,43 @@
+# TODO: refine the settings here
+# TODO: add badge
 language: node_js
 node_js: 12
 cache:
   yarn: true
   npm: true
 
-branches:
-  only:
-    - dev
-    - master
+# branches:
+#   only:
+#     - master
 
-script:
-  # Immediate exit when error
-  - set -e
+before_install:
+  - yarn install
 
-  # Check code
-  - yarn lint
-
-  # Test by build
-  - yarn build
+jobs:
+  include:
+    # disable for faster build
+    # - stage: test
+    #   script:
+    #     - yarn lint        
+    - stage: deploy
+      script:
+        - yarn build
+      deploy:
+        provider: pages
+        skip-cleanup: true
+        # In case pushing to different repo
+        repo: vote4hk/wars.vote4.hk
+        # In case you need to setup custom domain
+        fqdn: wars.vote4.hk
+        github-token: $GITHUB_TOKEN  # Set in the settings page of your repository, as a secure variable
+        # Keep previous build files, true to support PWA
+        keep-history: true
+        committer_from_gh: false
+        name: "Deploy BOT"
+        email: bot@vote4.hk
+        target_branch: gh-pages
+        local-dir: public # the local dir is relative to root and ignoring the one set with before_install
+        on:
+          branch: 
+            - master
+            - feat/cicd
