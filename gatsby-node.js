@@ -365,7 +365,7 @@ const createPosterNode = async ({
 // }
 
 const createPublishedGoogleSpreadsheetNode = async (
-  { actions: { createNode }, createNodeId, createContentDigest },
+  { actions: { createNode, createTypes }, createNodeId, createContentDigest },
   publishedURL,
   type,
   { skipFirstLine = false, alwaysEnabled = false, subtype = null }
@@ -374,15 +374,16 @@ const createPublishedGoogleSpreadsheetNode = async (
   const result = await fetch(
     `${publishedURL}&single=true&output=csv&headers=0${
       skipFirstLine ? "&range=A2:ZZ" : ""
-    }`
+    }&q=${Math.floor(new Date().getTime(), 1000)}`
   )
   const data = await result.text()
   const records = await csv2json().fromString(data)
-  records
-    .filter(
-      r => alwaysEnabled || (isDebug && r.enabled === "N") || r.enabled === "Y"
-    )
-    .forEach((p, i) => {
+  const filteredRecords = records.filter(
+    r => alwaysEnabled || (isDebug && r.enabled === "N") || r.enabled === "Y"
+  )
+
+  if (filteredRecords.length > 0) {
+    filteredRecords.forEach((p, i) => {
       // create node for build time data example in the docs
       const meta = {
         // required fields
@@ -396,9 +397,23 @@ const createPublishedGoogleSpreadsheetNode = async (
           contentDigest: createContentDigest(p),
         },
       }
-      const node = Object.assign({}, { ...p, subtype }, meta)
+      const node = { ...p, subtype, ...meta }
       createNode(node)
     })
+  } else if (records.length > 0) {
+    // So if filtered rows is empty,
+    // we manually create the type here.
+
+    // TODO: handle not even a single row ...
+    const fields = Object.keys(records[0])
+    const fieldString = fields.map(field => `${field}: String`).join("\n")
+    const typeTemplate = `
+      type ${type} implements Node {
+        ${fieldString}
+      }
+    `
+    createTypes(typeTemplate)
+  }
 }
 
 /*
