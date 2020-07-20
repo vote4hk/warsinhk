@@ -50,6 +50,7 @@ ${bps.down("sm")} {
 const DateButton = styled(IconButton)`
   padding: 0;
   margin-left: 8px;
+  margin-top: 8px;
 `
 
 const LegendContainer = styled.table`
@@ -624,7 +625,7 @@ class HighRiskMap extends Component {
             style={{
               display: "flex",
               flexDirection: "row",
-              alignItems: "center",
+              alignItems: "flex-start",
             }}
           >
             <div style={{ flex: 1 }}>{this.props.selectBar}</div>
