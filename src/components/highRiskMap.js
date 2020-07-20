@@ -143,9 +143,9 @@ class HighRiskMap extends Component {
                 [highRiskLocation.lat, highRiskLocation.lng],
               ],
               {
-                maxZoom: 15,
+                maxZoom: 17,
                 paddingTopLeft: [0, 60],
-                duration: 1.5,
+                duration: 0.5,
               }
             )
           const marker = this.markersById[id]
