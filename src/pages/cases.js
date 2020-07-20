@@ -445,6 +445,12 @@ const CasesPage = props => {
             ))}
           </DefaultSelect>
         )}
+
+        <Typography variant="h6" style={{ marginTop: 16 }}>
+          {filteredCases.length > 1
+            ? t("cases.filter_results_plural", { count: filteredCases.length })
+            : t("cases.filter_results", { count: filteredCases.length })}
+        </Typography>
       </PageContent>
       {view === CASES_BOX_VIEW ? (
         <>

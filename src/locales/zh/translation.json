@@ -116,6 +116,8 @@
   "case.title": "個案追蹤",
   "case.case_no": "個案 #{{case_no}}",
   "cases.title": "個案",
+  "cases.filter_results": "{{count}}宗個案",
+  "cases.filter_results_plural": "{{count}}宗個案",
   "cases.isolation_bed": "負壓病床總數: ",
   "cases_visual.legendTitle": "確診宗數",
   "cases_visual.distribution": "18區確診個案分布",

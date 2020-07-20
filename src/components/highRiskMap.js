@@ -88,7 +88,7 @@ class HighRiskMap extends Component {
       dataPointRendered: null,
       showDatePicker: false,
       legend: null,
-      showLegend: true,
+      showLegend: false,
     }
     this.cache = new CellMeasurerCache({
       defaultHeight: 50,

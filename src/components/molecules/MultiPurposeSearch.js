@@ -46,11 +46,27 @@ const MultiPurposeSearch = props => {
       padding: "2px",
     }),
     placeholder: () => ({
-      fontSize: "12px",
+      fontSize: "14px",
     }),
     menu: () => ({
       backgroundColor: "#FFF",
       zIndex: 999,
+    }),
+    multiValue: styles => ({
+      ...styles,
+      background: "#505096",
+      color: "#ffffff",
+      padding: "3px 3px 3px 10px",
+      borderRadius: "16px",
+    }),
+    multiValueLabel: () => ({
+      fontSize: "14px",
+      fontWeight: 700,
+    }),
+    groupHeading: styles => ({
+      ...styles,
+      fontVariant: "normal",
+      fontSize: "14px",
     }),
   }
 
