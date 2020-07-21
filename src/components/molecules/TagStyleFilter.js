@@ -40,30 +40,26 @@ const OptionTag = ({
         label={label}
         onClick={openMenu}
       />
-      <Menu
-        id="simple-menu"
-        anchorEl={elementRef.current}
-        // keepMounted
-        open={menuOpen}
-        onClose={closeMenu}
-      >
-        {options.map(option => (
-          <MenuItem
-            key={option.value}
-            onClick={selectValue({ ...option, filterName: label, field })}
-            style={{ display: "flex", justifyContent: "space-between" }}
-          >
-            <span>{option.label}</span>
-            <span style={{ textAlign: "right", marginLeft: "2em" }}>
-              {
-                loopbackFilters(filteredList, {
-                  where: { [`node.${field}`]: option.value },
-                }).length
-              }
-            </span>
-          </MenuItem>
-        ))}
-      </Menu>
+      {menuOpen && (
+        <Menu anchorEl={elementRef.current} open={menuOpen} onClose={closeMenu}>
+          {options.map(option => (
+            <MenuItem
+              key={option.value}
+              onClick={selectValue({ ...option, filterName: label, field })}
+              style={{ display: "flex", justifyContent: "space-between" }}
+            >
+              <span>{option.label}</span>
+              <span style={{ textAlign: "right", marginLeft: "2em" }}>
+                {
+                  loopbackFilters(filteredList, {
+                    where: { [`node.${field}`]: option.value },
+                  }).length
+                }
+              </span>
+            </MenuItem>
+          ))}
+        </Menu>
+      )}
     </div>
   )
 }
