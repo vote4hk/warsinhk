@@ -9,7 +9,7 @@ import { bps } from "@/ui/theme"
 import SEO from "@/components/templates/SEO"
 import Layout from "@components/templates/Layout"
 import { graphql } from "gatsby"
-import MultiPurposeSearch from "@/components/molecules/MultiPurposeSearch"
+import TagStyleFilter from "@/components/molecules/TagStyleFilter"
 import { createDedupOptions, createDedupArrayOptions } from "@/utils/search"
 import { mapColorForStatus } from "@/utils/colorHelper"
 import { PageContent } from "@/components/atoms/Container"
@@ -189,38 +189,40 @@ const CasesPage = props => {
   const options = [
     {
       label: t("search.group"),
-      options: createDedupArrayOptions(i18n, filteredCases, "group_name"),
+      options: createDedupArrayOptions(i18n, cases, "group_name"),
+      realFieldName: "group_name_"+i18n.language,
     },
     {
       label: t("search.classification"),
-      options: createDedupOptions(i18n, filteredCases, "classification"),
+      options: createDedupOptions(i18n, cases, "classification"),
+      realFieldName: "classification_"+i18n.language,
     },
     {
       label: t("search.citizenship"),
-      options: createDedupOptions(i18n, filteredCases, "citizenship"),
+      options: createDedupOptions(i18n, cases, "citizenship"),
+      realFieldName: "citizenship_"+i18n.language
     },
     {
       label: t("search.case_status"),
-      options: createDedupOptions(i18n, filteredCases, "status"),
+      options: createDedupOptions(i18n, cases, "status"),
+      realFieldName: "status_"+i18n.language
     },
     {
       label: t("search.hospital"),
-      options: createDedupOptions(i18n, filteredCases, "hospital"),
+      options: createDedupOptions(i18n, cases, "hospital"),
+      realFieldName: "hospital_"+i18n.language
     },
-    {
-      label: t("search.case_no"),
-      options: createDedupOptions(null, filteredCases, "case_no", true),
-    },
+    // {
+    //   label: t("search.case_no"),
+    //   options: createDedupOptions(null, cases, "case_no", true),
+    //   realFieldName: "case_no",
+    // },
   ]
 
   // Calculate how much cards we should preload in order to scorll to that position
   let preloadedCases = cases.length - parseInt(selectedCase) + 1
   if (isNaN(preloadedCases)) {
     preloadedCases = 15
-  }
-
-  const listFilteredHandler = list => {
-    setFilteredCases(list)
   }
 
   const renderCaseCard = node => (
@@ -416,12 +418,15 @@ const CasesPage = props => {
       <PageContent>
         <ConfirmedCasesSummary />
         {view === CASES_BOX_VIEW && <Legend />}
-        <MultiPurposeSearch
+        <Typography variant="h6" style={{ marginTop: 16 }}>
+          Filters:
+        </Typography>
+        <TagStyleFilter
           list={data.allWarsCase.edges}
           placeholder={t("search.case_placeholder")}
           options={options}
           searchKey="case"
-          onListFiltered={listFilteredHandler}
+          onListFiltered={setFilteredCases}
           filterWithOr={false}
         />
         {view === CASES_BOX_VIEW && (

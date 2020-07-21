@@ -74,6 +74,7 @@
     "lodash.toarray": "^4.4.0",
     "lodash.uniq": "^4.5.0",
     "lodash.uniqby": "^4.7.0",
+    "loopback-filters": "^1.1.0",
     "moment": "^2.24.0",
     "node-fetch": "^2.6.0",
     "pixi.js-legacy": "^5.2.1",
