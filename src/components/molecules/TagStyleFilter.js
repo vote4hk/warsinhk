@@ -123,6 +123,7 @@ const TagStyledFilter = props => {
               color="primary"
               label={`${option.filterName}: ${option.label}`}
               onDelete={() => clearFilter(option.field)}
+              onClick={() => clearFilter(option.field)}
             />
           </div>
         ))}
