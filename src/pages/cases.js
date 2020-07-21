@@ -190,27 +190,27 @@ const CasesPage = props => {
     {
       label: t("search.group"),
       options: createDedupArrayOptions(i18n, cases, "group_name"),
-      realFieldName: "group_name_"+i18n.language,
+      realFieldName: "group_name_" + i18n.language,
     },
     {
       label: t("search.classification"),
       options: createDedupOptions(i18n, cases, "classification"),
-      realFieldName: "classification_"+i18n.language,
+      realFieldName: "classification_" + i18n.language,
     },
     {
       label: t("search.citizenship"),
       options: createDedupOptions(i18n, cases, "citizenship"),
-      realFieldName: "citizenship_"+i18n.language
+      realFieldName: "citizenship_" + i18n.language,
     },
     {
       label: t("search.case_status"),
       options: createDedupOptions(i18n, cases, "status"),
-      realFieldName: "status_"+i18n.language
+      realFieldName: "status_" + i18n.language,
     },
     {
       label: t("search.hospital"),
       options: createDedupOptions(i18n, cases, "hospital"),
-      realFieldName: "hospital_"+i18n.language
+      realFieldName: "hospital_" + i18n.language,
     },
     // {
     //   label: t("search.case_no"),
@@ -418,8 +418,8 @@ const CasesPage = props => {
       <PageContent>
         <ConfirmedCasesSummary />
         {view === CASES_BOX_VIEW && <Legend />}
-        <Typography variant="h6" style={{ marginTop: 16 }}>
-          Filters:
+        <Typography variant="h5" style={{ marginTop: 16 }}>
+          {t("cases.filters")}
         </Typography>
         <TagStyleFilter
           list={data.allWarsCase.edges}
