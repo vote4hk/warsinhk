@@ -3,9 +3,12 @@ import PropTypes from "prop-types"
 import Chip from "@material-ui/core/Chip"
 import Menu from "@material-ui/core/Menu"
 import MenuItem from "@material-ui/core/MenuItem"
+import ListItem from "@material-ui/core/ListItem"
+import IconButton from "@material-ui/core/IconButton"
 import AddIcon from "@material-ui/icons/Add"
+import DoneIcon from "@material-ui/icons/Done"
 import omit from "lodash/omit"
-import mapKeys from "lodash/mapKeys"
+import TextField from "@material-ui/core/TextField"
 import loopbackFilters from "loopback-filters"
 
 const OptionTag = ({
@@ -16,9 +19,14 @@ const OptionTag = ({
   setOption,
   clearFilter,
   filteredList,
+  toFilterEntry,
+  filterType = "options",
+  filterPlaceholder = "",
+  getWhereFilter,
 }) => {
   const [menuOpen, setMenuOpen] = useState(false)
   const elementRef = useRef()
+  const inputRef = useRef()
   const selectValue = option => () => {
     setOption(option)
     setMenuOpen(false)
@@ -34,6 +42,7 @@ const OptionTag = ({
       <Chip
         size="small"
         variant="outlined"
+        color={filterExists ? "secondary" : undefined}
         clickable
         deleteIcon={filterExists ? undefined : <AddIcon />}
         onDelete={filterExists ? () => clearFilter(field) : openMenu}
@@ -42,22 +51,55 @@ const OptionTag = ({
       />
       {menuOpen && (
         <Menu anchorEl={elementRef.current} open={menuOpen} onClose={closeMenu}>
-          {options.map(option => (
-            <MenuItem
-              key={option.value}
-              onClick={selectValue({ ...option, filterName: label, field })}
-              style={{ display: "flex", justifyContent: "space-between" }}
+          {filterType === "string" && (
+            <form
+              onSubmit={event => {
+                event.preventDefault()
+                const value = inputRef.current.value
+                selectValue({ field, filterName: label, value, label: value })()
+              }}
             >
-              <span>{option.label}</span>
-              <span style={{ textAlign: "right", marginLeft: "2em" }}>
-                {
-                  loopbackFilters(filteredList, {
-                    where: { [`node.${field}`]: option.value },
-                  }).length
-                }
-              </span>
-            </MenuItem>
-          ))}
+              <ListItem>
+                <TextField
+                  name="filterValue"
+                  placeholder={filterPlaceholder}
+                  defaultValue={filterExists ? filters[field] : ""}
+                  inputRef={inputRef}
+                  style={{ width: 280 }}
+                />
+                <IconButton color="primary" type="submit">
+                  <DoneIcon />
+                </IconButton>
+              </ListItem>
+            </form>
+          )}
+          {options
+            .map(option => ({
+              ...option,
+              field,
+              count: loopbackFilters(filteredList, {
+                where: getWhereFilter({ [field]: option.value }),
+              }).length,
+            }))
+            .map((option, index) => (
+              <form key={index}>
+                <MenuItem
+                  key={option.value}
+                  onClick={selectValue({
+                    ...option,
+                    filterName: label,
+                    field,
+                  })}
+                  style={{ display: "flex", justifyContent: "space-between" }}
+                  selected={filterExists && filters[field] === option.value}
+                >
+                  <span>{option.label}</span>
+                  <span style={{ textAlign: "right", marginLeft: "2em" }}>
+                    {option.count}
+                  </span>
+                </MenuItem>
+              </form>
+            ))}
         </Menu>
       )}
     </div>
@@ -69,17 +111,43 @@ const TagStyledFilter = props => {
   const [orderedItemSym] = useState(Symbol("order"))
   const [filteredList, setFilteredList] = useState(list)
   const [filters, setFilters] = useState({ [orderedItemSym]: [] })
-  const applyFilter = filter => {
+  const getWhereFilter = newFilters => {
+    const andFilters = options
+      .filter(i => !i.isOrFilter)
+      .map(i =>
+        newFilters[i.realFieldName]
+          ? i.toFilterEntry([i.realFieldName, newFilters[i.realFieldName]])
+          : undefined
+      )
+      .filter(Boolean)
+
+    const orFilters = options
+      .filter(i => i.isOrFilter)
+      .map(i =>
+        newFilters[i.realFieldName]
+          ? i.toFilterEntry([i.realFieldName, newFilters[i.realFieldName]])
+          : undefined
+      )
+      .filter(Boolean)
+    return {
+        and: [
+            Object.fromEntries(andFilters),
+            ...orFilters.map(filters => ({or: filters}))
+        ]
+    }
+  }
+  const applyFilter = newFilters => {
+    const where = getWhereFilter(newFilters)
     const result = loopbackFilters(list, {
-      where: mapKeys(filter, (v, key) => `node.${key}`),
+      where,
     })
-    setFilters(filter)
+    setFilters(newFilters)
     setFilteredList(result)
     onListFiltered(result)
   }
   const setOption = option => {
     const newFilter = {
-      ...filters,
+      ...omit(filters, option.field),
       [option.field]: option.value,
       [orderedItemSym]: [
         ...filters[orderedItemSym].filter(i => i.field !== option.field),
@@ -100,7 +168,7 @@ const TagStyledFilter = props => {
       <div style={{ marginTop: "1em", lineHeight: 2 }}>
         {options.map(option => (
           <OptionTag
-            key={option.realFieldName}
+            key={option.realFieldName + option.value}
             {...option}
             filters={filters}
             setOption={setOption}
@@ -108,6 +176,8 @@ const TagStyledFilter = props => {
             field={option.realFieldName}
             list={list}
             filteredList={filteredList}
+            filterType={option.filterType}
+            getWhereFilter={getWhereFilter}
           />
         ))}
       </div>
@@ -141,6 +211,9 @@ TagStyledFilter.propTypes = {
   options: PropTypes.arrayOf(
     PropTypes.shape({
       label: PropTypes.string.isRequired,
+      realFieldName: PropTypes.string.isRequired,
+      filterType: PropTypes.oneOf(["options", "string", undefined]),
+      toFilter: PropTypes.func,
       options: PropTypes.arrayOf(
         PropTypes.shape({
           value: PropTypes.string.isRequired,
