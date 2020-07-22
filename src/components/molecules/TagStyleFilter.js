@@ -22,7 +22,7 @@ const OptionTag = ({
   toFilterEntry,
   filterType = "options",
   filterPlaceholder = "",
-  getWhereFilter,
+  getFilterCount,
 }) => {
   const [menuOpen, setMenuOpen] = useState(false)
   const elementRef = useRef()
@@ -77,9 +77,7 @@ const OptionTag = ({
             .map(option => ({
               ...option,
               field,
-              count: loopbackFilters(filteredList, {
-                where: getWhereFilter({ [field]: option.value }),
-              }).length,
+              count: getFilterCount({ [field]: option.value }, filterExists),
             }))
             .map((option, index) => (
               <form key={index}>
@@ -130,11 +128,18 @@ const TagStyledFilter = props => {
       )
       .filter(Boolean)
     return {
-        and: [
-            Object.fromEntries(andFilters),
-            ...orFilters.map(filters => ({or: filters}))
-        ]
+      and: [
+        Object.fromEntries(andFilters),
+        ...orFilters.map(filters => ({ or: filters })),
+      ],
     }
+  }
+  const getFilterCount = (filter, active) => {
+    return loopbackFilters(active ? list : filteredList, {
+      where: active
+        ? getWhereFilter({ ...filters, ...filter })
+        : getWhereFilter(filter),
+    }).length
   }
   const applyFilter = newFilters => {
     const where = getWhereFilter(newFilters)
@@ -177,7 +182,7 @@ const TagStyledFilter = props => {
             list={list}
             filteredList={filteredList}
             filterType={option.filterType}
-            getWhereFilter={getWhereFilter}
+            getFilterCount={getFilterCount}
           />
         ))}
       </div>
