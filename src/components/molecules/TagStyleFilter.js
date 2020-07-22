@@ -79,6 +79,7 @@ const OptionTag = ({
               field,
               count: getFilterCount({ [field]: option.value }, filterExists),
             }))
+            .sort((a, b) => b.count - a.count)
             .map((option, index) => (
               <form key={index}>
                 <MenuItem
@@ -88,13 +89,28 @@ const OptionTag = ({
                     filterName: label,
                     field,
                   })}
-                  style={{ display: "flex", justifyContent: "space-between" }}
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    whiteSpace: "break-spaces",
+                  }}
                   selected={filterExists && filters[field] === option.value}
                 >
-                  <span>{option.label}</span>
-                  <span style={{ textAlign: "right", marginLeft: "2em" }}>
+                  <div
+                    style={{
+                      marginRight: "16px",
+                    }}
+                  >
+                    {option.label}
+                  </div>
+                  <div
+                    style={{
+                      color: "#1a237e",
+                      fontWeight: 700,
+                    }}
+                  >
                     {option.count}
-                  </span>
+                  </div>
                 </MenuItem>
               </form>
             ))}
