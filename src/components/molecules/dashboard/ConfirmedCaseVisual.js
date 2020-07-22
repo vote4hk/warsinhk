@@ -5,7 +5,7 @@ import { useStaticQuery, graphql } from "gatsby"
 import styled from "styled-components"
 import DistrictsChart from "@/components/charts/18Districts"
 import capitalize from "lodash/capitalize"
-
+import * as applyLoopbackFilter from "loopback-filters"
 const MapCard = styled.div``
 export default function ConfirmedCaseVisual(props) {
   const { i18n, t } = useTranslation()
@@ -44,30 +44,19 @@ export default function ConfirmedCaseVisual(props) {
       }
     `
   )
+  const data = applyLoopbackFilter(citizenshipDistrict, {
+    where: { fieldValue: { nin: ["不明", "境外", "香港"] } },
+    order: "totalCount DESC",
+  })
+  const increment = Math.ceil(
+    10 ** Math.floor(Math.log10(data[0].totalCount)) * 0.5
+  )
   const citizenPlot = (
     <MapCard>
       <DistrictsChart
-        scale={[
-          0,
-          Math.max.apply(
-            null,
-            citizenshipDistrict
-              .filter(
-                i =>
-                  !(
-                    i.fieldValue === "不明" ||
-                    i.fieldValue === "境外" ||
-                    i.fieldValue === "香港"
-                  )
-              )
-              .map(i => i.totalCount)
-          ),
-        ]}
-        values={citizenshipDistrict.map(i => i.totalCount)}
+        scale={[0, Math.ceil(data[0].totalCount / increment) * increment]}
         getDescriptionByDistrictName={(tcName, enName) => {
-          const node = citizenshipDistrict.find(
-            i => tcName.indexOf(i.fieldValue) === 0
-          )
+          const node = data.find(i => tcName.indexOf(i.fieldValue) === 0)
           const value = node ? node.totalCount : 0
           const name =
             i18n.language !== "zh"
@@ -81,9 +70,7 @@ export default function ConfirmedCaseVisual(props) {
           </Typography>
         }
         getDataByDistrictName={tcName => {
-          const node = citizenshipDistrict.find(
-            i => tcName.indexOf(i.fieldValue) === 0
-          )
+          const node = data.find(i => tcName.indexOf(i.fieldValue) === 0)
           const value = node ? node.totalCount : 0
           return value
         }}

@@ -9,7 +9,7 @@ import { bps } from "@/ui/theme"
 import SEO from "@/components/templates/SEO"
 import Layout from "@components/templates/Layout"
 import { graphql } from "gatsby"
-import MultiPurposeSearch from "@/components/molecules/MultiPurposeSearch"
+import TagStyleFilter from "@/components/molecules/TagStyleFilter"
 import { createDedupOptions, createDedupArrayOptions } from "@/utils/search"
 import { mapColorForStatus } from "@/utils/colorHelper"
 import { PageContent } from "@/components/atoms/Container"
@@ -31,6 +31,7 @@ import QuestionIcon from "@/components/icons/question.svg"
 import BoxViewIcon from "@/components/icons/box_view.svg"
 import CardViewIcon from "@/components/icons/card_view.svg"
 import SortIcon from "@/components/icons/sort.svg"
+import moment from "moment"
 
 const TitleContainer = styled.div`
   display: flex;
@@ -133,15 +134,19 @@ const CasesPage = props => {
   } = React.useContext(ContextStore)
 
   // Do the sorting here since case_no is string instead of int
-  const cases = data.allWarsCase.edges.sort((edge1, edge2) => {
-    const res = edge2.node.confirmation_date.localeCompare(
-      edge1.node.confirmation_date
-    )
-    if (res === 0) {
-      return parseInt(edge2.node.case_no) - parseInt(edge1.node.case_no)
-    }
-    return res
-  })
+  const cases = data.allWarsCase.edges
+    .map(i => ({
+      node: { ...i.node, case_no_num: +i.node.case_no, age_num: +i.node.age },
+    }))
+    .sort((edge1, edge2) => {
+      const res = edge2.node.confirmation_date.localeCompare(
+        edge1.node.confirmation_date
+      )
+      if (res === 0) {
+        return parseInt(edge2.node.case_no) - parseInt(edge1.node.case_no)
+      }
+      return res
+    })
 
   const groupArray = []
   data.allWarsCaseRelation.edges.forEach(({ node }, id) => {
@@ -186,30 +191,144 @@ const CasesPage = props => {
   const [selectedGroupButton, setGroupButton] = useState(1)
 
   const { i18n, t } = useTranslation()
+  const toFilterEntry = ([key, value]) => [`node.${key}`, value]
+  const parseToFilter = str => {
+    if (/^[-A-Z0-9]+\.\.+[-A-Z0-9]+$/i.test(str))
+      return { between: str.split(/\.\.+/).sort() }
+    if (/^[><]=[-A-Z0-9]+$/i.test(str))
+      return { [str[0] === ">" ? "gte" : "lte"]: str.slice(2, str.length) }
+    if (/^[><][-A-Z0-9]+$/i.test(str))
+      return { [str[0] === ">" ? "gt" : "lt"]: str.slice(1, str.length) }
+    if (/^[-A-Z0-9]+$/i.test(str)) return str
+    return
+  }
+  const stringOrFilterEntry = ([key, value]) => {
+    const filterPhrases = value
+      .split(/,|\s+/g)
+      .filter(phase => phase && /\w$/.test(phase))
+      .map(parseToFilter)
+      .reduce(
+        (acc, curr) => {
+          if (curr) {
+            curr.constructor === String ? acc.inq.push(curr) : acc.or.push(curr)
+          }
+          return acc
+        },
+        { or: [], inq: [] }
+      )
+
+    return [
+      filterPhrases.inq.length
+        ? { [`node.${key}`]: { inq: filterPhrases.inq } }
+        : undefined,
+      ...filterPhrases.or.map(phrase => ({ [`node.${key}`]: phrase })),
+    ].filter(Boolean)
+  }
+  const dateRangeOptionPresets = [
+    {
+      label: t("cases.filters_last_n_days", { n: 7 }),
+      value: `${moment()
+        .subtract(7, "day")
+        .format("YYYY-MM-DD")}..${moment().format(`YYYY-MM-DD`)}`,
+    },
+    {
+      label: t("cases.filters_last_n_days", { n: 14 }),
+      value: `${moment()
+        .subtract(14, "day")
+        .format("YYYY-MM-DD")}..${moment().format(`YYYY-MM-DD`)}`,
+    },
+    {
+      label: t("cases.filters_this_month"),
+      value: `${moment().format(`[>]YYYY-MM`)}`,
+    },
+    {
+      label: t("cases.filters_previous_month"),
+      value: `${moment()
+        .subtract(1, "month")
+        .format("YYYY-MM")}..${moment().format(`YYYY-MM`)}`,
+    },
+  ]
   const options = [
     {
       label: t("search.group"),
-      options: createDedupArrayOptions(i18n, filteredCases, "group_name"),
+      options: createDedupArrayOptions(i18n, cases, "group_name"),
+      realFieldName: "group_name_" + i18n.language,
+      toFilterEntry,
     },
     {
       label: t("search.classification"),
-      options: createDedupOptions(i18n, filteredCases, "classification"),
+      options: createDedupOptions(i18n, cases, "classification"),
+      realFieldName: "classification_" + i18n.language,
+      toFilterEntry,
     },
     {
       label: t("search.citizenship"),
-      options: createDedupOptions(i18n, filteredCases, "citizenship"),
+      options: createDedupOptions(i18n, cases, "citizenship"),
+      realFieldName: "citizenship_" + i18n.language,
+      toFilterEntry,
     },
     {
       label: t("search.case_status"),
-      options: createDedupOptions(i18n, filteredCases, "status"),
+      options: createDedupOptions(i18n, cases, "status"),
+      realFieldName: "status_" + i18n.language,
+      toFilterEntry,
     },
     {
       label: t("search.hospital"),
-      options: createDedupOptions(i18n, filteredCases, "hospital"),
+      options: createDedupOptions(i18n, cases, "hospital"),
+      realFieldName: "hospital_" + i18n.language,
+      toFilterEntry,
     },
     {
       label: t("search.case_no"),
-      options: createDedupOptions(null, filteredCases, "case_no", true),
+      realFieldName: "case_no_num",
+      filterType: "string",
+      options: [],
+      toFilterEntry: stringOrFilterEntry,
+      isOrFilter: true,
+      filterPlaceholder: "e.g. 1,3,10..20",
+    },
+    {
+      label: t("dashboard.patient_confirm_date"),
+      realFieldName: "confirmation_date",
+      filterType: "string",
+      options: dateRangeOptionPresets,
+      toFilterEntry: stringOrFilterEntry,
+      isOrFilter: true,
+      filterPlaceholder: "e.g. 2020-06..2020-07-21",
+    },
+    {
+      label: t("dashboard.patient_onset_date"),
+      realFieldName: "onset_date",
+      options: dateRangeOptionPresets,
+      filterType: "string",
+      toFilterEntry: stringOrFilterEntry,
+      isOrFilter: true,
+      filterPlaceholder: "e.g. 2020-06..2020-07-21",
+    },
+    {
+      label: t("cases_visual.age"),
+      realFieldName: "age_num",
+      filterType: "string",
+      options: [],
+      toFilterEntry: stringOrFilterEntry,
+      isOrFilter: true,
+      filterPlaceholder: "e.g. 10..20,>60,>=50",
+    },
+    {
+      label: t("cases_visual.gender"),
+      realFieldName: "gender",
+      options: [
+        {
+          value: "M",
+          label: t("dashboard.gender_M"),
+        },
+        {
+          value: "F",
+          label: t("dashboard.gender_F"),
+        },
+      ],
+      toFilterEntry,
     },
   ]
 
@@ -217,10 +336,6 @@ const CasesPage = props => {
   let preloadedCases = cases.length - parseInt(selectedCase) + 1
   if (isNaN(preloadedCases)) {
     preloadedCases = 15
-  }
-
-  const listFilteredHandler = list => {
-    setFilteredCases(list)
   }
 
   const renderCaseCard = node => (
@@ -416,12 +531,15 @@ const CasesPage = props => {
       <PageContent>
         <ConfirmedCasesSummary />
         {view === CASES_BOX_VIEW && <Legend />}
-        <MultiPurposeSearch
-          list={data.allWarsCase.edges}
+        <Typography variant="h5" style={{ marginTop: 16 }}>
+          {t("cases.filters")}
+        </Typography>
+        <TagStyleFilter
+          list={cases}
           placeholder={t("search.case_placeholder")}
           options={options}
           searchKey="case"
-          onListFiltered={listFilteredHandler}
+          onListFiltered={setFilteredCases}
           filterWithOr={false}
         />
         {view === CASES_BOX_VIEW && (
