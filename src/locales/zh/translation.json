@@ -118,6 +118,7 @@
   "cases.title": "個案",
   "cases.filters": "篩選條件",
   "cases.filters_last_n_days": "最近{{n}}日",
+  "cases.filters_previous_n_days": "對上{{n}}日",
   "cases.filters_this_month": "月初至今",
   "cases.filters_previous_month": "上個月",
   "cases.filter_results": "{{count}}宗個案",

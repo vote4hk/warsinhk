@@ -14,12 +14,11 @@ import loopbackFilters from "loopback-filters"
 const OptionTag = ({
   label,
   options,
+  orderOptionsByFilterCount,
   filters,
   field,
   setOption,
   clearFilter,
-  filteredList,
-  toFilterEntry,
   filterType = "options",
   filterPlaceholder = "",
   getFilterCount,
@@ -79,7 +78,9 @@ const OptionTag = ({
               field,
               count: getFilterCount({ [field]: option.value }, filterExists),
             }))
-            .sort((a, b) => b.count - a.count)
+            .sort(
+              orderOptionsByFilterCount ? (a, b) => b.count - a.count : () => 0
+            )
             .map((option, index) => (
               <form key={index}>
                 <MenuItem
@@ -242,6 +243,7 @@ TagStyledFilter.propTypes = {
           field: PropTypes.string.isRequired,
         }).isRequired
       ).isRequired,
+      orderOptionsByFilterCount:PropTypes.bool,
     }).isRequired
   ).isRequired,
   onListFiltered: PropTypes.func.isRequired,

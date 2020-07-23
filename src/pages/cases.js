@@ -228,14 +228,28 @@ const CasesPage = props => {
     {
       label: t("cases.filters_last_n_days", { n: 7 }),
       value: `${moment()
-        .subtract(7, "day")
+        .subtract(6, "day")
         .format("YYYY-MM-DD")}..${moment().format(`YYYY-MM-DD`)}`,
+    },
+    {
+      label: t("cases.filters_previous_n_days", { n: 7 }),
+      value: `${moment()
+        .subtract(13, "day")
+        .format("YYYY-MM-DD")}..${moment()
+        .subtract(7, "day")
+        .format(`YYYY-MM-DD`)}`,
     },
     {
       label: t("cases.filters_last_n_days", { n: 14 }),
       value: `${moment()
-        .subtract(14, "day")
+        .subtract(13, "day")
         .format("YYYY-MM-DD")}..${moment().format(`YYYY-MM-DD`)}`,
+    },
+    {
+      label: t("cases.filters_previous_n_days", { n: 14 }),
+      value: `${moment()
+        .subtract(27, "day")
+        .format("YYYY-MM-DD")}..${moment().subtract(14, "day").format(`YYYY-MM-DD`)}`,
     },
     {
       label: t("cases.filters_this_month"),
@@ -252,6 +266,7 @@ const CasesPage = props => {
     {
       label: t("search.group"),
       options: createDedupArrayOptions(i18n, cases, "group_name"),
+      orderOptionsByFilterCount: true,
       realFieldName: "group_name_" + i18n.language,
       toFilterEntry,
     },
@@ -264,12 +279,14 @@ const CasesPage = props => {
     {
       label: t("search.citizenship"),
       options: createDedupOptions(i18n, cases, "citizenship"),
+      orderOptionsByFilterCount: true,
       realFieldName: "citizenship_" + i18n.language,
       toFilterEntry,
     },
     {
       label: t("search.case_status"),
       options: createDedupOptions(i18n, cases, "status"),
+      orderOptionsByFilterCount: true,
       realFieldName: "status_" + i18n.language,
       toFilterEntry,
     },
@@ -300,7 +317,10 @@ const CasesPage = props => {
     {
       label: t("dashboard.patient_onset_date"),
       realFieldName: "onset_date",
-      options: dateRangeOptionPresets,
+      options: [
+        { label: t("cases.status_asymptomatic"), value: "asymptomatic,none" },
+        ...dateRangeOptionPresets,
+      ],
       filterType: "string",
       toFilterEntry: stringOrFilterEntry,
       isOrFilter: true,
