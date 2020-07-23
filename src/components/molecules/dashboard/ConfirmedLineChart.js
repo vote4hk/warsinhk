@@ -3,8 +3,6 @@ import { useTranslation } from "react-i18next"
 import { useStaticQuery, graphql } from "gatsby"
 import SimpleLineChart from "@/components/charts/SimpleLineChart"
 import Typography from "@material-ui/core/Typography"
-import { withLanguage } from "@/utils/i18n"
-import _get from "lodash.get"
 
 export default props => {
   const data = useStaticQuery(
@@ -23,6 +21,10 @@ export default props => {
               investigating
               death
               reported
+              bed_number
+              bed_percent
+              room_number
+              room_percent
             }
           }
         }
@@ -31,23 +33,10 @@ export default props => {
         ) {
           totalCount
         }
-        allSiteConfig(
-          filter: {
-            key: { in: ["isolation_beds.helmet", "isolation_beds.count"] }
-          }
-        ) {
-          edges {
-            node {
-              key
-              value_zh
-              value_en
-            }
-          }
-        }
       }
     `
   )
-  const { i18n, t } = useTranslation()
+  const { t } = useTranslation()
 
   const getDataForChart = ({ node }) => {
     const chartData = {
@@ -68,24 +57,25 @@ export default props => {
     }
   }
 
-  const isolationBedCount = _get(
-    data.allSiteConfig.edges.find(
-      ({ node }) => node.key === "isolation_beds.count"
-    ),
-    "node.value_zh",
-    "0"
-  )
-  const isolationText = withLanguage(
-    i18n,
-    _get(
-      data.allSiteConfig.edges.find(
-        ({ node }) => node.key === "isolation_beds.helmet"
-      ),
-      "node",
-      {}
-    ),
-    "value"
-  )
+  const isolationBed = () => {
+    const { node: item } = data.dailyFigures.edges.find(e => e.node.bed_number)
+
+    return {
+      date: item.date,
+      bedCount: Number(item.bed_number),
+      bedPercent: item.bed_percent,
+      roomCount: Number(item.room_number),
+      roomPercent: item.room_percent,
+    }
+  }
+
+  const isolationText = t("isolation_beds.helmet", {
+    date: isolationBed().date,
+    bedPercent: isolationBed().bedPercent,
+    roomCount: isolationBed().roomCount,
+    roomPercent: isolationBed().roomPercent,
+  })
+
   return (
     <>
       <Typography variant="body2">*{isolationText}</Typography>
@@ -98,8 +88,10 @@ export default props => {
             {
               color: "#ff574f",
               "stroke-dasharray": "5, 2",
-              legend: `${t("cases.isolation_bed")}${isolationBedCount}`,
-              value: isolationBedCount,
+              legend: t("cases.isolation_bed", {
+                bedCount: isolationBed().bedCount,
+              }),
+              value: isolationBed().bedCount,
             },
           ],
           datasets: [

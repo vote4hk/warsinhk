@@ -123,7 +123,7 @@
   "cases.filters_previous_month": "上個月",
   "cases.filter_results": "{{count}}宗個案",
   "cases.filter_results_plural": "{{count}}宗個案",
-  "cases.isolation_bed": "負壓病床總數: ",
+  "cases.isolation_bed": "負壓病床總數：{{ bedCount }}",
   "cases_visual.legendTitle": "確診宗數",
   "cases_visual.distribution": "18區確診個案分布",
   "cases_visual.gender": "性別",
@@ -245,5 +245,6 @@
   "epidemic.local_close_contact": "本地個案的密切接觸者",
   "epidemic.local_possibly": "可能本地個案",
   "epidemic.local_possibly_close_contact": "可能本地個案的密切接觸者",
-  "epidemic.remarks": "無病徵個案並未在流行曲線中顯示，資料來源：衞生防護中心。"
+  "epidemic.remarks": "無病徵個案並未在流行曲線中顯示，資料來源：衞生防護中心。",
+  "isolation_beds.helmet": "醫管局指，截至 {{ date }}，公院負壓隔離病床使用率為 {{ bedPercent }}%，部分病床屬深切治療部及兒科病房。負壓隔離病房則有 {{ roomCount }} 間，使用率為 {{ roomPercent }}%。"
 }

@@ -123,7 +123,7 @@
   "cases.filters_previous_month": "Previous month",
   "cases.filter_results": "{{count}} case",
   "cases.filter_results_plural": "{{count}} cases",
-  "cases.isolation_bed": "Total # of Isolation Beds: ",
+  "cases.isolation_bed": "Number of isolation beds: {{ bedCount }}",
   "cases_visual.legendTitle": "No. cases",
   "cases_visual.distribution": "Confirmed cases in 18 districts",
   "cases_visual.gender": "Gender",
@@ -238,5 +238,6 @@
   "epidemic.local_close_contact": "Close contact of local case",
   "epidemic.local_possibly": "Possibly local",
   "epidemic.local_possibly_close_contact": "Close contact of possibly local case",
-  "epidemic.remarks": "Asymptomatic cases are not shown in this epidemic curve, source: CHP"
+  "epidemic.remarks": "Asymptomatic cases are not shown in this epidemic curve, source: CHP",
+  "isolation_beds.helmet": "The Hospital Authority said, as of {{ date }}, the utilization rate of isolation beds is {{ bedPercent }}%, while some beds belong to ICU and pediatric ward. Also, there are {{ roomCount }} isolation wards, with utilization rate of {{ roomPercent }}%。"
 }
