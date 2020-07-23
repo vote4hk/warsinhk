@@ -118,6 +118,7 @@
   "cases.title": "Cases",
   "cases.filters": "Filters",
   "cases.filters_last_n_days": "Last {{n}} days",
+  "cases.filters_previous_n_days": "Previous {{n}}-day window",
   "cases.filters_this_month": "This month",
   "cases.filters_previous_month": "Previous month",
   "cases.filter_results": "{{count}} case",
