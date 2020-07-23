@@ -273,6 +273,7 @@ const CasesPage = props => {
     {
       label: t("search.classification"),
       options: createDedupOptions(i18n, cases, "classification"),
+      orderOptionsByFilterCount: true,
       realFieldName: "classification_" + i18n.language,
       toFilterEntry,
     },
@@ -293,6 +294,7 @@ const CasesPage = props => {
     {
       label: t("search.hospital"),
       options: createDedupOptions(i18n, cases, "hospital"),
+      orderOptionsByFilterCount: true,
       realFieldName: "hospital_" + i18n.language,
       toFilterEntry,
     },
