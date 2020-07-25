@@ -170,11 +170,14 @@ const CasesPage = props => {
       "related_cases",
     ]
     groupKeys.forEach(k => {
-      node[`group_${k}`] = _get(
-        groupArray.find(g => parseInt(g.case_no) === parseInt(node.case_no)),
-        k,
-        null
-      )
+      node.groups = []
+      groupArray
+        .filter(g => parseInt(g.case_no) === parseInt(node.case_no))
+        .forEach(g => {
+          const groupDetail = {}
+          groupDetail[k] = _get(g, k, null)
+          node.groups.push(g)
+        })
     })
   })
 
@@ -249,7 +252,9 @@ const CasesPage = props => {
       label: t("cases.filters_previous_n_days", { n: 14 }),
       value: `${moment()
         .subtract(27, "day")
-        .format("YYYY-MM-DD")}..${moment().subtract(14, "day").format(`YYYY-MM-DD`)}`,
+        .format("YYYY-MM-DD")}..${moment()
+        .subtract(14, "day")
+        .format(`YYYY-MM-DD`)}`,
     },
     {
       label: t("cases.filters_this_month"),
@@ -265,7 +270,7 @@ const CasesPage = props => {
   const options = [
     {
       label: t("search.group"),
-      options: createDedupArrayOptions(i18n, cases, "group_name"),
+      options: createDedupArrayOptions(i18n, cases, "groups", "name"),
       orderOptionsByFilterCount: true,
       realFieldName: "group_name_" + i18n.language,
       toFilterEntry,

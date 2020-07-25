@@ -42,9 +42,13 @@ export const createDedupOptions = (
   }
 }
 
-export const createDedupArrayOptions = (i18n, edges, field) => {
+export const createDedupArrayOptions = (i18n, edges, field, fieldName) => {
   return _uniq(
-    _flatten(edges.map(({ node }) => withLanguage(i18n, node, field)))
+    _flatten(
+      edges.map(({ node }) =>
+        node[field].map(nodeField => withLanguage(i18n, nodeField, fieldName))
+      )
+    )
   )
     .filter(v => v !== "#N/A" && v !== "-" && v !== "")
     .map(v => ({
