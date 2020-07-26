@@ -10,6 +10,7 @@ import DoneIcon from "@material-ui/icons/Done"
 import omit from "lodash/omit"
 import TextField from "@material-ui/core/TextField"
 import * as lbFilter from "my-loopback-filter"
+import { useTranslation } from "react-i18next"
 
 const OptionTag = ({
   label,
@@ -22,7 +23,9 @@ const OptionTag = ({
   filterType = "options",
   filterPlaceholder = "",
   getFilterCount,
+  resetFilters,
 }) => {
+  const { t } = useTranslation()
   const [menuOpen, setMenuOpen] = useState(false)
   const elementRef = useRef()
   const inputRef = useRef()
@@ -33,6 +36,16 @@ const OptionTag = ({
   const openMenu = () => setMenuOpen(true)
   const closeMenu = () => setMenuOpen(false)
   const filterExists = Boolean(filters[field])
+  const displayingOptions = options
+    .map(option => ({
+      ...option,
+      field,
+      count: getFilterCount({ [field]: option.value }, filterExists),
+    }))
+    .sort(orderOptionsByFilterCount ? (a, b) => b.count - a.count : () => 0)
+    .filter(option => (orderOptionsByFilterCount ? option.count > 0 : 1))
+  const displayEmptyMessage =
+    displayingOptions.length === 0 && options.length > 0
   return (
     <div
       style={{ display: "inline-block", marginRight: "1em" }}
@@ -72,17 +85,19 @@ const OptionTag = ({
               </ListItem>
             </form>
           )}
-          {options
-            .map(option => ({
-              ...option,
-              field,
-              count: getFilterCount({ [field]: option.value }, filterExists),
-            }))
-            .sort(
-              orderOptionsByFilterCount ? (a, b) => b.count - a.count : () => 0
-            )
-            .filter(option => option.count > 0)
-            .map((option, index) => (
+          {displayEmptyMessage ? (
+            <MenuItem color="secondary" onClick={resetFilters}>
+              <div
+                style={{
+                  color: "#1a237e",
+                  fontWeight: 700,
+                }}
+              >
+                {t("cases.filters_clear")}
+              </div>
+            </MenuItem>
+          ) : (
+            displayingOptions.map((option, index) => (
               <form key={index}>
                 <MenuItem
                   key={option.value}
@@ -115,7 +130,8 @@ const OptionTag = ({
                   </div>
                 </MenuItem>
               </form>
-            ))}
+            ))
+          )}
         </Menu>
       )}
     </div>
@@ -126,7 +142,8 @@ const TagStyledFilter = props => {
   const { options, list, onListFiltered } = props
   const [orderedItemSym] = useState(Symbol("order"))
   const [filteredList, setFilteredList] = useState(list)
-  const [filters, setFilters] = useState({ [orderedItemSym]: [] })
+  const initialFiltersState = { [orderedItemSym]: [] }
+  const [filters, setFilters] = useState(initialFiltersState)
   const getWhereFilter = newFilters => {
     const andFilters = options
       .filter(i => !i.isOrFilter)
@@ -186,6 +203,9 @@ const TagStyledFilter = props => {
     }
     applyFilter(newFilter)
   }
+  const resetFilters = () => {
+    applyFilter(initialFiltersState)
+  }
   return (
     <React.Fragment>
       <div style={{ marginTop: "1em", lineHeight: 2 }}>
@@ -201,6 +221,7 @@ const TagStyledFilter = props => {
             filteredList={filteredList}
             filterType={option.filterType}
             getFilterCount={getFilterCount}
+            resetFilters={resetFilters}
           />
         ))}
       </div>

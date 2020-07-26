@@ -120,6 +120,7 @@
   "case.case_no": "Case #{{case_no}}",
   "cases.title": "Cases",
   "cases.filters": "Filters",
+  "cases.filters_clear": "No applicable option, Click to Reset Filters",
   "cases.filters_last_n_days": "Last {{n}} days",
   "cases.filters_previous_n_days": "Previous {{n}}-day window",
   "cases.filters_this_month": "This month",
