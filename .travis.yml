@@ -77,6 +77,7 @@ jobs:
           email: bot@vote4.hk
           target_branch: gh-pages
           local-dir: public # the local dir is relative to root and ignoring the one set with before_install
-          # on:
-          #   branch: 
-          #     - dev
+          on:
+            branch: 
+              - dev
+              - feat/*
