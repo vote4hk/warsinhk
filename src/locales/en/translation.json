@@ -15,6 +15,7 @@
   "dodgy_shops.last_updated": "Last update: {{date}}",
   "dodgy_shops.category_dubious": "Dubious",
   "dodgy_shops.find_mask": "Find masks",
+  "dodgy_shops.stop_update": "Due to the steady supply of hygiene products, we have stopped updating this page. Information below is for reference only.",
   "dodgy_shops.disclaimer": "The following information on dubious pharmacies is an amalgamation of netizen reports. Note that due to the increased demand for medical supplies worldwide, the cost of medical supplies has gone up as well; pharmacies that simply sell legitimate medical supplies at higher prices are not necessarily dubious. We recommend paying more attention to stores that sell defective products (e.g. used or low-quality masks, diluted rubbing alcohol, etc.) over stores that simply price-gouge. If you have any further issues, please consider contacting the Hong Kong Consumer Council.",
   "high_risk.title": "High-Risk Areas",
   "high_risk.source": "Source: {{source}}",

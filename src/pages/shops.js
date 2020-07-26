@@ -24,6 +24,7 @@ import { ResponsiveWrapper } from "@components/atoms/ResponsiveWrapper"
 import MultiPurposeSearch from "../components/molecules/MultiPurposeSearch"
 import { PageContent } from "../components/atoms/Container"
 import { Paragraph } from "@components/atoms/Text"
+import Alert from "@material-ui/lab/Alert"
 
 const FabContainer = styled(Box)`
   && {
@@ -207,6 +208,14 @@ const ShopsPage = props => {
             <BasicFab title={t("dodgy_shops.find_mask")} icon="search" />
           </Link> */}
         </FabContainer>
+        <Alert
+          style={{
+            marginBottom: 16,
+          }}
+          severity="error"
+        >
+          {t("dodgy_shops.stop_update")}
+        </Alert>
         <Typography variant="h2">{t("dodgy_shops.list_text")}</Typography>
         <PageContent>
           <Paragraph>{t("dodgy_shops.disclaimer")}</Paragraph>
