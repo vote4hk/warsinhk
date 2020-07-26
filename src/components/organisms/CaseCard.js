@@ -249,8 +249,6 @@ export const WarsCaseCard = React.forwardRef((props, ref) => {
   const hospitalText = withLanguage(i18n, node, "hospital")
   const citizenshipText = withLanguage(i18n, node, "citizenship")
 
-  const groupName = withLanguage(i18n, node, "group_name")
-  const groupDescriptionName = withLanguage(i18n, node, "group_description")
   const dateFormat = /\d{4}-\d{2}-\d{2}/g
   return (
     <CaseCard
@@ -350,25 +348,40 @@ export const WarsCaseCard = React.forwardRef((props, ref) => {
             </Typography>
           </Box>
         </Row>
-        {groupName && (
+        {node.groups && node.groups.length > 0 && (
           <Row className="group">
             <Box>
               <label>{t("dashboard.group_name")}</label>
               <Typography variant="body1">
-                {groupName}
-                {groupDescriptionName && (
-                  <DefaultTooltip
-                    title={<>{groupDescriptionName}</>}
-                    enterTouchDelay={10}
-                    leaveTouchDelay={5000}
-                    interactive
-                  >
-                    <HelpOutlineRoundedIcon
-                      fontSize="inherit"
-                      className="question_mark"
-                    />
-                  </DefaultTooltip>
-                )}
+                {node.groups.map((group, i) => {
+                  const groupName = withLanguage(i18n, group, "name")
+                  const groupDescriptionName = withLanguage(
+                    i18n,
+                    group,
+                    "description"
+                  )
+                  return (
+                    <span key={groupName} variant="body1">
+                      {groupName}
+                      {groupDescriptionName && (
+                        <DefaultTooltip
+                          title={<>{groupDescriptionName}</>}
+                          enterTouchDelay={10}
+                          leaveTouchDelay={5000}
+                          interactive
+                        >
+                          <HelpOutlineRoundedIcon
+                            fontSize="inherit"
+                            className="question_mark"
+                          />
+                        </DefaultTooltip>
+                      )}
+                      {node.groups.length > 1 &&
+                        i !== node.groups.length - 1 &&
+                        "／"}
+                    </span>
+                  )
+                })}
               </Typography>
             </Box>
           </Row>

@@ -732,11 +732,14 @@ exports.createPages = async ({ graphql, actions }) => {
         "related_cases",
       ]
       groupKeys.forEach(k => {
-        node[`group_${k}`] = _get(
-          groupArray.find(g => parseInt(g.case_no) === parseInt(node.case_no)),
-          k,
-          null
-        )
+        node.groups = []
+        groupArray
+          .filter(g => parseInt(g.case_no) === parseInt(node.case_no))
+          .forEach(g => {
+            const groupDetail = {}
+            groupDetail[k] = _get(g, k, null)
+            node.groups.push(g)
+          })
       })
 
       actions.createPage({
