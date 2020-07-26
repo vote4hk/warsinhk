@@ -17,7 +17,11 @@ import _groupBy from "lodash/groupBy"
 import DatePicker from "@/components/organisms/DatePicker"
 import Theme from "@/ui/theme"
 import { trackCustomEvent } from "gatsby-plugin-google-analytics"
-import { createDedupOptions, filterByDate } from "@/utils/search"
+import {
+  createDedupOptions,
+  filterByDate,
+  calculatePastNdays,
+} from "@/utils/search"
 import MultiPurposeSearch from "../components/molecules/MultiPurposeSearch"
 import { grey } from "@material-ui/core/colors"
 import { formatDateMDD, isSSR } from "@/utils"
@@ -239,14 +243,6 @@ const HighRiskPage = ({ data }) => {
 
   const withinBoderFilter = ({ node }) => node.sub_district_zh !== "境外"
 
-  const nowTimeStamp = new Date()
-  const calculatePass14day = ({ case_no, end_date }) => {
-    const endDateTimeStamp = +new Date(end_date)
-    const daysToExpire = case_no !== "-" ? 14 : 0
-    if (Number.isNaN(endDateTimeStamp)) return false
-    return nowTimeStamp - endDateTimeStamp > 86400 * 1000 * daysToExpire
-  }
-
   const mapPinType = item => {
     switch (item.type) {
       case "self":
@@ -266,7 +262,13 @@ const HighRiskPage = ({ data }) => {
           ...item,
           start_date: item.start_date === "Invalid date" ? "" : item.start_date,
           end_date,
-          pass14days: calculatePass14day(item),
+          pass14days: calculatePastNdays(
+            {
+              case_no: item.case_no,
+              date: item.end_date,
+            },
+            14
+          ),
           pinType: mapPinType(item),
         }
       }),

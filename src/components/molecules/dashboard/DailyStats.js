@@ -222,7 +222,7 @@ export default props => {
     const renderStats = props => {
       const { title, field, color, trend, value, columns = 12, index } = props
       return (
-        <Grid xs={columns} item>
+        <Grid xs={columns} item key={title}>
           <ChartContainer color={color} columns={columns} key={index}>
             <div className="title">{title}</div>
             <div className="figure">

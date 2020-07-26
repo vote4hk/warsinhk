@@ -104,6 +104,8 @@
   "dashboard.case_highlights_gender": "Case Highlights(By Gender)",
   "dashboard.case_highlights_age": "Case Highlights(By Age)",
   "dashboard.case_highlights_area": "Confirmed cases in 18 districts",
+  "dashboard.case_highlights_all": "All",
+  "dashboard.case_highlights_past14days": "Past 14 days",
   "dashboard.latest_cases": "New Cases",
   "dashboard.outbound_alert": "Outbound Alerts",
   "dashboard.carousel": "Related Informations",

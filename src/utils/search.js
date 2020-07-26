@@ -148,3 +148,10 @@ export const sortOptionsWithHistories = (options, histories) => {
     (a, b) => optionSortOrder(b, histories) - optionSortOrder(a, histories)
   )
 }
+
+export const calculatePastNdays = ({ case_no, date }, n = 14) => {
+  const endDateTimeStamp = +new Date(date)
+  const daysToExpire = case_no !== "-" ? 14 : 0
+  if (Number.isNaN(endDateTimeStamp)) return false
+  return new Date() - endDateTimeStamp > 86400 * 1000 * daysToExpire
+}

@@ -104,6 +104,8 @@
   "dashboard.case_highlights_gender": "確診個案概要(性別)",
   "dashboard.case_highlights_age": "確診個案概要(年齡)",
   "dashboard.case_highlights_area": "18區確診個案分布",
+  "dashboard.case_highlights_all": "全部",
+  "dashboard.case_highlights_past14days": "過往14天",
   "dashboard.latest_cases": "最新個案",
   "dashboard.outbound_alert": "離港警示",
   "dashboard.carousel": "相關資訊",

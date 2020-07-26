@@ -96,11 +96,9 @@ export class HK18DistrictChart extends React.Component {
     const getDescriptionByDistrictName = this.props.getDescriptionByDistrictName
     const tooltip = this.tooltip
     const d3DistrictPathNode = svg
-      .selectAll("path")
-      .remove()
+      .selectAll("g")
       .data(hk18DistrictGeoJson.features)
-      .enter()
-      .append("g")
+      .join("g")
       .attr("class", "hk-district-map-district")
       .attr("data-district-name-tc", datum => datum.properties.TCNAME)
       .append("path")
@@ -155,9 +153,10 @@ export class HK18DistrictChart extends React.Component {
     this.updateGraph()
   }
   componentDidUpdate(prevProps, prevState) {
-    if (prevProps.entries !== this.props.entries && this.svgContainer)
+    if (prevProps.scale !== this.props.scale && this.svgContainer)
       this.updateGraph()
   }
+
   componentWillUnmount() {
     this.tooltip.remove()
   }

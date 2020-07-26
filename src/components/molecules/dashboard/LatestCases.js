@@ -53,9 +53,9 @@ export default function ConfirmedCaseVisual(props) {
   // since useStateQuery cannot pass variables, hence we do the filtering here
   return (
     <>
-      {latestCases.map((item, index) => (
+      {latestCases.map(item => (
         <WarsCaseCard
-          key={index}
+          key={item.node.case_no}
           node={item.node}
           showViewMore={true}
           i18n={i18n}
