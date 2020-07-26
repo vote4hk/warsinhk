@@ -5,7 +5,7 @@ import { useStaticQuery, graphql } from "gatsby"
 import styled from "styled-components"
 import DistrictsChart from "@/components/charts/18Districts"
 import capitalize from "lodash/capitalize"
-import * as lbFilter from "my-loopback-filters"
+import * as lbFilter from "my-loopback-filter"
 const MapCard = styled.div``
 export default function ConfirmedCaseVisual(props) {
   const { i18n, t } = useTranslation()
