@@ -120,6 +120,7 @@
   "case.case_no": "個案 #{{case_no}}",
   "cases.title": "個案",
   "cases.filters": "篩選條件",
+  "cases.filters_clear": "無可用選項，重置篩選條件",
   "cases.filters_last_n_days": "最近{{n}}日",
   "cases.filters_previous_n_days": "對上{{n}}日",
   "cases.filters_this_month": "月初至今",
