@@ -26,60 +26,57 @@ jobs:
     - stage: deploy
       script: skip
       deploy:
-        provider: pages
-        skip-cleanup: true
-        # In case pushing to different repo
-        repo: vote4hk/wars.vote4.hk
-        # In case you need to setup custom domain
-        fqdn: wars.vote4.hk
-        github-token: $GITHUB_TOKEN  # Set in the settings page of your repository, as a secure variable
-        # Keep previous build files, true to support PWA
-        keep-history: true
-        committer_from_gh: false
-        name: "Deploy BOT"
-        email: bot@vote4.hk
-        target_branch: gh-pages
-        local-dir: public # the local dir is relative to root and ignoring the one set with before_install
-        on:
-          branch: 
-            - master
-    - stage: deploy
-      script: skip
-      deploy:
-        provider: pages
-        skip-cleanup: true
-        # In case pushing to different repo
-        repo: vote4hk/covid19.vote4.hk
-        # In case you need to setup custom domain
-        fqdn: covid19.vote4.hk
-        github-token: $GITHUB_TOKEN  # Set in the settings page of your repository, as a secure variable
-        # Keep previous build files, true to support PWA
-        keep-history: true
-        committer_from_gh: false
-        name: "Deploy BOT"
-        email: bot@vote4.hk
-        target_branch: gh-pages
-        local-dir: public # the local dir is relative to root and ignoring the one set with before_install
-        on:
-          branch: 
-            - master
-    - stage: deploy
-      script: skip
-      deploy:
-        provider: pages
-        skip-cleanup: true
-        # In case pushing to different repo
-        repo: vote4hk/wars-dev.vote4.hk
-        # In case you need to setup custom domain
-        fqdn: wars-dev.vote4.hk
-        github-token: $GITHUB_TOKEN  # Set in the settings page of your repository, as a secure variable
-        # Keep previous build files, true to support PWA
-        keep-history: true
-        committer_from_gh: false
-        name: "Deploy BOT"
-        email: bot@vote4.hk
-        target_branch: gh-pages
-        local-dir: public # the local dir is relative to root and ignoring the one set with before_install
-        # on:
-        #   branch: 
-        #     - dev
+        # deploy to wars.vote4.hk
+        - provider: pages
+          skip-cleanup: true
+          # In case pushing to different repo
+          repo: vote4hk/wars.vote4.hk
+          # In case you need to setup custom domain
+          fqdn: wars.vote4.hk
+          github-token: $GITHUB_TOKEN  # Set in the settings page of your repository, as a secure variable
+          # Keep previous build files, true to support PWA
+          keep-history: true
+          committer_from_gh: false
+          name: "Deploy BOT"
+          email: bot@vote4.hk
+          target_branch: gh-pages
+          local-dir: public # the local dir is relative to root and ignoring the one set with before_install
+          on:
+            branch: 
+              - master
+        # deploy to covid19.vote4.hk
+        - provider: pages
+          skip-cleanup: true
+          # In case pushing to different repo
+          repo: vote4hk/covid19.vote4.hk
+          # In case you need to setup custom domain
+          fqdn: covid19.vote4.hk
+          github-token: $GITHUB_TOKEN  # Set in the settings page of your repository, as a secure variable
+          # Keep previous build files, true to support PWA
+          keep-history: true
+          committer_from_gh: false
+          name: "Deploy BOT"
+          email: bot@vote4.hk
+          target_branch: gh-pages
+          local-dir: public # the local dir is relative to root and ignoring the one set with before_install
+          on:
+            branch: 
+              - master
+        # deploy to wars-dev.vote4.hk
+        - provider: pages
+          skip-cleanup: true
+          # In case pushing to different repo
+          repo: vote4hk/wars-dev.vote4.hk
+          # In case you need to setup custom domain
+          fqdn: wars-dev.vote4.hk
+          github-token: $GITHUB_TOKEN  # Set in the settings page of your repository, as a secure variable
+          # Keep previous build files, true to support PWA
+          keep-history: true
+          committer_from_gh: false
+          name: "Deploy BOT"
+          email: bot@vote4.hk
+          target_branch: gh-pages
+          local-dir: public # the local dir is relative to root and ignoring the one set with before_install
+          # on:
+          #   branch: 
+          #     - dev
