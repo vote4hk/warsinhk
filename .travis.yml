@@ -15,13 +15,13 @@ stages:
   - build
   - deploy
 
-before_install:
-  - yarn install --production
+install: skip 
 
 jobs:
   include:
     - stage: build
-      script: 
+      script:
+        - yarn install --production
         - yarn build
     - stage: deploy
       script: skip
