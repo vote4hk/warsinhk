@@ -6,10 +6,10 @@ cache:
   yarn: true
   npm: true
 
-# branches:
-#   only:
-#     - master
-#     - dev
+branches:
+  only:
+    - master
+    - dev
 
 stages:  
   - build
@@ -80,4 +80,3 @@ jobs:
           on:
             branch: 
               - dev
-              - feat/*
