@@ -6,23 +6,29 @@ cache:
   yarn: true
   npm: true
 
-branches:
-  only:
-    - master
-    - dev
+# branches:
+#   only:
+#     - master
+#     - dev
+
+stages:  
+  - test
+  - build
+  - deploy
 
 before_install:
   - yarn install
 
 jobs:
   include:
-    # disable for faster build
-    # - stage: test
-    #   script:
-    #     - yarn lint        
-    - stage: deploy
-      script:
+    - stage: build
+      script: 
         - yarn build
+    - stage: test
+      script:
+        - yarn lint
+    - stage: deploy
+      script: skip
       deploy:
         provider: pages
         skip-cleanup: true
@@ -42,8 +48,7 @@ jobs:
           branch: 
             - master
     - stage: deploy
-      script:
-        - yarn build
+      script: skip
       deploy:
         provider: pages
         skip-cleanup: true
@@ -63,8 +68,7 @@ jobs:
           branch: 
             - master
     - stage: deploy
-      script:
-        - yarn build
+      script: skip
       deploy:
         provider: pages
         skip-cleanup: true
@@ -80,6 +84,6 @@ jobs:
         email: bot@vote4.hk
         target_branch: gh-pages
         local-dir: public # the local dir is relative to root and ignoring the one set with before_install
-        on:
-          branch: 
-            - dev
+        # on:
+        #   branch: 
+        #     - dev
