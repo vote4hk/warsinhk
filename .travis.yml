@@ -12,21 +12,17 @@ cache:
 #     - dev
 
 stages:  
-  - test
   - build
   - deploy
 
 before_install:
-  - yarn install
+  - yarn install --production
 
 jobs:
   include:
     - stage: build
       script: 
         - yarn build
-    - stage: test
-      script:
-        - yarn lint
     - stage: deploy
       script: skip
       deploy:
