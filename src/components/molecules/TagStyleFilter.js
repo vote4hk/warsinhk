@@ -81,6 +81,7 @@ const OptionTag = ({
             .sort(
               orderOptionsByFilterCount ? (a, b) => b.count - a.count : () => 0
             )
+            .filter(option => option.count > 0)
             .map((option, index) => (
               <form key={index}>
                 <MenuItem
@@ -243,7 +244,7 @@ TagStyledFilter.propTypes = {
           field: PropTypes.string.isRequired,
         }).isRequired
       ).isRequired,
-      orderOptionsByFilterCount:PropTypes.bool,
+      orderOptionsByFilterCount: PropTypes.bool,
     }).isRequired
   ).isRequired,
   onListFiltered: PropTypes.func.isRequired,
