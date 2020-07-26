@@ -399,6 +399,7 @@ class HighRiskMap extends Component {
     this.initIcons()
     this.initMarkerMappings()
     this.initMap()
+
     const pixiLayer = this.initPixiOverlay()
     pixiLayer.addTo(this.map)
     this.map.on("moveend", () => this.pixiLayer.redraw())
@@ -409,6 +410,25 @@ class HighRiskMap extends Component {
       ReactDom.createPortal(children, this.popupContainer)
 
     this.updateLocationMarkers(this.props.filteredLocations)
+
+    const layer = new L.geoJSON()
+    this.map.addLayer(layer).bringToBack()
+    this.currentPositionLayer = layer
+
+    // get my current lat/lng
+    navigator.geolocation.getCurrentPosition(
+      loc => {
+        this.myLocationUpdated(loc.coords.latitude, loc.coords.longitude)
+      },
+      err => {
+        // if cannot fetch the current position of the user
+        // just hide the current pos marker?
+      },
+      {
+        enableHighAccuracy: true,
+        timeout: 5000,
+      }
+    )
   }
 
   static getDerivedStateFromProps(props, state) {
@@ -431,6 +451,23 @@ class HighRiskMap extends Component {
       this.setState({ showDatePicker: false })
     }
     return null
+  }
+
+  myLocationUpdated(lat, lng) {
+    console.log("lat lng updated." + lat)
+    this.map.setZoomAround(L.latLng(lat, lng), 15)
+
+    L.circle([lat, lng], 500, {
+      fill: true,
+      fillColor: "#F00",
+      fillOpacity: 1.0,
+      interactive: true,
+    })
+      .addTo(this.currentPositionLayer)
+      .on("click", evt => {
+        console.log("clicked")
+      })
+    this.currentPositionLayer.bringToFront()
   }
 
   componentDidUpdate(prevProps, prevState) {
