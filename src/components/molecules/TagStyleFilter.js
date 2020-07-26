@@ -9,7 +9,7 @@ import AddIcon from "@material-ui/icons/Add"
 import DoneIcon from "@material-ui/icons/Done"
 import omit from "lodash/omit"
 import TextField from "@material-ui/core/TextField"
-import loopbackFilters from "loopback-filters"
+import * as lbFilter from "my-loopback-filter"
 
 const OptionTag = ({
   label,
@@ -152,7 +152,7 @@ const TagStyledFilter = props => {
     }
   }
   const getFilterCount = (filter, active) => {
-    return loopbackFilters(active ? list : filteredList, {
+    return lbFilter.applyLoopbackFilter(active ? list : filteredList, {
       where: active
         ? getWhereFilter({ ...filters, ...filter })
         : getWhereFilter(filter),
@@ -160,7 +160,7 @@ const TagStyledFilter = props => {
   }
   const applyFilter = newFilters => {
     const where = getWhereFilter(newFilters)
-    const result = loopbackFilters(list, {
+    const result = lbFilter.applyLoopbackFilter(list, {
       where,
     })
     setFilters(newFilters)
@@ -243,7 +243,7 @@ TagStyledFilter.propTypes = {
           field: PropTypes.string.isRequired,
         }).isRequired
       ).isRequired,
-      orderOptionsByFilterCount:PropTypes.bool,
+      orderOptionsByFilterCount: PropTypes.bool,
     }).isRequired
   ).isRequired,
   onListFiltered: PropTypes.func.isRequired,

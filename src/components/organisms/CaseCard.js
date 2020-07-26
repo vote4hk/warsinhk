@@ -348,7 +348,7 @@ export const WarsCaseCard = React.forwardRef((props, ref) => {
             </Typography>
           </Box>
         </Row>
-        {!!node.groups.length && (
+        {node.groups && node.groups.length > 0 && (
           <Row className="group">
             <Box>
               <label>{t("dashboard.group_name")}</label>

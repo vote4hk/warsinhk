@@ -5,7 +5,7 @@ import { useStaticQuery, graphql } from "gatsby"
 import styled from "styled-components"
 import DistrictsChart from "@/components/charts/18Districts"
 import capitalize from "lodash/capitalize"
-import * as applyLoopbackFilter from "loopback-filters"
+import * as lbFilter from "my-loopback-filters"
 const MapCard = styled.div``
 export default function ConfirmedCaseVisual(props) {
   const { i18n, t } = useTranslation()
@@ -44,7 +44,7 @@ export default function ConfirmedCaseVisual(props) {
       }
     `
   )
-  const data = applyLoopbackFilter(citizenshipDistrict, {
+  const data = lbFilter.applyLoopbackFilter(citizenshipDistrict, {
     where: { fieldValue: { nin: ["不明", "境外", "香港"] } },
     order: "totalCount DESC",
   })

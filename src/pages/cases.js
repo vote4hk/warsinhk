@@ -1,7 +1,8 @@
-import React, { useState } from "react"
+import React, { useState, useMemo } from "react"
 import { useTranslation } from "react-i18next"
 import styled from "styled-components"
 import _get from "lodash.get"
+import _groupBy from "lodash/groupBy"
 import Typography from "@material-ui/core/Typography"
 import MenuItem from "@material-ui/core/MenuItem"
 
@@ -132,54 +133,47 @@ const CasesPage = props => {
       state: { view },
     },
   } = React.useContext(ContextStore)
+  const { i18n, t } = useTranslation()
 
   // Do the sorting here since case_no is string instead of int
-  const cases = data.allWarsCase.edges
-    .map(i => ({
-      node: { ...i.node, case_no_num: +i.node.case_no, age_num: +i.node.age },
-    }))
-    .sort((edge1, edge2) => {
-      const res = edge2.node.confirmation_date.localeCompare(
-        edge1.node.confirmation_date
-      )
-      if (res === 0) {
-        return parseInt(edge2.node.case_no) - parseInt(edge1.node.case_no)
-      }
-      return res
-    })
-
-  const groupArray = []
-  data.allWarsCaseRelation.edges.forEach(({ node }, id) => {
-    node.id = id + 1
-    node.case_no.split(",").forEach(nodeCase => {
-      groupArray.push({
-        ...node,
-        related_cases: node.case_no,
-        case_no: parseInt(nodeCase),
+  const [cases, groupArrayColumnOptions] = useMemo(() => {
+    const groupArray = data.allWarsCaseRelation.edges.flatMap(
+      ({ node }, index) =>
+        node.case_no.split`,`.map(nodeCase => ({
+          ...node,
+          id: index + 1,
+          related_cases: node.case_no,
+          case_no: +nodeCase,
+        }))
+    )
+    const groupArrayByCaseNo = _groupBy(groupArray, "case_no")
+    const groupArrayColumnOptions = data.allWarsCaseRelation.edges.map(
+      ({ node }, index) => ({
+        value: index + 1,
+        label: node[`name_${i18n.language}`],
       })
-    })
-  })
-
-  cases.forEach(({ node }) => {
-    const groupKeys = [
-      "name_zh",
-      "name_en",
-      "description_zh",
-      "description_en",
-      "id",
-      "related_cases",
-    ]
-    groupKeys.forEach(k => {
-      node.groups = []
-      groupArray
-        .filter(g => parseInt(g.case_no) === parseInt(node.case_no))
-        .forEach(g => {
-          const groupDetail = {}
-          groupDetail[k] = _get(g, k, null)
-          node.groups.push(g)
-        })
-    })
-  })
+    )
+    const cases = data.allWarsCase.edges
+      .map(i => ({
+        node: {
+          ...i.node,
+          case_no_num: +i.node.case_no,
+          age_num: +i.node.age,
+          groups: groupArrayByCaseNo[i.node.case_no] || [],
+          group_ids: (groupArrayByCaseNo[i.node.case_no] || []).map(i => i.id),
+        },
+      }))
+      .sort((edge1, edge2) => {
+        const res = edge2.node.confirmation_date.localeCompare(
+          edge1.node.confirmation_date
+        )
+        if (res === 0) {
+          return parseInt(edge2.node.case_no) - parseInt(edge1.node.case_no)
+        }
+        return res
+      })
+    return [cases, groupArrayColumnOptions]
+  }, [data, i18n.language])
 
   const [filteredCases, setFilteredCases] = useState(cases)
   const [selectedCase, setSelectedCase] = useState(null)
@@ -193,7 +187,6 @@ const CasesPage = props => {
 
   const [selectedGroupButton, setGroupButton] = useState(1)
 
-  const { i18n, t } = useTranslation()
   const toFilterEntry = ([key, value]) => [`node.${key}`, value]
   const parseToFilter = str => {
     if (/^[-A-Z0-9]+\.\.+[-A-Z0-9]+$/i.test(str))
@@ -270,9 +263,9 @@ const CasesPage = props => {
   const options = [
     {
       label: t("search.group"),
-      options: createDedupArrayOptions(i18n, cases, "groups", "name"),
+      options: groupArrayColumnOptions,
       orderOptionsByFilterCount: true,
-      realFieldName: "group_name_" + i18n.language,
+      realFieldName: "group_ids",
       toFilterEntry,
     },
     {

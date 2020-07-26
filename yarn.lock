@@ -12558,13 +12558,6 @@ longest@^1.0.0:
   resolved "https://registry.yarnpkg.com/longest/-/longest-1.0.1.tgz#30a0b2da38f73770e8294a0d22e6625ed77d0097"
   integrity sha1-MKCy2jj3N3DoKUoNIuZiXtd9AJc=
 
-loopback-filters@^1.1.0:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/loopback-filters/-/loopback-filters-1.1.0.tgz#2d13b6862185684bc41d2ca8d48918da9567cfa3"
-  integrity sha512-xsTdgi1lQHOIJcNc2yNIZvML8fl4Xuv8bHv7mKLn9VBcqyxwzXk1q5l2VfCgXnUSnuyk8DIOv2WZ1AaRz4ET7g==
-  dependencies:
-    debug "^3.1.0"
-
 loose-envify@^1.0.0, loose-envify@^1.1.0, loose-envify@^1.3.0, loose-envify@^1.4.0:
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/loose-envify/-/loose-envify-1.4.0.tgz#71ee51fa7be4caec1a63839f7e682d8132d30caf"
@@ -13251,6 +13244,11 @@ mute-stream@0.0.8, mute-stream@~0.0.4:
   version "0.0.8"
   resolved "https://registry.yarnpkg.com/mute-stream/-/mute-stream-0.0.8.tgz#1630c42b2251ff81e2a283de96a5497ea92e5e0d"
   integrity sha512-nnbWWOkoWyUsTjKrhgD0dcz22mdkSnpYqbEjIm2nhwhuxlSkpywJmBo8h0ZqJdkp73mb90SssHkN4rsRaBAfAA==
+
+my-loopback-filter@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/my-loopback-filter/-/my-loopback-filter-3.0.0.tgz#3bb10e2a89fe508e923bb0c3f093e52b7e81f20c"
+  integrity sha512-PFgLeQpJU4oh61hYNw9dnVX3seKQqGdF7AP91aSKpp+nodOI+1mDWqhPQ1NFY48QshyG/SakAyhTqu40ws8t3g==
 
 name-all-modules-plugin@^1.0.1:
   version "1.0.1"
