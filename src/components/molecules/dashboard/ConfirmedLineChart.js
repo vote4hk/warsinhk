@@ -38,7 +38,7 @@ export default props => {
   )
   const { t } = useTranslation()
 
-  const getDataForChart = ({ node }) => {
+  const getDataForChart = ({ node }, i) => {
     const chartData = {
       ...node,
     }
@@ -53,7 +53,7 @@ export default props => {
         chartData.confirmed -
         chartData.death -
         chartData.discharged -
-        (data.pendingAdmission.totalCount || 0),
+        ((i === 0 && data.pendingAdmission.totalCount) || 0),
     }
   }
 
@@ -101,7 +101,9 @@ export default props => {
                 color: "#ff574f",
                 // 'stroke-dasharray': '5, 2',
               },
-              data: data.dailyFigures.edges.map(getDataForChart).reverse(),
+              data: data.dailyFigures.edges
+                .map((e, i) => getDataForChart(e, i))
+                .reverse(),
             },
           ],
         }}
