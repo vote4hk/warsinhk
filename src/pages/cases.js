@@ -275,6 +275,13 @@ const CasesPage = props => {
       toFilterEntry,
     },
     {
+      label: t("search.district"),
+      options: createDedupOptions(i18n, cases, "citizenship_district"),
+      orderOptionsByFilterCount: true,
+      realFieldName: "citizenship_district_" + i18n.language,
+      toFilterEntry,
+    },
+    {
       label: t("search.citizenship"),
       options: createDedupOptions(i18n, cases, "citizenship"),
       orderOptionsByFilterCount: true,
@@ -636,6 +643,8 @@ export const CasesPageQuery = graphql`
           type_en
           citizenship_zh
           citizenship_en
+          citizenship_district_zh
+          citizenship_district_en
           detail_zh
           detail_en
           classification
