@@ -135,28 +135,6 @@ export default NewsPage
 
 export const GoogleNewsQuery = graphql`
   query {
-    allGoogleNews {
-      edges {
-        node {
-          gn_en {
-            title
-            link
-            source
-            isoDate
-            date
-            time
-          }
-          gn_zh {
-            title
-            link
-            source
-            isoDate
-            date
-            time
-          }
-        }
-      }
-    }
     allGovNews(sort: { order: DESC, fields: date }) {
       edges {
         node {

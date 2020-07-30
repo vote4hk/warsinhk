@@ -4,45 +4,6 @@
  */
 const Parser = require("rss-parser")
 
-const googleNewsParser = new Parser({
-  customFields: {
-    item: ["source"],
-  },
-})
-
-async function fetchGoogleNewsByLanguage(language) {
-  const { items: records } = await googleNewsParser.parseURL(
-    `https://news.google.com/rss/topics/CAAqJQgKIh9DQkFTRVFvSUwyMHZNR1J4T1hBU0JYcG9MVWhMS0FBUAE?hl=${language}`
-  )
-  return {
-    language,
-    records: records
-      .map(record => {
-        const datetime = record.isoDate.split("T")
-        return {
-          date: datetime[0],
-          time: datetime[1].slice(0, 8),
-          ...record,
-        }
-      })
-      .sort((a, b) =>
-        a.isoDate < b.isoDate ? 1 : a.isoDate > b.isoDate ? -1 : 0
-      ),
-  }
-}
-
-exports.fetchGoogleNews = async () => {
-  const languages = ["zh", "en"]
-  const records = await Promise.all(
-    languages.map(language => fetchGoogleNewsByLanguage(language))
-  )
-  const recordsProcessed = records.reduce((obj, { language, records }) => {
-    obj[`gn_${language}`] = records
-    return obj
-  }, {})
-  return { records: [recordsProcessed] }
-}
-
 exports.fetchGovNews = async () => {
   const parser = new Parser({
     customFields: {

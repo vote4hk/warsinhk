@@ -266,29 +266,6 @@ const createAENode = async ({
   })
 }
 
-const createGNNode = async ({
-  actions: { createNode },
-  createNodeId,
-  createContentDigest,
-}) => {
-  const type = "GoogleNews"
-  const output = await gn.fetchGoogleNews()
-  const { records } = output
-  records.forEach((p, i) => {
-    const meta = {
-      id: createNodeId(`${type.toLowerCase()}-${i}`),
-      parent: null,
-      children: [],
-      internal: {
-        type,
-        contentDigest: createContentDigest(p),
-      },
-    }
-    const node = Object.assign({}, p, meta)
-    createNode(node)
-  })
-}
-
 const createGovNewsNode = async ({
   actions: { createNode },
   createNodeId,
@@ -545,7 +522,6 @@ exports.sourceNodes = async props => {
     ),
     createAENode(props),
     createIMMDNode(props),
-    createGNNode(props),
     createGovNewsNode(props),
     createWorldCasesNode(props),
   ])
