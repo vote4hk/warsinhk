@@ -17,7 +17,6 @@ import DisruptionIcon from "./disruption.svg"
 import WorldIcon from "./world.svg"
 import HomeIcon from "./home.svg"
 import NewsIcon from "./news.svg"
-import PictureIcon from "./picture.svg"
 import RiskIcon from "./risk.svg"
 import ShopIcon from "./shop.svg"
 import TipsIcon from "./tips.svg"
@@ -46,8 +45,6 @@ export function mapIcon(name, style) {
       return <ContactSupportOutlinedIcon />
     case "event_note":
       return <EventNoteIcon />
-    case "poster_gallery":
-      return <PictureIcon />
     case "disruption":
       return <DisruptionIcon />
     case "translate":

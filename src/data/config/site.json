@@ -65,13 +65,6 @@
       "bottomNav": false
     },
     {
-      "title": "poster_gallery.title",
-      "to": "/poster-gallery",
-      "icon": "poster_gallery",
-      "sideMenu": false,
-      "bottomNav": false
-    },
-    {
       "title": "about_us.title",
       "to": "/about-us",
       "icon": "hotel",
