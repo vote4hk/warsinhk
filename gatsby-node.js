@@ -267,13 +267,25 @@ const createAENode = async ({
 }
 
 const createGovNewsNode = async ({
-  actions: { createNode },
+  actions: { createNode, createTypes },
   createNodeId,
   createContentDigest,
 }) => {
   const type = "GovNews"
   const output = await gn.fetchGovNews()
   const { records } = output
+
+  const typeTemplate = `
+    type ${type} implements Node {
+      title_en: String
+      title_zh: String
+      link_en: String
+      link_zh: String
+      date: String
+    }
+  `
+  createTypes(typeTemplate)
+
   records.forEach((p, i) => {
     const meta = {
       id: createNodeId(`${type.toLowerCase()}-${i}`),
