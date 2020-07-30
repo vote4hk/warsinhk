@@ -36,7 +36,10 @@ const StyledResponsiveDrawer = styled(ResponsiveDrawer)`
 const Layout = props => {
   const { children, ...rest } = props // const { children, hideAlerts } = props
 
-  const { configJson } = useStaticQuery(
+  const {
+    configJson,
+    allGovNews: { nodes: news },
+  } = useStaticQuery(
     graphql`
       query {
         configJson {
@@ -48,13 +51,28 @@ const Layout = props => {
             bottomNav
           }
         }
+        allGovNews {
+          nodes {
+            id
+          }
+        }
       }
     `
   )
 
-  const pageList = configJson.pages.filter(p => p.sideMenu)
+  let disablePages = []
 
-  const tabList = configJson.pages.filter(p => p.bottomNav)
+  if (!news.length) {
+    disablePages.push("/news")
+  }
+
+  const pageList = configJson.pages.filter(
+    p => p.sideMenu && !disablePages.includes(p.to)
+  )
+
+  const tabList = configJson.pages.filter(
+    p => p.bottomNav && !disablePages.includes(p.to)
+  )
 
   return (
     <>
