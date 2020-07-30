@@ -9,7 +9,6 @@ const csv2json = require("csvtojson")
 const path = require("path")
 const ae = require("./ae")
 const gn = require("./gn")
-const poster = require("./poster-gallery")
 // const GOOGLE_SPREADSHEET_ID = "14kreo2vRo1XCUXqFLcMApVtYmvkEzWBDm6b8fzJNKEc"
 const LANGUAGES = ["zh", "en"]
 const { request } = require("graphql-request")
@@ -313,29 +312,6 @@ const createGovNewsNode = async ({
   })
 }
 
-const createPosterNode = async ({
-  actions: { createNode },
-  createNodeId,
-  createContentDigest,
-}) => {
-  const type = "PosterGallery"
-  const output = await poster.fetchCollactionPosterGallery()
-  const { galleries } = output
-  galleries.forEach((p, i) => {
-    const meta = {
-      id: createNodeId(`${type.toLowerCase()}-${i}`),
-      parent: null,
-      children: [],
-      internal: {
-        type,
-        contentDigest: createContentDigest(p),
-      },
-    }
-    const node = Object.assign({}, p, meta)
-    createNode(node)
-  })
-}
-
 // const createNode = async (
 //   { actions: { createNode }, createNodeId, createContentDigest },
 //   sheetName,
@@ -571,7 +547,6 @@ exports.sourceNodes = async props => {
     createIMMDNode(props),
     createGNNode(props),
     createGovNewsNode(props),
-    createPosterNode(props),
     createWorldCasesNode(props),
   ])
 }
