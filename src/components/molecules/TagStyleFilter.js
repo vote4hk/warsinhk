@@ -11,6 +11,7 @@ import omit from "lodash/omit"
 import TextField from "@material-ui/core/TextField"
 import * as lbFilter from "my-loopback-filter"
 import { useTranslation } from "react-i18next"
+import fromEntries from "object.fromentries"
 
 const OptionTag = ({
   label,
@@ -164,7 +165,9 @@ const TagStyledFilter = props => {
       .filter(Boolean)
     return {
       and: [
-        Object.fromEntries(andFilters),
+        !Object.fromEntries
+          ? fromEntries(andFilters)
+          : Object.fromEntries(andFilters),
         ...orFilters.map(filters => ({ or: filters })),
       ],
     }
