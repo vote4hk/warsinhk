@@ -6,10 +6,10 @@ import styled from "styled-components"
 import { trackCustomEvent } from "gatsby-plugin-google-analytics"
 
 import ImageZh1 from "@/images/banner/zh/dummies.png"
-import ImageZh2 from "@/images/banner/zh/searcher.png"
+// import ImageZh2 from "@/images/banner/zh/searcher.png"
 import ImageZh3 from "@/images/banner/zh/apple.png"
 import ImageZh4 from "@/images/banner/zh/world.png"
-import ImageEn1 from "@/images/banner/en/searcher.png"
+// import ImageEn1 from "@/images/banner/en/searcher.png"
 import ImageEn2 from "@/images/banner/en/world.png"
 
 const CarouselContainer = styled.div`
@@ -31,12 +31,17 @@ export default props => {
   const bannerImages = {
     zh: [
       { img: ImageZh1, isExternal: true, url: "https://bit.ly/wars1001" },
-      { img: ImageZh2, isExternal: true, url: "http://bit.ly/2x7PctV" },
+      // { img: ImageZh2, isExternal: true, url: "http://bit.ly/2x7PctV" },
       { img: ImageZh3, isExternal: true, url: "http://bit.ly/3cLtKeL" },
       { img: ImageZh4, isExternal: false, url: "https://wars.vote4.hk/world" },
     ],
     en: [
-      { img: ImageEn1, isExternal: true, url: "http://bit.ly/2x7PctV" },
+      // { img: ImageEn1, isExternal: true, url: "http://bit.ly/2x7PctV" },
+      {
+        img: ImageEn2,
+        isExternal: false,
+        url: "https://wars.vote4.hk/en/world",
+      },
       {
         img: ImageEn2,
         isExternal: false,
