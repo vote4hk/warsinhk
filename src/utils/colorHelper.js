@@ -74,6 +74,10 @@ export const mapColorForStatus = status => {
       main: grey[700],
       contrastText: "#fff",
     },
+    no_admission: {
+      main: grey[500],
+      contrastText: "#fff",
+    },
     asymptomatic: {
       main: "#4f5096",
       contrastText: "#fff",

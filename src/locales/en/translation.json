@@ -158,6 +158,7 @@
   "cases.status_deceased": "Deceased",
   "cases.status_asymptomatic": "Asymptomatic",
   "cases.status_hospitalised_again": "Hospitalised again",
+  "cases.status_no_admission": "No admission",
   "cases.uncategorized": "Uncategorized",
   "cases.status_pending_update": "Pending update",
   "cases.box_view": "Overview",
