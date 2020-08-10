@@ -81,6 +81,8 @@ export default function ConfirmedCaseVisual(props) {
     male: genderAge.find(age => age.fieldValue === "M"),
   }
 
+  const ageNumberArray = WarsCaseData.ageArray.map(a => +a.age)
+
   const agePlot = (
     <>
       <BasicCard>
@@ -89,8 +91,8 @@ export default function ConfirmedCaseVisual(props) {
             <AgeTitle>{t(`cases_visual.age_range_title`)}</AgeTitle>
             <Hidden mdUp>:&nbsp;</Hidden>
             <DataValue>{`${t(`cases_visual.age_range`, {
-              min: WarsCaseData.ageArray[0].age,
-              max: WarsCaseData.ageArray[WarsCaseData.ageArray.length - 1].age,
+              min: ageNumberArray[0],
+              max: ageNumberArray[WarsCaseData.ageArray.length - 1],
             })}`}</DataValue>
             <Hidden smDown>{t("cases_visual.age_unit")}</Hidden>
           </AgeBox>
