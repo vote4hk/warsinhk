@@ -112,6 +112,14 @@ const CaseCard = styled.div`
     }
   }
 
+  .case-source {
+    display: flex;
+    justify-content: flex-start;
+    a {
+      margin-right: 8px;
+    }
+  }
+
   .track-header {
     color: #525252;
     font-size: 14px;
@@ -391,11 +399,18 @@ export const WarsCaseCard = React.forwardRef((props, ref) => {
           <Typography variant="body1">
             {renderTextWithCaseLink(i18n, node, "detail")}
           </Typography>
-          {node.source_url && (
-            <MuiLink variant="body1" href={node.source_url} target="_blank">
-              {t("dashboard.source")}
-            </MuiLink>
-          )}
+          <Row className="case-source">
+            {node.source_url_1 && (
+              <MuiLink variant="body1" href={node.source_url_1} target="_blank">
+                {t("dashboard.source")}
+              </MuiLink>
+            )}
+            {node.source_url_2 && (
+              <MuiLink variant="body1" href={node.source_url_2} target="_blank">
+                {t("dashboard.source")}
+              </MuiLink>
+            )}
+          </Row>
         </Box>
         {track}
       </Box>

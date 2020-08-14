@@ -34,7 +34,8 @@ export default function ConfirmedCaseVisual(props) {
               classification
               classification_zh
               classification_en
-              source_url
+              source_url_1
+              source_url_2
             }
           }
         }
