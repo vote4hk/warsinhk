@@ -132,7 +132,7 @@ const OptionTag = ({
               </div>
             </MenuItem>
           ) : (
-            displayingOptions
+            menuOpen ? displayingOptions : null
           )}
         </Menu>
       )}
