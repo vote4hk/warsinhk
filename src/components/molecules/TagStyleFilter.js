@@ -37,14 +37,48 @@ const OptionTag = ({
   const openMenu = () => setMenuOpen(true)
   const closeMenu = () => setMenuOpen(false)
   const filterExists = Boolean(filters[field])
-  const displayingOptions = options
-    .map(option => ({
-      ...option,
-      field,
-      count: getFilterCount({ [field]: option.value }, filterExists),
-    }))
-    .sort(orderOptionsByFilterCount ? (a, b) => b.count - a.count : () => 0)
-    .filter(option => (orderOptionsByFilterCount ? option.count > 0 : 1))
+  const displayingOptions = menuOpen
+    ? options
+        .map(option => ({
+          ...option,
+          field,
+          count: getFilterCount({ [field]: option.value }, filterExists),
+        }))
+        .sort(orderOptionsByFilterCount ? (a, b) => b.count - a.count : () => 0)
+        .filter(option => (orderOptionsByFilterCount ? option.count > 0 : 1))
+        .map((option, index) => (
+          <MenuItem
+            key={option.value}
+            onClick={selectValue({
+              ...option,
+              filterName: label,
+              field,
+            })}
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              whiteSpace: "break-spaces",
+            }}
+            selected={filterExists && filters[field] === option.value}
+          >
+            <div
+              style={{
+                marginRight: "16px",
+              }}
+            >
+              {option.label}
+            </div>
+            <div
+              style={{
+                color: "#1a237e",
+                fontWeight: 700,
+              }}
+            >
+              {option.count}
+            </div>
+          </MenuItem>
+        ))
+    : options
   const displayEmptyMessage =
     displayingOptions.length === 0 && options.length > 0
   return (
@@ -98,40 +132,7 @@ const OptionTag = ({
               </div>
             </MenuItem>
           ) : (
-            displayingOptions.map((option, index) => (
-              <form key={index}>
-                <MenuItem
-                  key={option.value}
-                  onClick={selectValue({
-                    ...option,
-                    filterName: label,
-                    field,
-                  })}
-                  style={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    whiteSpace: "break-spaces",
-                  }}
-                  selected={filterExists && filters[field] === option.value}
-                >
-                  <div
-                    style={{
-                      marginRight: "16px",
-                    }}
-                  >
-                    {option.label}
-                  </div>
-                  <div
-                    style={{
-                      color: "#1a237e",
-                      fontWeight: 700,
-                    }}
-                  >
-                    {option.count}
-                  </div>
-                </MenuItem>
-              </form>
-            ))
+            displayingOptions
           )}
         </Menu>
       )}
