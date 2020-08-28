@@ -200,7 +200,10 @@ const Item = ({ node, i18n, t }) => {
     <HighRiskCardContent>
       <HighRiskCardTitle>
         <CaseText component="span" variant="h6" pass14days={node.allPass14days}>
-          {withLanguage(i18n, node, "location")}
+          {t("cases_sub_district_location", {
+            sub_district: withLanguage(i18n, node, "sub_district"),
+            location: withLanguage(i18n, node, "location"),
+          })}
         </CaseText>
       </HighRiskCardTitle>
       {node.cases.map(c => (
@@ -272,7 +275,7 @@ const HighRiskPage = ({ data }) => {
           pinType: mapPinType(item),
         }
       }),
-      node => node.location_zh
+      node => `${node.sub_district_zh}${node.location_zh}`
     )
   ).map(cases => {
     const casesPass14daysArray = [...new Set(cases.map(c => c.pass14days))]
