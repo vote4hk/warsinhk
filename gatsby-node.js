@@ -625,6 +625,8 @@ exports.createPages = async ({ graphql, actions }) => {
               case_no
               start_date
               end_date
+              sub_district_zh
+              sub_district_en
               location_zh
               location_en
               action_zh

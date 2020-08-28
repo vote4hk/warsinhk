@@ -136,6 +136,7 @@
   "cases_visual.age_range": "{{min}}-{{max}}",
   "cases_visual.age_range_mobile": "範圍：{{min}} - {{max}}",
   "cases_visual.age_range_title": "範圍",
+  "cases_sub_district_location": "{{sub_district}}{{location}}",
   "confirmed_case_visual.gender": "性別",
   "confirmed_case_visual.citizen": "現居地",
   "confirmed_case_visual.citizen_wuhan": "武漢",

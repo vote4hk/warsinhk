@@ -165,7 +165,10 @@ const WarsCaseTrack = ({ i18n, t, track }) => {
             </Row>
             <Row className="">
               <Typography variant="body1">
-                {withLanguage(i18n, tr.node, "location")}
+                {t("cases_sub_district_location", {
+                  sub_district: withLanguage(i18n, tr.node, "sub_district"),
+                  location: withLanguage(i18n, tr.node, "location"),
+                })}
               </Typography>
             </Row>
             {remarksText && (
