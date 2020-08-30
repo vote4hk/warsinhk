@@ -253,7 +253,7 @@ const AboutUsPage = props => {
               color="secondary"
               size="small"
               startIcon={mapIcon("insert_drive_file")}
-              href="https://docs.google.com/spreadsheets/d/e/2PACX-1vT6aoKk3iHmotqb5_iHggKc_3uAA901xVzwsllmNoOpGgRZ8VAA3TSxK6XreKzg_AUQXIkVX5rqb0Mo/pub?gid=0&range=A2:ZZ"
+              href="https://docs.google.com/spreadsheets/d/e/2PACX-1vT6aoKk3iHmotqb5_iHggKc_3uAA901xVzwsllmNoOpGgRZ8VAA3TSxK6XreKzg_AUQXIkVX5rqb0Mo/pub?gid=0&range=A2:ZZ&output=csv"
               target="_blank"
               rel="noopener noreferer"
               onClick={() => {
@@ -271,7 +271,7 @@ const AboutUsPage = props => {
               color="secondary"
               size="small"
               startIcon={mapIcon("insert_drive_file")}
-              href="https://docs.google.com/spreadsheets/d/e/2PACX-1vSr2xYotDgnAq6bqm5Nkjq9voHBKzKNWH2zvTRx5LU0jnpccWykvEF8iB_0g7Tzo2pwzkTuM3ETlr_h/pub?gid=0&range=A2:ZZ"
+              href="https://docs.google.com/spreadsheets/d/e/2PACX-1vSr2xYotDgnAq6bqm5Nkjq9voHBKzKNWH2zvTRx5LU0jnpccWykvEF8iB_0g7Tzo2pwzkTuM3ETlr_h/pub?gid=0&range=A2:ZZ&output=csv"
               target="_blank"
               rel="noopener noreferer"
               onClick={() => {
