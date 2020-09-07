@@ -189,7 +189,7 @@ yarn build
 
 ## 📄 License
 
-This software is released under [the MIT License](https://github.com/nandiheath/warsinhk/blob/master/LICENSE).
+This software is released under [the MIT License](https://github.com/nandiheath/warsinhk/blob/master/LICENSE), while the content on this site is licensed under a [Creative Commons Attribution-ShareAlike 4.0 International License](https://creativecommons.org/licenses/by-sa/4.0/).
 
 ## 💡 Special Thanks
 
