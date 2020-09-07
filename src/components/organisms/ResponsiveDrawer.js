@@ -164,14 +164,6 @@ function ResponsiveDrawer(props) {
           </StyledIconButton>
         </LanguageSwitcherContainer>
         {/* Only show the forms in chinese as we do not have english form.. */}
-        {i18n.language === "zh" && (
-          <Link target="_blank" href="https://forms.gle/gK477bmq8cG57ELv8">
-            <ListItem>
-              <ListItemIcon>{mapIcon("edit")}</ListItemIcon>
-              <ListItemText primary={t("dodgy_shops.report_incident")} />
-            </ListItem>
-          </Link>
-        )}
 
         {i18n.language === "zh" && (
           <Link target="_blank" href="https://forms.gle/1M96G6xHH2tku4mJ8">
