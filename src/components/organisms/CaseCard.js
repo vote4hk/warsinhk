@@ -151,6 +151,7 @@ const WarsCaseTrack = ({ i18n, t, track }) => {
     <>
       {track.map((tr, i) => {
         const remarksText = withLanguage(i18n, tr.node, "remarks")
+        const subDistrict = withLanguage(i18n, tr.node, "sub_district")
         return (
           <div key={i} className="track-item">
             <Row className="track-header">
@@ -166,7 +167,7 @@ const WarsCaseTrack = ({ i18n, t, track }) => {
             <Row className="">
               <Typography variant="body1">
                 {t("cases_sub_district_location", {
-                  sub_district: withLanguage(i18n, tr.node, "sub_district"),
+                  sub_district: subDistrict === "-" ? "" : subDistrict,
                   location: withLanguage(i18n, tr.node, "location"),
                 })}
               </Typography>
