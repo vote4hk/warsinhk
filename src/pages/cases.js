@@ -189,7 +189,7 @@ const CasesPage = props => {
   const toFilterEntry = ([key, value]) => [`node.${key}`, value]
   const parseToFilter = str => {
     if (/^[-A-Z0-9]+\.\.+[-A-Z0-9]+$/i.test(str))
-      return { between: str.split(/\.\.+/).sort() }
+      return { between: str.split(/\.\.+/) }
     if (/^[><]=[-A-Z0-9]+$/i.test(str))
       return { [str[0] === ">" ? "gte" : "lte"]: str.slice(2, str.length) }
     if (/^[><][-A-Z0-9]+$/i.test(str))
