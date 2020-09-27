@@ -101,7 +101,7 @@ const createWorldCasesNode = async ({
   createContentDigest,
 }) => {
   const lastWeek = moment()
-    .add(-10, "days")
+    .add(-15, "days") // temp fix as we lost some baidu data
     .format("YYYY-MM-DD")
   const type = "BaiduInternationalData"
 
