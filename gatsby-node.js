@@ -16,7 +16,10 @@ const { getPath, getWarTipPath } = require("./src/utils/urlHelper")
 const isDebug = process.env.DEBUG_MODE === "true"
 const _get = require("lodash/get")
 const moment = require("moment")
+const fs = require("fs")
 
+const PUBLISHED_SPREADSHEET_I18N_URL =
+  "https://docs.google.com/spreadsheets/d/e/2PACX-1vRTVp8L95wLd23_2CuA57V-lU6tCRhGAPWSCghGhBuV4xKV_XMVjniCEoDxZnBMXEJ2MPlAi6WzOxlp/pub?gid=0"
 const PUBLISHED_SPREADSHEET_HIGH_RISK_URL =
   "https://docs.google.com/spreadsheets/d/e/2PACX-1vRbmRntCQ1cNkKd5eL3ZVBfgqX_lvQIdJIWxTTQdvSHd_3oIj_6yXOp48qAKdi-Pp-HqXdrrz1gysUr/pub?gid=0"
 const PUBLISHED_SPREADSHEET_WARS_CASES_URL =
@@ -432,6 +435,12 @@ exports.sourceNodes = async props => {
   await Promise.all([
     createPublishedGoogleSpreadsheetNode(
       props,
+      PUBLISHED_SPREADSHEET_I18N_URL,
+      "i18n",
+      { skipFirstLine: false, alwaysEnabled: true }
+    ),
+    createPublishedGoogleSpreadsheetNode(
+      props,
       PUBLISHED_SPREADSHEET_HIGH_RISK_URL,
       "HighRisk",
       { skipFirstLine: true }
@@ -563,6 +572,15 @@ exports.createPages = async ({ graphql, actions }) => {
 
   const result = await graphql(`
     query {
+      allI18N {
+        edges {
+          node {
+            key
+            en
+            zh
+          }
+        }
+      }
       allWarsTip {
         edges {
           node {
@@ -641,6 +659,28 @@ exports.createPages = async ({ graphql, actions }) => {
       }
     }
   `)
+
+  // Generate i18n translation json file
+  const translations = {
+    zh: {},
+    en: {},
+  }
+  result.data.allI18N.edges.forEach(edge => {
+    const {
+      node: { key, en, zh },
+    } = edge
+    translations["zh"][key] = zh
+    translations["en"][key] = en
+  })
+
+  LANGUAGES.forEach(lang => {
+    fs.mkdirSync(`src/locales/${lang}`, { recursive: true })
+    fs.writeFileSync(
+      `src/locales/${lang}/translation.json`,
+      JSON.stringify(translations[lang])
+    )
+  })
+
   result.data.allWarsTip.edges.forEach(({ node }) => {
     // This will not trigger onCreatePage
     LANGUAGES.forEach(lang => {
