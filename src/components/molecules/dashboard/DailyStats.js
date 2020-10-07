@@ -96,6 +96,7 @@ export default props => {
               date
               confirmed
               probably
+              hospitalised
               ruled_out
               investigating
               reported
@@ -199,11 +200,7 @@ export default props => {
         title: t("cases.status_hospitalised"),
         field: "hospitalised",
         color: mapColorForStatus("hospitalised").main,
-        value:
-          latest.confirmed -
-          (latest.death || second.death) -
-          (latest.discharged || second.discharged) -
-          (data.pendingAdmission.totalCount || 0),
+        value: latest.hospitalised,
         trend: false,
         columns: 4,
       },
