@@ -1,0 +1,45 @@
+name: Node Build
+
+on:
+  push:
+    branches:
+      - master  
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version:
+          - 14.x
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node-version }}
+    - run: yarn install
+    - run: yarn lint
+    - run: yarn build
+      env:
+        GOOGLE_TRACKING_ID: ${{ secrets.GOOGLE_TRACKING_ID }}
+        NODE_ENV: ${{ secrets.NODE_ENV }}
+        DEBUG_MODE: false
+    - name: Deploy to Github Page
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        publish_dir: ./public
+        keep_files: true
+        personal_token: ${{ secrets.DEPLOY_GITHUB_TOKEN }}
+        external_repository: vote4hk/wars.vote4.hk
+        cname: wars.vote4.hk
+    - name: Deploy to Github Page (EN)
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        publish_dir: ./public
+        keep_files: true
+        personal_token: ${{ secrets.DEPLOY_GITHUB_TOKEN }}
+        external_repository: vote4hk/covid19.vote4.hk
+        cname: covid19.vote4.hk
