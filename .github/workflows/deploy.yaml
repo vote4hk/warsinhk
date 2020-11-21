@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - master  
+  repository_dispatch:
+    types: [github_action_trigger]
 
 jobs:
   build:
