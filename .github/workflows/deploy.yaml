@@ -1,11 +1,8 @@
-name: Node Build
+name: Build And Deploy
 
 on:
-  push:
-    branches:
-      - master  
-  repository_dispatch:
-    types: [github_action_trigger]
+  schedule:
+    - cron: "*/5 * * * *"
 
 jobs:
   build:
