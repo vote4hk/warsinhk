@@ -1,8 +1,9 @@
 name: Build And Deploy
 
 on:
+  push:
   schedule:
-    - cron: "*/5 * * * *"
+    - cron: '*/5 * * * *'
 
 jobs:
   build:
