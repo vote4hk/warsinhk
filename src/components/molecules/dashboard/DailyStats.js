@@ -135,10 +135,7 @@ export default props => {
     )
     .reduce((c, v) => Math.max(c, v), 0)
 
-  const [
-    { node: latest },
-    { node: second },
-  ] = data.allWarsLatestFiguresOverride.edges
+  const [{ node: latest }] = data.allWarsLatestFiguresOverride.edges
 
   const getLastFigureByField = field => {
     return formatNumber(
