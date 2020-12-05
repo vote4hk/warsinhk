@@ -20,8 +20,6 @@ const fs = require("fs")
 
 const PUBLISHED_SPREADSHEET_I18N_URL =
   "https://docs.google.com/spreadsheets/d/e/2PACX-1vRTVp8L95wLd23_2CuA57V-lU6tCRhGAPWSCghGhBuV4xKV_XMVjniCEoDxZnBMXEJ2MPlAi6WzOxlp/pub?gid=0"
-const PUBLISHED_SPREADSHEET_HIGH_RISK_URL =
-  "https://docs.google.com/spreadsheets/d/e/2PACX-1vRbmRntCQ1cNkKd5eL3ZVBfgqX_lvQIdJIWxTTQdvSHd_3oIj_6yXOp48qAKdi-Pp-HqXdrrz1gysUr/pub?gid=0"
 const PUBLISHED_SPREADSHEET_WARS_CASES_URL =
   "https://docs.google.com/spreadsheets/d/e/2PACX-1vSr2xYotDgnAq6bqm5Nkjq9voHBKzKNWH2zvTRx5LU0jnpccWykvEF8iB_0g7Tzo2pwzkTuM3ETlr_h/pub?gid=0"
 const PUBLISHED_SPREADSHEET_DODGY_SHOPS_URL =
@@ -438,12 +436,6 @@ exports.sourceNodes = async props => {
       PUBLISHED_SPREADSHEET_I18N_URL,
       "i18n",
       { skipFirstLine: false, alwaysEnabled: true }
-    ),
-    createPublishedGoogleSpreadsheetNode(
-      props,
-      PUBLISHED_SPREADSHEET_HIGH_RISK_URL,
-      "HighRisk",
-      { skipFirstLine: true }
     ),
     createPublishedGoogleSpreadsheetNode(
       props,
