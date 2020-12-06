@@ -43,7 +43,7 @@ const PUBLISHED_SPREADSHEET_FRIENDLY_LINK_URL =
 const PUBLISHED_SPREADSHEET_TRAVEL_ALERT_URL =
   "https://docs.google.com/spreadsheets/u/1/d/e/2PACX-1vQOnfZtGysW5qVe9FferSvhSODKa9ASH7SeqCGAGJSz8ZV7POm3kzFqfkbVAgryHKdj9WwLKXJai332/pub?gid=0"
 const PUBLISHED_SPREADSHEET_IMPORTANT_INFORMATION_URL =
-  "https://docs.google.com/spreadsheets/d/e/2PACX-1vShepjZrGpn8QlN8R3QFrIVhWLg9l0F99wYR9khAnhmoydOP7hkS2_L1imCjH9nHkqVQf3xGrUAi8Na/pub?gid=0"
+  "https://docs.google.com/spreadsheets/d/e/2PACX-1vShepjZrGpn8QlN8R3QFrIVhWLg9l0F99wYR9khAnhmoydOP7hkS2_L1imCjH9nHkqVQf3xGrUAi8Na/pub?gid=257173560"
 // const PUBLISHED_SPREADSHEET_SITE_CONFIG_URL =
 //   "https://docs.google.com/spreadsheets/d/e/2PACX-1vRUN7eL0XjPbkcmxnWKPH9_AOiRiIVcH25nLkOgbfRN7y1gk9tBucufIcLWTFFjjgMJNQmOxIFeU_Sk/pub?gid=0"
 const PUBLISHED_SPREADSHEET_WARS_CASES_RELATIONSHIP_URL =
@@ -342,6 +342,15 @@ const createPublishedGoogleSpreadsheetNode = async (
       skipFirstLine ? "&range=A2:ZZ" : ""
     }&q=${Math.floor(new Date().getTime(), 1000)}`
   )
+
+  if (type === "ImportantInformation") {
+    console.log(
+      `${publishedURL}&single=true&output=csv&headers=0${
+        skipFirstLine ? "&range=A2:ZZ" : ""
+      }&q=${Math.floor(new Date().getTime(), 1000)}`
+    )
+    console.log(result)
+  }
   const data = await result.text()
   const records = await csv2json().fromString(data)
   const filteredRecords = records.filter(
