@@ -16,7 +16,12 @@ const StyledBottomNavigation = styled(BottomNavigation)`
   bottom: 0;
   text-align: center;
   height: 60px;
+  height: calc(60px + constant(safe-area-inset-bottom));
+  height: calc(60px + env(safe-area-inset-bottom));
   z-index: 1000;
+
+  padding-bottom: constant(safe-area-inset-bottom);
+  padding-bottom: env(safe-area-inset-bottom);
 
   .MuiBottomNavigationAction-root.Mui-selected {
     color: ${props => props.theme.palette.primary.text};
@@ -55,7 +60,7 @@ export default function SimpleBottomNavigation(props) {
     <Hidden smUp implementation="css">
       <StyledBottomNavigation value={pageIndex} showLabels>
         {/* FIXME: the icon is not updated after navigating to other page */}
-        {/* 
+        {/*
             wingkwong: Cannot use <UnstyledLink> to wrap <BottomNavigationAction> because it has to be a direct child of BottomNavigation
         */}
         {tabs.map((tab, index) => (
