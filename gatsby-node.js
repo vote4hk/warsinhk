@@ -343,14 +343,6 @@ const createPublishedGoogleSpreadsheetNode = async (
     }&q=${Math.floor(new Date().getTime(), 1000)}`
   )
 
-  if (type === "ImportantInformation") {
-    console.log(
-      `${publishedURL}&single=true&output=csv&headers=0${
-        skipFirstLine ? "&range=A2:ZZ" : ""
-      }&q=${Math.floor(new Date().getTime(), 1000)}`
-    )
-    console.log(result)
-  }
   const data = await result.text()
   const records = await csv2json().fromString(data)
   const filteredRecords = records.filter(
