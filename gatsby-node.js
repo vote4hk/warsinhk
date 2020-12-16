@@ -409,7 +409,7 @@ exports.onCreatePage = async ({ page, actions }) => {
   })
 }
 
-exports.onCreateWebpackConfig = ({ stage, loaders, actions }) => {
+exports.onCreateWebpackConfig = ({ stage, loaders, actions, getConfig }) => {
   if (stage === "build-html") {
     const regex = [
       /node_modules\/leaflet/,
@@ -427,6 +427,11 @@ exports.onCreateWebpackConfig = ({ stage, loaders, actions }) => {
         ],
       },
     })
+  }
+  if (getConfig().mode === 'production') {
+    actions.setWebpackConfig({
+      devtool: false
+    });
   }
 }
 
@@ -743,7 +748,7 @@ exports.createPages = async ({ graphql, actions }) => {
 
       actions.createPage({
         path: uri,
-        component: path.resolve(`./src/templates/case.js`),
+        component: path.resolve(`./src/templates/case-seo.js`),
         context: {
           uri,
           node,
