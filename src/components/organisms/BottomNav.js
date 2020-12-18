@@ -5,7 +5,7 @@ import { mapIcon } from "@components/icons"
 import Hidden from "@material-ui/core/Hidden"
 import styled from "styled-components"
 import { UnstyledLink } from "@components/atoms/UnstyledLink"
-import ContextStore from "@/contextStore"
+import { useLocation } from "@reach/router"
 import { getLocalizedPath } from "@/utils/i18n"
 import { useTranslation } from "react-i18next"
 import { bps } from "@/ui/theme"
@@ -47,12 +47,7 @@ const StyledBottomNavigation = styled(BottomNavigation)`
 
 export default function SimpleBottomNavigation(props) {
   const { tabs } = props
-  const {
-    route: {
-      state: { path },
-    },
-  } = React.useContext(ContextStore)
-
+  const { pathname: path } = useLocation()
   const pageIndex = tabs.findIndex(o => o.to === path)
   const { t, i18n } = useTranslation()
 

@@ -8,18 +8,17 @@
 import React from "react"
 import Helmet from "react-helmet"
 import { useStaticQuery, graphql } from "gatsby"
-import ContextStore from "@/contextStore"
+import { useLocation } from "@reach/router"
 import { useTranslation } from "react-i18next"
 import _isEmpty from "lodash.isempty"
+import { removePathTrailingSlash } from "@/utils/urlHelper"
 
 const SEO = ({ meta, uri, titleOveride }) => {
   const { t, i18n } = useTranslation()
-
-  const {
-    route: {
-      state: { path, fullPath },
-    },
-  } = React.useContext(ContextStore)
+  const { pathname: fullPath } = useLocation()
+  const path = removePathTrailingSlash(
+    fullPath.replace(/^\/en(?!\w)/, "").replace(/cases\/.*$/, "cases") || "/"
+  )
   const { site, configJson } = useStaticQuery(
     graphql`
       query {
