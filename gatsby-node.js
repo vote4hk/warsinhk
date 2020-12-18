@@ -733,7 +733,6 @@ exports.onPostBuild = ({ reporter }) => {
   reporter.info("Injecting cases pages sitemap record")
   const fs = require("fs")
   const casesData = require("./public/page-data/cases/page-data.json")
-
   const template = no =>
     `<url> <loc>https://wars.vote4.hk/cases/${no}</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
 <url> <loc>https://wars.vote4.hk/en/cases/${no}</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>`
