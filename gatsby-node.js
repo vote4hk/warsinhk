@@ -397,7 +397,9 @@ exports.onCreatePage = async ({ page, actions }) => {
         const path = getPath(lang, page.path)
         createPage({
           ...page,
-          matchPath: page.path.includes("cases") ?   (path + '/*').replace(/[/]+\*/,"/*") : page.matchPath ,
+          matchPath: page.path.includes("cases")
+            ? (path + "/*").replace(/[/]+\*/, "/*")
+            : page.matchPath,
           path,
           context: {
             ...page.context,
@@ -430,10 +432,10 @@ exports.onCreateWebpackConfig = ({ stage, loaders, actions, getConfig }) => {
       },
     })
   }
-  if (getConfig().mode === 'production') {
+  if (getConfig().mode === "production") {
     actions.setWebpackConfig({
-      devtool: false
-    });
+      devtool: false,
+    })
   }
 }
 
@@ -725,4 +727,23 @@ exports.createPages = async ({ graphql, actions }) => {
     })
   })
   return Promise.resolve(null)
+}
+
+exports.onPostBuild = ({ reporter }) => {
+  reporter.info("Injecting cases pages sitemap record")
+  const fs = require("fs")
+  const casesData = require("./public/page-data/cases/page-data.json")
+
+  const template = no =>
+    `<url> <loc>https://wars.vote4.hk/cases/${no}</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
+<url> <loc>https://wars.vote4.hk/en/cases/${no}</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>`
+  const caseNos = casesData.result.data.allWarsCase.edges.map(
+    i => i.node.case_no
+  )
+  const sitemapXml = fs.readFileSync("./public/sitemap.xml", "utf-8")
+  const caseNoSitemap = caseNos.map(template).join("\n")
+  fs.writeFileSync(
+    "./public/sitemap.xml",
+    sitemapXml.replace("</urlset>", caseNoSitemap + "\n</urlset>")
+  )
 }

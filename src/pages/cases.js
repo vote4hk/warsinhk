@@ -33,6 +33,7 @@ import CardViewIcon from "@/components/icons/card_view.svg"
 import SortIcon from "@/components/icons/sort.svg"
 import moment from "moment"
 import { useLocation } from "@reach/router"
+import { withLanguage } from "@/utils/i18n"
 
 const TitleContainer = styled.div`
   display: flex;
@@ -175,7 +176,7 @@ const CasesPage = props => {
     return [cases, groupArrayColumnOptions]
   }, [data, i18n.language])
 
-  const [filteredCases, setFilteredCases] = useState(cases)
+  const [filteredCases, setFilteredCases] = useState([])
   const [selectedCase, setSelectedCase] = useState(null)
   // 1: by date   : from latest to oldest
   // 2: by date   : from oldest to latest
@@ -525,7 +526,8 @@ const CasesPage = props => {
       label: item.case_no,
     })
   }
-
+  const isCaseNumberMatch =
+    caseCodeMatch && filteredCases.length === 1 && filteredCases[0]
   return (
     <Layout
       onClick={e =>
@@ -534,7 +536,26 @@ const CasesPage = props => {
         setSelectedCase(null)
       }
     >
-      <SEO title="ConfirmedCasePage" />
+      {isCaseNumberMatch ? (
+        <SEO
+          titleOveride={t("case.title")}
+          // TODO: duplicated entries, filter out in SEO later?
+          meta={[
+            {
+              property: `og:title`,
+              content: `${t("index.title")} | ${t("case.case_no", {
+                case_no: filteredCases[0].node.case_no,
+              })}`,
+            },
+            {
+              property: `og:description`,
+              content: withLanguage(i18n, filteredCases[0].node, "detail"),
+            },
+          ]}
+        />
+      ) : (
+        <SEO title="ConfirmedCasePage" />
+      )}
       <TitleContainer>
         <Typography variant="h2">{t("cases.title")}</Typography>
         <span>
