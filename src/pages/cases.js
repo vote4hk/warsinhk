@@ -32,6 +32,7 @@ import BoxViewIcon from "@/components/icons/box_view.svg"
 import CardViewIcon from "@/components/icons/card_view.svg"
 import SortIcon from "@/components/icons/sort.svg"
 import moment from "moment"
+import { useLocation } from "@reach/router"
 
 const TitleContainer = styled.div`
   display: flex;
@@ -185,7 +186,8 @@ const CasesPage = props => {
   // 7: by status
 
   const [selectedGroupButton, setGroupButton] = useState(1)
-
+  const { pathname } = useLocation()
+  const caseCodeMatch = pathname.match(/cases\/([^/]+)/)
   const toFilterEntry = ([key, value]) => [`node.${key}`, value]
   const parseToFilter = str => {
     if (/^[-A-Z0-9]+\.\.+[-A-Z0-9]+$/i.test(str))
@@ -577,6 +579,19 @@ const CasesPage = props => {
           searchKey="case"
           onListFiltered={setFilteredCases}
           filterWithOr={false}
+          initialFilters={
+            caseCodeMatch
+              ? [
+                  {
+                    label: caseCodeMatch[1],
+                    filterName: t("search.case_no"),
+                    realFieldName: "case_no_num",
+                    field: "case_no_num",
+                    value: caseCodeMatch[1],
+                  },
+                ]
+              : []
+          }
         />
         {view === CASES_BOX_VIEW && (
           <DefaultSelect
