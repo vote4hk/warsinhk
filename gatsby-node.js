@@ -394,9 +394,11 @@ exports.onCreatePage = async ({ page, actions }) => {
     if (!page.path.match(/^\/en/)) {
       deletePage(page)
       LANGUAGES.forEach(lang => {
+        const path = getPath(lang, page.path)
         createPage({
           ...page,
-          path: getPath(lang, page.path),
+          matchPath: page.path.includes("cases") ?   (path + '/*').replace(/[/]+\*/,"/*") : page.matchPath ,
+          path,
           context: {
             ...page.context,
             locale: lang,
@@ -722,44 +724,5 @@ exports.createPages = async ({ graphql, actions }) => {
       })
     })
   })
-
-  // somehow onCreatePage is not triggering.. so we need to specify here
-  result.data.allWarsCase.edges.forEach(({ node }) => {
-    LANGUAGES.forEach(lang => {
-      const uri = getPath(lang, `/cases/${node.case_no}`)
-      const groupKeys = [
-        "name_zh",
-        "name_en",
-        "description_zh",
-        "description_en",
-        "id",
-        "related_cases",
-      ]
-      groupKeys.forEach(k => {
-        node.groups = []
-        groupArray
-          .filter(g => parseInt(g.case_no) === parseInt(node.case_no))
-          .forEach(g => {
-            const groupDetail = {}
-            groupDetail[k] = _get(g, k, null)
-            node.groups.push(g)
-          })
-      })
-
-      actions.createPage({
-        path: uri,
-        component: path.resolve(`./src/templates/case-seo.js`),
-        context: {
-          uri,
-          node,
-          patientGroup: result.data.patientTrack.group.filter(
-            pt => pt.fieldValue === node.case_no
-          ),
-          locale: lang,
-        },
-      })
-    })
-  })
-
   return Promise.resolve(null)
 }
