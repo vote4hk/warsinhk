@@ -211,7 +211,7 @@ const TagStyledFilter = props => {
   const resetFilters = () => {
     applyFilter(initialFiltersState)
   }
-  useEffect(() => applyFilter(filters), [onListFiltered])
+  useEffect(() => applyFilter(filters))
   return (
     <React.Fragment>
       <div style={{ marginTop: "1em", lineHeight: 2 }}>
