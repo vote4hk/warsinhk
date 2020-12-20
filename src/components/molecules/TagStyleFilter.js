@@ -211,7 +211,8 @@ const TagStyledFilter = props => {
   const resetFilters = () => {
     applyFilter(initialFiltersState)
   }
-  useEffect(() => applyFilter(filters))
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  useEffect(() => applyFilter(filters), [filters])
   return (
     <React.Fragment>
       <div style={{ marginTop: "1em", lineHeight: 2 }}>
