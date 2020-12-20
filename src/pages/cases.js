@@ -32,6 +32,8 @@ import BoxViewIcon from "@/components/icons/box_view.svg"
 import CardViewIcon from "@/components/icons/card_view.svg"
 import SortIcon from "@/components/icons/sort.svg"
 import moment from "moment"
+import { useLocation } from "@reach/router"
+import { withLanguage } from "@/utils/i18n"
 
 const TitleContainer = styled.div`
   display: flex;
@@ -174,7 +176,7 @@ const CasesPage = props => {
     return [cases, groupArrayColumnOptions]
   }, [data, i18n.language])
 
-  const [filteredCases, setFilteredCases] = useState(cases)
+  const [filteredCases, setFilteredCases] = useState([])
   const [selectedCase, setSelectedCase] = useState(null)
   // 1: by date   : from latest to oldest
   // 2: by date   : from oldest to latest
@@ -185,7 +187,8 @@ const CasesPage = props => {
   // 7: by status
 
   const [selectedGroupButton, setGroupButton] = useState(1)
-
+  const { pathname } = useLocation()
+  const caseCodeMatch = pathname.match(/cases\/([^/]+)/)
   const toFilterEntry = ([key, value]) => [`node.${key}`, value]
   const parseToFilter = str => {
     if (/^[-A-Z0-9]+\.\.+[-A-Z0-9]+$/i.test(str))
@@ -523,7 +526,8 @@ const CasesPage = props => {
       label: item.case_no,
     })
   }
-
+  const isCaseNumberMatch =
+    caseCodeMatch && filteredCases.length === 1 && filteredCases[0]
   return (
     <Layout
       onClick={e =>
@@ -532,7 +536,26 @@ const CasesPage = props => {
         setSelectedCase(null)
       }
     >
-      <SEO title="ConfirmedCasePage" />
+      {isCaseNumberMatch ? (
+        <SEO
+          titleOveride={t("case.title")}
+          // TODO: duplicated entries, filter out in SEO later?
+          meta={[
+            {
+              property: `og:title`,
+              content: `${t("index.title")} | ${t("case.case_no", {
+                case_no: filteredCases[0].node.case_no,
+              })}`,
+            },
+            {
+              property: `og:description`,
+              content: withLanguage(i18n, filteredCases[0].node, "detail"),
+            },
+          ]}
+        />
+      ) : (
+        <SEO title="ConfirmedCasePage" />
+      )}
       <TitleContainer>
         <Typography variant="h2">{t("cases.title")}</Typography>
         <span>
@@ -577,6 +600,19 @@ const CasesPage = props => {
           searchKey="case"
           onListFiltered={setFilteredCases}
           filterWithOr={false}
+          initialFilters={
+            caseCodeMatch
+              ? [
+                  {
+                    label: caseCodeMatch[1],
+                    filterName: t("search.case_no"),
+                    realFieldName: "case_no_num",
+                    field: "case_no_num",
+                    value: caseCodeMatch[1],
+                  },
+                ]
+              : []
+          }
         />
         {view === CASES_BOX_VIEW && (
           <DefaultSelect

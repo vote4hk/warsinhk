@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react"
+import React, { useState, useRef, useEffect } from "react"
 import PropTypes from "prop-types"
 import Chip from "@material-ui/core/Chip"
 import Menu from "@material-ui/core/Menu"
@@ -11,7 +11,7 @@ import omit from "lodash/omit"
 import TextField from "@material-ui/core/TextField"
 import * as lbFilter from "my-loopback-filter"
 import { useTranslation } from "react-i18next"
-import fromEntries from "object.fromentries"
+import fromPairs from "lodash/fromPairs"
 
 const OptionTag = ({
   label,
@@ -131,9 +131,9 @@ const OptionTag = ({
                 {t("cases.filters_clear")}
               </div>
             </MenuItem>
-          ) : (
-            menuOpen ? displayingOptions : null
-          )}
+          ) : menuOpen ? (
+            displayingOptions
+          ) : null}
         </Menu>
       )}
     </div>
@@ -141,10 +141,13 @@ const OptionTag = ({
 }
 
 const TagStyledFilter = props => {
-  const { options, list, onListFiltered } = props
+  const { options, list, onListFiltered, initialFilters = [] } = props
   const [orderedItemSym] = useState(Symbol("order"))
   const [filteredList, setFilteredList] = useState(list)
-  const initialFiltersState = { [orderedItemSym]: [] }
+  const initialFiltersState = {
+    [orderedItemSym]: initialFilters,
+    ...fromPairs(initialFilters.map(i => [i.realFieldName, i.value])),
+  }
   const [filters, setFilters] = useState(initialFiltersState)
   const getWhereFilter = newFilters => {
     const andFilters = options
@@ -166,9 +169,7 @@ const TagStyledFilter = props => {
       .filter(Boolean)
     return {
       and: [
-        !Object.fromEntries
-          ? fromEntries(andFilters)
-          : Object.fromEntries(andFilters),
+        fromPairs(andFilters),
         ...orFilters.map(filters => ({ or: filters })),
       ],
     }
@@ -210,6 +211,8 @@ const TagStyledFilter = props => {
   const resetFilters = () => {
     applyFilter(initialFiltersState)
   }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  useEffect(() => applyFilter(filters), [filters])
   return (
     <React.Fragment>
       <div style={{ marginTop: "1em", lineHeight: 2 }}>

@@ -6,7 +6,7 @@ import MenuItem from "@material-ui/core/MenuItem"
 import ShareIcon from "@material-ui/icons/Share"
 import { trackCustomEvent } from "gatsby-plugin-google-analytics"
 import { useStaticQuery, graphql } from "gatsby"
-import ContextStore from "@/contextStore"
+import { useLocation } from "@reach/router"
 import { isSSR } from "@/utils"
 
 import {
@@ -139,12 +139,7 @@ function ShareButton(props) {
       })
     }
   }
-
-  const {
-    route: {
-      state: { fullPath },
-    },
-  } = React.useContext(ContextStore)
+  const { pathname: fullPath } = useLocation()
 
   const url = getPageUrl()
 

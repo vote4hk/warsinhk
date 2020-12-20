@@ -14,7 +14,6 @@ const LANGUAGES = ["zh", "en"]
 const { request } = require("graphql-request")
 const { getPath, getWarTipPath } = require("./src/utils/urlHelper")
 const isDebug = process.env.DEBUG_MODE === "true"
-const _get = require("lodash/get")
 const moment = require("moment")
 const fs = require("fs")
 
@@ -394,9 +393,13 @@ exports.onCreatePage = async ({ page, actions }) => {
     if (!page.path.match(/^\/en/)) {
       deletePage(page)
       LANGUAGES.forEach(lang => {
+        const path = getPath(lang, page.path)
         createPage({
           ...page,
-          path: getPath(lang, page.path),
+          matchPath: page.path.includes("cases")
+            ? (path + "/*").replace(/[/]+\*/, "/*")
+            : page.matchPath,
+          path,
           context: {
             ...page.context,
             locale: lang,
@@ -428,10 +431,10 @@ exports.onCreateWebpackConfig = ({ stage, loaders, actions, getConfig }) => {
       },
     })
   }
-  if (getConfig().mode === 'production') {
+  if (getConfig().mode === "production") {
     actions.setWebpackConfig({
-      devtool: false
-    });
+      devtool: false,
+    })
   }
 }
 
@@ -722,44 +725,23 @@ exports.createPages = async ({ graphql, actions }) => {
       })
     })
   })
-
-  // somehow onCreatePage is not triggering.. so we need to specify here
-  result.data.allWarsCase.edges.forEach(({ node }) => {
-    LANGUAGES.forEach(lang => {
-      const uri = getPath(lang, `/cases/${node.case_no}`)
-      const groupKeys = [
-        "name_zh",
-        "name_en",
-        "description_zh",
-        "description_en",
-        "id",
-        "related_cases",
-      ]
-      groupKeys.forEach(k => {
-        node.groups = []
-        groupArray
-          .filter(g => parseInt(g.case_no) === parseInt(node.case_no))
-          .forEach(g => {
-            const groupDetail = {}
-            groupDetail[k] = _get(g, k, null)
-            node.groups.push(g)
-          })
-      })
-
-      actions.createPage({
-        path: uri,
-        component: path.resolve(`./src/templates/case-seo.js`),
-        context: {
-          uri,
-          node,
-          patientGroup: result.data.patientTrack.group.filter(
-            pt => pt.fieldValue === node.case_no
-          ),
-          locale: lang,
-        },
-      })
-    })
-  })
-
   return Promise.resolve(null)
+}
+
+exports.onPostBuild = ({ reporter }) => {
+  reporter.info("Injecting cases pages sitemap record")
+  const fs = require("fs")
+  const casesData = require("./public/page-data/cases/page-data.json")
+  const template = no =>
+    `<url> <loc>https://wars.vote4.hk/cases/${no}</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
+<url> <loc>https://wars.vote4.hk/en/cases/${no}</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>`
+  const caseNos = casesData.result.data.allWarsCase.edges.map(
+    i => i.node.case_no
+  )
+  const sitemapXml = fs.readFileSync("./public/sitemap.xml", "utf-8")
+  const caseNoSitemap = caseNos.map(template).join("\n")
+  fs.writeFileSync(
+    "./public/sitemap.xml",
+    sitemapXml.replace("</urlset>", caseNoSitemap + "\n</urlset>")
+  )
 }
