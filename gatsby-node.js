@@ -14,7 +14,6 @@ const LANGUAGES = ["zh", "en"]
 const { request } = require("graphql-request")
 const { getPath, getWarTipPath } = require("./src/utils/urlHelper")
 const isDebug = process.env.DEBUG_MODE === "true"
-const _get = require("lodash/get")
 const moment = require("moment")
 const fs = require("fs")
 
