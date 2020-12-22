@@ -744,4 +744,19 @@ exports.onPostBuild = ({ reporter }) => {
     "./public/sitemap.xml",
     sitemapXml.replace("</urlset>", caseNoSitemap + "\n</urlset>")
   )
+  reporter.info("Setup cases routes and symlink for github SPA fallback")
+  for (const case_no of caseNos) {
+    try {
+      if (!fs.existsSync(`./public/cases/${case_no}`))
+        fs.mkdirSync(`./public/cases/${case_no}`)
+      if (!fs.existsSync(`./public/cases/${case_no}/index.html`))
+        fs.symlinkSync("../index.html", `./public/cases/${case_no}/index.html`)
+      if (!fs.existsSync(`./public/en/cases/${case_no}`))
+        fs.mkdirSync(`./public/en/cases/${case_no}`)
+      if (!fs.existsSync(`./public/en/cases/${case_no}/index.html`))
+        fs.symlinkSync("../index.html", `./public/en/cases/${case_no}/index.html`)
+    } catch (error) {
+      console.error(error)
+    }
+  }
 }
