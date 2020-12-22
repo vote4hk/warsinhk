@@ -594,6 +594,7 @@ const CasesPage = props => {
           {t("cases.filters")}
         </Typography>
         <TagStyleFilter
+          key={pathname}
           list={cases}
           placeholder={t("search.case_placeholder")}
           options={options}
