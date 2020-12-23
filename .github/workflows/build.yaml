@@ -26,6 +26,10 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
-    - run: yarn install
+    - uses: actions/cache@v2
+      with:
+        path: '**/node_modules'
+        key: ${{ runner.os }}-nodejs-${{ matrix.node-version }}-modules-${{ hashFiles('**/yarn.lock') }}-v-${{ hashFiles('src/**/*.js') }}-build
+    - run: yarn install --frozen-lockfile
     - run: yarn lint
     - run: yarn build

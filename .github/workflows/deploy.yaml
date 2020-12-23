@@ -20,9 +20,16 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
-    - run: yarn install
+    - uses: actions/cache@v2
+      with:
+        path: |
+          **/node_modules
+          .cache
+          public
+        key: ${{ runner.os }}-nodejs-${{ matrix.node-version }}-modules-${{ hashFiles('**/yarn.lock') }}-v-${{ hashFiles('src/**/*.js') }}-deploy
+    - run: yarn install --frozen-lockfile
     - run: yarn lint
-    - run: yarn build
+    - run: yarn build:incremental
       env:
         GOOGLE_TRACKING_ID: ${{ secrets.GOOGLE_TRACKING_ID }}
         NODE_ENV: ${{ secrets.NODE_ENV }}
