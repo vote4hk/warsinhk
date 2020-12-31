@@ -699,6 +699,9 @@ export const CasesPageQuery = graphql`
           classification_en
           source_url_1
           source_url_2
+          source_url_3
+          source_url_4
+          source_url_5
         }
       }
     }

@@ -4,7 +4,7 @@ import Box from "@material-ui/core/Box"
 import MuiLink from "@material-ui/core/Link"
 import { Link } from "gatsby"
 import styled from "styled-components"
-import { Row } from "@components/atoms/Row"
+import { Row, FlexStartRow } from "@components/atoms/Row"
 import { withLanguage, getLocalizedPath } from "@/utils/i18n"
 import { DefaultChip } from "@components/atoms/Chip"
 import { bps } from "@/ui/theme"
@@ -113,10 +113,9 @@ const CaseCard = styled.div`
   }
 
   .case-source {
-    display: flex;
-    justify-content: flex-start;
+    margin-top: 16px;
     a {
-      margin-right: 8px;
+      margin-left: 8px;
     }
   }
 
@@ -260,6 +259,13 @@ export const WarsCaseCard = React.forwardRef((props, ref) => {
   const statusText = withLanguage(i18n, node, "status")
   const hospitalText = withLanguage(i18n, node, "hospital")
   const citizenshipText = withLanguage(i18n, node, "citizenship")
+  const sources = [
+    node.source_url_1,
+    node.source_url_2,
+    node.source_url_3,
+    node.source_url_4,
+    node.source_url_5,
+  ].filter(n => n)
 
   const dateFormat = /\d{4}-\d{2}-\d{2}/g
   return (
@@ -403,18 +409,20 @@ export const WarsCaseCard = React.forwardRef((props, ref) => {
           <Typography variant="body1">
             {renderTextWithCaseLink(i18n, node, "detail")}
           </Typography>
-          <Row className="case-source">
-            {node.source_url_1 && (
-              <MuiLink variant="body1" href={node.source_url_1} target="_blank">
-                {t("dashboard.source")}
-              </MuiLink>
-            )}
-            {node.source_url_2 && (
-              <MuiLink variant="body1" href={node.source_url_2} target="_blank">
-                {t("dashboard.source")}
-              </MuiLink>
-            )}
-          </Row>
+          {!!sources.length && (
+            <div className="case-source">
+              <FlexStartRow>
+                <Typography variant="body1">{t("dashboard.source")}</Typography>
+                {sources.map((source, i) => {
+                  return (
+                    <MuiLink variant="body1" href={source} target="_blank">
+                      {i + 1}
+                    </MuiLink>
+                  )
+                })}
+              </FlexStartRow>
+            </div>
+          )}
         </Box>
         {track}
       </Box>

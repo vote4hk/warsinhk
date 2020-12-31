@@ -620,6 +620,9 @@ exports.createPages = async ({ graphql, actions }) => {
             classification_en
             source_url_1
             source_url_2
+            source_url_3
+            source_url_4
+            source_url_5
           }
         }
       }
@@ -754,7 +757,10 @@ exports.onPostBuild = ({ reporter }) => {
       if (!fs.existsSync(`./public/en/cases/${case_no}`))
         fs.mkdirSync(`./public/en/cases/${case_no}`)
       if (!fs.existsSync(`./public/en/cases/${case_no}/index.html`))
-        fs.symlinkSync("../index.html", `./public/en/cases/${case_no}/index.html`)
+        fs.symlinkSync(
+          "../index.html",
+          `./public/en/cases/${case_no}/index.html`
+        )
     } catch (error) {
       console.error(error)
     }
