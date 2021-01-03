@@ -420,10 +420,12 @@ export const HighRiskQuery = graphql`
       edges {
         node {
           id
-          sub_district_zh
-          sub_district_en
-          action_zh
           action_en
+          action_zh
+          case_no
+          end_date
+          lat
+          lng
           location_en
           location_zh
           remarks_en
@@ -431,11 +433,9 @@ export const HighRiskQuery = graphql`
           source_url_1
           source_url_2
           start_date
-          end_date
-          lat
-          lng
+          sub_district_en
+          sub_district_zh
           type
-          case_no
           case {
             case_no
           }
