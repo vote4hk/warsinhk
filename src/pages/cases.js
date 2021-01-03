@@ -2,6 +2,7 @@ import React, { useState, useMemo } from "react"
 import { useTranslation } from "react-i18next"
 import styled from "styled-components"
 import _groupBy from "lodash/groupBy"
+import _keyBy from "lodash/keyBy"
 import Typography from "@material-ui/core/Typography"
 import MenuItem from "@material-ui/core/MenuItem"
 
@@ -366,7 +367,10 @@ const CasesPage = props => {
   if (isNaN(preloadedCases)) {
     preloadedCases = 15
   }
-
+  const patientTrackKeyedByCaseNo = useMemo(
+    () => _keyBy(data.patient_track.group, "fieldValue"),
+    [data]
+  )
   const renderCaseCard = node => (
     <WarsCaseCard
       node={node}
@@ -375,9 +379,11 @@ const CasesPage = props => {
       key={node.case_no}
       // isSelected={selectedCase === item.node.case_no}
       // ref={selectedCase === item.node.case_no ? selectedCard : null}
-      patientTrack={data.patient_track.group.filter(
-        t => t.fieldValue === node.case_no
-      )}
+      patientTrack={
+        patientTrackKeyedByCaseNo[node.case_no]
+          ? [patientTrackKeyedByCaseNo[node.case_no]]
+          : []
+      }
       handleClose={
         view === CASES_BOX_VIEW ? e => setSelectedCase(null) : undefined
       }
@@ -723,19 +729,21 @@ export const CasesPageQuery = graphql`
         fieldValue
         edges {
           node {
-            case_no
-            start_date
-            end_date
-            sub_district_zh
-            sub_district_en
-            location_zh
-            location_en
-            action_zh
             action_en
-            remarks_zh
+            action_zh
+            case_no
+            end_date
+            lat
+            lng
+            location_en
+            location_zh
             remarks_en
+            remarks_zh
             source_url_1
             source_url_2
+            start_date
+            sub_district_en
+            sub_district_zh
           }
         }
       }
