@@ -76,7 +76,7 @@
     "lodash.uniqby": "^4.7.0",
     "moment": "^2.24.0",
     "my-loopback-filter": "^3.0.0",
-    "node-fetch": "^2.6.0",
+    "node-fetch": "^2.6.1",
     "object.fromentries": "^2.0.2",
     "pixi.js-legacy": "^5.2.1",
     "prop-types": "^15.7.2",
