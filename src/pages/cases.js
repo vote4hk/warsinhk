@@ -2,13 +2,14 @@ import React, { useState, useMemo } from "react"
 import { useTranslation } from "react-i18next"
 import styled from "styled-components"
 import _groupBy from "lodash/groupBy"
+import _keyBy from "lodash/keyBy"
 import Typography from "@material-ui/core/Typography"
 import MenuItem from "@material-ui/core/MenuItem"
 
 import { bps } from "@/ui/theme"
 import SEO from "@/components/templates/SEO"
 import Layout from "@components/templates/Layout"
-import { graphql } from "gatsby"
+import {useAllCasesData} from "@components/data/useAllCasesData"
 import TagStyleFilter from "@/components/molecules/TagStyleFilter"
 import { createDedupOptions } from "@/utils/search"
 import { mapColorForStatus } from "@/utils/colorHelper"
@@ -127,7 +128,7 @@ const Circle = styled.div`
 `
 
 const CasesPage = props => {
-  const { data } = props
+  const data = useAllCasesData();
   const {
     cases: {
       dispatch,
@@ -366,7 +367,10 @@ const CasesPage = props => {
   if (isNaN(preloadedCases)) {
     preloadedCases = 15
   }
-
+  const patientTrackKeyedByCaseNo = useMemo(
+    () => _keyBy(data.patient_track.group, "fieldValue"),
+    [data]
+  )
   const renderCaseCard = node => (
     <WarsCaseCard
       node={node}
@@ -375,9 +379,11 @@ const CasesPage = props => {
       key={node.case_no}
       // isSelected={selectedCase === item.node.case_no}
       // ref={selectedCase === item.node.case_no ? selectedCard : null}
-      patientTrack={data.patient_track.group.filter(
-        t => t.fieldValue === node.case_no
-      )}
+      patientTrack={
+        patientTrackKeyedByCaseNo[node.case_no]
+          ? [patientTrackKeyedByCaseNo[node.case_no]]
+          : null
+      }
       handleClose={
         view === CASES_BOX_VIEW ? e => setSelectedCase(null) : undefined
       }
@@ -670,75 +676,3 @@ const CasesPage = props => {
 }
 
 export default CasesPage
-
-export const CasesPageQuery = graphql`
-  query {
-    allWarsCase {
-      edges {
-        node {
-          case_no
-          onset_date
-          confirmation_date
-          gender
-          age
-          hospital_zh
-          hospital_en
-          status
-          status_zh
-          status_en
-          type_zh
-          type_en
-          citizenship_zh
-          citizenship_en
-          citizenship_district_zh
-          citizenship_district_en
-          detail_zh
-          detail_en
-          classification
-          classification_zh
-          classification_en
-          source_url_1
-          source_url_2
-          source_url_3
-          source_url_4
-          source_url_5
-        }
-      }
-    }
-    allWarsCaseRelation {
-      edges {
-        node {
-          case_no
-          name_zh
-          name_en
-          description_zh
-          description_en
-        }
-      }
-    }
-    patient_track: allWarsCaseLocation(
-      sort: { order: DESC, fields: end_date }
-    ) {
-      group(field: case___case_no) {
-        fieldValue
-        edges {
-          node {
-            case_no
-            start_date
-            end_date
-            sub_district_zh
-            sub_district_en
-            location_zh
-            location_en
-            action_zh
-            action_en
-            remarks_zh
-            remarks_en
-            source_url_1
-            source_url_2
-          }
-        }
-      }
-    }
-  }
-`

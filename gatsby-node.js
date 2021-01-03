@@ -730,15 +730,23 @@ exports.createPages = async ({ graphql, actions }) => {
   })
   return Promise.resolve(null)
 }
-
-exports.onPostBuild = ({ reporter }) => {
+exports.onPostBuild = async ({ graphql, reporter }) => {
   reporter.info("Injecting cases pages sitemap record")
   const fs = require("fs")
-  const casesData = require("./public/page-data/cases/page-data.json")
+  const result = await graphql(`
+  query {
+    allWarsCase {
+      edges {
+        node {
+          case_no
+        }
+      }
+    }
+  }`)
   const template = no =>
     `<url> <loc>https://wars.vote4.hk/cases/${no}</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
 <url> <loc>https://wars.vote4.hk/en/cases/${no}</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>`
-  const caseNos = casesData.result.data.allWarsCase.edges.map(
+  const caseNos = result.data.allWarsCase.edges.map(
     i => i.node.case_no
   )
   const sitemapXml = fs.readFileSync("./public/sitemap.xml", "utf-8")

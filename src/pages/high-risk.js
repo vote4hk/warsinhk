@@ -1,9 +1,8 @@
-import React, { useState, useRef, useEffect } from "react"
+import React, { useState, useRef, useEffect, useMemo } from "react"
 import SEO from "@/components/templates/SEO"
 import Layout from "@components/templates/Layout"
 import { useTranslation } from "react-i18next"
 import { Box, Typography, Tooltip, ClickAwayListener } from "@material-ui/core"
-import { graphql } from "gatsby"
 import styled from "styled-components"
 import MuiLink from "@material-ui/core/Link"
 import { Link } from "gatsby"
@@ -14,6 +13,8 @@ import { makeStyles } from "@material-ui/core/styles"
 import AutoSizer from "react-virtualized/dist/es/AutoSizer"
 import * as d3 from "d3"
 import _groupBy from "lodash/groupBy"
+import _flatMap from "lodash/flatMap"
+import _orderBy from "lodash/orderBy"
 import DatePicker from "@/components/organisms/DatePicker"
 import Theme from "@/ui/theme"
 import { trackCustomEvent } from "gatsby-plugin-google-analytics"
@@ -25,6 +26,7 @@ import {
 import MultiPurposeSearch from "../components/molecules/MultiPurposeSearch"
 import { grey } from "@material-ui/core/colors"
 import { formatDateMDD, isSSR } from "@/utils"
+import { useAllCasesData } from "@components/data/useAllCasesData"
 
 const HighRiskMap = React.lazy(() =>
   import(/* webpackPrefetch: true */ "@components/highRiskMap")
@@ -239,7 +241,15 @@ const useStyle = makeStyles(theme => {
   }
 })
 
-const HighRiskPage = ({ data }) => {
+const HighRiskPage = () => {
+  const allCasesPageData = useAllCasesData()
+  const data = useMemo(() => {
+    const edges = _orderBy(
+      _flatMap(allCasesPageData.patient_track.group, "edges"),
+      "node.end_date"
+    ).filter(i => i.node.action_zh !== "求醫")
+    return { allWarsCaseLocation: { edges } }
+  }, [allCasesPageData])
   const [searchStartDate, setSearchStartDate] = useState(null)
   const [searchEndDate, setSearchEndDate] = useState(null)
   const { i18n, t } = useTranslation()
@@ -410,37 +420,3 @@ const HighRiskPage = ({ data }) => {
 }
 
 export default HighRiskPage
-
-export const HighRiskQuery = graphql`
-  query {
-    allWarsCaseLocation(
-      sort: { order: DESC, fields: end_date }
-      filter: { action_zh: { ne: "求醫" } }
-    ) {
-      edges {
-        node {
-          id
-          sub_district_zh
-          sub_district_en
-          action_zh
-          action_en
-          location_en
-          location_zh
-          remarks_en
-          remarks_zh
-          source_url_1
-          source_url_2
-          start_date
-          end_date
-          lat
-          lng
-          type
-          case_no
-          case {
-            case_no
-          }
-        }
-      }
-    }
-  }
-`
