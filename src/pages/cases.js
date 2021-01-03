@@ -382,7 +382,7 @@ const CasesPage = props => {
       patientTrack={
         patientTrackKeyedByCaseNo[node.case_no]
           ? [patientTrackKeyedByCaseNo[node.case_no]]
-          : []
+          : null
       }
       handleClose={
         view === CASES_BOX_VIEW ? e => setSelectedCase(null) : undefined
