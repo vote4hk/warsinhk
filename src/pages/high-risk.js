@@ -171,7 +171,7 @@ export const CaseRow = ({ c, i18n, t, pass14days }) => (
                 color={colors(0)}
               />
             )}
-            {c.case && (
+            {c.case_no && (
               <Link to={getLocalizedPath(i18n, `/cases/${c.case_no} `)}>
                 <CaseLabel color={colors(1)}>{`#${c.case_no}`}</CaseLabel>
               </Link>
