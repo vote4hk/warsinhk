@@ -92,7 +92,7 @@ const ConfirmedCasesSummary = props => {
           const color = mapColorForStatus(v.fieldValue).main
           return (
             <Typography
-              key={i}
+              key={`${i}-${v.fieldValue}`}
               display="inline"
               variant="body2"
               style={{
