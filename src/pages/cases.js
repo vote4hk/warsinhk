@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react"
+import React, { useState, useMemo, useCallback } from "react"
 import { useTranslation } from "react-i18next"
 import styled from "styled-components"
 import _groupBy from "lodash/groupBy"
@@ -9,7 +9,7 @@ import MenuItem from "@material-ui/core/MenuItem"
 import { bps } from "@/ui/theme"
 import SEO from "@/components/templates/SEO"
 import Layout from "@components/templates/Layout"
-import {useAllCasesData} from "@components/data/useAllCasesData"
+import { useAllCasesData } from "@components/data/useAllCasesData"
 import TagStyleFilter from "@/components/molecules/TagStyleFilter"
 import { createDedupOptions } from "@/utils/search"
 import { mapColorForStatus } from "@/utils/colorHelper"
@@ -127,16 +127,13 @@ const Circle = styled.div`
   display: inline-block;
 `
 
-const CasesPage = props => {
-  const data = useAllCasesData();
-  const {
-    cases: {
-      dispatch,
-      state: { view },
-    },
-  } = React.useContext(ContextStore)
+const CasesPageMain = ({ dispatch, view }) => {
+  const data = useAllCasesData()
   const { i18n, t } = useTranslation()
-
+  const patientTrackKeyedByCaseNo = useMemo(
+    () => _keyBy(data.patient_track.group, "fieldValue"),
+    [data]
+  )
   // Do the sorting here since case_no is string instead of int
   const [cases, groupArrayColumnOptions] = useMemo(() => {
     const groupArray = data.allWarsCaseRelation.edges.flatMap(
@@ -176,7 +173,7 @@ const CasesPage = props => {
       })
     return [cases, groupArrayColumnOptions]
   }, [data, i18n.language])
-
+  const [internalCount, setInternalCounter] = useState(0)
   const [filteredCases, setFilteredCases] = useState([])
   const [selectedCase, setSelectedCase] = useState(null)
   // 1: by date   : from latest to oldest
@@ -200,28 +197,6 @@ const CasesPage = props => {
       return { [str[0] === ">" ? "gt" : "lt"]: str.slice(1, str.length) }
     if (/^[-A-Z0-9]+$/i.test(str)) return str
     return
-  }
-  const stringOrFilterEntry = ([key, value]) => {
-    const filterPhrases = value
-      .split(/,|\s+/g)
-      .filter(phase => phase && /\w$/.test(phase))
-      .map(parseToFilter)
-      .reduce(
-        (acc, curr) => {
-          if (curr) {
-            curr.constructor === String ? acc.inq.push(curr) : acc.or.push(curr)
-          }
-          return acc
-        },
-        { or: [], inq: [] }
-      )
-
-    return [
-      filterPhrases.inq.length
-        ? { [`node.${key}`]: { inq: filterPhrases.inq } }
-        : undefined,
-      ...filterPhrases.or.map(phrase => ({ [`node.${key}`]: phrase })),
-    ].filter(Boolean)
   }
   const dateRangeOptionPresets = [
     {
@@ -263,132 +238,162 @@ const CasesPage = props => {
         .format("YYYY-MM")}..${moment().format(`YYYY-MM`)}`,
     },
   ]
-  const options = [
-    {
-      label: t("search.group"),
-      options: groupArrayColumnOptions,
-      orderOptionsByFilterCount: true,
-      realFieldName: "group_ids",
-      toFilterEntry,
-    },
-    {
-      label: t("search.classification"),
-      options: createDedupOptions(i18n, cases, "classification"),
-      orderOptionsByFilterCount: true,
-      realFieldName: "classification_" + i18n.language,
-      toFilterEntry,
-    },
-    {
-      label: t("search.district"),
-      options: createDedupOptions(i18n, cases, "citizenship_district"),
-      orderOptionsByFilterCount: true,
-      realFieldName: "citizenship_district_" + i18n.language,
-      toFilterEntry,
-    },
-    {
-      label: t("search.citizenship"),
-      options: createDedupOptions(i18n, cases, "citizenship"),
-      orderOptionsByFilterCount: true,
-      realFieldName: "citizenship_" + i18n.language,
-      toFilterEntry,
-    },
-    {
-      label: t("search.case_status"),
-      options: createDedupOptions(i18n, cases, "status"),
-      orderOptionsByFilterCount: true,
-      realFieldName: "status_" + i18n.language,
-      toFilterEntry,
-    },
-    {
-      label: t("search.hospital"),
-      options: createDedupOptions(i18n, cases, "hospital"),
-      orderOptionsByFilterCount: true,
-      realFieldName: "hospital_" + i18n.language,
-      toFilterEntry,
-    },
-    {
-      label: t("search.case_no"),
-      realFieldName: "case_no_num",
-      filterType: "string",
-      options: [],
-      toFilterEntry: stringOrFilterEntry,
-      isOrFilter: true,
-      filterPlaceholder: "e.g. 1,3,10..20",
-    },
-    {
-      label: t("dashboard.patient_confirm_date"),
-      realFieldName: "confirmation_date",
-      filterType: "string",
-      options: dateRangeOptionPresets,
-      toFilterEntry: stringOrFilterEntry,
-      isOrFilter: true,
-      filterPlaceholder: "e.g. 2020-06..2020-07-21",
-    },
-    {
-      label: t("dashboard.patient_onset_date"),
-      realFieldName: "onset_date",
-      options: [
-        { label: t("cases.status_asymptomatic"), value: "asymptomatic,none" },
-        ...dateRangeOptionPresets,
-      ],
-      filterType: "string",
-      toFilterEntry: stringOrFilterEntry,
-      isOrFilter: true,
-      filterPlaceholder: "e.g. 2020-06..2020-07-21",
-    },
-    {
-      label: t("cases_visual.age"),
-      realFieldName: "age_num",
-      filterType: "string",
-      options: [],
-      toFilterEntry: stringOrFilterEntry,
-      isOrFilter: true,
-      filterPlaceholder: "e.g. 10..20,>60,>=50",
-    },
-    {
-      label: t("cases_visual.gender"),
-      realFieldName: "gender",
-      options: [
-        {
-          value: "M",
-          label: t("dashboard.gender_M"),
-        },
-        {
-          value: "F",
-          label: t("dashboard.gender_F"),
-        },
-      ],
-      toFilterEntry,
-    },
-  ]
+  const options = useMemo(() => {
+    const stringOrFilterEntry = ([key, value]) => {
+      const filterPhrases = value
+        .split(/,|\s+/g)
+        .filter(phase => phase && /\w$/.test(phase))
+        .map(parseToFilter)
+        .reduce(
+          (acc, curr) => {
+            if (curr) {
+              curr.constructor === String
+                ? acc.inq.push(curr)
+                : acc.or.push(curr)
+            }
+            return acc
+          },
+          { or: [], inq: [] }
+        )
 
+      return [
+        filterPhrases.inq.length
+          ? { [`node.${key}`]: { inq: filterPhrases.inq } }
+          : undefined,
+        ...filterPhrases.or.map(phrase => ({ [`node.${key}`]: phrase })),
+      ].filter(Boolean)
+    }
+    return [
+      {
+        label: t("search.group"),
+        options: groupArrayColumnOptions,
+        orderOptionsByFilterCount: true,
+        realFieldName: "group_ids",
+        toFilterEntry,
+      },
+      {
+        label: t("search.classification"),
+        options: createDedupOptions(i18n, cases, "classification"),
+        orderOptionsByFilterCount: true,
+        realFieldName: "classification_" + i18n.language,
+        toFilterEntry,
+      },
+      {
+        label: t("search.district"),
+        options: createDedupOptions(i18n, cases, "citizenship_district"),
+        orderOptionsByFilterCount: true,
+        realFieldName: "citizenship_district_" + i18n.language,
+        toFilterEntry,
+      },
+      {
+        label: t("search.citizenship"),
+        options: createDedupOptions(i18n, cases, "citizenship"),
+        orderOptionsByFilterCount: true,
+        realFieldName: "citizenship_" + i18n.language,
+        toFilterEntry,
+      },
+      {
+        label: t("search.case_status"),
+        options: createDedupOptions(i18n, cases, "status"),
+        orderOptionsByFilterCount: true,
+        realFieldName: "status_" + i18n.language,
+        toFilterEntry,
+      },
+      {
+        label: t("search.hospital"),
+        options: createDedupOptions(i18n, cases, "hospital"),
+        orderOptionsByFilterCount: true,
+        realFieldName: "hospital_" + i18n.language,
+        toFilterEntry,
+      },
+      {
+        label: t("search.case_no"),
+        realFieldName: "case_no_num",
+        filterType: "string",
+        options: [],
+        toFilterEntry: stringOrFilterEntry,
+        isOrFilter: true,
+        filterPlaceholder: "e.g. 1,3,10..20",
+      },
+      {
+        label: t("dashboard.patient_confirm_date"),
+        realFieldName: "confirmation_date",
+        filterType: "string",
+        options: dateRangeOptionPresets,
+        toFilterEntry: stringOrFilterEntry,
+        isOrFilter: true,
+        filterPlaceholder: "e.g. 2020-06..2020-07-21",
+      },
+      {
+        label: t("dashboard.patient_onset_date"),
+        realFieldName: "onset_date",
+        options: [
+          { label: t("cases.status_asymptomatic"), value: "asymptomatic,none" },
+          ...dateRangeOptionPresets,
+        ],
+        filterType: "string",
+        toFilterEntry: stringOrFilterEntry,
+        isOrFilter: true,
+        filterPlaceholder: "e.g. 2020-06..2020-07-21",
+      },
+      {
+        label: t("cases_visual.age"),
+        realFieldName: "age_num",
+        filterType: "string",
+        options: [],
+        toFilterEntry: stringOrFilterEntry,
+        isOrFilter: true,
+        filterPlaceholder: "e.g. 10..20,>60,>=50",
+      },
+      {
+        label: t("cases_visual.gender"),
+        realFieldName: "gender",
+        options: [
+          {
+            value: "M",
+            label: t("dashboard.gender_M"),
+          },
+          {
+            value: "F",
+            label: t("dashboard.gender_F"),
+          },
+        ],
+        toFilterEntry,
+      },
+    ]
+  }, [cases, dateRangeOptionPresets, groupArrayColumnOptions, i18n, t])
+  const onListFiltered = useCallback(data => {
+    if (data !== filteredCases) {
+      setFilteredCases(data)
+      setInternalCounter(i => i + 1)
+    }
+  }, [filteredCases])
   // Calculate how much cards we should preload in order to scorll to that position
   let preloadedCases = cases.length - parseInt(selectedCase) + 1
   if (isNaN(preloadedCases)) {
     preloadedCases = 15
   }
-  const patientTrackKeyedByCaseNo = useMemo(
-    () => _keyBy(data.patient_track.group, "fieldValue"),
-    [data]
-  )
-  const renderCaseCard = node => (
-    <WarsCaseCard
-      node={node}
-      i18n={i18n}
-      t={t}
-      key={node.case_no}
-      // isSelected={selectedCase === item.node.case_no}
-      // ref={selectedCase === item.node.case_no ? selectedCard : null}
-      patientTrack={
-        patientTrackKeyedByCaseNo[node.case_no]
-          ? [patientTrackKeyedByCaseNo[node.case_no]]
-          : null
-      }
-      handleClose={
-        view === CASES_BOX_VIEW ? e => setSelectedCase(null) : undefined
-      }
-    />
-  )
+  const renderCaseCard = useMemo(() => {
+    const RenderSingleCaseCard = (node, i) => (
+      <WarsCaseCard
+        node={node}
+        i18n={i18n}
+        t={t}
+        key={`${i}-${node.id}`}
+        // isSelected={selectedCase === item.node.case_no}
+        // ref={selectedCase === item.node.case_no ? selectedCard : null}
+        patientTrack={
+          patientTrackKeyedByCaseNo[node.case_no]
+            ? [patientTrackKeyedByCaseNo[node.case_no]]
+            : null
+        }
+        handleClose={
+          view === CASES_BOX_VIEW ? e => setSelectedCase(null) : undefined
+        }
+      />
+    )
+    return RenderSingleCaseCard
+  }, [i18n, patientTrackKeyedByCaseNo, t, view])
 
   const Legend = () => {
     const items = [
@@ -605,7 +610,7 @@ const CasesPage = props => {
           placeholder={t("search.case_placeholder")}
           options={options}
           searchKey="case"
-          onListFiltered={setFilteredCases}
+          onListFiltered={onListFiltered}
           filterWithOr={false}
           initialFilters={
             caseCodeMatch
@@ -663,16 +668,28 @@ const CasesPage = props => {
           )}
         </>
       ) : (
-        <ResponsiveWrapper>
-          <InfiniteScroll
-            list={filteredCases.map(c => c.node)}
-            step={{ mobile: 5, preload: preloadedCases }}
-            onItem={renderCaseCard}
-          />
-        </ResponsiveWrapper>
+        <InfiniteScroll
+          key={internalCount} // The state of this InfiniteScroll Component need to be discarded when filteredCases changes.
+          list={filteredCases.map(c => c.node)}
+          step={{ mobile: 5, preload: preloadedCases }}
+          onItem={renderCaseCard}
+          Wrapper={ResponsiveWrapper}
+        />
       )}
     </Layout>
   )
+}
+
+const CasesPageMainMemoed = React.memo(CasesPageMain)
+
+const CasesPage = () => {
+  const {
+    cases: {
+      dispatch,
+      state: { view },
+    },
+  } = React.useContext(ContextStore)
+  return <CasesPageMainMemoed dispatch={dispatch} view={view} />
 }
 
 export default CasesPage
