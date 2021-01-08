@@ -11,7 +11,6 @@ import {
   mapColorForClassification,
   mapColorForStatus,
 } from "@/utils/colorHelper"
-import { formatDateMDD } from "@/utils"
 import _get from "lodash.get"
 import CloseIcon from "@material-ui/icons/Close"
 import ChevronLeftRoundedIcon from "@material-ui/icons/ChevronLeftRounded"
@@ -154,13 +153,7 @@ const WarsCaseTrack = ({ i18n, t, track }) => {
           <div key={i} className="track-item">
             <Row className="track-header">
               <Box>{withLanguage(i18n, tr.node, "action")}</Box>
-              <Box>
-                {tr.node.start_date === tr.node.end_date
-                  ? formatDateMDD(tr.node.end_date)
-                  : `${formatDateMDD(tr.node.start_date)} - ${formatDateMDD(
-                      tr.node.end_date
-                    )}`}
-              </Box>
+              <Box>{tr.node.end_date}</Box>
             </Row>
             <Row className="">
               <Typography variant="body1">
