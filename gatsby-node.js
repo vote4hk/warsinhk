@@ -49,7 +49,8 @@ const PUBLISHED_SPREADSHEET_WARS_CASES_RELATIONSHIP_URL =
   "https://docs.google.com/spreadsheets/d/e/2PACX-1vQS7Aay-dZbemZAxbW1oVrC5QKnT9wPjd55hSGGnXGj8_jdZJa9dsKYI--dTv4EU--xt_HGIDZsdNEw/pub?gid=0"
 const PUBLISHED_SPREADSHEET_ALERT_URL =
   "https://docs.google.com/spreadsheets/d/e/2PACX-1vRWN6o99FDJN4KsnAyq9KeWKEerF2_v1Z0wWbKiHPI0_Whuf00ZLW2n-GfoXciKgVXkBSoBEz6IhreC/pub?gid=0"
-
+const PUBLISHED_SPREADSHEET_UPDATES_URL =
+  "https://docs.google.com/spreadsheets/d/e/2PACX-1vRY5OHr2hX8Xl_tJR1BgrffhoiVxqjngCu9W262MgyW5ZCXuZFaj1Od0PQJqNeRJ7ocUacI2WnodeTT/pub?gid=257173560"
 const GRAPHQL_URL = "https://api2.vote4.hk/v1/graphql"
 
 const createIMMDNode = async ({
@@ -530,6 +531,12 @@ exports.sourceNodes = async props => {
       "ImportantInformation",
       { skipFirstLine: true }
     ),
+    createPublishedGoogleSpreadsheetNode(
+      props,
+      PUBLISHED_SPREADSHEET_UPDATES_URL,
+      "Updates",
+      { skipFirstLine: true }
+    ),
     // createPublishedGoogleSpreadsheetNode(
     //   props,
     //   PUBLISHED_SPREADSHEET_SITE_CONFIG_URL,
@@ -734,21 +741,20 @@ exports.onPostBuild = async ({ graphql, reporter }) => {
   reporter.info("Injecting cases pages sitemap record")
   const fs = require("fs")
   const result = await graphql(`
-  query {
-    allWarsCase {
-      edges {
-        node {
-          case_no
+    query {
+      allWarsCase {
+        edges {
+          node {
+            case_no
+          }
         }
       }
     }
-  }`)
+  `)
   const template = no =>
     `<url> <loc>https://wars.vote4.hk/cases/${no}</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
 <url> <loc>https://wars.vote4.hk/en/cases/${no}</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>`
-  const caseNos = result.data.allWarsCase.edges.map(
-    i => i.node.case_no
-  )
+  const caseNos = result.data.allWarsCase.edges.map(i => i.node.case_no)
   const sitemapXml = fs.readFileSync("./public/sitemap.xml", "utf-8")
   const caseNoSitemap = caseNos.map(template).join("\n")
   fs.writeFileSync(

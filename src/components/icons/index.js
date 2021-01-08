@@ -49,7 +49,7 @@ export function mapIcon(name, style) {
       return <DisruptionIcon />
     case "translate":
       return <TranslateIcon />
-    case "news":
+    case "updates":
       return <NewsIcon />
     case "close":
       return <CloseIcon fontSize="inherit" />
