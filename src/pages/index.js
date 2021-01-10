@@ -267,6 +267,19 @@ export default function IndexPage({ data }) {
         rowSpan: 2,
       }
     )
+
+    registerComponent(
+      "location_search",
+      "dashboard.location_search",
+      React.lazy(() =>
+        import(
+          /* webpackPrefetch: true */ "@/components/molecules/dashboard/LocationSearch.js"
+          )
+      ),
+      {
+        rowSpan: 2,
+      }
+    )
   }
 
   const handleModuleChange = id => {

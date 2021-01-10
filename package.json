@@ -59,6 +59,7 @@
     "gatsby-transformer-json": "^2.2.25",
     "gatsby-transformer-sharp": "^2.3.7",
     "graphql-request": "^1.8.2",
+    "hk-address-parser-lib": "^0.3.3",
     "i18next": "^19.0.3",
     "leaflet": "^1.6.0",
     "leaflet-pixi-overlay": "^1.8.1",
