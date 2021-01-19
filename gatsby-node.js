@@ -19,8 +19,10 @@ const fs = require("fs")
 
 const PUBLISHED_SPREADSHEET_I18N_URL =
   "https://docs.google.com/spreadsheets/d/e/2PACX-1vRTVp8L95wLd23_2CuA57V-lU6tCRhGAPWSCghGhBuV4xKV_XMVjniCEoDxZnBMXEJ2MPlAi6WzOxlp/pub?gid=0"
-const PUBLISHED_SPREADSHEET_WARS_CASES_URL =
-  "https://docs.google.com/spreadsheets/d/e/2PACX-1vSr2xYotDgnAq6bqm5Nkjq9voHBKzKNWH2zvTRx5LU0jnpccWykvEF8iB_0g7Tzo2pwzkTuM3ETlr_h/pub?gid=0"
+const PUBLISHED_SPREADSHEET_WARS_CASES_URLS = [
+  "https://docs.google.com/spreadsheets/d/e/2PACX-1vSr2xYotDgnAq6bqm5Nkjq9voHBKzKNWH2zvTRx5LU0jnpccWykvEF8iB_0g7Tzo2pwzkTuM3ETlr_h/pub?gid=0",
+  "https://docs.google.com/spreadsheets/d/e/2PACX-1vT-Xw-QHYydz_kJCJLBqTKGbb2OF8_gisdUsduPbdR6Dp3tLbWxy_mkfRx2tMmGJ0q64uNsLLv3bbfb/pub?gid=0"
+]
 const PUBLISHED_SPREADSHEET_DODGY_SHOPS_URL =
   "https://docs.google.com/spreadsheets/d/e/2PACX-1vT_CejomuSCl7198EZ7JgujiAfcxwao-4_X5d3V8VasBKGTvSVtfPrFCl3NGMEwo_a6wZbmKZcqV-sB/pub?gid=1018551822"
 const PUBLISHED_SPREADSHEET_WARS_TIPS_URL =
@@ -29,8 +31,10 @@ const PUBLISHED_SPREADSHEET_DISRUPTION_URL =
   "https://docs.google.com/spreadsheets/d/e/2PACX-1vS0gZ-QBC6JGMS28kYUMz90ZNXFb40CtoLtOIC-QzzlqhPKCIrAojuuN2GX6AXaECONvxJd84tpqzFd/pub?gid=0"
 const PUBLISHED_SPREADSHEET_DISRUPTION_DESCRIPTION_URL =
   "https://docs.google.com/spreadsheets/d/e/2PACX-1vS0gZ-QBC6JGMS28kYUMz90ZNXFb40CtoLtOIC-QzzlqhPKCIrAojuuN2GX6AXaECONvxJd84tpqzFd/pub?gid=268131605"
-const PUBLISHED_SPREADSHEET_WARS_CASES_LOCATION_URL =
-  "https://docs.google.com/spreadsheets/d/e/2PACX-1vT6aoKk3iHmotqb5_iHggKc_3uAA901xVzwsllmNoOpGgRZ8VAA3TSxK6XreKzg_AUQXIkVX5rqb0Mo/pub?gid=0"
+const PUBLISHED_SPREADSHEET_WARS_CASES_LOCATION_URLS = [
+  "https://docs.google.com/spreadsheets/d/e/2PACX-1vT6aoKk3iHmotqb5_iHggKc_3uAA901xVzwsllmNoOpGgRZ8VAA3TSxK6XreKzg_AUQXIkVX5rqb0Mo/pub?gid=0",
+  "https://docs.google.com/spreadsheets/d/e/2PACX-1vQVRg6iiYOHZwLsXdZE6TVWBO7Cldi07NUnbeVY3nI97_IjyG3jiWnjaUS51HRNJI1fN3io1paMa6jZ/pub?gid=0"
+]
 const PUBLISHED_SPREADSHEET_BOT_WARS_LATEST_FIGURES_URL =
   "https://docs.google.com/spreadsheets/d/e/2PACX-1vTiCndDnXu6l5ZKq2aAVgU2xM3WGGW68XF-pEbLAloRbOzA1QwglLGJ6gTKjFbLQGhbH6GR2TsJKrO7/pub?gid=0"
 const PUBLISHED_OVERRIDE_MASTER_URL =
@@ -332,20 +336,31 @@ const createGovNewsNode = async ({
 
 const createPublishedGoogleSpreadsheetNode = async (
   { actions: { createNode, createTypes }, createNodeId, createContentDigest },
-  publishedURL,
+  publishedURLs,
   type,
   { skipFirstLine = false, alwaysEnabled = false, subtype = null }
 ) => {
   // All table has first row reserved
-  const result = await fetch(
-    `${publishedURL}&single=true&output=csv&headers=0${
-      skipFirstLine ? "&range=A2:ZZ" : ""
-    }&q=${Math.floor(new Date().getTime(), 1000)}`
-  )
 
-  const data = await result.text()
-  const records = await csv2json().fromString(data)
-  const filteredRecords = records.filter(
+  let urls = publishedURLs
+  if (typeof publishedURLs === 'string') {
+    urls = [ publishedURLs ]
+  }
+  
+
+  const requests = urls.map(url => {
+    return fetch(
+      `${url}&single=true&output=csv&headers=0${skipFirstLine ? "&range=A2:ZZ" : ""
+      }&q=${Math.floor(new Date().getTime(), 1000)}`
+    )
+      .then(result => result.text())
+      .then(data => csv2json().fromString(data))
+
+  })
+
+  const records = await Promise.all(requests)
+
+  const filteredRecords = records.flat().filter(
     r => alwaysEnabled || (isDebug && r.enabled === "N") || r.enabled === "Y"
   )
 
@@ -449,13 +464,13 @@ exports.sourceNodes = async props => {
     ),
     createPublishedGoogleSpreadsheetNode(
       props,
-      PUBLISHED_SPREADSHEET_WARS_CASES_URL,
+      PUBLISHED_SPREADSHEET_WARS_CASES_URLS,
       "WarsCase",
       { skipFirstLine: true }
     ),
     createPublishedGoogleSpreadsheetNode(
       props,
-      PUBLISHED_SPREADSHEET_WARS_CASES_LOCATION_URL,
+      PUBLISHED_SPREADSHEET_WARS_CASES_LOCATION_URLS,
       "WarsCaseLocation",
       {
         skipFirstLine: true,
