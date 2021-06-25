@@ -14,7 +14,7 @@ const LANGUAGES = ["zh", "en"]
 const { request } = require("graphql-request")
 const { getPath, getWarTipPath } = require("./src/utils/urlHelper")
 const isDebug = process.env.DEBUG_MODE === "true"
-const moment = require("moment")
+// const moment = require("moment")
 const fs = require("fs")
 
 const PUBLISHED_SPREADSHEET_I18N_URL =
@@ -100,153 +100,153 @@ const createIMMDNode = async ({
   addNodeByGate("Total")
 }
 
-const createWorldCasesNode = async ({
-  actions: { createNode },
-  createNodeId,
-  createContentDigest,
-}) => {
-  const lastWeek = moment()
-    .add(-15, "days") // temp fix as we lost some baidu data
-    .format("YYYY-MM-DD")
-  const type = "BaiduInternationalData"
+// const createWorldCasesNode = async ({
+//   actions: { createNode },
+//   createNodeId,
+//   createContentDigest,
+// }) => {
+//   const lastWeek = moment()
+//     .add(-15, "days") // temp fix as we lost some baidu data
+//     .format("YYYY-MM-DD")
+//   const type = "BaiduInternationalData"
 
-  const query = `{
-    wars_BaiduInternationalData (
-      where: {
-        date: { 
-          _gt: "${lastWeek}"
-        }
-      }
-      distinct_on: [date, area]
-      order_by: [
-        {date: desc},
-        {area: desc},
-        {time: desc},
-      ]
-    ) {
-      area
-      date
-      time
-      confirmed
-      died
-      crued
-    }
-  }`
+//   const query = `{
+//     wars_BaiduInternationalData (
+//       where: {
+//         date: {
+//           _gt: "${lastWeek}"
+//         }
+//       }
+//       distinct_on: [date, area]
+//       order_by: [
+//         {date: desc},
+//         {area: desc},
+//         {time: desc},
+//       ]
+//     ) {
+//       area
+//       date
+//       time
+//       confirmed
+//       died
+//       crued
+//     }
+//   }`
 
-  const baiduChinaQuery = `{
-    wars_BaiduChinaData (
-      where: {
-        date: { 
-          _gt: "${lastWeek}"
-        }
-      }
-      distinct_on: [date, area, city]
-        order_by: [
-          {date: desc},
-          {area: desc},
-          {city: desc},
-          {time: desc},
-        ]
-      ) {
-        area
-        city
-        date
-        time
-        confirmed
-        died
-        crued
-      }
-  }`
+//   const baiduChinaQuery = `{
+//     wars_BaiduChinaData (
+//       where: {
+//         date: {
+//           _gt: "${lastWeek}"
+//         }
+//       }
+//       distinct_on: [date, area, city]
+//         order_by: [
+//           {date: desc},
+//           {area: desc},
+//           {city: desc},
+//           {time: desc},
+//         ]
+//       ) {
+//         area
+//         city
+//         date
+//         time
+//         confirmed
+//         died
+//         crued
+//       }
+//   }`
 
-  const data = await request(GRAPHQL_URL, query)
-  const baiduChinaData = await request(GRAPHQL_URL, baiduChinaQuery)
+//   const data = await request(GRAPHQL_URL, query)
+//   const baiduChinaData = await request(GRAPHQL_URL, baiduChinaQuery)
 
-  data.wars_BaiduInternationalData.forEach((p, i) => {
-    const meta = {
-      id: createNodeId(`${type}-${i}`),
-      parent: null,
-      children: [],
-      internal: {
-        type,
-        contentDigest: createContentDigest(p),
-      },
-    }
-    const node = Object.assign({}, p, meta)
-    createNode(node)
-  })
+//   data.wars_BaiduInternationalData.forEach((p, i) => {
+//     const meta = {
+//       id: createNodeId(`${type}-${i}`),
+//       parent: null,
+//       children: [],
+//       internal: {
+//         type,
+//         contentDigest: createContentDigest(p),
+//       },
+//     }
+//     const node = Object.assign({}, p, meta)
+//     createNode(node)
+//   })
 
-  let count = data.wars_BaiduInternationalData.length
-  let chinaCured = {}
-  let chinaDied = {}
-  let chinaConfirmed = {}
-  let availableDate = []
-  let dateTimeMapping = {}
+//   let count = data.wars_BaiduInternationalData.length
+//   let chinaCured = {}
+//   let chinaDied = {}
+//   let chinaConfirmed = {}
+//   let availableDate = []
+//   let dateTimeMapping = {}
 
-  baiduChinaData.wars_BaiduChinaData.forEach(p => {
-    if (
-      p.area === "香港" ||
-      p.area === "颱灣" ||
-      p.area === "台灣" ||
-      p.area === "澳門"
-    ) {
-      const node_data = {
-        area: p.area === "颱灣" ? "台灣" : p.area,
-        date: p.date,
-        time: p.time,
-        confirmed: p.confirmed,
-        died: p.died,
-        crued: p.crued,
-      }
-      const meta = {
-        id: createNodeId(`${type}-${count}`),
-        parent: null,
-        children: [],
-        internal: {
-          type,
-          contentDigest: createContentDigest(node_data),
-        },
-      }
-      const node = Object.assign({}, node_data, meta)
-      createNode(node)
-      count += 1
-    } else if (p.city === "") {
-      if (availableDate.includes(p.date)) {
-        chinaCured[p.date] += p.crued
-        chinaDied[p.date] += p.died
-        chinaConfirmed[p.date] += p.confirmed
-      } else {
-        availableDate.push(p.date)
-        dateTimeMapping[p.date] = p.time
-        chinaCured[p.date] = p.crued
-        chinaDied[p.date] = p.died
-        chinaConfirmed[p.date] = p.confirmed
-      }
-    }
-  })
+//   baiduChinaData.wars_BaiduChinaData.forEach(p => {
+//     if (
+//       p.area === "香港" ||
+//       p.area === "颱灣" ||
+//       p.area === "台灣" ||
+//       p.area === "澳門"
+//     ) {
+//       const node_data = {
+//         area: p.area === "颱灣" ? "台灣" : p.area,
+//         date: p.date,
+//         time: p.time,
+//         confirmed: p.confirmed,
+//         died: p.died,
+//         crued: p.crued,
+//       }
+//       const meta = {
+//         id: createNodeId(`${type}-${count}`),
+//         parent: null,
+//         children: [],
+//         internal: {
+//           type,
+//           contentDigest: createContentDigest(node_data),
+//         },
+//       }
+//       const node = Object.assign({}, node_data, meta)
+//       createNode(node)
+//       count += 1
+//     } else if (p.city === "") {
+//       if (availableDate.includes(p.date)) {
+//         chinaCured[p.date] += p.crued
+//         chinaDied[p.date] += p.died
+//         chinaConfirmed[p.date] += p.confirmed
+//       } else {
+//         availableDate.push(p.date)
+//         dateTimeMapping[p.date] = p.time
+//         chinaCured[p.date] = p.crued
+//         chinaDied[p.date] = p.died
+//         chinaConfirmed[p.date] = p.confirmed
+//       }
+//     }
+//   })
 
-  availableDate.forEach(date => {
-    const node_data = {
-      area: "中国",
-      date: date,
-      time: dateTimeMapping[date],
-      confirmed: chinaConfirmed[date],
-      died: chinaDied[date],
-      crued: chinaCured[date],
-    }
-    const meta = {
-      id: createNodeId(`${type}-${count}`),
-      parent: null,
-      children: [],
-      internal: {
-        type,
-        contentDigest: createContentDigest(node_data),
-      },
-    }
-    const node = Object.assign({}, node_data, meta)
-    createNode(node)
-    count += 1
-  })
-}
+//   availableDate.forEach(date => {
+//     const node_data = {
+//       area: "中国",
+//       date: date,
+//       time: dateTimeMapping[date],
+//       confirmed: chinaConfirmed[date],
+//       died: chinaDied[date],
+//       crued: chinaCured[date],
+//     }
+//     const meta = {
+//       id: createNodeId(`${type}-${count}`),
+//       parent: null,
+//       children: [],
+//       internal: {
+//         type,
+//         contentDigest: createContentDigest(node_data),
+//       },
+//     }
+//     const node = Object.assign({}, node_data, meta)
+//     createNode(node)
+//     count += 1
+//   })
+// }
 
 const createAENode = async ({
   actions: { createNode },
@@ -568,7 +568,7 @@ exports.sourceNodes = async props => {
     createAENode(props),
     createIMMDNode(props),
     createGovNewsNode(props),
-    createWorldCasesNode(props),
+    // createWorldCasesNode(props),
   ])
 }
 

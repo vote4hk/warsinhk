@@ -19,8 +19,8 @@
       "title": "world.title",
       "to": "/world",
       "icon": "world",
-      "sideMenu": true,
-      "bottomNav": true
+      "sideMenu": false,
+      "bottomNav": false
     },
     {
       "title": "disruption.title",
