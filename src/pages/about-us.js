@@ -156,7 +156,7 @@ const AboutUsPage = props => {
               <Paragraph
                 dangerouslySetInnerHTML={{ __html: t("about_us.g0vhk_1") }}
               />
-              <Button
+              {/* <Button
                 component="button"
                 variant="outlined"
                 color="primary"
@@ -174,7 +174,7 @@ const AboutUsPage = props => {
                 }}
               >
                 {t("about_us.donate_g0vhk")}
-              </Button>
+              </Button> */}
             </Grid>
             <Grid item md={6}>
               <Typography variant="h3" style={{ marginBottom: 8 }}>
@@ -183,7 +183,7 @@ const AboutUsPage = props => {
               <Paragraph
                 dangerouslySetInnerHTML={{ __html: t("about_us.sooc_1") }}
               />
-              <Button
+              {/* <Button
                 variant="outlined"
                 color="primary"
                 size="small"
@@ -200,7 +200,7 @@ const AboutUsPage = props => {
                 }}
               >
                 {t("about_us.donate_sooc")}
-              </Button>
+              </Button> */}
             </Grid>
             <Grid item md={6}>
               <Typography variant="h3" style={{ marginBottom: 8 }}>
