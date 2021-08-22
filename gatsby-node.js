@@ -357,13 +357,12 @@ const createPublishedGoogleSpreadsheetNode = async (
       .then(data => csv2json().fromString(data))
   })
 
-  const records = await Promise.all(requests)
+  // flatten the records from returning value of multiple requests
+  const records = (await Promise.all(requests)).flat()
 
-  const filteredRecords = records
-    .flat()
-    .filter(
-      r => alwaysEnabled || (isDebug && r.enabled === "N") || r.enabled === "Y"
-    )
+  const filteredRecords = records.filter(
+    r => alwaysEnabled || (isDebug && r.enabled === "N") || r.enabled === "Y"
+  )
 
   if (filteredRecords.length > 0) {
     filteredRecords.forEach((p, i) => {
