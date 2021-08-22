@@ -26,7 +26,7 @@ jobs:
           **/node_modules
           .cache
           public
-        key: ${{ runner.os }}-nodejs-${{ matrix.node-version }}-modules-${{ hashFiles('**/yarn.lock') }}-v-${{ hashFiles('src/**/*.js') }}-deploy
+        key: ${{ runner.os }}-nodejs-${{ matrix.node-version }}-modules-${{ hashFiles('**/yarn.lock') }}-v-${{ hashFiles('src/**/*.js') }}-deploy-v2
     - run: yarn install --frozen-lockfile
     - run: yarn lint
     - run: yarn build:incremental
