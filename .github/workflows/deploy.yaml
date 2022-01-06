@@ -2,17 +2,19 @@ name: Build And Deploy
 
 on:
   push:
+    branches:
+      - master
+      - dev
   schedule:
     - cron: '*/5 * * * *'
 
 jobs:
   build:
     runs-on: ubuntu-latest
-
     strategy:
       matrix:
         node-version:
-          - 14.x
+          - 16.x
 
     steps:
     - uses: actions/checkout@v2
@@ -28,7 +30,6 @@ jobs:
           public
         key: ${{ runner.os }}-nodejs-${{ matrix.node-version }}-modules-${{ hashFiles('**/yarn.lock') }}-v-${{ hashFiles('src/**/*.js') }}-deploy-v2
     - run: yarn install --frozen-lockfile
-    - run: yarn lint
     - run: yarn build:incremental
       env:
         GOOGLE_TRACKING_ID: ${{ secrets.GOOGLE_TRACKING_ID }}
@@ -38,7 +39,7 @@ jobs:
       uses: peaceiris/actions-gh-pages@v3
       with:
         publish_dir: ./public
-        force_orphan: true 
+        force_orphan: true
         personal_token: ${{ secrets.DEPLOY_GITHUB_TOKEN }}
         external_repository: vote4hk/wars.vote4.hk
         cname: wars.vote4.hk
@@ -48,7 +49,7 @@ jobs:
       uses: peaceiris/actions-gh-pages@v3
       with:
         publish_dir: ./public
-        force_orphan: true 
+        force_orphan: true
         personal_token: ${{ secrets.DEPLOY_GITHUB_TOKEN }}
         external_repository: vote4hk/covid19.vote4.hk
         cname: covid19.vote4.hk
