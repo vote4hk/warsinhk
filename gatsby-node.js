@@ -22,6 +22,7 @@ const PUBLISHED_SPREADSHEET_I18N_URL =
 const PUBLISHED_SPREADSHEET_WARS_CASES_URLS = [
   "https://docs.google.com/spreadsheets/d/e/2PACX-1vSr2xYotDgnAq6bqm5Nkjq9voHBKzKNWH2zvTRx5LU0jnpccWykvEF8iB_0g7Tzo2pwzkTuM3ETlr_h/pub?gid=0",
   "https://docs.google.com/spreadsheets/d/e/2PACX-1vT-Xw-QHYydz_kJCJLBqTKGbb2OF8_gisdUsduPbdR6Dp3tLbWxy_mkfRx2tMmGJ0q64uNsLLv3bbfb/pub?gid=0",
+  "https://docs.google.com/spreadsheets/d/e/2PACX-1vTEJyeLTOgntmUjeRhyEB1w_eFD6BUKAEgkR47pp3yXY_XB3IlF7DstsAA0pHz33h2pzGIxGbvGhjMe/pub?gid=0",
 ]
 const PUBLISHED_SPREADSHEET_DODGY_SHOPS_URL =
   "https://docs.google.com/spreadsheets/d/e/2PACX-1vT_CejomuSCl7198EZ7JgujiAfcxwao-4_X5d3V8VasBKGTvSVtfPrFCl3NGMEwo_a6wZbmKZcqV-sB/pub?gid=1018551822"
@@ -34,6 +35,7 @@ const PUBLISHED_SPREADSHEET_DISRUPTION_DESCRIPTION_URL =
 const PUBLISHED_SPREADSHEET_WARS_CASES_LOCATION_URLS = [
   "https://docs.google.com/spreadsheets/d/e/2PACX-1vT6aoKk3iHmotqb5_iHggKc_3uAA901xVzwsllmNoOpGgRZ8VAA3TSxK6XreKzg_AUQXIkVX5rqb0Mo/pub?gid=0",
   "https://docs.google.com/spreadsheets/d/e/2PACX-1vQVRg6iiYOHZwLsXdZE6TVWBO7Cldi07NUnbeVY3nI97_IjyG3jiWnjaUS51HRNJI1fN3io1paMa6jZ/pub?gid=0",
+  "https://docs.google.com/spreadsheets/d/e/2PACX-1vTl_YWJy_osrNeOD0ufyQH4CuWTKCX9ng-tUPpIFXsAdk_ry2uciIt752f9a-yd83IGUtsw2rHQNB0s/pub?gid=0",
 ]
 const PUBLISHED_SPREADSHEET_BOT_WARS_LATEST_FIGURES_URL =
   "https://docs.google.com/spreadsheets/d/e/2PACX-1vTiCndDnXu6l5ZKq2aAVgU2xM3WGGW68XF-pEbLAloRbOzA1QwglLGJ6gTKjFbLQGhbH6GR2TsJKrO7/pub?gid=0"

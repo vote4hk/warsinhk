@@ -289,6 +289,24 @@ const AboutUsPage = props => {
               color="secondary"
               size="small"
               startIcon={mapIcon("insert_drive_file")}
+              href="https://docs.google.com/spreadsheets/d/e/2PACX-1vTl_YWJy_osrNeOD0ufyQH4CuWTKCX9ng-tUPpIFXsAdk_ry2uciIt752f9a-yd83IGUtsw2rHQNB0s/pub?gid=0&range=A2:ZZ&output=csv"
+              target="_blank"
+              rel="noopener noreferer"
+              onClick={() => {
+                trackCustomEvent({
+                  category: "about_us",
+                  action: "click",
+                  label: "high_risk_source_data",
+                })
+              }}
+            >
+              {t("about_us.high_risk")} 2022
+            </Button>
+            <Button
+              variant="outlined"
+              color="secondary"
+              size="small"
+              startIcon={mapIcon("insert_drive_file")}
               href="https://docs.google.com/spreadsheets/d/e/2PACX-1vSr2xYotDgnAq6bqm5Nkjq9voHBKzKNWH2zvTRx5LU0jnpccWykvEF8iB_0g7Tzo2pwzkTuM3ETlr_h/pub?gid=0&range=A2:ZZ&output=csv"
               target="_blank"
               rel="noopener noreferer"
@@ -319,6 +337,24 @@ const AboutUsPage = props => {
               }}
             >
               {t("about_us.wars_cases")} 2021
+            </Button>
+            <Button
+              variant="outlined"
+              color="secondary"
+              size="small"
+              startIcon={mapIcon("insert_drive_file")}
+              href="https://docs.google.com/spreadsheets/d/e/2PACX-1vTEJyeLTOgntmUjeRhyEB1w_eFD6BUKAEgkR47pp3yXY_XB3IlF7DstsAA0pHz33h2pzGIxGbvGhjMe/pub?gid=0&range=A2:ZZ&output=csv"
+              target="_blank"
+              rel="noopener noreferer"
+              onClick={() => {
+                trackCustomEvent({
+                  category: "about_us",
+                  action: "click",
+                  label: "wars_cases_source_data",
+                })
+              }}
+            >
+              {t("about_us.wars_cases")} 2022
             </Button>
           </LinkBox>
         </SessionWrapper>
