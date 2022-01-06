@@ -10,7 +10,11 @@ import I18nWrapper from "@/components/I18nWrapper"
 import RootLayout from "@/components/templates/RootLayout"
 
 export const wrapPageElement = ({ element, props }) => {
-  return <I18nWrapper path={props.uri} locale={props.pageContext.locale}>{element}</I18nWrapper>
+  return (
+    <I18nWrapper path={props.uri} locale={props.pageContext.locale}>
+      {element}
+    </I18nWrapper>
+  )
 }
 
 // Wrap the theme
@@ -23,7 +27,7 @@ export const wrapRootElement = ({ element }) => {
   We are waiting for your commit :)
   
   GitHub Repo:
-  https://github.com/nandiheath/warsinhk
+  https://github.com/vote4hk/warsinhk
   
   `)
 

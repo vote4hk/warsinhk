@@ -25,7 +25,7 @@ import {
 } from "@/utils/search"
 import MultiPurposeSearch from "../components/molecules/MultiPurposeSearch"
 import { grey } from "@material-ui/core/colors"
-import { formatDateMDD, isSSR } from "@/utils"
+import { isSSR } from "@/utils"
 import { useAllCasesData } from "@components/data/useAllCasesData"
 
 const HighRiskMap = React.lazy(() =>
@@ -152,9 +152,7 @@ export const CaseRow = ({ c, i18n, t, pass14days }) => (
       <Grid item xs={3}>
         <UnstyledRow>
           <CaseText component="div" variant="body2" pass14days={pass14days}>
-            {c.start_date === c.end_date
-              ? formatDateMDD(c.end_date)
-              : `${formatDateMDD(c.start_date)} - ${formatDateMDD(c.end_date)}`}
+            {c.end_date}
           </CaseText>
         </UnstyledRow>
       </Grid>
@@ -171,7 +169,7 @@ export const CaseRow = ({ c, i18n, t, pass14days }) => (
                 color={colors(0)}
               />
             )}
-            {c.case && (
+            {c.case_no && (
               <Link to={getLocalizedPath(i18n, `/cases/${c.case_no} `)}>
                 <CaseLabel color={colors(1)}>{`#${c.case_no}`}</CaseLabel>
               </Link>
@@ -273,7 +271,6 @@ const HighRiskPage = () => {
         const end_date = item.end_date === "Invalid date" ? "" : item.end_date
         return {
           ...item,
-          start_date: item.start_date === "Invalid date" ? "" : item.start_date,
           end_date,
           pass14days: calculatePastNdays(
             {
@@ -335,8 +332,6 @@ const HighRiskPage = () => {
       if (a.node.end_date > b.node.end_date) return -1
       if (a.node.end_date < b.node.end_date) return 1
 
-      if (a.node.start_date > b.node.start_date) return -1
-      if (a.node.start_date < b.node.start_date) return 1
       return 0
     })
   const options = [

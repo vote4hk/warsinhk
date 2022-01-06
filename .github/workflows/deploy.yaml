@@ -26,7 +26,7 @@ jobs:
           **/node_modules
           .cache
           public
-        key: ${{ runner.os }}-nodejs-${{ matrix.node-version }}-modules-${{ hashFiles('**/yarn.lock') }}-v-${{ hashFiles('src/**/*.js') }}-deploy
+        key: ${{ runner.os }}-nodejs-${{ matrix.node-version }}-modules-${{ hashFiles('**/yarn.lock') }}-v-${{ hashFiles('src/**/*.js') }}-deploy-v2
     - run: yarn install --frozen-lockfile
     - run: yarn lint
     - run: yarn build:incremental
@@ -38,7 +38,7 @@ jobs:
       uses: peaceiris/actions-gh-pages@v3
       with:
         publish_dir: ./public
-        keep_files: true
+        force_orphan: true 
         personal_token: ${{ secrets.DEPLOY_GITHUB_TOKEN }}
         external_repository: vote4hk/wars.vote4.hk
         cname: wars.vote4.hk
@@ -48,7 +48,7 @@ jobs:
       uses: peaceiris/actions-gh-pages@v3
       with:
         publish_dir: ./public
-        keep_files: true
+        force_orphan: true 
         personal_token: ${{ secrets.DEPLOY_GITHUB_TOKEN }}
         external_repository: vote4hk/covid19.vote4.hk
         cname: covid19.vote4.hk

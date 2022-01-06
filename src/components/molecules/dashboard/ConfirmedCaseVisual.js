@@ -91,7 +91,12 @@ export default function ConfirmedCaseVisual(props) {
         </Button>
       </ButtonGroup>
       <DistrictsChart
-        scale={[0, Math.ceil(data[0].totalCount / increment) * increment]}
+        scale={
+          increment > 0 && [
+            0,
+            Math.ceil(data[0].totalCount / increment) * increment,
+          ]
+        }
         getDescriptionByDistrictName={(tcName, enName) => {
           const node = data.find(i => tcName.indexOf(i.fieldValue) === 0)
           const value = node ? node.totalCount : 0
@@ -102,9 +107,11 @@ export default function ConfirmedCaseVisual(props) {
           return `${name}: ${value}`
         }}
         legendTitle={
-          <Typography variant="body2">
-            {t("cases_visual.legendTitle")}
-          </Typography>
+          increment > 0 && (
+            <Typography variant="body2">
+              {t("cases_visual.legendTitle")}
+            </Typography>
+          )
         }
         getDataByDistrictName={tcName => {
           const node = data.find(i => tcName.indexOf(i.fieldValue) === 0)

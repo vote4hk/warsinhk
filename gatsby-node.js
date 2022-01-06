@@ -14,13 +14,15 @@ const LANGUAGES = ["zh", "en"]
 const { request } = require("graphql-request")
 const { getPath, getWarTipPath } = require("./src/utils/urlHelper")
 const isDebug = process.env.DEBUG_MODE === "true"
-const moment = require("moment")
+// const moment = require("moment")
 const fs = require("fs")
 
 const PUBLISHED_SPREADSHEET_I18N_URL =
   "https://docs.google.com/spreadsheets/d/e/2PACX-1vRTVp8L95wLd23_2CuA57V-lU6tCRhGAPWSCghGhBuV4xKV_XMVjniCEoDxZnBMXEJ2MPlAi6WzOxlp/pub?gid=0"
-const PUBLISHED_SPREADSHEET_WARS_CASES_URL =
-  "https://docs.google.com/spreadsheets/d/e/2PACX-1vSr2xYotDgnAq6bqm5Nkjq9voHBKzKNWH2zvTRx5LU0jnpccWykvEF8iB_0g7Tzo2pwzkTuM3ETlr_h/pub?gid=0"
+const PUBLISHED_SPREADSHEET_WARS_CASES_URLS = [
+  "https://docs.google.com/spreadsheets/d/e/2PACX-1vSr2xYotDgnAq6bqm5Nkjq9voHBKzKNWH2zvTRx5LU0jnpccWykvEF8iB_0g7Tzo2pwzkTuM3ETlr_h/pub?gid=0",
+  "https://docs.google.com/spreadsheets/d/e/2PACX-1vT-Xw-QHYydz_kJCJLBqTKGbb2OF8_gisdUsduPbdR6Dp3tLbWxy_mkfRx2tMmGJ0q64uNsLLv3bbfb/pub?gid=0",
+]
 const PUBLISHED_SPREADSHEET_DODGY_SHOPS_URL =
   "https://docs.google.com/spreadsheets/d/e/2PACX-1vT_CejomuSCl7198EZ7JgujiAfcxwao-4_X5d3V8VasBKGTvSVtfPrFCl3NGMEwo_a6wZbmKZcqV-sB/pub?gid=1018551822"
 const PUBLISHED_SPREADSHEET_WARS_TIPS_URL =
@@ -29,8 +31,10 @@ const PUBLISHED_SPREADSHEET_DISRUPTION_URL =
   "https://docs.google.com/spreadsheets/d/e/2PACX-1vS0gZ-QBC6JGMS28kYUMz90ZNXFb40CtoLtOIC-QzzlqhPKCIrAojuuN2GX6AXaECONvxJd84tpqzFd/pub?gid=0"
 const PUBLISHED_SPREADSHEET_DISRUPTION_DESCRIPTION_URL =
   "https://docs.google.com/spreadsheets/d/e/2PACX-1vS0gZ-QBC6JGMS28kYUMz90ZNXFb40CtoLtOIC-QzzlqhPKCIrAojuuN2GX6AXaECONvxJd84tpqzFd/pub?gid=268131605"
-const PUBLISHED_SPREADSHEET_WARS_CASES_LOCATION_URL =
-  "https://docs.google.com/spreadsheets/d/e/2PACX-1vT6aoKk3iHmotqb5_iHggKc_3uAA901xVzwsllmNoOpGgRZ8VAA3TSxK6XreKzg_AUQXIkVX5rqb0Mo/pub?gid=0"
+const PUBLISHED_SPREADSHEET_WARS_CASES_LOCATION_URLS = [
+  "https://docs.google.com/spreadsheets/d/e/2PACX-1vT6aoKk3iHmotqb5_iHggKc_3uAA901xVzwsllmNoOpGgRZ8VAA3TSxK6XreKzg_AUQXIkVX5rqb0Mo/pub?gid=0",
+  "https://docs.google.com/spreadsheets/d/e/2PACX-1vQVRg6iiYOHZwLsXdZE6TVWBO7Cldi07NUnbeVY3nI97_IjyG3jiWnjaUS51HRNJI1fN3io1paMa6jZ/pub?gid=0",
+]
 const PUBLISHED_SPREADSHEET_BOT_WARS_LATEST_FIGURES_URL =
   "https://docs.google.com/spreadsheets/d/e/2PACX-1vTiCndDnXu6l5ZKq2aAVgU2xM3WGGW68XF-pEbLAloRbOzA1QwglLGJ6gTKjFbLQGhbH6GR2TsJKrO7/pub?gid=0"
 const PUBLISHED_OVERRIDE_MASTER_URL =
@@ -49,7 +53,8 @@ const PUBLISHED_SPREADSHEET_WARS_CASES_RELATIONSHIP_URL =
   "https://docs.google.com/spreadsheets/d/e/2PACX-1vQS7Aay-dZbemZAxbW1oVrC5QKnT9wPjd55hSGGnXGj8_jdZJa9dsKYI--dTv4EU--xt_HGIDZsdNEw/pub?gid=0"
 const PUBLISHED_SPREADSHEET_ALERT_URL =
   "https://docs.google.com/spreadsheets/d/e/2PACX-1vRWN6o99FDJN4KsnAyq9KeWKEerF2_v1Z0wWbKiHPI0_Whuf00ZLW2n-GfoXciKgVXkBSoBEz6IhreC/pub?gid=0"
-
+const PUBLISHED_SPREADSHEET_UPDATES_URL =
+  "https://docs.google.com/spreadsheets/d/e/2PACX-1vRY5OHr2hX8Xl_tJR1BgrffhoiVxqjngCu9W262MgyW5ZCXuZFaj1Od0PQJqNeRJ7ocUacI2WnodeTT/pub?gid=257173560"
 const GRAPHQL_URL = "https://api2.vote4.hk/v1/graphql"
 
 const createIMMDNode = async ({
@@ -95,153 +100,153 @@ const createIMMDNode = async ({
   addNodeByGate("Total")
 }
 
-const createWorldCasesNode = async ({
-  actions: { createNode },
-  createNodeId,
-  createContentDigest,
-}) => {
-  const lastWeek = moment()
-    .add(-15, "days") // temp fix as we lost some baidu data
-    .format("YYYY-MM-DD")
-  const type = "BaiduInternationalData"
+// const createWorldCasesNode = async ({
+//   actions: { createNode },
+//   createNodeId,
+//   createContentDigest,
+// }) => {
+//   const lastWeek = moment()
+//     .add(-15, "days") // temp fix as we lost some baidu data
+//     .format("YYYY-MM-DD")
+//   const type = "BaiduInternationalData"
 
-  const query = `{
-    wars_BaiduInternationalData (
-      where: {
-        date: { 
-          _gt: "${lastWeek}"
-        }
-      }
-      distinct_on: [date, area]
-      order_by: [
-        {date: desc},
-        {area: desc},
-        {time: desc},
-      ]
-    ) {
-      area
-      date
-      time
-      confirmed
-      died
-      crued
-    }
-  }`
+//   const query = `{
+//     wars_BaiduInternationalData (
+//       where: {
+//         date: {
+//           _gt: "${lastWeek}"
+//         }
+//       }
+//       distinct_on: [date, area]
+//       order_by: [
+//         {date: desc},
+//         {area: desc},
+//         {time: desc},
+//       ]
+//     ) {
+//       area
+//       date
+//       time
+//       confirmed
+//       died
+//       crued
+//     }
+//   }`
 
-  const baiduChinaQuery = `{
-    wars_BaiduChinaData (
-      where: {
-        date: { 
-          _gt: "${lastWeek}"
-        }
-      }
-      distinct_on: [date, area, city]
-        order_by: [
-          {date: desc},
-          {area: desc},
-          {city: desc},
-          {time: desc},
-        ]
-      ) {
-        area
-        city
-        date
-        time
-        confirmed
-        died
-        crued
-      }
-  }`
+//   const baiduChinaQuery = `{
+//     wars_BaiduChinaData (
+//       where: {
+//         date: {
+//           _gt: "${lastWeek}"
+//         }
+//       }
+//       distinct_on: [date, area, city]
+//         order_by: [
+//           {date: desc},
+//           {area: desc},
+//           {city: desc},
+//           {time: desc},
+//         ]
+//       ) {
+//         area
+//         city
+//         date
+//         time
+//         confirmed
+//         died
+//         crued
+//       }
+//   }`
 
-  const data = await request(GRAPHQL_URL, query)
-  const baiduChinaData = await request(GRAPHQL_URL, baiduChinaQuery)
+//   const data = await request(GRAPHQL_URL, query)
+//   const baiduChinaData = await request(GRAPHQL_URL, baiduChinaQuery)
 
-  data.wars_BaiduInternationalData.forEach((p, i) => {
-    const meta = {
-      id: createNodeId(`${type}-${i}`),
-      parent: null,
-      children: [],
-      internal: {
-        type,
-        contentDigest: createContentDigest(p),
-      },
-    }
-    const node = Object.assign({}, p, meta)
-    createNode(node)
-  })
+//   data.wars_BaiduInternationalData.forEach((p, i) => {
+//     const meta = {
+//       id: createNodeId(`${type}-${i}`),
+//       parent: null,
+//       children: [],
+//       internal: {
+//         type,
+//         contentDigest: createContentDigest(p),
+//       },
+//     }
+//     const node = Object.assign({}, p, meta)
+//     createNode(node)
+//   })
 
-  let count = data.wars_BaiduInternationalData.length
-  let chinaCured = {}
-  let chinaDied = {}
-  let chinaConfirmed = {}
-  let availableDate = []
-  let dateTimeMapping = {}
+//   let count = data.wars_BaiduInternationalData.length
+//   let chinaCured = {}
+//   let chinaDied = {}
+//   let chinaConfirmed = {}
+//   let availableDate = []
+//   let dateTimeMapping = {}
 
-  baiduChinaData.wars_BaiduChinaData.forEach(p => {
-    if (
-      p.area === "香港" ||
-      p.area === "颱灣" ||
-      p.area === "台灣" ||
-      p.area === "澳門"
-    ) {
-      const node_data = {
-        area: p.area === "颱灣" ? "台灣" : p.area,
-        date: p.date,
-        time: p.time,
-        confirmed: p.confirmed,
-        died: p.died,
-        crued: p.crued,
-      }
-      const meta = {
-        id: createNodeId(`${type}-${count}`),
-        parent: null,
-        children: [],
-        internal: {
-          type,
-          contentDigest: createContentDigest(node_data),
-        },
-      }
-      const node = Object.assign({}, node_data, meta)
-      createNode(node)
-      count += 1
-    } else if (p.city === "") {
-      if (availableDate.includes(p.date)) {
-        chinaCured[p.date] += p.crued
-        chinaDied[p.date] += p.died
-        chinaConfirmed[p.date] += p.confirmed
-      } else {
-        availableDate.push(p.date)
-        dateTimeMapping[p.date] = p.time
-        chinaCured[p.date] = p.crued
-        chinaDied[p.date] = p.died
-        chinaConfirmed[p.date] = p.confirmed
-      }
-    }
-  })
+//   baiduChinaData.wars_BaiduChinaData.forEach(p => {
+//     if (
+//       p.area === "香港" ||
+//       p.area === "颱灣" ||
+//       p.area === "台灣" ||
+//       p.area === "澳門"
+//     ) {
+//       const node_data = {
+//         area: p.area === "颱灣" ? "台灣" : p.area,
+//         date: p.date,
+//         time: p.time,
+//         confirmed: p.confirmed,
+//         died: p.died,
+//         crued: p.crued,
+//       }
+//       const meta = {
+//         id: createNodeId(`${type}-${count}`),
+//         parent: null,
+//         children: [],
+//         internal: {
+//           type,
+//           contentDigest: createContentDigest(node_data),
+//         },
+//       }
+//       const node = Object.assign({}, node_data, meta)
+//       createNode(node)
+//       count += 1
+//     } else if (p.city === "") {
+//       if (availableDate.includes(p.date)) {
+//         chinaCured[p.date] += p.crued
+//         chinaDied[p.date] += p.died
+//         chinaConfirmed[p.date] += p.confirmed
+//       } else {
+//         availableDate.push(p.date)
+//         dateTimeMapping[p.date] = p.time
+//         chinaCured[p.date] = p.crued
+//         chinaDied[p.date] = p.died
+//         chinaConfirmed[p.date] = p.confirmed
+//       }
+//     }
+//   })
 
-  availableDate.forEach(date => {
-    const node_data = {
-      area: "中国",
-      date: date,
-      time: dateTimeMapping[date],
-      confirmed: chinaConfirmed[date],
-      died: chinaDied[date],
-      crued: chinaCured[date],
-    }
-    const meta = {
-      id: createNodeId(`${type}-${count}`),
-      parent: null,
-      children: [],
-      internal: {
-        type,
-        contentDigest: createContentDigest(node_data),
-      },
-    }
-    const node = Object.assign({}, node_data, meta)
-    createNode(node)
-    count += 1
-  })
-}
+//   availableDate.forEach(date => {
+//     const node_data = {
+//       area: "中国",
+//       date: date,
+//       time: dateTimeMapping[date],
+//       confirmed: chinaConfirmed[date],
+//       died: chinaDied[date],
+//       crued: chinaCured[date],
+//     }
+//     const meta = {
+//       id: createNodeId(`${type}-${count}`),
+//       parent: null,
+//       children: [],
+//       internal: {
+//         type,
+//         contentDigest: createContentDigest(node_data),
+//       },
+//     }
+//     const node = Object.assign({}, node_data, meta)
+//     createNode(node)
+//     count += 1
+//   })
+// }
 
 const createAENode = async ({
   actions: { createNode },
@@ -331,19 +336,30 @@ const createGovNewsNode = async ({
 
 const createPublishedGoogleSpreadsheetNode = async (
   { actions: { createNode, createTypes }, createNodeId, createContentDigest },
-  publishedURL,
+  publishedURLs,
   type,
   { skipFirstLine = false, alwaysEnabled = false, subtype = null }
 ) => {
   // All table has first row reserved
-  const result = await fetch(
-    `${publishedURL}&single=true&output=csv&headers=0${
-      skipFirstLine ? "&range=A2:ZZ" : ""
-    }&q=${Math.floor(new Date().getTime(), 1000)}`
-  )
 
-  const data = await result.text()
-  const records = await csv2json().fromString(data)
+  let urls = publishedURLs
+  if (typeof publishedURLs === "string") {
+    urls = [publishedURLs]
+  }
+
+  const requests = urls.map(url => {
+    return fetch(
+      `${url}&single=true&output=csv&headers=0${
+        skipFirstLine ? "&range=A2:ZZ" : ""
+      }&q=${Math.floor(new Date().getTime(), 1000)}`
+    )
+      .then(result => result.text())
+      .then(data => csv2json().fromString(data))
+  })
+
+  // flatten the records from returning value of multiple requests
+  const records = (await Promise.all(requests)).flat()
+
   const filteredRecords = records.filter(
     r => alwaysEnabled || (isDebug && r.enabled === "N") || r.enabled === "Y"
   )
@@ -448,13 +464,13 @@ exports.sourceNodes = async props => {
     ),
     createPublishedGoogleSpreadsheetNode(
       props,
-      PUBLISHED_SPREADSHEET_WARS_CASES_URL,
+      PUBLISHED_SPREADSHEET_WARS_CASES_URLS,
       "WarsCase",
       { skipFirstLine: true }
     ),
     createPublishedGoogleSpreadsheetNode(
       props,
-      PUBLISHED_SPREADSHEET_WARS_CASES_LOCATION_URL,
+      PUBLISHED_SPREADSHEET_WARS_CASES_LOCATION_URLS,
       "WarsCaseLocation",
       {
         skipFirstLine: true,
@@ -530,6 +546,12 @@ exports.sourceNodes = async props => {
       "ImportantInformation",
       { skipFirstLine: true }
     ),
+    createPublishedGoogleSpreadsheetNode(
+      props,
+      PUBLISHED_SPREADSHEET_UPDATES_URL,
+      "Updates",
+      { skipFirstLine: true }
+    ),
     // createPublishedGoogleSpreadsheetNode(
     //   props,
     //   PUBLISHED_SPREADSHEET_SITE_CONFIG_URL,
@@ -545,7 +567,7 @@ exports.sourceNodes = async props => {
     createAENode(props),
     createIMMDNode(props),
     createGovNewsNode(props),
-    createWorldCasesNode(props),
+    // createWorldCasesNode(props),
   ])
 }
 
@@ -734,21 +756,20 @@ exports.onPostBuild = async ({ graphql, reporter }) => {
   reporter.info("Injecting cases pages sitemap record")
   const fs = require("fs")
   const result = await graphql(`
-  query {
-    allWarsCase {
-      edges {
-        node {
-          case_no
+    query {
+      allWarsCase {
+        edges {
+          node {
+            case_no
+          }
         }
       }
     }
-  }`)
+  `)
   const template = no =>
     `<url> <loc>https://wars.vote4.hk/cases/${no}</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
 <url> <loc>https://wars.vote4.hk/en/cases/${no}</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>`
-  const caseNos = result.data.allWarsCase.edges.map(
-    i => i.node.case_no
-  )
+  const caseNos = result.data.allWarsCase.edges.map(i => i.node.case_no)
   const sitemapXml = fs.readFileSync("./public/sitemap.xml", "utf-8")
   const caseNoSitemap = caseNos.map(template).join("\n")
   fs.writeFileSync(

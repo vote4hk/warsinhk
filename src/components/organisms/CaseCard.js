@@ -1,6 +1,5 @@
 import React from "react"
 import Typography from "@material-ui/core/Typography"
-import Box from "@material-ui/core/Box"
 import MuiLink from "@material-ui/core/Link"
 import { Link } from "gatsby"
 import styled from "styled-components"
@@ -12,7 +11,6 @@ import {
   mapColorForClassification,
   mapColorForStatus,
 } from "@/utils/colorHelper"
-import { formatDateMDD } from "@/utils"
 import _get from "lodash.get"
 import CloseIcon from "@material-ui/icons/Close"
 import ChevronLeftRoundedIcon from "@material-ui/icons/ChevronLeftRounded"
@@ -20,7 +18,7 @@ import ChevronRightRoundedIcon from "@material-ui/icons/ChevronRightRounded"
 import ShareButton from "@/components/organisms/ShareButton"
 import { DefaultTooltip } from "@/components/atoms/Tooltip"
 import HelpOutlineRoundedIcon from "@material-ui/icons/HelpOutlineRounded"
-
+const Box = "div"
 const CaseCard = styled.div`
   margin: 16px 0;
   ${bps.up("xs")} {
@@ -155,13 +153,7 @@ const WarsCaseTrack = ({ i18n, t, track }) => {
           <div key={i} className="track-item">
             <Row className="track-header">
               <Box>{withLanguage(i18n, tr.node, "action")}</Box>
-              <Box>
-                {tr.node.start_date === tr.node.end_date
-                  ? formatDateMDD(tr.node.end_date)
-                  : `${formatDateMDD(tr.node.start_date)} - ${formatDateMDD(
-                      tr.node.end_date
-                    )}`}
-              </Box>
+              <Box>{tr.node.end_date}</Box>
             </Row>
             <Row className="">
               <Typography variant="body1">
@@ -211,32 +203,28 @@ const renderTextWithCaseLink = (i18n, node, text = "detail") => {
   } while (m)
   let splitedRawText = rawText.split(regexp)
 
-  return (
-    <>
-      {splitedRawText.map((str, i) => {
-        let caseNo = relatedCases[i] && relatedCases[i][0]
-
-        return (
-          <>
-            {str}
-            {caseNo && (
-              <Link
-                to={getLocalizedPath(
-                  i18n,
-                  `/cases/${caseNo.slice(1, caseNo.length)}`
-                )}
-              >
-                {caseNo}
-              </Link>
+  return splitedRawText.map((str, i) => {
+    let caseNo = relatedCases[i] && relatedCases[i][0]
+    return (
+      <React.Fragment key={i}>
+        {str}
+        {caseNo && (
+          <Link
+            key={caseNo}
+            to={getLocalizedPath(
+              i18n,
+              `/cases/${caseNo.slice(1, caseNo.length)}`
             )}
-          </>
-        )
-      })}
-    </>
-  )
+          >
+            {caseNo}
+          </Link>
+        )}
+      </React.Fragment>
+    )
+  })
 }
 
-export const WarsCaseCard = React.forwardRef((props, ref) => {
+const WarsCaseCardComponent = React.forwardRef((props, ref) => {
   const {
     node,
     i18n,
@@ -248,12 +236,17 @@ export const WarsCaseCard = React.forwardRef((props, ref) => {
     backToCase = false,
   } = props
   const trackData = _get(patientTrack, "[0].edges", null)
-
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-
   const track = React.useMemo(
-    () => trackData && <WarsCaseTrack i18n={i18n} t={t} track={trackData} />,
-    [i18n, t, trackData]
+    () =>
+      trackData && trackData.length > 0 ? (
+        <WarsCaseTrack
+          key={`track-${node.case_no}`}
+          i18n={i18n}
+          t={t}
+          track={trackData}
+        />
+      ) : null,
+    [i18n, node.case_no, t, trackData]
   )
 
   const statusText = withLanguage(i18n, node, "status")
@@ -415,7 +408,12 @@ export const WarsCaseCard = React.forwardRef((props, ref) => {
                 <Typography variant="body1">{t("dashboard.source")}</Typography>
                 {sources.map((source, i) => {
                   return (
-                    <MuiLink variant="body1" href={source} target="_blank">
+                    <MuiLink
+                      key={source}
+                      variant="body1"
+                      href={source}
+                      target="_blank"
+                    >
                       {i + 1}
                     </MuiLink>
                   )
@@ -429,3 +427,4 @@ export const WarsCaseCard = React.forwardRef((props, ref) => {
     </CaseCard>
   )
 })
+export const WarsCaseCard = React.memo(WarsCaseCardComponent)

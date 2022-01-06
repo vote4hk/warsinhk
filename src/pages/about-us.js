@@ -156,7 +156,7 @@ const AboutUsPage = props => {
               <Paragraph
                 dangerouslySetInnerHTML={{ __html: t("about_us.g0vhk_1") }}
               />
-              <Button
+              {/* <Button
                 component="button"
                 variant="outlined"
                 color="primary"
@@ -174,7 +174,7 @@ const AboutUsPage = props => {
                 }}
               >
                 {t("about_us.donate_g0vhk")}
-              </Button>
+              </Button> */}
             </Grid>
             <Grid item md={6}>
               <Typography variant="h3" style={{ marginBottom: 8 }}>
@@ -183,7 +183,7 @@ const AboutUsPage = props => {
               <Paragraph
                 dangerouslySetInnerHTML={{ __html: t("about_us.sooc_1") }}
               />
-              <Button
+              {/* <Button
                 variant="outlined"
                 color="primary"
                 size="small"
@@ -200,7 +200,7 @@ const AboutUsPage = props => {
                 }}
               >
                 {t("about_us.donate_sooc")}
-              </Button>
+              </Button> */}
             </Grid>
             <Grid item md={6}>
               <Typography variant="h3" style={{ marginBottom: 8 }}>
@@ -264,7 +264,25 @@ const AboutUsPage = props => {
                 })
               }}
             >
-              {t("about_us.high_risk")}
+              {t("about_us.high_risk")} 2020
+            </Button>
+            <Button
+              variant="outlined"
+              color="secondary"
+              size="small"
+              startIcon={mapIcon("insert_drive_file")}
+              href="https://docs.google.com/spreadsheets/d/e/2PACX-1vQVRg6iiYOHZwLsXdZE6TVWBO7Cldi07NUnbeVY3nI97_IjyG3jiWnjaUS51HRNJI1fN3io1paMa6jZ/pub?gid=0&range=A2:ZZ&output=csv"
+              target="_blank"
+              rel="noopener noreferer"
+              onClick={() => {
+                trackCustomEvent({
+                  category: "about_us",
+                  action: "click",
+                  label: "high_risk_source_data",
+                })
+              }}
+            >
+              {t("about_us.high_risk")} 2021
             </Button>
             <Button
               variant="outlined"
@@ -282,7 +300,25 @@ const AboutUsPage = props => {
                 })
               }}
             >
-              {t("about_us.wars_cases")}
+              {t("about_us.wars_cases")} 2020
+            </Button>
+            <Button
+              variant="outlined"
+              color="secondary"
+              size="small"
+              startIcon={mapIcon("insert_drive_file")}
+              href="https://docs.google.com/spreadsheets/d/e/2PACX-1vT-Xw-QHYydz_kJCJLBqTKGbb2OF8_gisdUsduPbdR6Dp3tLbWxy_mkfRx2tMmGJ0q64uNsLLv3bbfb/pub?gid=0&range=A2:ZZ&output=csv"
+              target="_blank"
+              rel="noopener noreferer"
+              onClick={() => {
+                trackCustomEvent({
+                  category: "about_us",
+                  action: "click",
+                  label: "wars_cases_source_data",
+                })
+              }}
+            >
+              {t("about_us.wars_cases")} 2021
             </Button>
           </LinkBox>
         </SessionWrapper>

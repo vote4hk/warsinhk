@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react"
+import React, { useState, useRef, useEffect, useMemo } from "react"
 import PropTypes from "prop-types"
 import Chip from "@material-ui/core/Chip"
 import Menu from "@material-ui/core/Menu"
@@ -12,6 +12,7 @@ import TextField from "@material-ui/core/TextField"
 import * as lbFilter from "my-loopback-filter"
 import { useTranslation } from "react-i18next"
 import fromPairs from "lodash/fromPairs"
+import noop from "lodash/noop"
 
 const OptionTag = ({
   label,
@@ -28,6 +29,7 @@ const OptionTag = ({
 }) => {
   const { t } = useTranslation()
   const [menuOpen, setMenuOpen] = useState(false)
+  const triggerRender = useState(0)[1].bind(null, i => i + 1)
   const elementRef = useRef()
   const inputRef = useRef()
   const selectValue = option => () => {
@@ -37,48 +39,70 @@ const OptionTag = ({
   const openMenu = () => setMenuOpen(true)
   const closeMenu = () => setMenuOpen(false)
   const filterExists = Boolean(filters[field])
-  const displayingOptions = menuOpen
-    ? options
-        .map(option => ({
-          ...option,
-          field,
-          count: getFilterCount({ [field]: option.value }, filterExists),
-        }))
-        .sort(orderOptionsByFilterCount ? (a, b) => b.count - a.count : () => 0)
-        .filter(option => (orderOptionsByFilterCount ? option.count > 0 : 1))
-        .map((option, index) => (
-          <MenuItem
-            key={option.value}
-            onClick={selectValue({
-              ...option,
-              filterName: label,
-              field,
-            })}
-            style={{
-              display: "flex",
-              justifyContent: "space-between",
-              whiteSpace: "break-spaces",
-            }}
-            selected={filterExists && filters[field] === option.value}
-          >
-            <div
-              style={{
-                marginRight: "16px",
-              }}
-            >
-              {option.label}
-            </div>
-            <div
-              style={{
-                color: "#1a237e",
-                fontWeight: 700,
-              }}
-            >
-              {option.count}
-            </div>
-          </MenuItem>
-        ))
-    : options
+  const [countsMap, setOptionCountsMap] = useState(new WeakMap())
+  const [countsReady, setCountsReady] = useState(false)
+  useEffect(() => {
+    setCountsReady(false)
+    setOptionCountsMap(() => {
+      const countsMap = new WeakMap()
+      for (const option of options) countsMap.set(option, null)
+      return countsMap
+    })
+  }, [filters, filterExists, options, setOptionCountsMap])
+  useEffect(() => {
+    const oldCountsMap = countsMap
+    if (menuOpen && !countsReady) {
+      ;(async () => {
+        for (const option of options)
+          if (countsMap.get(option) === null) {
+            await new Promise((resolve, reject) => {
+              requestAnimationFrame(() =>
+                setOptionCountsMap(countsMap => {
+                  if (oldCountsMap === countsMap) {
+                    countsMap.set(
+                      option,
+                      getFilterCount({ [field]: option.value }, filterExists)
+                    )
+                    resolve()
+                  } else {
+                    reject()
+                  }
+                  return countsMap
+                })
+              )
+            })
+            if (Math.random() > 0.75) triggerRender()
+          }
+
+        setOptionCountsMap(countsMap => {
+          if (countsMap === oldCountsMap) setCountsReady(true)
+          return countsMap
+        })
+      })().catch(noop)
+    }
+  }, [
+    filters,
+    filterExists,
+    menuOpen,
+    countsReady,
+    getFilterCount,
+    options,
+    field,
+    setCountsReady,
+    countsMap,
+  ])
+  const displayingOptions =
+    menuOpen && countsReady
+      ? options
+          .sort(
+            orderOptionsByFilterCount
+              ? (a, b) => countsMap.get(b) - countsMap.get(a)
+              : () => 0
+          )
+          .filter(option =>
+            orderOptionsByFilterCount ? countsMap.get(option) > 0 : 1
+          )
+      : options
   const displayEmptyMessage =
     displayingOptions.length === 0 && options.length > 0
   return (
@@ -132,7 +156,40 @@ const OptionTag = ({
               </div>
             </MenuItem>
           ) : menuOpen ? (
-            displayingOptions
+            displayingOptions.map((option, index) => (
+              <MenuItem
+                key={option.value}
+                onClick={selectValue({
+                  ...option,
+                  filterName: label,
+                  field,
+                })}
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  whiteSpace: "break-spaces",
+                }}
+                selected={filterExists && filters[field] === option.value}
+              >
+                <div
+                  style={{
+                    marginRight: "16px",
+                  }}
+                >
+                  {option.label}
+                </div>
+                <div
+                  style={{
+                    color: "#1a237e",
+                    fontWeight: 700,
+                  }}
+                >
+                  {countsMap.get(option) === null
+                    ? t("cases.filters_counting", { defaultValue: "Counting" })
+                    : countsMap.get(option)}
+                </div>
+              </MenuItem>
+            ))
           ) : null}
         </Menu>
       )}
@@ -149,38 +206,44 @@ const TagStyledFilter = props => {
     ...fromPairs(initialFilters.map(i => [i.realFieldName, i.value])),
   }
   const [filters, setFilters] = useState(initialFiltersState)
-  const getWhereFilter = newFilters => {
-    const andFilters = options
-      .filter(i => !i.isOrFilter)
-      .map(i =>
-        newFilters[i.realFieldName]
-          ? i.toFilterEntry([i.realFieldName, newFilters[i.realFieldName]])
-          : undefined
-      )
-      .filter(Boolean)
+  const getWhereFilter = useMemo(
+    () => newFilters => {
+      const andFilters = options
+        .filter(i => !i.isOrFilter)
+        .map(i =>
+          newFilters[i.realFieldName]
+            ? i.toFilterEntry([i.realFieldName, newFilters[i.realFieldName]])
+            : undefined
+        )
+        .filter(Boolean)
 
-    const orFilters = options
-      .filter(i => i.isOrFilter)
-      .map(i =>
-        newFilters[i.realFieldName]
-          ? i.toFilterEntry([i.realFieldName, newFilters[i.realFieldName]])
-          : undefined
-      )
-      .filter(Boolean)
-    return {
-      and: [
-        fromPairs(andFilters),
-        ...orFilters.map(filters => ({ or: filters })),
-      ],
-    }
-  }
-  const getFilterCount = (filter, active) => {
-    return lbFilter.applyLoopbackFilter(active ? list : filteredList, {
-      where: active
-        ? getWhereFilter({ ...filters, ...filter })
-        : getWhereFilter(filter),
-    }).length
-  }
+      const orFilters = options
+        .filter(i => i.isOrFilter)
+        .map(i =>
+          newFilters[i.realFieldName]
+            ? i.toFilterEntry([i.realFieldName, newFilters[i.realFieldName]])
+            : undefined
+        )
+        .filter(Boolean)
+      return {
+        and: [
+          fromPairs(andFilters),
+          ...orFilters.map(filters => ({ or: filters })),
+        ],
+      }
+    },
+    [options]
+  )
+  const getFilterCount = useMemo(
+    () => (filter, active) => {
+      return lbFilter.applyLoopbackFilter(active ? list : filteredList, {
+        where: active
+          ? getWhereFilter({ ...filters, ...filter })
+          : getWhereFilter(filter),
+      }).length
+    },
+    [list, filteredList, getWhereFilter, filters]
+  )
   const applyFilter = newFilters => {
     const where = getWhereFilter(newFilters)
     const result = lbFilter.applyLoopbackFilter(list, {
@@ -218,7 +281,7 @@ const TagStyledFilter = props => {
       <div style={{ marginTop: "1em", lineHeight: 2 }}>
         {options.map(option => (
           <OptionTag
-            key={option.realFieldName + option.value}
+            key={option.realFieldName}
             {...option}
             filters={filters}
             setOption={setOption}

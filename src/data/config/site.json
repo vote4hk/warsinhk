@@ -19,8 +19,8 @@
       "title": "world.title",
       "to": "/world",
       "icon": "world",
-      "sideMenu": true,
-      "bottomNav": true
+      "sideMenu": false,
+      "bottomNav": false
     },
     {
       "title": "disruption.title",
@@ -51,16 +51,16 @@
       "bottomNav": false
     },
     {
-      "title": "wars_tips.title",
-      "to": "/wars-tips",
-      "icon": "wars_tips",
+      "title": "updates.title",
+      "to": "/updates",
+      "icon": "updates",
       "sideMenu": true,
       "bottomNav": true
     },
     {
-      "title": "news.title",
-      "to": "/news",
-      "icon": "news",
+      "title": "wars_tips.title",
+      "to": "/wars-tips",
+      "icon": "wars_tips",
       "sideMenu": true,
       "bottomNav": false
     },

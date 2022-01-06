@@ -134,7 +134,10 @@ export class HK18DistrictChart extends React.Component {
       })
 
     this.props.districtNodeDrawer(d3DistrictPathNode)
-    this.appendLegend(color)
+
+    if (this.props.scale) {
+      this.appendLegend(color)
+    }
   }
   initSimpleTooltip() {
     this.tooltip = d3

@@ -82,28 +82,27 @@ const WarTipsPage = ({ data, location }) => {
           {`#${tag}`}
         </Button>
       ))}
-      <ResponsiveWrapper>
-        <InfiniteScroll
-          list={data.allWarsTip.edges.filter(filterByTags)}
-          step={{ mobile: 5 }}
-          onItem={({ node }, index) => (
-            <CardContainer key={index}>
-              <MediaCard
-                imageUrl={node.image_url}
-                title={node.title}
-                text={shorten(node.text)}
-                tags={node.tags ? node.tags.split(",") : []}
-                sourceDescription={node.source_description}
-                sourceUrl={node.source_url}
-                onTagClicked={tag => {
-                  setSelectedTag(tag === selectedTag ? null : tag)
-                }}
-                uri={getWarTipPath(i18n.language, node.title)}
-              />
-            </CardContainer>
-          )}
-        />
-      </ResponsiveWrapper>
+      <InfiniteScroll
+        list={data.allWarsTip.edges.filter(filterByTags)}
+        step={{ mobile: 5 }}
+        Wrapper={ResponsiveWrapper}
+        onItem={({ node }, index) => (
+          <CardContainer key={index}>
+            <MediaCard
+              imageUrl={node.image_url}
+              title={node.title}
+              text={shorten(node.text)}
+              tags={node.tags ? node.tags.split(",") : []}
+              sourceDescription={node.source_description}
+              sourceUrl={node.source_url}
+              onTagClicked={tag => {
+                setSelectedTag(tag === selectedTag ? null : tag)
+              }}
+              uri={getWarTipPath(i18n.language, node.title)}
+            />
+          </CardContainer>
+        )}
+      />
     </Layout>
   )
 }
