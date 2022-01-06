@@ -12,7 +12,7 @@ jobs:
     strategy:
       matrix:
         node-version:
-          - 14.x
+          - 16.x
 
     steps:
     - uses: actions/checkout@v2
@@ -38,7 +38,7 @@ jobs:
       uses: peaceiris/actions-gh-pages@v3
       with:
         publish_dir: ./public
-        force_orphan: true 
+        force_orphan: true
         personal_token: ${{ secrets.DEPLOY_GITHUB_TOKEN }}
         external_repository: vote4hk/wars.vote4.hk
         cname: wars.vote4.hk
@@ -48,7 +48,7 @@ jobs:
       uses: peaceiris/actions-gh-pages@v3
       with:
         publish_dir: ./public
-        force_orphan: true 
+        force_orphan: true
         personal_token: ${{ secrets.DEPLOY_GITHUB_TOKEN }}
         external_repository: vote4hk/covid19.vote4.hk
         cname: covid19.vote4.hk
