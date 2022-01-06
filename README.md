@@ -190,7 +190,3 @@ yarn build
 ## 📄 License
 
 This software is released under [the MIT License](https://github.com/nandiheath/warsinhk/blob/master/LICENSE), while the content on this site is licensed under a [Creative Commons Attribution-ShareAlike 4.0 International License](https://creativecommons.org/licenses/by-sa/4.0/).
-
-## 💡 Special Thanks
-
-Thanks to <a href="https://www.kintohub.com/"><img src="https://wars.vote4.hk/images/kintohub_icon.svg" style="width:30px; height:15px;">Kintohub</a> for the sponsorship on our server cost.
