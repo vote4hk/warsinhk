@@ -52,7 +52,7 @@ typings/
 *.tgz
 
 # dotenv environment variable files
-.env*
+.env
 
 # gatsby files
 .cache/
@@ -68,3 +68,6 @@ yarn-error.log
 .yarn/*
 # Yarn Integrity file
 .yarn-integrity
+
+
+nocodb/db_data

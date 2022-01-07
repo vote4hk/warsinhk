@@ -9,10 +9,14 @@ services:
     ports:
       - "3306:3306"
     environment:
-      MYSQL_ROOT_PASSWORD: nocodb
-      MYSQL_DATABASE: nocodb
-      MYSQL_USER: nocodb
-      MYSQL_PASSWORD: nocodb
+      MYSQL_ROOT_PASSWORD: "${MYSQL_PASSWORD}"
+      MYSQL_DATABASE: "${MYSQL_DATABASE}"
+      MYSQL_USER: "${MYSQL_USER}"
+      MYSQL_PASSWORD: "${MYSQL_PASSWORD}"
+    healthcheck:
+      test: [ "CMD", "mysqladmin" ,"ping", "-h", "localhost" ]
+      timeout: 20s
+      retries: 10
 
   nocodb:
     depends_on:
@@ -23,6 +27,6 @@ services:
       - "8080:8080"
     restart: always
     environment:
-      NC_DB: "mysql2://nocodb:nocodb?u=nocodb&p=nocodb&d=nocodb"
+      NC_DB: "mysql2://root_db:3306?u=${MYSQL_USER}&p=${MYSQL_PASSWORD}&d=${MYSQL_DATABASE}"
 volumes:
   db_data: {}
