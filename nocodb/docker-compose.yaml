@@ -1,0 +1,28 @@
+version: '2.1'
+
+services:
+  root_db:
+    image: mysql:5.7
+    volumes:
+      - db_data:/var/lib/mysql
+    restart: always
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: nocodb
+      MYSQL_DATABASE: nocodb
+      MYSQL_USER: nocodb
+      MYSQL_PASSWORD: nocodb
+
+  nocodb:
+    depends_on:
+      root_db:
+        condition: service_healthy
+    image: nocodb/nocodb:latest
+    ports:
+      - "8080:8080"
+    restart: always
+    environment:
+      NC_DB: "mysql2://nocodb:nocodb?u=nocodb&p=nocodb&d=nocodb"
+volumes:
+  db_data: {}
