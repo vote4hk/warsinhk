@@ -3,14 +3,16 @@
 set -eo pipefail
 
 usage() {
+  goose -h
   cat <<EOM
-Usage: $(basename "$0")
+Usage: $(basename "$0") <goose_command>
+
 
 EOM
   exit 1
 }
 
-#[ "$#" -lt 1 ] && { usage; }
+[ "$#" -lt 1 ] && { usage; }
 
 source .env
 
@@ -19,11 +21,12 @@ if [[ -z "$MYSQL_USER" ]]; then
   exit 1
 fi
 
-if ! goose; then
+if ! goose -version; then
   echo "goose not installed. "
   echo "visit https://github.com/pressly/goose for more information"
   exit 1
 fi
 
+export CMD=$@
 
-goose mysql "$MYSQL_USER:$MYSQL_PASSWORD@/$MYSQL_DATABASE?parseTime=true" status
+goose --dir "migrations" mysql "root:$MYSQL_PASSWORD@/$MYSQL_DATABASE?parseTime=true" "$@"
