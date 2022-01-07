@@ -49,6 +49,7 @@ const Layout = props => {
             icon
             sideMenu
             bottomNav
+            disabled
           }
         }
         allGovNews {

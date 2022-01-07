@@ -202,14 +202,7 @@ const AboutUsPage = props => {
                 {t("about_us.donate_sooc")}
               </Button> */}
             </Grid>
-            <Grid item md={6}>
-              <Typography variant="h3" style={{ marginBottom: 8 }}>
-                {t("about_us.sponsor_title")}
-              </Typography>
-              <Paragraph
-                dangerouslySetInnerHTML={{ __html: t("about_us.sponsor_html") }}
-              />
-            </Grid>
+
             <Grid item xs={12}>
               <Typography variant="h3" style={{ marginBottom: 8 }}>
                 {t("about_us.contact_title")}

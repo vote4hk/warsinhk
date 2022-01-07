@@ -27,7 +27,8 @@
       "to": "/disruption",
       "icon": "disruption",
       "sideMenu": true,
-      "bottomNav": true
+      "bottomNav": true,
+      "disabled": true
     },
     {
       "title": "high_risk.title",
@@ -35,13 +36,6 @@
       "icon": "high_risk",
       "sideMenu": true,
       "bottomNav": true
-    },
-    {
-      "title": "dodgy_shops.title",
-      "to": "/shops",
-      "icon": "shops",
-      "sideMenu": true,
-      "bottomNav": false
     },
     {
       "title": "waiting_time.title",
@@ -56,13 +50,6 @@
       "icon": "updates",
       "sideMenu": true,
       "bottomNav": true
-    },
-    {
-      "title": "wars_tips.title",
-      "to": "/wars-tips",
-      "icon": "wars_tips",
-      "sideMenu": true,
-      "bottomNav": false
     },
     {
       "title": "about_us.title",

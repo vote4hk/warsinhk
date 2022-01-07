@@ -132,11 +132,11 @@ function ResponsiveDrawer(props) {
           </UnstyledLink>
           {pages.map((page, index) => (
             <UnstyledLink
-              to={getLocalizedPath(i18n, page.to)}
+              to={page.disabled ? "#" : getLocalizedPath(i18n, page.to)}
               key={index}
               activeClassName={"active"}
             >
-              <ListItem>
+              <ListItem disabled={page.disabled}>
                 <ListItemIcon>{mapIcon(page.icon)}</ListItemIcon>
                 <ListItemText primary={t(page.title)} />
               </ListItem>
