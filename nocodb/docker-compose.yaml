@@ -8,6 +8,7 @@ services:
     restart: always
     ports:
       - "3306:3306"
+    command: ['mysqld', '--character-set-server=utf8mb4', '--collation-server=utf8mb4_unicode_ci']
     environment:
       MYSQL_ROOT_PASSWORD: "${MYSQL_PASSWORD}"
       MYSQL_DATABASE: "${MYSQL_DATABASE}"
@@ -22,7 +23,7 @@ services:
     depends_on:
       root_db:
         condition: service_healthy
-    image: nocodb/nocodb:latest
+    image: nocodb/nocodb:0.84.3
     ports:
       - "8080:8080"
     restart: always
