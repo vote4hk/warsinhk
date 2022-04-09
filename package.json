@@ -74,7 +74,7 @@
     "lodash.toarray": "^4.4.0",
     "lodash.uniq": "^4.5.0",
     "lodash.uniqby": "^4.7.0",
-    "moment": "^2.24.0",
+    "moment": "^2.29.2",
     "my-loopback-filter": "^3.0.0",
     "node-fetch": "^2.6.0",
     "object.fromentries": "^2.0.2",
