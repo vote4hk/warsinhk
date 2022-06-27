@@ -5,8 +5,9 @@ on:
     branches:
       - master
       - dev
-  schedule:
-    - cron: '*/5 * * * *'
+# Nandi: disable the schedule build until we fix the GraphQL query
+#   schedule:
+#     - cron: '*/5 * * * *'
 
 jobs:
   build:
