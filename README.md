@@ -1,6 +1,6 @@
 <div align="center">
 <h1>
-  COVID-19 in HK｜武漢肺炎民間資訊
+  COVID-19 in HK
 </h1>
 This is the repository for <a href="https://covid19.vote4.hk">covid19.vote4.hk</a>
 <br/>
@@ -12,7 +12,7 @@ This is the repository for <a href="https://covid19.vote4.hk">covid19.vote4.hk</
 
 ## 📍 Data
 
-The data is updated automatically every 5 minutes. The information are all open for use. If you wish to cite anything from this site, please credit us as `covid19.vote4.hk - COVID-19 in HK` or `covid19.vote4.hk - 武漢肺炎民間資訊`.
+The data is updated automatically every 5 minutes. The information are all open for use. If you wish to cite anything from this site, please credit us as `covid19.vote4.hk - COVID-19 in HK` or `covid19.vote4.hk`.
 
 - [High-risk Areas](https://docs.google.com/spreadsheets/d/e/2PACX-1vT6aoKk3iHmotqb5_iHggKc_3uAA901xVzwsllmNoOpGgRZ8VAA3TSxK6XreKzg_AUQXIkVX5rqb0Mo/pub?gid=0&range=A2:ZZ&output=csv)
 - [Confirmed Cases](https://docs.google.com/spreadsheets/d/e/2PACX-1vSr2xYotDgnAq6bqm5Nkjq9voHBKzKNWH2zvTRx5LU0jnpccWykvEF8iB_0g7Tzo2pwzkTuM3ETlr_h/pub?gid=0&range=A2:ZZ&output=csv)
